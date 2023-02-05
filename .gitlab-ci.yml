@@ -44,8 +44,9 @@ deploy_dev:
     - echo "dbDriver=$DATABASE_DRIVER" >> config.properties
     - echo "Deploying the development pipeline"
     - chmod og-rwx ${DEPLOY_SSH_KEY}
-    - scp -r -o StrictHostKeyChecking=no -i ${DEPLOY_SSH_KEY} target/*.jar "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_DIR}/final_image.jar"
-    - ssh -o StrictHostKeyChecking=no -i ${DEPLOY_SSH_KEY} "cd /var/www/group27"
+    - scp -r -o StrictHostKeyChecking=no -i ${DEPLOY_SSH_KEY} target/*.jar "${DEPLOY_USER}@${DEPLOY_HOST}:${TEMP_DEPLOY_DIR}/final_image.jar"
+    - ssh -o StrictHostKeyChecking=no -i ${DEPLOY_SSH_KEY} "cd ${DEPLOY_DIR}"
+    - ssh -o StrictHostKeyChecking=no -i ${DEPLOY_SSH_KEY} "sudo mv ${TEMP_DEPLOY_DIR}/final_image.jar ."
     - ssh -o StrictHostKeyChecking=no -i ${DEPLOY_SSH_KEY} "git pull origin"
   only:
     - dev
