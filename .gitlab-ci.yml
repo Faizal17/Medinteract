@@ -33,6 +33,12 @@ test:
 include:
   - template: Code-Quality.gitlab-ci.yml
 
+code_quality:
+  tags:
+    - ugrad
+  artifacts:
+    paths: [gl-code-quality-report.json]
+
 deploy_dev:
   stage: deploy
   tags:
