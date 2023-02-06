@@ -35,8 +35,10 @@ include:
 
 code_quality:
   stage: test
+  tags:
+    - ugrad
   artifacts:
-    paths: [gl-code-quality-report.json]
+    paths: [target/medinteract/gl-code-quality-report.json]
 
 deploy_dev:
   stage: deploy
