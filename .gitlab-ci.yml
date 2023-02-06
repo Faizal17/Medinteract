@@ -13,7 +13,7 @@ build:
     paths:
       - target
   tags:
-    - csci5308
+    - ugrad
 
 test:
   stage: test
@@ -28,21 +28,21 @@ test:
     - echo "Pipeline test started"
     - mvn verify
   tags:
-    - csci5308
+    - ugrad
 
 include:
   - template: Code-Quality.gitlab-ci.yml
 
 code_quality:
   tags:
-    - csci5308
+    - ugrad
   artifacts:
     paths: [gl-code-quality-report.json]
 
 deploy_dev:
   stage: deploy
   tags:
-    - csci5308
+    - ugrad
   artifacts:
     paths:
       - target
@@ -61,7 +61,7 @@ deploy_dev:
 deploy_release:
   stage: deploy
   tags:
-    - csci5308
+    - ugrad
   artifacts:
     paths:
       - target
