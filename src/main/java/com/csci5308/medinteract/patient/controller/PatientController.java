@@ -1,8 +1,8 @@
 package com.csci5308.medinteract.patient.controller;
 
 import com.csci5308.medinteract.patient.model.PatientModel;
-import com.csci5308.medinteract.patient.repository.PatientRepository;
 import com.csci5308.medinteract.patient.service.PatientService;
+import com.csci5308.medinteract.utilities.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,16 +36,19 @@ public class PatientController {
     {
 
 
-        if(patientServiceImpl.checkEmail(patientModel))
+        if(patientServiceImpl.checkIfEmailExists(patientModel))
         {
             //patient already exists
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Patient Already Exists (CODE 417)\n");
+            Response  res = new Response(null, true, "Patient with email already exists");
+            return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+//            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Patient Already Exists (CODE 417)\n");
 
         }
         else
         {
             patientServiceImpl.savePatient(patientModel);
-            return new ResponseEntity<>(patientModel, HttpStatus.OK);
+            Response  res = new Response(patientModel, false, "Patient Added Successfully!");
+            return  new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
         }
     }
 //    @PostMapping("/login")

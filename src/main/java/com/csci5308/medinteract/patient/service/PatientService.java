@@ -10,8 +10,7 @@ public interface PatientService {
     PatientModel savePatient(PatientModel patientModel);
     Optional<PatientModel> findById(Long id);
 
-//    boolean existsByEmailAndPassword(String patientEmail, String patientPassword);
-    boolean checkEmail(PatientModel patientModel);
+    boolean checkIfEmailExists(PatientModel patientModel);
 
 
 }

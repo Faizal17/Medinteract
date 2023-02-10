@@ -34,25 +34,14 @@ public class PatientServiceImpl implements PatientService{
 
 
     @Override
-    public boolean checkEmail(PatientModel patientModel) {
-        boolean result = false;
+    public boolean checkIfEmailExists(PatientModel patientModel) {
+        boolean result ;
         Optional<PatientModel> newPatient = patientRepository.findByPatientEmail(patientModel.getPatientEmail());
-        if(newPatient.isPresent())
-        {
-            result = true;
-        }
-        else
-        {
-            result = false;
-        }
+        result = newPatient.isPresent();
         return result;
     }
 
 
-//    @Override
-//    public boolean existsByEmailAndPassword(String patientEmail, String patientPassword) {
-//        return patientRepository.existsByEmailAndPassword(patientEmail,patientPassword);
-//    }
 
 
 
