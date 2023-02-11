@@ -91,7 +91,7 @@
             display: inline-block;
         }
 
-        .active,
+
         .dot:hover {
             background-color: #bbb;
         }
@@ -166,14 +166,14 @@
             </div>
         </div>
         <div class="col-md-6 p-5">
-            <div class="card h-100">
-                <div class="card-header">
-                    <ul class="nav nav-tabs card-header-tabs row text-dark">
-                        <li class="nav-item col-6">
-                            <a id="signin" class="nav-link active link-dark" aria-current="true" onclick="setActiveTab('signin')">Sign In</a>
+            <div class="card h-100 border-0">
+                <div class="card-header p-0 border-bottom" style="background-color: #121926">
+                    <ul class="nav nav-tabs text-dark">
+                        <li class="nav-item col-6 p-0">
+                            <a id="signin" class="nav-link active" aria-current="true" onclick="setActiveTab('signin')">Sign In</a>
                         </li>
-                        <li class="nav-item col-6">
-                            <a id="signup" class="nav-link link-dark" onclick="setActiveTab('signup')">Sign up</a>
+                        <li class="nav-item col-6 p-0">
+                            <a id="signup" class="nav-link link-light" onclick="setActiveTab('signup')">Sign up</a>
                         </li>
                     </ul>
                 </div>
@@ -310,6 +310,8 @@
     function setActiveTab(currentTab) {
         $(".nav-link").removeClass("active");
         $("#"+currentTab).addClass("active");
+        $(".nav-link").addClass("link-light");
+        $("#"+currentTab).removeClass("link-light");
         $("form").addClass("d-none");
         $("#"+currentTab+"Form").removeClass("d-none");
     }
