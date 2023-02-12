@@ -38,8 +38,7 @@ public class PatientController {
 
 
     @PostMapping("/register")
-    public ResponseEntity registerPatient(@RequestBody PatientModel patientModel)
-    {
+    public ResponseEntity registerPatient(@RequestBody PatientModel patientModel) throws Exception {
 
 
         if(patientServiceImpl.checkIfEmailExists(patientModel))
@@ -47,12 +46,12 @@ public class PatientController {
             //patient already exists
             Response  res = new Response(null, true, "Patient with email already exists!");
             return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
-//            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Patient Already Exists (CODE 417)\n");
 
         }
         else
         {
 
+            patientModel.setPatientPassword(patientServiceImpl.encodePassword(patientModel.getPatientPassword()));
             patientServiceImpl.savePatient(patientModel);
             Response  res = new Response(patientModel, false, "Patient registered Successfully!");
             return  new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
@@ -60,36 +59,38 @@ public class PatientController {
     }
     @GetMapping("/login")
 
-    public String login(@RequestBody PatientModel patientModel) {
-        System.out.println("Inside login--------------------------------- ");
-        System.out.println(patientModel.getPatientEmail());
-        System.out.println(patientModel.getPatientPassword());
+    public ResponseEntity login(@RequestBody PatientModel patientModel) throws Exception {
+//        System.out.println("Inside login--------------------------------- ");
+//        System.out.println(patientModel.getPatientEmail());
+//        System.out.println(patientModel.getPatientPassword());
 
 
         if(patientServiceImpl.isPatientValid(patientModel.getPatientEmail(),patientModel.getPatientPassword()))
         {
             String jwtToken =  jwtTokenUtil.generateToken(patientModel.getPatientEmail());
-//            Response  res = new Response(jwtToken, false, "Token Created Successfully!");
-//            return  new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
-            return jwtToken;
-
+            Response  res = new Response(jwtToken, false, "Token Created Successfully!");
+            return  new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
 
         }
         else {
-//            Response  res = new Response("", true, "Invalid Credentials");
-//            return  new ResponseEntity<>(res.getResponse(),HttpStatus.OK);        }
-            throw new IllegalArgumentException("Patient invalid");
+            Response  res = new Response("null", true, "Failed to generate the token");
+            return  new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
         }
     }
 
     @GetMapping("/validateJWTToken")
-    public String validateJWTToken(@RequestBody String token)
+    public ResponseEntity validateJWTToken(@RequestBody String token)
     {
         if(!token.isEmpty() && jwtTokenUtil.validateToken(token))
         {
-            return jwtTokenUtil.extractEmail(token);
+            Response  res = new Response(jwtTokenUtil.extractEmail(token), false, "Token in Valid");
+            return  new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
         }
-        return token;
+        else
+        {
+            Response  res = new Response(jwtTokenUtil.extractEmail(token), true, "Token in InValid");
+            return  new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
+        }
     }
 
 

@@ -2,6 +2,7 @@ package com.csci5308.medinteract.patient.service;
 
 import com.csci5308.medinteract.patient.model.PatientModel;
 import com.csci5308.medinteract.patient.repository.PatientRepository;
+import com.csci5308.medinteract.utilities.PasswordEncodeDecode;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public class PatientServiceImpl implements PatientService{
     private final PatientRepository patientRepository;
 
 //    @Autowired
-    public PatientServiceImpl(PatientRepository patientRepository){
+    public PatientServiceImpl(PatientRepository patientRepository, PasswordEncodeDecode encodeDecode){
         this.patientRepository = patientRepository;
     }
 
@@ -42,21 +43,29 @@ public class PatientServiceImpl implements PatientService{
     }
 
     @Override
-    public boolean isPatientValid(String patientEmail, String patientPassword) {
+    public boolean isPatientValid(String patientEmail, String patientPassword) throws Exception {
         Optional<PatientModel> patient = patientRepository.findByPatientEmail(patientEmail);
-        System.out.println("fetching patient by email using jpa");
-        System.out.println("Inside isPatientValid--------------------------------- ");
 
-        if(patient.isPresent() && patient.get().getPatientPassword().equals(patientPassword))
+        String encodedPassword = encodePassword(patientPassword);
+        if(patient.isPresent() && patient.get().getPatientPassword().equals(encodedPassword))
         {
            //valid patient
                     System.out.println(patient.get().getPatientEmail());
                     System.out.println(patient.get().getPatientPassword());
             return true;
         }
-        System.out.println("Ispatient valid false");
 
         return false;
+    }
+
+    public String encodePassword(String password) throws Exception {
+        System.out.println("password to encode : "+password);
+        return PasswordEncodeDecode.encrypt(password);
+    }
+
+    @Override
+    public String decodePassword(String password) throws Exception {
+        return PasswordEncodeDecode.decrypt(password);
     }
 
 

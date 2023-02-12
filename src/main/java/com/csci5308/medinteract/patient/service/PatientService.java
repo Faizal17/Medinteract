@@ -11,7 +11,10 @@ public interface PatientService {
     Optional<PatientModel> findById(Long id);
 
     boolean checkIfEmailExists(PatientModel patientModel);
-    boolean isPatientValid(String patientEmail, String patientPassword);
+    boolean isPatientValid(String patientEmail, String patientPassword) throws Exception;
+     String encodePassword(String password) throws Exception;
+     String decodePassword(String password) throws Exception;
+
 
 
 }

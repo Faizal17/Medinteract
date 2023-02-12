@@ -1,5 +1,6 @@
 package com.csci5308.medinteract.utilities;
 import io.jsonwebtoken.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -7,7 +8,8 @@ import java.util.Date;
 @Service
 public class JWT {
 
-    private final String SECRET_KEY = "Group27";
+    @Value("${jwt.secret}")
+    private  String SECRET_KEY;
 
     public String generateToken(String username) {
         Date now = new Date();

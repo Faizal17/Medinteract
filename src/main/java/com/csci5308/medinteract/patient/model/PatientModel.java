@@ -31,7 +31,7 @@ public class PatientModel {
     private String patientAddressPostalCode;
     @NotBlank
     @NotNull
-    private String patientAddress;
+    private String patientAddressStreet;
 
     @NotBlank
     @NotNull
@@ -59,9 +59,9 @@ public class PatientModel {
     @NotNull
     private String patientPassword;
 
-    @NotBlank
-    @NotNull
-    private String confirmPassword;
+
+
+
 
 
     public PatientModel() {
@@ -77,6 +77,7 @@ public class PatientModel {
         this.patientEmail = patientEmail;
         this.patientPassword = patientPassword;
     }
+
 
     public String getPatientName() {
         return patientName;
@@ -102,12 +103,12 @@ public class PatientModel {
         this.patientAddressPostalCode = patientAddressPostalCode;
     }
 
-    public String getPatientAddress() {
-        return patientAddress;
+    public String getPatientAddressStreet() {
+        return patientAddressStreet;
     }
 
-    public void setPatientAddress(String patientAddress) {
-        this.patientAddress = patientAddress;
+    public void setPatientAddressStreet(String patientAddressStreet) {
+        this.patientAddressStreet = patientAddressStreet;
     }
 
     public char getPatientGender() {
@@ -150,13 +151,6 @@ public class PatientModel {
         isActive = active;
     }
 
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-    }
 
     public String getPatientEmail() {
         return patientEmail;
