@@ -41,9 +41,23 @@ public class PatientServiceImpl implements PatientService{
         return result;
     }
 
+    @Override
+    public boolean isPatientValid(String patientEmail, String patientPassword) {
+        Optional<PatientModel> patient = patientRepository.findByPatientEmail(patientEmail);
+        System.out.println("fetching patient by email using jpa");
+        System.out.println("Inside isPatientValid--------------------------------- ");
 
+        if(patient.isPresent() && patient.get().getPatientPassword().equals(patientPassword))
+        {
+           //valid patient
+                    System.out.println(patient.get().getPatientEmail());
+                    System.out.println(patient.get().getPatientPassword());
+            return true;
+        }
+        System.out.println("Ispatient valid false");
 
-
+        return false;
+    }
 
 
 }

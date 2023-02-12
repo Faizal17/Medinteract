@@ -11,6 +11,7 @@ public interface PatientService {
     Optional<PatientModel> findById(Long id);
 
     boolean checkIfEmailExists(PatientModel patientModel);
+    boolean isPatientValid(String patientEmail, String patientPassword);
 
 
 }
