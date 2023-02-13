@@ -54,12 +54,28 @@ public class PatientModel {
 
     private boolean isActive;
 
+    public String getEmailToken() {
+        return emailToken;
+    }
+
+    public void setEmailToken(String emailToken) {
+        this.emailToken = emailToken;
+    }
 
     @NotBlank
     @NotNull
     private String patientPassword;
 
+    private String emailToken;
+    public boolean isEnabled() {
+        return isEnabled;
+    }
 
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
+    }
+
+    private boolean isEnabled;
 
 
 

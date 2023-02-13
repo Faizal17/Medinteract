@@ -41,7 +41,7 @@ public class PatientController {
     public ResponseEntity registerPatient(@RequestBody PatientModel patientModel) throws Exception {
 
 
-        if(patientServiceImpl.checkIfEmailExists(patientModel))
+        if(patientServiceImpl.checkIfEmailExists(patientModel.getPatientEmail()))
         {
             //patient already exists
             Response  res = new Response(null, true, "Patient with email already exists!");
@@ -60,10 +60,6 @@ public class PatientController {
     @GetMapping("/login")
 
     public ResponseEntity login(@RequestBody PatientModel patientModel) throws Exception {
-//        System.out.println("Inside login--------------------------------- ");
-//        System.out.println(patientModel.getPatientEmail());
-//        System.out.println(patientModel.getPatientPassword());
-
 
         if(patientServiceImpl.isPatientValid(patientModel.getPatientEmail(),patientModel.getPatientPassword()))
         {
