@@ -112,7 +112,7 @@ public class DoctorModel {
         this.doctorGender = doctorGender;
         this.doctorDOB = doctorDOB;
         this.doctorMobileNumber = doctorMobileNumber;
-        this.isActive = isActive;
+        this.isActive = true;
         this.doctorQualification = doctorQualification;
         this.doctorPassword = doctorPassword;
         this.emailToken = emailToken;

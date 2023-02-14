@@ -105,7 +105,7 @@ public class PatientModel {
         this.patientGender = patientGender;
         this.patientDOB = patientDOB;
         this.patientMobileNumber = patientMobileNumber;
-        this.isActive = isActive;
+        this.isActive = true;
         this.patientPassword = patientPassword;
         this.emailToken = emailToken;
         this.isEnabled = isEnabled;
