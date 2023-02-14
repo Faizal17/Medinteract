@@ -2,6 +2,7 @@ package com.csci5308.medinteract.admin.Controller;
 
 import com.csci5308.medinteract.admin.Model.AdminModel;
 import com.csci5308.medinteract.admin.Service.AdminServiceImpl;
+import com.csci5308.medinteract.utilities.PasswordEncodeDecode;
 import com.csci5308.medinteract.utilities.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +23,12 @@ public class AdminController {
 
     @GetMapping("/login")
 
-    public ResponseEntity login(@RequestBody AdminModel adminModel)  {
+    public ResponseEntity login(@RequestBody AdminModel adminModel) throws Exception {
 
-        if(adminService.isAdminValid(adminModel.getAdminEmail(),adminModel.getAdminPassword()))
+//        String decodedPwd = PasswordEncodeDecode.decrypt(adminModel.getAdminPassword());
+        String encodedpwd = PasswordEncodeDecode.encrypt(adminModel.getAdminPassword());
+        System.out.println(encodedpwd);
+        if(adminService.isAdminValid(adminModel.getAdminEmail(),encodedpwd))
         {
             Response res = new Response(adminModel, false, "Admin log-in Successful!");
             return  new ResponseEntity<>(res.getResponse(), HttpStatus.OK);

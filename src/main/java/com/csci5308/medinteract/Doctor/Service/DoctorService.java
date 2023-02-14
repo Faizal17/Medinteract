@@ -1,6 +1,6 @@
-package com.csci5308.medinteract.Doctor;
+package com.csci5308.medinteract.Doctor.Service;
 
-import com.csci5308.medinteract.Doctor.DoctorModel;
+import com.csci5308.medinteract.Doctor.Model.DoctorModel;
 
 import java.util.List;
 import java.util.Optional;
