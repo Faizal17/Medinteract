@@ -1,12 +1,9 @@
-package com.csci5308.medinteract.Doctor;
+package com.csci5308.medinteract.Doctor.Model;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.util.Date;
 
 @Entity
@@ -18,7 +15,8 @@ public class DoctorModel {
     private Long id;
     @NotBlank
     @NotNull
-    @Email
+    @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}",
+            flags = Pattern.Flag.CASE_INSENSITIVE)
     @Column(unique=true)
     private String doctorEmail;
 
@@ -27,8 +25,11 @@ public class DoctorModel {
     private String doctorName;
     @NotBlank
     @NotNull
-    private String doctorAddressProvince;
+    private Long doctorAddressProvince;
     private String doctorAddressPostalCode;
+
+
+    private Long doctorAddressCity;
     @NotBlank
     @NotNull
     private String doctorAddressStreet;
@@ -42,17 +43,31 @@ public class DoctorModel {
     @NotNull
     private Date doctorDOB;
 
-    @Digits(integer = 2, fraction = 0)
-    @NotBlank
-    @NotNull
-    private int doctorAge;
-
     @Digits(integer = 10, fraction = 0)
     @NotBlank
     @NotNull
     private String doctorMobileNumber;
 
+    public Long getDoctorAddressCity() {
+        return doctorAddressCity;
+    }
+
+    public void setDoctorAddressCity(Long doctorAddressCity) {
+        this.doctorAddressCity = doctorAddressCity;
+    }
+
     private boolean isActive;
+
+    @NotBlank
+    private String doctorType;
+
+    public String getDoctorType() {
+        return doctorType;
+    }
+
+    public void setDoctorType(String doctorType) {
+        this.doctorType = doctorType;
+    }
 
     private String doctorQualification;
     @NotBlank
@@ -65,16 +80,16 @@ public class DoctorModel {
     public DoctorModel() {
     }
 
-    public DoctorModel(Long id, String doctorEmail, String doctorName, String doctorAddressProvince, String doctorAddressPostalCode, String doctorAddressStreet, char doctorGender, Date doctorDOB, int doctorAge, String doctorMobileNumber, boolean isActive, String doctorQualification, String doctorPassword, String emailToken) {
+    public DoctorModel(Long id, String doctorEmail, String doctorName, Long doctorAddressProvince, String doctorAddressPostalCode, Long doctorAddressCity, String doctorAddressStreet, char doctorGender, Date doctorDOB, String doctorMobileNumber, boolean isActive, String doctorQualification, String doctorPassword, String emailToken) {
         this.id = id;
         this.doctorEmail = doctorEmail;
         this.doctorName = doctorName;
         this.doctorAddressProvince = doctorAddressProvince;
         this.doctorAddressPostalCode = doctorAddressPostalCode;
+        this.doctorAddressCity = doctorAddressCity;
         this.doctorAddressStreet = doctorAddressStreet;
         this.doctorGender = doctorGender;
         this.doctorDOB = doctorDOB;
-        this.doctorAge = doctorAge;
         this.doctorMobileNumber = doctorMobileNumber;
         this.isActive = true;
         this.doctorQualification = doctorQualification;
@@ -87,20 +102,21 @@ public class DoctorModel {
         this.doctorPassword = doctorPassword;
     }
 
-    public DoctorModel(String doctorEmail, String doctorName, String doctorAddressProvince, String doctorAddressPostalCode, String doctorAddressStreet, char doctorGender, Date doctorDOB, int doctorAge, String doctorMobileNumber, boolean isActive, String doctorQualification, String doctorPassword, String emailToken) {
+    public DoctorModel(String doctorEmail, String doctorName, Long doctorAddressProvince, String doctorAddressPostalCode, Long doctorAddressCity, String doctorAddressStreet, char doctorGender, Date doctorDOB, String doctorMobileNumber, boolean isActive, String doctorQualification, String doctorPassword, String emailToken, String doctorType) {
         this.doctorEmail = doctorEmail;
         this.doctorName = doctorName;
         this.doctorAddressProvince = doctorAddressProvince;
         this.doctorAddressPostalCode = doctorAddressPostalCode;
+        this.doctorAddressCity = doctorAddressCity;
         this.doctorAddressStreet = doctorAddressStreet;
         this.doctorGender = doctorGender;
         this.doctorDOB = doctorDOB;
-        this.doctorAge = doctorAge;
         this.doctorMobileNumber = doctorMobileNumber;
         this.isActive = isActive;
         this.doctorQualification = doctorQualification;
         this.doctorPassword = doctorPassword;
         this.emailToken = emailToken;
+        this.doctorType = doctorType;
     }
 
     public Long getId() {
@@ -127,11 +143,11 @@ public class DoctorModel {
         this.doctorName = doctorName;
     }
 
-    public String getDoctorAddressProvince() {
+    public Long getDoctorAddressProvince() {
         return doctorAddressProvince;
     }
 
-    public void setDoctorAddressProvince(String doctorAddressProvince) {
+    public void setDoctorAddressProvince(Long doctorAddressProvince) {
         this.doctorAddressProvince = doctorAddressProvince;
     }
 
@@ -165,14 +181,6 @@ public class DoctorModel {
 
     public void setDoctorDOB(Date doctorDOB) {
         this.doctorDOB = doctorDOB;
-    }
-
-    public int getDoctorAge() {
-        return doctorAge;
-    }
-
-    public void setDoctorAge(int doctorAge) {
-        this.doctorAge = doctorAge;
     }
 
     public String getDoctorMobileNumber() {

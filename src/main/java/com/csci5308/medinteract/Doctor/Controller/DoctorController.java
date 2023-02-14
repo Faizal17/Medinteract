@@ -1,8 +1,8 @@
-package com.csci5308.medinteract.Doctor;
+package com.csci5308.medinteract.Doctor.Controller;
 
-import com.csci5308.medinteract.Doctor.DoctorModel;
-import com.csci5308.medinteract.Doctor.DoctorService;
-import com.csci5308.medinteract.utilities.JWT;
+import com.csci5308.medinteract.Doctor.Model.DoctorModel;
+import com.csci5308.medinteract.Doctor.Service.DoctorService;
+import com.csci5308.medinteract.utilities.JWT.JWT;
 import com.csci5308.medinteract.utilities.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,7 +42,7 @@ public class DoctorController {
     public ResponseEntity registerDoctor(@RequestBody DoctorModel doctorModel) throws Exception {
 
 
-        if(doctorServiceImpl.checkIfEmailExists(doctorModel.getDoctorEmail()))
+        if(doctorServiceImpl.checkIfEmailExists(doctorModel.getDoctorEmail()) && doctorModel.isActive())
         {
             //doctor already exists
             Response res = new Response(null, true, "Doctor with email already exists!");
@@ -62,10 +62,11 @@ public class DoctorController {
 
     public ResponseEntity login(@RequestBody DoctorModel doctorModel) throws Exception {
 
-        if(doctorServiceImpl.isDoctorValid(doctorModel.getDoctorEmail(),doctorModel.getDoctorPassword()))
+        if(doctorServiceImpl.isDoctorValid(doctorModel.getDoctorEmail(),doctorModel.getDoctorPassword()) && doctorModel.isActive())
         {
-            String jwtToken =  jwtTokenUtil.generateToken(doctorModel.getDoctorEmail());
-            Response  res = new Response(jwtToken, false, "Token Created Successfully!");
+            Response  res = new Response(jwtTokenUtil.generateToken(doctorModel.getDoctorEmail(),"doctor",doctorModel)
+                    , false
+                    , "Token Created Successfully!");
             return  new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
 
         }
@@ -75,20 +76,7 @@ public class DoctorController {
         }
     }
 
-    @GetMapping("/validateJWTToken")
-    public ResponseEntity validateJWTToken(@RequestBody String token)
-    {
-        if(!token.isEmpty() && jwtTokenUtil.validateToken(token))
-        {
-            Response  res = new Response(jwtTokenUtil.extractEmail(token), false, "Token is Valid");
-            return  new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
-        }
-        else
-        {
-            Response  res = new Response(jwtTokenUtil.extractEmail(token), true, "Token is InValid");
-            return  new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
-        }
-    }
+
 
 
 }

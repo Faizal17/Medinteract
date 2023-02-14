@@ -1,6 +1,7 @@
-package com.csci5308.medinteract.Doctor;
+package com.csci5308.medinteract.Doctor.Service;
 
-import com.csci5308.medinteract.Doctor.DoctorModel;
+import com.csci5308.medinteract.Doctor.Model.DoctorModel;
+import com.csci5308.medinteract.Doctor.Repository.DoctorRepository;
 import com.csci5308.medinteract.utilities.PasswordEncodeDecode;
 import org.springframework.stereotype.Service;
 

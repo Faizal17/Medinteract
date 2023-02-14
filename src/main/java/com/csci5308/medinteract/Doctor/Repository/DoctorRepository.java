@@ -1,6 +1,6 @@
-package com.csci5308.medinteract.Doctor;
+package com.csci5308.medinteract.Doctor.Repository;
 
-import com.csci5308.medinteract.patient.model.PatientModel;
+import com.csci5308.medinteract.Doctor.Model.DoctorModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
