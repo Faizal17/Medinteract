@@ -3,10 +3,7 @@ package com.csci5308.medinteract.patient.model;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.util.Date;
 
 @Entity
@@ -18,16 +15,16 @@ public class PatientModel {
     private Long id;
     @NotBlank
     @NotNull
-    @Email
+    @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}",
+            flags = Pattern.Flag.CASE_INSENSITIVE)
     @Column(unique=true)
     private String patientEmail;
 
     @NotBlank
     @NotNull
     private String patientName;
-    @NotBlank
-    @NotNull
-    private String patientAddressProvince;
+    private @NotBlank @NotNull Long patientAddressProvince;
+    private @NotBlank @NotNull Long patientAddressCity;
     private String patientAddressPostalCode;
     @NotBlank
     @NotNull
@@ -42,10 +39,7 @@ public class PatientModel {
     @NotNull
     private Date patientDOB;
 
-    @Digits(integer = 2, fraction = 0)
-    @NotBlank
-    @NotNull
-    private int patientAge;
+
 
     @Digits(integer = 10, fraction = 0)
     @NotBlank
@@ -78,13 +72,20 @@ public class PatientModel {
     private boolean isEnabled;
 
 
+    public Long getPatientAddressCity() {
+        return patientAddressCity;
+    }
 
+    public void setPatientAddressCity(Long patientAddressCity) {
+        this.patientAddressCity = patientAddressCity;
+    }
 
     public PatientModel() {
     }
 
-    public PatientModel(String patientEmail, String patientPassword) {
+    public PatientModel(String patientEmail, Long patientAddressCity, String patientPassword) {
         this.patientEmail = patientEmail;
+        this.patientAddressCity = patientAddressCity;
         this.patientPassword = patientPassword;
     }
 
@@ -94,6 +95,21 @@ public class PatientModel {
         this.patientPassword = patientPassword;
     }
 
+    public PatientModel(String patientEmail, String patientName, @NotBlank @NotNull Long patientAddressProvince, Long patientAddressCity, String patientAddressPostalCode, String patientAddressStreet, char patientGender, Date patientDOB, String patientMobileNumber, boolean isActive, String patientPassword, String emailToken, boolean isEnabled) {
+        this.patientEmail = patientEmail;
+        this.patientName = patientName;
+        this.patientAddressProvince = patientAddressProvince;
+        this.patientAddressCity = patientAddressCity;
+        this.patientAddressPostalCode = patientAddressPostalCode;
+        this.patientAddressStreet = patientAddressStreet;
+        this.patientGender = patientGender;
+        this.patientDOB = patientDOB;
+        this.patientMobileNumber = patientMobileNumber;
+        this.isActive = isActive;
+        this.patientPassword = patientPassword;
+        this.emailToken = emailToken;
+        this.isEnabled = isEnabled;
+    }
 
     public String getPatientName() {
         return patientName;
@@ -103,11 +119,11 @@ public class PatientModel {
         this.patientName = patientName;
     }
 
-    public String getPatientAddressProvince() {
+    public @NotBlank @NotNull Long getPatientAddressProvince() {
         return patientAddressProvince;
     }
 
-    public void setPatientAddressProvince(String patientAddressProvince) {
+    public void setPatientAddressProvince(@NotBlank @NotNull Long patientAddressProvince) {
         this.patientAddressProvince = patientAddressProvince;
     }
 
@@ -143,13 +159,7 @@ public class PatientModel {
         this.patientDOB = patientDOB;
     }
 
-    public int getPatientAge() {
-        return patientAge;
-    }
 
-    public void setPatientAge(int patientAge) {
-        this.patientAge = patientAge;
-    }
 
     public String getPatientMobileNumber() {
         return patientMobileNumber;

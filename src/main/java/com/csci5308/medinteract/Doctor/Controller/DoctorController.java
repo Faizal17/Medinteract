@@ -42,7 +42,7 @@ public class DoctorController {
     public ResponseEntity registerDoctor(@RequestBody DoctorModel doctorModel) throws Exception {
 
 
-        if(doctorServiceImpl.checkIfEmailExists(doctorModel.getDoctorEmail()))
+        if(doctorServiceImpl.checkIfEmailExists(doctorModel.getDoctorEmail()) && doctorModel.isActive())
         {
             //doctor already exists
             Response res = new Response(null, true, "Doctor with email already exists!");
@@ -62,7 +62,7 @@ public class DoctorController {
 
     public ResponseEntity login(@RequestBody DoctorModel doctorModel) throws Exception {
 
-        if(doctorServiceImpl.isDoctorValid(doctorModel.getDoctorEmail(),doctorModel.getDoctorPassword()))
+        if(doctorServiceImpl.isDoctorValid(doctorModel.getDoctorEmail(),doctorModel.getDoctorPassword()) && doctorModel.isActive())
         {
             Response  res = new Response(jwtTokenUtil.generateToken(doctorModel.getDoctorEmail(),"doctor",doctorModel)
                     , false

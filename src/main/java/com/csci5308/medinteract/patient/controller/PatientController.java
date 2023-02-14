@@ -41,7 +41,7 @@ public class PatientController {
     public ResponseEntity registerPatient(@RequestBody PatientModel patientModel) throws Exception {
 
 
-        if(patientServiceImpl.checkIfEmailExists(patientModel.getPatientEmail()))
+        if(patientServiceImpl.checkIfEmailExists(patientModel.getPatientEmail()) && patientModel.isActive())
         {
             //patient already exists
             Response  res = new Response(null, true, "Patient with email already exists!");
@@ -61,7 +61,7 @@ public class PatientController {
 
     public ResponseEntity login(@RequestBody PatientModel patientModel) throws Exception {
 
-        if(patientServiceImpl.isPatientValid(patientModel.getPatientEmail(),patientModel.getPatientPassword()))
+        if(patientServiceImpl.isPatientValid(patientModel.getPatientEmail(),patientModel.getPatientPassword()) && patientModel.isActive())
         {
             Response  res = new Response(jwtTokenUtil.generateToken(patientModel.getPatientEmail(),"patient",patientModel), false, "Token Created Successfully!");
             return  new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
