@@ -41,7 +41,7 @@ public class PatientController {
     public ResponseEntity registerPatient(@RequestBody PatientModel patientModel) throws Exception {
 
 
-        if(patientServiceImpl.checkIfEmailExists(patientModel.getPatientEmail()) && patientModel.isActive())
+        if(patientServiceImpl.checkIfEmailExists(patientModel.getPatientEmail()))
         {
             //patient already exists
             Response  res = new Response(null, true, "Patient with email already exists!");
@@ -57,11 +57,11 @@ public class PatientController {
             return  new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
         }
     }
-    @GetMapping("/login")
+    @PostMapping("/login")
 
     public ResponseEntity login(@RequestBody PatientModel patientModel) throws Exception {
-
-        if(patientServiceImpl.isPatientValid(patientModel.getPatientEmail(),patientModel.getPatientPassword()) && patientModel.isActive())
+        System.out.println(patientModel.isActive() + patientModel.getPatientPassword());
+        if(patientServiceImpl.isPatientValid(patientModel.getPatientEmail(),patientModel.getPatientPassword()))
         {
             Response  res = new Response(jwtTokenUtil.generateToken(patientModel.getPatientEmail(),"patient",patientModel), false, "Token Created Successfully!");
             return  new ResponseEntity<>(res.getResponse(),HttpStatus.OK);

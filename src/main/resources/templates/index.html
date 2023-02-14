@@ -13,6 +13,8 @@
             integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
             crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2023.1.117/styles/kendo.default-ocean-blue.min.css" />
+    <script src="https://kendo.cdn.telerik.com/2023.1.117/js/kendo.all.min.js"></script>
     <script type="text/javascript" src="static/script.js"></script>
 
     <style>
@@ -123,6 +125,12 @@
                 font-size: 11px
             }
         }
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
     </style>
 </head>
 
@@ -136,7 +144,7 @@
             <h1><u> <b> Medinteract </b> </u></h1>
         </div>
     </div>
-    <div class="row border">
+    <div class="row border mb-2">
         <div id="slide" class="col-md-6 p-0">
             <div class="slideshow-container">
                 <div class="mySlides fade" style="display:table-cell; vertical-align:middle; text-align:center">
@@ -157,8 +165,7 @@
                 <a class="prev" onclick="plusSlides(-1)" style="background: gray">&#10094;</a>
                 <a class="next" onclick="plusSlides(1)" style="background: gray">&#10095;</a>
             </div>
-            <br>
-            <div style="text-align:center">
+            <div style="text-align:center" class="py-2">
                 <span class="dot" onclick="currentSlide(1)"></span>
                 <span class="dot" onclick="currentSlide(2)"></span>
                 <span class="dot" onclick="currentSlide(3)"></span>
@@ -171,21 +178,22 @@
                 <div class="card-header p-0 border-bottom" style="background-color: #121926">
                     <ul class="nav nav-tabs text-dark">
                         <li class="nav-item col-6 p-0">
-                            <a id="signin" class="nav-link active" aria-current="true" onclick="setActiveTab('signin')">Sign In</a>
+                            <a id="signIn" class="nav-link active" aria-current="true" onclick="setActiveTab('signIn')">Sign In</a>
                         </li>
                         <li class="nav-item col-6 p-0">
-                            <a id="signup" class="nav-link link-light" onclick="setActiveTab('signup')">Sign up</a>
+                            <a id="signUp" class="nav-link link-light" onclick="setActiveTab('signUp')">Sign up</a>
                         </li>
                     </ul>
                 </div>
-                <div class="card-body">
-                    <form class="mt-5 needs-validation" novalidate id="signinForm" method="post">
+                <div class="card-body" style="height: 70vh; overflow: auto">
+                    <button type="button" class="btn btn-primary" id="liveToastBtn">Show live toast</button>
+                    <form class="mt-5" id="signInForm" method="post">
                         <h2 class="text-center mb-5"> User SignIn</h2>
                         <div class="form-group my-3 row">
                             <label class="col-12 col-xl-3"> UserType : </label>
                             <div class="col">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="userType" id="userTypeSignIn1" value="Patient" checked>
+                                    <input class="form-check-input" type="radio" name="userTypeSignIn" id="userTypeSignIn1" value="Patient" checked>
                                     <label class="form-check-label" for="userTypeSignIn1">
                                         Patient
                                     </label>
@@ -193,7 +201,7 @@
                             </div>
                             <div class="col">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="userType" id="userTypeSignIn2" value="Doctor">
+                                    <input class="form-check-input" type="radio" name="userTypeSignIn" id="userTypeSignIn2" value="Doctor">
                                     <label class="form-check-label" for="userTypeSignIn2">
                                         Doctor
                                     </label>
@@ -207,9 +215,9 @@
                             </div>
                         </div>
                         <div class="form-group row my-3">
-                            <label class="col-12 col-form-label col-xl-3" for="pwd"> Password :</label>
+                            <label class="col-12 col-form-label col-xl-3" for="pwdSignIn"> Password :</label>
                             <div class="col-12 col-xl-9">
-                                <input type="password" class="form-control" placeholder="Enter password" id="pwdSignIn" name="password" required>
+                                <input type="password" class="form-control" placeholder="Enter password" id="pwdSignIn" name="pwdSignIn" required>
                             </div>
                         </div>
                         <div class="text-center">
@@ -217,13 +225,13 @@
                         </div>
                     </form>
 
-                    <form class="d-none mt-5 needs-validation" novalidate id="signupForm" method="post">
+                    <form class="d-none mt-5" id="signUpForm" method="post">
                         <h2 class="text-center mb-5"> User SignUp</h2>
                         <div class="form-group my-3 row">
                             <label class="col-12 col-xl-3"> UserType : </label>
                             <div class="col">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="userType" id="userTypeSignup1" checked>
+                                    <input class="form-check-input" type="radio" name="userTypeSignUp" id="userTypeSignup1" value="Patient" checked>
                                     <label class="form-check-label" for="userTypeSignup1">
                                         Patient
                                     </label>
@@ -231,7 +239,7 @@
                             </div>
                             <div class="col">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="userType" id="userTypeSignup2">
+                                    <input class="form-check-input" type="radio" name="userTypeSignUp" id="userTypeSignup2" value="Doctor">
                                     <label class="form-check-label" for="userTypeSignup2">
                                         Doctor
                                     </label>
@@ -239,21 +247,109 @@
                             </div>
                         </div>
                         <div class="form-group row my-3">
-                            <label class="col-12 col-form-label col-xl-3" for="emailSignup"> Email :</label>
+                            <label class="col-12 col-form-label col-xl-3" for="nameSignup"> Name :</label>
                             <div class="col-12 col-xl-9">
-                                <input type="text" class="form-control" placeholder="Enter Username" id="emailSignup" name="emailSignup" autofocus required>
+                                <input type="text" class="form-control" placeholder="Enter Name" id="nameSignup" name="nameSignup" autofocus required>
                             </div>
                         </div>
                         <div class="form-group row my-3">
-                            <label class="col-12 col-form-label col-xl-3" for="pwd"> Password :</label>
+                            <label class="col-12 col-form-label col-xl-3" for="emailSignup"> Email :</label>
                             <div class="col-12 col-xl-9">
-                                <input type="password" class="form-control" placeholder="Enter password" id="pwd" name="password" required>
+                                <input type="text" class="form-control" placeholder="Enter User Email" id="emailSignup" name="emailSignup" required>
+                            </div>
+                        </div>
+                        <div class="form-group row my-3">
+                            <label class="col-12 col-form-label col-xl-3" for="pwdSignup"> Password :</label>
+                            <div class="col-12 col-xl-9">
+                                <input type="password" class="form-control" placeholder="Enter password" id="pwdSignup" name="pwdSignup" required>
                             </div>
                         </div>
                         <div class="form-group row my-3">
                             <label class="col-12 col-form-label col-xl-3" for="verifyPwd"> Verify Password :</label>
                             <div class="col-12 col-xl-9">
-                                <input type="password" class="form-control" placeholder="Enter password" id="verifyPwd" name="verifyPwd" required>
+                                <input type="password" class="form-control" placeholder="Enter verify password" id="verifyPwd" name="verifyPwd" required>
+                            </div>
+                        </div>
+                        <div class="form-group row my-3">
+                            <label class="col-12 col-form-label col-xl-3" for="mobileNumber"> Mobile No :</label>
+                            <div class="col-12 col-xl-9">
+                                <input type="number" class="form-control" placeholder="Enter mobile number" id="mobileNumber" name="mobileNumber" required>
+                            </div>
+                        </div>
+                        <div class="form-group my-3 row">
+                            <label class="col-12 col-xl-3"> Gender : </label>
+                            <div class="col">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="gender" id="genderM" value="M" checked>
+                                    <label class="form-check-label" for="genderM">
+                                        Male
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="gender" id="genderF" value="F">
+                                    <label class="form-check-label" for="genderF">
+                                        Female
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="gender" id="genderN" value="N">
+                                    <label class="form-check-label" for="genderN">
+                                        Prefer Not To Say
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row my-3">
+                            <label class="col-12 col-form-label col-md-4 col-lg-3" for="DOB"> DOB :</label>
+                            <div class="col-12 col-md-7 col-lg-6">
+                                <input type="text" class="form-control" placeholder="Enter DOB" id="DOB" name="DOB" required>
+                            </div>
+                        </div>
+                        <div class="form-group row my-3">
+                            <label class="col-12 col-sm-3 col-form-label col-xl-3" for="province"> Province :</label>
+                            <div class="col-12 col-sm-9 col-xl-3">
+<!--                                <input type="text" class="form-control" placeholder="Enter province" id="province" name="province" required>-->
+                                <select class="form-select" aria-label="Select province" name="province" id="province" onchange="selectProvince(this.value)" required>
+                                    <option value="" selected disabled>Select Province</option>
+                                </select>
+                            </div>
+                            <label class="col-12 col-sm-3 col-form-label col-xl-2 mt-3 mt-xl-0" for="city"> City :</label>
+                            <div class="col-12 col-sm-9 col-xl-4 mt-0 mt-sm-3 mt-xl-0">
+<!--                                <input type="text" class="form-control" placeholder="Enter city" id="city" name="city" required>-->
+                                <select class="form-select" aria-label="Select city" name="city" id="city" required>
+                                    <option value="" selected disabled>Select city</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row my-3">
+                            <label class="col-12 col-form-label col-xl-3" for="street"> Street Lane :</label>
+                            <div class="col-12 col-xl-9">
+                                <input type="text" class="form-control" placeholder="Enter street" id="street" name="street" required>
+                            </div>
+                        </div>
+                        <div class="form-group row my-3">
+                            <label class="col-12 col-form-label col-xl-3" for="postalCode"> Postal Code :</label>
+                            <div class="col-12 col-xl-9">
+                                <input type="text" class="form-control" placeholder="Enter Postal Code" id="postalCode" name="postalCode" required>
+                            </div>
+                        </div>
+
+                        <div class="doctorDetailsClass d-none">
+                            <div class="form-group row my-3">
+                                <label class="col-12 col-form-label col-xl-3" for="qualification"> Qualification :</label>
+                                <div class="col-12 col-xl-9">
+                                    <input type="text" class="form-control" placeholder="Enter your qualifications" id="qualification" name="qualification">
+                                </div>
+                            </div>
+                            <div class="form-group row my-3">
+                                <label class="col-12 col-form-label col-xl-3" for="field"> Expertise :</label>
+                                <div class="col-12 col-xl-9">
+                                    <input type="text" class="form-control" placeholder="Enter your field of Expertise" id="field" name="field">
+                                </div>
                             </div>
                         </div>
                         <div class="text-center">
@@ -262,23 +358,84 @@
                     </form>
                 </div>
             </div>
-
-
         </div>
     </div>
+    <div id="toastDiv" class="toast-container position-fixed top-0 end-0 p-3"></div>
     <!-- End of Row-->
 </div>
 <!--End of Container-->
 <script>
-    var slideIndex = 0;
-    showSlides();
-    var slides, dots;
+    let slideIndex = 0;
+    let slides, dots;
     let url = "";
+    let provinceList = new Map();
+    window.count = 1;
+
 
 
     $(document).ready(function () {
+        const toastTrigger = document.getElementById('liveToastBtn')
+        const toastDiv = document.getElementById('toastDiv')
+        if (toastTrigger) {
+            toastTrigger.addEventListener('click', () => {
+                $('#toastDiv').append(toastHTML(true,count));
+                // const toastLiveExample = document.getElementById('liveToast'+count)
+                // const toast = new bootstrap.Toast(toastLiveExample)
+                // toast.show()
+                $("#liveToast"+count).toast('show');
+                count++;
+            })
+        }
+        showSlides();
+
+        $("#DOB").kendoDatePicker();
+
+        $('input[type=radio][name=userTypeSignUp]').change(function () {
+            if ($('input[name="userTypeSignUp"]:checked').val() == 'Patient') {
+                $(".doctorDetailsClass").addClass("d-none");
+            }
+            if ($('input[name="userTypeSignUp"]:checked').val() == 'Doctor') {
+                $(".doctorDetailsClass").removeClass("d-none");
+            }
+        });
+
+        $.ajax({
+            url: "http://localhost:6969/" + "province/fetchAll",
+            type: "GET",
+            dataType: "json",
+            contentType: "application/json",
+        })
+        .done(function(response) {
+            try {
+                console.log(response);
+                let data = response.data;
+                for (let i = 0; i < data.length; i++) {
+                    // for (let j = 0; j < data[i]['cities'].length; j++) {
+                        provinceList.set(data[i]['id'].toString(), data[i]['cities']);
+                    // }
+                    $('#province').append(`<option value=${data[i]['id']}>${data[i]['abbrv']}</option>`);
+                }
+                console.log(provinceList);
+            } catch(err){
+                console.log(err);
+            }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown){
+            // let msg = JSON.parse(jqXHR.responseText);
+            console.log(jqXHR, textStatus, errorThrown);
+        });
         //navbar
     });
+
+    function selectProvince(province) {
+        let citySel = document.getElementById("city");
+        citySel.length = 1;
+        let cities = provinceList.get(province);
+        console.log(cities, province, provinceList)
+        for (let i = 0; i < cities.length; i++) {
+            $('#city').append(`<option value="${cities[i]['id']}">${cities[i]['city']}</option>`);
+        }
+    }
 
     function plusSlides(position) {
         slideIndex += position;
@@ -344,28 +501,41 @@
     }
 
     $("form").submit(function (event) {
+        let data = {};
         event.preventDefault();
         const id = this.id;
         console.log(id);
-        if(id === "signinForm"){
-            url = globalURL + "/signin"
+        if(id === "signInForm"){
+            if($('input[name="userTypeSignIn"]:checked').val() == 'Patient'){
+                url = globalURL + "patient/login";
+                data["patientEmail"] = $("#emailSignIn").val()
+                data["patientPassword"] = $("#pwdSignIn").val()
+            }
+            else {
+                url = globalURL + "doctor/login";
+                data["doctorEmail"] = $("#emailSignIn").val()
+                data["doctorPassword"] = $("#pwdSignIn").val()
+            }
+        } else if(id === "signUpForm") {
+            if ($('input[name="userTypeSignUp"]:checked').val() == 'Patient')
+                url = globalURL + "patient/register";
+            else
+                url = globalURL + "doctor/register";
         }
         const formElem = document.getElementById(id);
         let formData = new FormData(formElem);
         console.log(formElem, formData, url)
 
 
-        // $.ajax({
-        //     type: "POST",
-        //     // url: "process.php",
-        //     data: formData,
-        //     dataType: "json",
-        //     // encode: true,
-        //     processData: false,
-        //     contentType: false,
-        // }).done(function (data) {
-        //     console.log(data);
-        // });
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: JSON.stringify(data),
+            dataType: "json",
+            contentType: "application/json"
+        }).done(function (data) {
+            console.log(data);
+        });
     });
 
 </script>

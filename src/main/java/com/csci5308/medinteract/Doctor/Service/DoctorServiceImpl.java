@@ -38,7 +38,7 @@ public class DoctorServiceImpl implements DoctorService{
     public boolean checkIfEmailExists(String email) {
         boolean result ;
         Optional<DoctorModel> newDoctor = doctorRepository.findByDoctorEmail(email);
-        result = newDoctor.isPresent();
+        result = newDoctor.isPresent() && newDoctor.get().isActive();
         return result;
     }
 
@@ -53,7 +53,7 @@ public class DoctorServiceImpl implements DoctorService{
         Optional<DoctorModel> doctor = doctorRepository.findByDoctorEmail(doctorEmail);
 
         String encodedPassword = encodePassword(doctorPassword);
-        if(doctor.isPresent() && doctor.get().getDoctorPassword().equals(encodedPassword))
+        if(doctor.isPresent() && doctor.get().getDoctorPassword().equals(encodedPassword) && doctor.get().isActive())
         {
             //valid doctor
             System.out.println(doctor.get().getDoctorEmail());
