@@ -2,28 +2,29 @@ package com.csci5308.medinteract.admin.Controller;
 
 import com.csci5308.medinteract.admin.Model.AdminModel;
 import com.csci5308.medinteract.admin.Service.AdminService;
+import com.csci5308.medinteract.utilities.JWT.JWT;
 import com.csci5308.medinteract.utilities.PasswordEncodeDecode;
 import com.csci5308.medinteract.utilities.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
     private final AdminService adminService;
 
+    private final JWT jwtTokenUtil;
+
     @Autowired
-    public AdminController(AdminService adminService) {
+    public AdminController(AdminService adminService, JWT jwtTokenUtil) {
         this.adminService = adminService;
+        this.jwtTokenUtil = jwtTokenUtil;
     }
 
 
-    @GetMapping("/login")
+    @PostMapping("/login")
 
     public ResponseEntity login(@RequestBody AdminModel adminModel) throws Exception {
 
@@ -32,7 +33,9 @@ public class AdminController {
         System.out.println(encodedpwd);
         if(adminService.isAdminValid(adminModel.getAdminEmail(),encodedpwd))
         {
-            Response res = new Response(adminModel, false, "Admin log-in Successful!");
+            adminModel.setAdminPassword("");
+            Response  res = new Response(jwtTokenUtil.generateToken(adminModel.getAdminEmail(),"admin", adminModel), false, "User logged in Successfully!");
+//            Response res = new Response(adminModel, false, "Admin log-in Successful!");
             return  new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
 
         }

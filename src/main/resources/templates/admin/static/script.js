@@ -59,38 +59,27 @@ $(document).ready(function () {
         data: getCookie("token")
     })
     .done(function(response) {
+        let data = response;
         try {
-            let data = response;
             if(data.isError){
                 addToast(true, "Error", data.msg);
-                window.location.href="./index.html";
+                window.location.href="../index.html";
             } else {
-                if (data.type == 'patient'){
-                    setCookie("id", data.obj.id);
-                    setCookie("name", data.obj.patientName);
-                    setCookie("email", data.obj.patientEmail);
-                    setCookie("city", data.obj.patientAddressCity);
-                    setCookie("province", data.obj.patientAddressProvince);
-                    setCookie("type", "patient");
-                } else if (data.type == 'doctor') {
-                    setCookie("id", data.obj.id);
-                    setCookie("name", data.obj.doctorName);
-                    setCookie("email", data.obj.doctorEmail);
-                    setCookie("city", data.obj.doctorAddressCity);
-                    setCookie("province", data.obj.doctorAddressProvince);
-                    setCookie("type", "doctor");
-                } else if (data.type == 'admin') {
-                    window.location.href = './admin/dashboard.html'
+                if (data.type == 'admin'){
+                    setCookie("email", data.obj.adminEmail);
+                    setCookie("type", "admin");
+                } else if (data.type == 'patient' || data.type == 'doctor') {
+                    window.location.href = '../dashboard.html'
                 }
             }
         } catch(err){
             addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
-            window.location.href="./index.html";
+            window.location.href="../index.html";
         }
     })
     .fail(function (jqXHR, textStatus, errorThrown){
         addToast(true, "Error", "Pls log in again!");
-        window.location.href="./index.html";
+        window.location.href="../index.html";
     });
 })
 
