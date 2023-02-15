@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/patient")
@@ -39,9 +40,9 @@ public class PatientController {
 
     @PostMapping("/register")
     public ResponseEntity registerPatient(@RequestBody PatientModel patientModel) throws Exception {
+        Map<String, Object> data = patientServiceImpl.checkIfEmailExists(patientModel.getPatientEmail());
 
-
-        if(patientServiceImpl.checkIfEmailExists(patientModel.getPatientEmail()))
+        if((Boolean)data.get("result"))
         {
             //patient already exists
             Response  res = new Response(null, true, "Patient with email already exists!");
@@ -50,10 +51,13 @@ public class PatientController {
         }
         else
         {
-
+            if(data.containsKey("id")){
+                patientModel.setId((Long)data.get("id"));
+            }
             patientModel.setPatientPassword(patientServiceImpl.encodePassword(patientModel.getPatientPassword()));
             patientServiceImpl.savePatient(patientModel);
-            Response  res = new Response(patientModel, false, "Patient registered Successfully!");
+            patientModel.setPatientPassword("");
+            Response res = new Response(patientModel, false, "User registered Successfully!");
             return  new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
         }
     }
@@ -63,12 +67,14 @@ public class PatientController {
         System.out.println(patientModel.isActive() + patientModel.getPatientPassword());
         if(patientServiceImpl.isPatientValid(patientModel.getPatientEmail(),patientModel.getPatientPassword()))
         {
-            Response  res = new Response(jwtTokenUtil.generateToken(patientModel.getPatientEmail(),"patient",patientModel), false, "Token Created Successfully!");
+            patientModel = patientServiceImpl.getPatientByEmail(patientModel.getPatientEmail());
+            patientModel.setPatientPassword("");
+            Response  res = new Response(jwtTokenUtil.generateToken(patientModel.getPatientEmail(),"patient",patientModel), false, "User logged in Successfully!");
             return  new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
 
         }
         else {
-            Response  res = new Response("null", true, "Failed to generate the token");
+            Response  res = new Response("null", true, "Failed to login for the given credentials");
             return  new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
         }
     }

@@ -57,7 +57,15 @@ public class DoctorModel {
     }
 
     private boolean isActive;
+    public boolean isBlocked() {
+        return isBlocked;
+    }
 
+    public void setBlocked(boolean blocked) {
+        isBlocked = blocked;
+    }
+
+    private boolean isBlocked;
     @NotBlank
     private String doctorType;
 
@@ -91,7 +99,7 @@ public class DoctorModel {
         this.doctorGender = doctorGender;
         this.doctorDOB = doctorDOB;
         this.doctorMobileNumber = doctorMobileNumber;
-        this.isActive = true;
+        this.isActive = isActive;
         this.doctorQualification = doctorQualification;
         this.doctorPassword = doctorPassword;
         this.emailToken = emailToken;

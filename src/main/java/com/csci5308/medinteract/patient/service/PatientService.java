@@ -3,6 +3,7 @@ package com.csci5308.medinteract.patient.service;
 import com.csci5308.medinteract.patient.model.PatientModel;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface PatientService {
@@ -10,7 +11,7 @@ public interface PatientService {
     PatientModel savePatient(PatientModel patientModel);
     Optional<PatientModel> findById(Long id);
 
-    boolean checkIfEmailExists(String email);
+    Map<String, Object> checkIfEmailExists(String email);
 
     PatientModel getPatientByEmail(String email);
 

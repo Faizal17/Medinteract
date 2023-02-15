@@ -13,7 +13,7 @@ public class JWT {
     @Value("${jwt.secret}")
     private  String SECRET_KEY;
 
-    public Map<String,String> generateToken(String username,String type, Object obj) {
+    public Map<String,Object> generateToken(String username,String type, Object obj) {
         Date now = new Date();
         Date expiration = new Date(now.getTime() + 60 * 60 * 1000);
 
@@ -21,7 +21,7 @@ public class JWT {
         claims.put("type",type);
         claims.put("obj", obj);
 
-        Map<String,String> token = new HashMap<>();
+        Map<String,Object> token = new HashMap<>();
         token.put("token",Jwts.builder()
                 .setSubject(username)
                 .setClaims(claims)
@@ -29,6 +29,7 @@ public class JWT {
                 .setExpiration(expiration)
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
                 .compact());
+        token.put("user", obj);
 
         return token;
     }

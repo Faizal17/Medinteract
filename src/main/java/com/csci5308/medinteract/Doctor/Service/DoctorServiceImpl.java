@@ -3,9 +3,12 @@ package com.csci5308.medinteract.Doctor.Service;
 import com.csci5308.medinteract.Doctor.Model.DoctorModel;
 import com.csci5308.medinteract.Doctor.Repository.DoctorRepository;
 import com.csci5308.medinteract.utilities.PasswordEncodeDecode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -13,6 +16,7 @@ public class DoctorServiceImpl implements DoctorService{
 
     private final DoctorRepository doctorRepository;
 
+    @Autowired
     public DoctorServiceImpl(DoctorRepository doctorRepository) {
         this.doctorRepository = doctorRepository;
     }
@@ -35,11 +39,15 @@ public class DoctorServiceImpl implements DoctorService{
 
 
     @Override
-    public boolean checkIfEmailExists(String email) {
-        boolean result ;
+    public Map<String, Object> checkIfEmailExists(String email) {
+        Map<String, Object> res = new HashMap<>();
         Optional<DoctorModel> newDoctor = doctorRepository.findByDoctorEmail(email);
-        result = newDoctor.isPresent() && newDoctor.get().isActive();
-        return result;
+        boolean result = newDoctor.isPresent() && (newDoctor.get().isActive() || newDoctor.get().isBlocked());
+        res.put("result", result);
+        if(newDoctor.isPresent()){
+            res.put("id", newDoctor.get().getId());
+        }
+        return res;
     }
 
     @Override
@@ -53,7 +61,7 @@ public class DoctorServiceImpl implements DoctorService{
         Optional<DoctorModel> doctor = doctorRepository.findByDoctorEmail(doctorEmail);
 
         String encodedPassword = encodePassword(doctorPassword);
-        if(doctor.isPresent() && doctor.get().getDoctorPassword().equals(encodedPassword) && doctor.get().isActive())
+        if(doctor.isPresent() && doctor.get().getDoctorPassword().equals(encodedPassword) && doctor.get().isActive() && !doctor.get().isBlocked())
         {
             //valid doctor
             System.out.println(doctor.get().getDoctorEmail());

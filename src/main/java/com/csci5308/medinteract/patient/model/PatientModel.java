@@ -61,15 +61,15 @@ public class PatientModel {
     private String patientPassword;
 
     private String emailToken;
-    public boolean isEnabled() {
-        return isEnabled;
+    public boolean isBlocked() {
+        return isBlocked;
     }
 
-    public void setEnabled(boolean enabled) {
-        isEnabled = enabled;
+    public void setBlocked(boolean blocked) {
+        isBlocked = blocked;
     }
 
-    private boolean isEnabled;
+    private boolean isBlocked;
 
 
     public Long getPatientAddressCity() {
@@ -108,7 +108,7 @@ public class PatientModel {
         this.isActive = true;
         this.patientPassword = patientPassword;
         this.emailToken = emailToken;
-        this.isEnabled = isEnabled;
+        this.isBlocked = isEnabled;
     }
 
     public String getPatientName() {

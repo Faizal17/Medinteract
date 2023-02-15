@@ -3,10 +3,7 @@ package com.csci5308.medinteract.utilities.JWT;
 import com.csci5308.medinteract.utilities.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/jwt")
@@ -19,7 +16,7 @@ public class JWTController {
     }
 
 
-    @GetMapping("/validateJWTToken")
+    @PostMapping("/validateJWTToken")
     public ResponseEntity validateJWTToken(@RequestBody String token)
     {
         if(!token.isEmpty() && jwtTokenUtil.validateToken(token))

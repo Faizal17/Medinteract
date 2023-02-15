@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/doctor")
@@ -40,21 +41,22 @@ public class DoctorController {
 
     @PostMapping("/register")
     public ResponseEntity registerDoctor(@RequestBody DoctorModel doctorModel) throws Exception {
-
-
-        if(doctorServiceImpl.checkIfEmailExists(doctorModel.getDoctorEmail()))
+        Map<String, Object> data = doctorServiceImpl.checkIfEmailExists(doctorModel.getDoctorEmail());
+        if((Boolean)data.get("result"))
         {
             //doctor already exists
             Response res = new Response(null, true, "Doctor with email already exists!");
             return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
-
         }
         else
         {
-
+            if(data.containsKey("id")){
+                doctorModel.setId((Long)data.get("id"));
+            }
             doctorModel.setDoctorPassword(doctorServiceImpl.encodePassword(doctorModel.getDoctorPassword()));
             doctorServiceImpl.saveDoctor(doctorModel);
-            Response  res = new Response(doctorModel, false, "Doctor registered Successfully!");
+            doctorModel.setDoctorPassword("");
+            Response  res = new Response(doctorModel, false, "User registered Successfully!");
             return  new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
         }
     }
@@ -64,14 +66,16 @@ public class DoctorController {
 
         if(doctorServiceImpl.isDoctorValid(doctorModel.getDoctorEmail(),doctorModel.getDoctorPassword()))
         {
+            doctorModel = doctorServiceImpl.getDoctorByEmail(doctorModel.getDoctorEmail());
+            doctorModel.setDoctorPassword("");
             Response  res = new Response(jwtTokenUtil.generateToken(doctorModel.getDoctorEmail(),"doctor",doctorModel)
                     , false
-                    , "Token Created Successfully!");
+                    , "User logged in Successfully!");
             return  new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
 
         }
         else {
-            Response  res = new Response("null", true, "Failed to generate the token");
+            Response  res = new Response("null", true, "Failed to login for the given credentials");
             return  new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
         }
     }

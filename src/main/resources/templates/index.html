@@ -15,7 +15,6 @@
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2023.1.117/styles/kendo.default-ocean-blue.min.css" />
     <script src="https://kendo.cdn.telerik.com/2023.1.117/js/kendo.all.min.js"></script>
-    <script type="text/javascript" src="static/script.js"></script>
 
     <style>
         #slide {
@@ -135,7 +134,7 @@
 </head>
 
 <body>
-<div class="mx-auto" style="width:90%;">
+<div>
 
     <div class="row">
         <div class="col-sm-2"></div>
@@ -186,7 +185,6 @@
                     </ul>
                 </div>
                 <div class="card-body" style="height: 70vh; overflow: auto">
-                    <button type="button" class="btn btn-primary" id="liveToastBtn">Show live toast</button>
                     <form class="mt-5" id="signInForm" method="post">
                         <h2 class="text-center mb-5"> User SignIn</h2>
                         <div class="form-group my-3 row">
@@ -369,23 +367,10 @@
     let slides, dots;
     let url = "";
     let provinceList = new Map();
-    window.count = 1;
 
 
 
     $(document).ready(function () {
-        const toastTrigger = document.getElementById('liveToastBtn')
-        const toastDiv = document.getElementById('toastDiv')
-        if (toastTrigger) {
-            toastTrigger.addEventListener('click', () => {
-                $('#toastDiv').append(toastHTML(true,count));
-                // const toastLiveExample = document.getElementById('liveToast'+count)
-                // const toast = new bootstrap.Toast(toastLiveExample)
-                // toast.show()
-                $("#liveToast"+count).toast('show');
-                count++;
-            })
-        }
         showSlides();
 
         $("#DOB").kendoDatePicker();
@@ -400,7 +385,7 @@
         });
 
         $.ajax({
-            url: "http://localhost:6969/" + "province/fetchAll",
+            url: globalURL + "province/fetchAll",
             type: "GET",
             dataType: "json",
             contentType: "application/json",
@@ -417,15 +402,39 @@
                 }
                 console.log(provinceList);
             } catch(err){
-                console.log(err);
+                addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
             }
         })
         .fail(function (jqXHR, textStatus, errorThrown){
             // let msg = JSON.parse(jqXHR.responseText);
-            console.log(jqXHR, textStatus, errorThrown);
+            addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
+            // console.log(jqXHR, textStatus, errorThrown);
         });
-        //navbar
     });
+
+    const globalURL = "http://localhost:6969/";
+
+    window.count = 1;
+
+    function toastHTML(isError, title, msg) {
+        if(isError){
+            return `<div id="liveToast${count}" class="toast" role="alert" aria-live="assertive" aria-atomic="false"><div class="toast-header"><svg className="bd-placeholder-img rounded" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#FF0000"></rect></svg><strong class="ms-2 me-auto">${title}</strong><button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button></div><div class="toast-body">${msg}</div></div>`
+        }
+        return `<div id="liveToast${count}" class="toast" role="alert" aria-live="assertive" aria-atomic="false"><div class="toast-header"><svg className="bd-placeholder-img rounded" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#007aff"></rect></svg><strong class="ms-2 me-auto">${title}</strong><button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button></div><div class="toast-body">${msg}</div></div>`;
+    }
+    //reference - https://www.w3schools.com/js/js_cookies.asp
+    function setCookie(name, value) {
+        const d = new Date();
+        d.setTime(d.getTime() + (7*24*60*60*1000));
+        let expires = "expires="+ d.toUTCString();
+        document.cookie = name + "=" + value + ";" + expires + ";path=/";
+    }
+
+    function addToast(isError, title, msg){
+        $('#toastDiv').append(toastHTML(isError, title, msg));
+        $("#liveToast"+count).toast('show');
+        count++;
+    }
 
     function selectProvince(province) {
         let citySel = document.getElementById("city");
@@ -505,28 +514,54 @@
         event.preventDefault();
         const id = this.id;
         console.log(id);
+        let redirectURL = ""
         if(id === "signInForm"){
             if($('input[name="userTypeSignIn"]:checked').val() == 'Patient'){
                 url = globalURL + "patient/login";
-                data["patientEmail"] = $("#emailSignIn").val()
-                data["patientPassword"] = $("#pwdSignIn").val()
+                data["patientEmail"] = $("#emailSignIn").val();
+                data["patientPassword"] = $("#pwdSignIn").val();
             }
             else {
                 url = globalURL + "doctor/login";
-                data["doctorEmail"] = $("#emailSignIn").val()
-                data["doctorPassword"] = $("#pwdSignIn").val()
+                data["doctorEmail"] = $("#emailSignIn").val();
+                data["doctorPassword"] = $("#pwdSignIn").val();
             }
+            redirectURL = "./dashboard.html";
         } else if(id === "signUpForm") {
-            if ($('input[name="userTypeSignUp"]:checked').val() == 'Patient')
+            if ($('input[name="userTypeSignUp"]:checked').val() == 'Patient'){
+                data["patientEmail"] = $("#emailSignup").val();
+                data["patientName"] = $("#nameSignup").val();
+                data["patientAddressProvince"] = $("#province").val();
+                data["patientAddressCity"] = $("#city").val();
+                data["patientAddressPostalCode"] = $("#postalCode").val();
+                data["patientAddressStreet"] = $("#street").val();
+                data["patientGender"] = $('input[name="gender"]:checked').val();
+                data["patientDOB"] = new Date($("#DOB").val());
+                data["patientMobileNumber"] = $("#mobileNumber").val();
+                data["patientPassword"] = $("#pwdSignup").val();
+                data["active"] = true;
+                data["blocked"] = false;
                 url = globalURL + "patient/register";
-            else
+            }
+            else{
+                data["doctorEmail"] = $("#emailSignup").val();
+                data["doctorName"] = $("#nameSignup").val();
+                data["doctorAddressProvince"] = $("#province").val();
+                data["doctorAddressPostalCode"] = $("#postalCode").val();
+                data["doctorAddressCity"] = $("#city").val();
+                data["doctorAddressStreet"] = $("#street").val();
+                data["doctorGender"] = $('input[name="gender"]:checked').val();
+                data["doctorDOB"] = new Date($("#DOB").val());
+                data["doctorMobileNumber"] = $("#mobileNumber").val();
+                data["doctorType"] = $("#pwdSignup").val();
+                data["doctorQualification"] = $("#pwdSignup").val();
+                data["doctorPassword"] = $("#pwdSignup").val();
+                data["active"] = false;
+                data["blocked"] = false;
                 url = globalURL + "doctor/register";
+            }
+            redirectURL = "./index.html";
         }
-        const formElem = document.getElementById(id);
-        let formData = new FormData(formElem);
-        console.log(formElem, formData, url)
-
-
         $.ajax({
             type: "POST",
             url: url,
@@ -535,6 +570,32 @@
             contentType: "application/json"
         }).done(function (data) {
             console.log(data);
+            if(data.isError){
+                addToast(true, "Error", data.msg);
+            } else {
+                addToast(false, "Hurray", data.msg);
+                setCookie("token", data.data.token);
+                setCookie("id", data.data.user.id);
+                if (id === "signInForm" && $('input[name="userTypeSignIn"]:checked').val() == 'Patient'){
+                    setCookie("name", data.data.user.patientName);
+                    setCookie("email", data.data.user.patientEmail);
+                    setCookie("city", data.data.user.patientAddressCity);
+                    setCookie("province", data.data.user.patientAddressProvince);
+                    setCookie("type", "Patient");
+                } else {
+                    setCookie("name", data.data.user.doctorName);
+                    setCookie("email", data.data.user.doctorEmail);
+                    setCookie("city", data.data.user.doctorAddressCity);
+                    setCookie("province", data.data.user.doctorAddressProvince);
+                    setCookie("type", "Doctor");
+                }
+            }
+            window.location.href=redirectURL;
+        })
+        .fail(function (jqXHR, textStatus, errorThrown){
+            // let msg = JSON.parse(jqXHR.responseText);
+            addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
+            // console.log(jqXHR, textStatus, errorThrown);
         });
     });
 

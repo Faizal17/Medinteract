@@ -3,17 +3,20 @@ package com.csci5308.medinteract.patient.service;
 import com.csci5308.medinteract.patient.model.PatientModel;
 import com.csci5308.medinteract.patient.repository.PatientRepository;
 import com.csci5308.medinteract.utilities.PasswordEncodeDecode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
 public class PatientServiceImpl implements PatientService{
     private final PatientRepository patientRepository;
 
-//    @Autowired
-    public PatientServiceImpl(PatientRepository patientRepository, PasswordEncodeDecode encodeDecode){
+    @Autowired
+    public PatientServiceImpl(PatientRepository patientRepository){
         this.patientRepository = patientRepository;
     }
 
@@ -35,11 +38,15 @@ public class PatientServiceImpl implements PatientService{
 
 
     @Override
-    public boolean checkIfEmailExists(String email) {
-        boolean result ;
+    public Map<String, Object> checkIfEmailExists(String email) {
+        Map<String, Object> res = new HashMap<>();
         Optional<PatientModel> newPatient = patientRepository.findByPatientEmail(email);
-        result = newPatient.isPresent() && newPatient.get().isActive();
-        return result;
+        boolean result = newPatient.isPresent() && (newPatient.get().isActive() || newPatient.get().isBlocked());
+        res.put("result", result);
+        if(newPatient.isPresent()){
+            res.put("id", newPatient.get().getId());
+        }
+        return res;
     }
 
     @Override
@@ -53,7 +60,7 @@ public class PatientServiceImpl implements PatientService{
         Optional<PatientModel> patient = patientRepository.findByPatientEmail(patientEmail);
 
         String encodedPassword = encodePassword(patientPassword);
-        if(patient.isPresent() && patient.get().getPatientPassword().equals(encodedPassword) && patient.get().isActive())
+        if(patient.isPresent() && patient.get().getPatientPassword().equals(encodedPassword) && patient.get().isActive() && !patient.get().isBlocked())
         {
            //valid patient
                     System.out.println(patient.get().getPatientEmail());
