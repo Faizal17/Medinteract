@@ -27,7 +27,18 @@ public class DoctorController {
     }
 
 
-
+    @GetMapping("/isPending")
+    public ResponseEntity isPending()
+    {
+        List<DoctorModel> pendingDoctors = doctorServiceImpl.isPending();
+        if(pendingDoctors.isEmpty())
+        {
+            Response res = new Response(null, true, "No Pending doctors!");
+            return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+        }
+        Response res = new Response(pendingDoctors, false, "Pending Doctors fetched!");
+        return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+    }
 
 
     @GetMapping("/fetchAll")

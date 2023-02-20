@@ -6,6 +6,7 @@ import com.csci5308.medinteract.utilities.PasswordEncodeDecode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,6 +77,18 @@ public class DoctorServiceImpl implements DoctorService{
         return PasswordEncodeDecode.encrypt(password);
     }
 
-    
+    @Override
+    public List<DoctorModel> isPending() {
+        List<DoctorModel> allDoctors = fetchAll();
+        List<DoctorModel> pendingDoctorList = new ArrayList<>();
+        //isActive and isBlocked false
+        for (DoctorModel doctor: allDoctors) {
+            if(!doctor.isBlocked() && !doctor.isActive() )
+            {
+                pendingDoctorList.add(doctor);
+            }
+        }
+        return  pendingDoctorList;
+    }    
 
 }

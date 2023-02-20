@@ -17,4 +17,6 @@ public interface DoctorService {
 
     boolean isDoctorValid(String DoctorEmail, String DoctorPassword) throws Exception;
     String encodePassword(String password) throws Exception;
+
+    List<DoctorModel> isPending();
 }
