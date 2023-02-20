@@ -82,50 +82,24 @@ public class DoctorServiceImpl implements DoctorService{
     @Override
     public List<DoctorModel> isPending()
     {
-        List<DoctorModel> allDoctors = fetchAll();
-        List<DoctorModel> pendingDoctorList = new ArrayList<>();
-        //isActive and isBlocked false
-        for (DoctorModel doctor: allDoctors)
-        {
-            if( !(doctor.isBlocked() || doctor.isActive()) )
-            {
-                pendingDoctorList.add(doctor);
-            }
-        }
-        return  pendingDoctorList;
+        Optional<List<DoctorModel>> pendingDoctorList;
+        pendingDoctorList = doctorRepository.findPendingDoctors();
+        return pendingDoctorList.orElse(null);
     }
 
     @Override
     public List<DoctorModel> isApproved()
     {
-        List<DoctorModel> allDoctors = fetchAll();
-        List<DoctorModel> approvedDoctors = new ArrayList<>();
-
-        // if isBlocked = False and isActive = True
-        for (DoctorModel doctor: allDoctors)
-        {
-            if ( !doctor.isBlocked() && doctor.isActive() )
-            {
-                approvedDoctors.add(doctor);
-            }
-        }
-        return approvedDoctors;
+        Optional<List<DoctorModel>> approvedDoctorList;
+        approvedDoctorList = doctorRepository.findApprovedDoctors();
+        return approvedDoctorList.orElse(null);
     }
 
     @Override
     public List<DoctorModel> isBlocked() {
-        List<DoctorModel> allDoctors = fetchAll();
-        List<DoctorModel> blockedDoctors = new ArrayList<>();
-
-        // isBlocked = True
-        for (DoctorModel doctor: allDoctors)
-        {
-            if (doctor.isBlocked())
-            {
-                blockedDoctors.add(doctor);
-            }
-        }
-        return blockedDoctors;
+        Optional<List<DoctorModel>> blockedDoctorList;
+        blockedDoctorList = doctorRepository.findBlockedDoctors();
+        return blockedDoctorList.orElse(null);
     }
 
 }

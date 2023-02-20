@@ -14,21 +14,50 @@
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.2/css/jquery.dataTables.min.css">
     <script type="text/javascript" src="static/script.js"></script>
 </head>
 <body>
     <div id="navDiv"></div>
-    <div id="contentDiv"></div>
-
-    <table id="doctorTable" class="table table-dark">
-        <thead> 
-            <tr>
-                <th>Id</th>
-                <th>Email</th>
-                <th>Name</th>
-            </tr>
-        </thead>
-    </table>
+    <div id="contentDiv" class="mt-5 py-3" style="background-color: white">
+        <table id="doctorTable" class="table"  class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
 
 </body>
 </html>
+
+<script>
+    $.ajax({
+        url: globalURL + "doctor/isPending",
+        type: "GET",
+        dataType: "json"
+    })
+    .done(function(response) {
+        let data = response.data;
+        try {
+            $('#doctorTable').DataTable({
+                data: data,
+                columns: [
+                    { data: 'id' },
+                    { data: 'doctorName' },
+                    { data: 'doctorEmail' }
+                ]
+            });
+            addToast(false, "Success", "Pending doctors list fetched successfully!")
+        } catch(err){
+            addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
+        }
+    })
+    .fail(function (jqXHR, textStatus, errorThrown){
+        addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
+    });
+</script>

@@ -34,10 +34,10 @@ public class DoctorController {
         List<DoctorModel> pendingDoctors = doctorServiceImpl.isPending();
         if(pendingDoctors.isEmpty())
         {
-            Response res = new Response(null, true, "No Pending Doctors!");
+            Response res = new Response(pendingDoctors, true, "No Pending Doctors!");
             return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
         }
-        Response res = new Response(pendingDoctors, false, "Pending Doctors Fetched!");
+        Response res = new Response(pendingDoctors, false, "Pending Doctors Fetched!", pendingDoctors.size());
         return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
     }
 
@@ -47,7 +47,7 @@ public class DoctorController {
         List<DoctorModel> approvedDoctors = doctorServiceImpl.isApproved();
         if(approvedDoctors.isEmpty())
         {
-            Response res = new Response(null, true, "No Approved Doctors!");
+            Response res = new Response(approvedDoctors, true, "No Approved Doctors!");
             return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
         }
         Response res = new Response(approvedDoctors, false, "Approved Doctors Fetched!");
@@ -60,7 +60,7 @@ public class DoctorController {
         List<DoctorModel> blockedDoctors = doctorServiceImpl.isBlocked();
         if(blockedDoctors.isEmpty())
         {
-            Response res = new Response(null, true, "No Blocked Doctors!");
+            Response res = new Response(blockedDoctors, true, "No Blocked Doctors!");
             return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
         }
         Response res = new Response(blockedDoctors, false, "Blocked Doctors Fetched!");

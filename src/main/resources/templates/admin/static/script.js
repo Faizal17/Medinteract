@@ -52,29 +52,6 @@ $(document).ready(function () {
         console.log(this)
     });
 
-    // $('#doctorTable').DataTable({
-    //     ajax: globalURL + 'doctor/isPending',
-    // });
-
-    $.ajax({
-        url: globalURL + "doctor/isPending",
-        type: 'GET',
-        dataType: 'JSON ',
-        success: function(data) {
-          $('#doctorTable').DataTable({
-            data: data,
-            columns: [
-              { data: 'id' },
-              { data: 'doctorName' },
-              { data: 'doctorEmail' }
-            ]
-          });
-        },
-        error: function() {
-          console.log('Error while fetching data.');
-        }
-      });
-
     $.ajax({
         url: globalURL + "jwt/validateJWTToken",
         type: "POST",
