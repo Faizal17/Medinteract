@@ -6,6 +6,7 @@ import com.csci5308.medinteract.utilities.PasswordEncodeDecode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.print.Doc;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,9 +46,10 @@ public class DoctorServiceImpl implements DoctorService{
         Optional<DoctorModel> newDoctor = doctorRepository.findByDoctorEmail(email);
         boolean result = newDoctor.isPresent() && (newDoctor.get().isActive() || newDoctor.get().isBlocked());
         res.put("result", result);
-        if(newDoctor.isPresent()){
-            res.put("id", newDoctor.get().getId());
+        if (newDoctor.isEmpty()) {
+            return res;
         }
+        res.put("id", newDoctor.get().getId());
         return res;
     }
 
@@ -78,17 +80,52 @@ public class DoctorServiceImpl implements DoctorService{
     }
 
     @Override
-    public List<DoctorModel> isPending() {
+    public List<DoctorModel> isPending()
+    {
         List<DoctorModel> allDoctors = fetchAll();
         List<DoctorModel> pendingDoctorList = new ArrayList<>();
         //isActive and isBlocked false
-        for (DoctorModel doctor: allDoctors) {
-            if(!doctor.isBlocked() && !doctor.isActive() )
+        for (DoctorModel doctor: allDoctors)
+        {
+            if( !(doctor.isBlocked() || doctor.isActive()) )
             {
                 pendingDoctorList.add(doctor);
             }
         }
         return  pendingDoctorList;
-    }    
+    }
+
+    @Override
+    public List<DoctorModel> isApproved()
+    {
+        List<DoctorModel> allDoctors = fetchAll();
+        List<DoctorModel> approvedDoctors = new ArrayList<>();
+
+        // if isBlocked = False and isActive = True
+        for (DoctorModel doctor: allDoctors)
+        {
+            if ( !doctor.isBlocked() && doctor.isActive() )
+            {
+                approvedDoctors.add(doctor);
+            }
+        }
+        return approvedDoctors;
+    }
+
+    @Override
+    public List<DoctorModel> isBlocked() {
+        List<DoctorModel> allDoctors = fetchAll();
+        List<DoctorModel> blockedDoctors = new ArrayList<>();
+
+        // isBlocked = True
+        for (DoctorModel doctor: allDoctors)
+        {
+            if (doctor.isBlocked())
+            {
+                blockedDoctors.add(doctor);
+            }
+        }
+        return blockedDoctors;
+    }
 
 }

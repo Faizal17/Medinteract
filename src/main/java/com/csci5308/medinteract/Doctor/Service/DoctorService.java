@@ -19,4 +19,8 @@ public interface DoctorService {
     String encodePassword(String password) throws Exception;
 
     List<DoctorModel> isPending();
+
+    List<DoctorModel> isApproved();
+
+    List<DoctorModel> isBlocked();
 }

@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.Doc;
 import java.util.List;
 import java.util.Map;
 
@@ -33,13 +34,38 @@ public class DoctorController {
         List<DoctorModel> pendingDoctors = doctorServiceImpl.isPending();
         if(pendingDoctors.isEmpty())
         {
-            Response res = new Response(null, true, "No Pending doctors!");
+            Response res = new Response(null, true, "No Pending Doctors!");
             return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
         }
-        Response res = new Response(pendingDoctors, false, "Pending Doctors fetched!");
+        Response res = new Response(pendingDoctors, false, "Pending Doctors Fetched!");
         return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
     }
 
+    @GetMapping("/isApproved")
+    public ResponseEntity isApproved()
+    {
+        List<DoctorModel> approvedDoctors = doctorServiceImpl.isApproved();
+        if(approvedDoctors.isEmpty())
+        {
+            Response res = new Response(null, true, "No Approved Doctors!");
+            return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+        }
+        Response res = new Response(approvedDoctors, false, "Approved Doctors Fetched!");
+        return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+    }
+
+    @GetMapping("/isBlocked")
+    public ResponseEntity isBlocked()
+    {
+        List<DoctorModel> blockedDoctors = doctorServiceImpl.isBlocked();
+        if(blockedDoctors.isEmpty())
+        {
+            Response res = new Response(null, true, "No Blocked Doctors!");
+            return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+        }
+        Response res = new Response(blockedDoctors, false, "Blocked Doctors Fetched!");
+        return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+    }
 
     @GetMapping("/fetchAll")
     public ResponseEntity fetchAll()
