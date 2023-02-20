@@ -46,6 +46,10 @@ $(document).ready(function () {
         console.log(this)
     });
 
+    $('#pending').on('click', function() {
+        showPendingDoctors();
+    });
+
     $(".nav-item").click(function (){
         // $(".nav-link").removeClass("active");
         // $(this).addClass("active");

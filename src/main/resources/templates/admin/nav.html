@@ -12,11 +12,11 @@
             Doctors
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Pending</a></li>
+            <li><a id="pending" class="dropdown-item" href="#" onclick="showPendingDoctors()">Pending</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Approved</a></li>
+            <li><a id="approved" class="dropdown-item" href="#" onclick="showApprovedDoctors()">Approved</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Rejected</a></li>
+            <li><a id="blocked" class="dropdown-item" href="#" onclick="showBlockedDoctors()">Blocked</a></li>
           </ul>
         </li>
         <li class="nav-item">
