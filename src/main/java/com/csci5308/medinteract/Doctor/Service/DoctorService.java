@@ -23,4 +23,6 @@ public interface DoctorService {
     List<DoctorModel> isApproved();
 
     List<DoctorModel> isBlocked();
+
+    void verifyDoctor(String email, boolean isActive);
 }

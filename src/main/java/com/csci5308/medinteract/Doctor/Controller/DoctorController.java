@@ -2,6 +2,7 @@ package com.csci5308.medinteract.Doctor.Controller;
 
 import com.csci5308.medinteract.Doctor.Model.DoctorModel;
 import com.csci5308.medinteract.Doctor.Service.DoctorService;
+import com.csci5308.medinteract.Doctor.Service.DoctorServiceImpl;
 import com.csci5308.medinteract.utilities.JWT.JWT;
 import com.csci5308.medinteract.utilities.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +66,14 @@ public class DoctorController {
         }
         Response res = new Response(blockedDoctors, false, "Blocked Doctors Fetched!");
         return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+    }
+
+    @PostMapping("/verified")
+    public ResponseEntity<?> verifyDoctor(@RequestParam(name = "doctorEmail") String email, @RequestParam boolean isActive) {
+
+        doctorServiceImpl.verifyDoctor(email, isActive);
+
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/fetchAll")

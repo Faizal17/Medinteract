@@ -6,8 +6,6 @@ import com.csci5308.medinteract.utilities.PasswordEncodeDecode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.print.Doc;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -100,6 +98,17 @@ public class DoctorServiceImpl implements DoctorService{
         Optional<List<DoctorModel>> blockedDoctorList;
         blockedDoctorList = doctorRepository.findBlockedDoctors();
         return blockedDoctorList.orElse(null);
+    }
+
+    @Override
+    public void verifyDoctor(String email, boolean isActive) {
+        Optional<DoctorModel> doctorOptional = doctorRepository.findByDoctorEmail(email);
+
+        if (doctorOptional.isPresent()) {
+            DoctorModel doctor = doctorOptional.get();
+            doctor.setActive(isActive);
+            doctorRepository.save(doctor);
+        }
     }
 
 }
