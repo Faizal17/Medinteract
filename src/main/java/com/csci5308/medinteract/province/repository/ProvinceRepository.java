@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface ProvinceRepository extends JpaRepository<ProvinceModel, Long> {
-
+    List<ProvinceModel> findByName(String province);
 }

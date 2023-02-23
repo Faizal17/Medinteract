@@ -88,5 +88,30 @@ public class DoctorController {
         Response res = new Response(doctorModelList, false, "Doctor in City found successfully!");
         return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
     }
+    @GetMapping("/province")
+    public ResponseEntity fetchDoctorsOnProvince(@RequestBody DoctorModel doctorModel)
+    {
+        List<DoctorModel> doctorModelList = doctorServiceImpl.fetchDoctorsOnProvince(doctorModel);
+        Response res = new Response(doctorModelList, false, "Doctor in Province  found successfully!");
+        return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+    }
+
+
+    @GetMapping("/name")
+    public ResponseEntity fetchDoctorsOnName(@RequestBody DoctorModel doctorModel)
+    {
+        List<DoctorModel> doctorModelList = doctorServiceImpl.fetchDoctorsOnName(doctorModel);
+        Response res = new Response(doctorModelList, false, "Doctor by name found successfully!");
+        return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+    }
+
+
+    @GetMapping("/qualification")
+    public ResponseEntity fetchDoctorsOnQualification(@RequestBody DoctorModel doctorModel)
+    {
+        List<DoctorModel> doctorModelList = doctorServiceImpl.fetchDoctorsOnQualification(doctorModel);
+        Response res = new Response(doctorModelList, false, "Doctor by qualification found successfully!");
+        return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+    }
 
 }

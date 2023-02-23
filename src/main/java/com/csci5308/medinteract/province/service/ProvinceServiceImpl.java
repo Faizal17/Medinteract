@@ -22,5 +22,11 @@ public class ProvinceServiceImpl implements ProvinceService{
         return provinceRepository.findAll();
     }
 
+    public Long getProvinceId(ProvinceModel provinceModel)
+    {
+        String province = provinceModel.getName();
+        List<ProvinceModel> provinceModelList = provinceRepository.findByName(province);
+        return provinceModelList.get(0).getId();
+    }
 
 }

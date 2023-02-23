@@ -33,4 +33,13 @@ public class ProvinceController {
         return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
     }
 
+    @GetMapping("/province_id")
+    public ResponseEntity getProvinceId(@RequestBody ProvinceModel provinceModel)
+    {
+        Long provinceId = provinceServiceImpl.getProvinceId(provinceModel);
+        Response res = new Response(provinceId, false, "Province Id found");
+        return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+    }
+
+
 }

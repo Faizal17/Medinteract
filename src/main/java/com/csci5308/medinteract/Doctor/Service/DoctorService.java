@@ -19,5 +19,7 @@ public interface DoctorService {
     String encodePassword(String password) throws Exception;
 
     List<DoctorModel> fetchDoctorsOnCity(DoctorModel doctorModel);
-
+    List<DoctorModel> fetchDoctorsOnProvince(DoctorModel doctorModel);
+    List<DoctorModel> fetchDoctorsOnName(DoctorModel doctorModel);
+    List<DoctorModel> fetchDoctorsOnQualification(DoctorModel doctorModel);
 }

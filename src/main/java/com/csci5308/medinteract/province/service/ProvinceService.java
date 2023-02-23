@@ -7,5 +7,5 @@ import java.util.List;
 public interface ProvinceService {
 
     List<ProvinceModel> fetchAll();
-
+    public Long getProvinceId(ProvinceModel provinceModel);
 }

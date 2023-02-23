@@ -84,4 +84,24 @@ public class DoctorServiceImpl implements DoctorService{
         return doctorRepository.findByDoctorAddressCity(cityId);
     }
 
+    public List<DoctorModel> fetchDoctorsOnProvince(DoctorModel doctorModel)
+    {
+        Long provinceId = doctorModel.getDoctorAddressProvince();
+        return doctorRepository.findByDoctorAddressProvince(provinceId);
+    }
+
+
+    public List<DoctorModel> fetchDoctorsOnName(DoctorModel doctorModel)
+    {
+        String name = doctorModel.getDoctorName();
+        return doctorRepository.findByDoctorName(name);
+    }
+
+
+    public List<DoctorModel> fetchDoctorsOnQualification(DoctorModel doctorModel)
+    {
+        String qualification = doctorModel.getDoctorQualification();
+        return doctorRepository.findByDoctorQualification(qualification);
+    }
+
 }
