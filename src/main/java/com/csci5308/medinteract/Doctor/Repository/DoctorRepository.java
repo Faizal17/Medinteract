@@ -13,10 +13,9 @@ public interface DoctorRepository extends JpaRepository<DoctorModel,Long> {
 
     Optional<DoctorModel> findByDoctorEmail(String doctorEmail);
 
-    //@Query("SELECT d FROM DoctorModel d WHERE d.doctorAddressCity= :city")
-    //List<DoctorModel> fetchDoctorsOnCity(Long city);
+
     List<DoctorModel> findByDoctorAddressCity(Long cityId);
     List<DoctorModel> findByDoctorAddressProvince(Long provinceId);
-    List<DoctorModel> findByDoctorName(String name);
+    List<DoctorModel> findByDoctorNameContaining(String name);
     List<DoctorModel> findByDoctorQualification(String qualification);
 }

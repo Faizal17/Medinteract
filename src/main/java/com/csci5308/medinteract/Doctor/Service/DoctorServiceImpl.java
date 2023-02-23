@@ -94,7 +94,7 @@ public class DoctorServiceImpl implements DoctorService{
     public List<DoctorModel> fetchDoctorsOnName(DoctorModel doctorModel)
     {
         String name = doctorModel.getDoctorName();
-        return doctorRepository.findByDoctorName(name);
+        return doctorRepository.findByDoctorNameContaining(name);
     }
 
 

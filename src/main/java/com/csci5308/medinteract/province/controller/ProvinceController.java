@@ -41,5 +41,4 @@ public class ProvinceController {
         return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
     }
 
-
 }
