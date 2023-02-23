@@ -24,7 +24,7 @@ public interface DoctorService {
 
     List<DoctorModel> isBlocked();
 
-    void verifyDoctor(String email, boolean isActive);
+    void verifyDoctor(String email, boolean isActive, boolean isBlocked);
 
     void blockDoctor(String email, boolean isBlocked);
 }

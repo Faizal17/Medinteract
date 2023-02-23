@@ -101,12 +101,13 @@ public class DoctorServiceImpl implements DoctorService{
     }
 
     @Override
-    public void verifyDoctor(String email, boolean isActive) {
+    public void verifyDoctor(String email, boolean isActive, boolean isBlocked) {
         Optional<DoctorModel> doctorOptional = doctorRepository.findByDoctorEmail(email);
 
         if (doctorOptional.isPresent()) {
             DoctorModel doctor = doctorOptional.get();
             doctor.setActive(isActive);
+            doctor.setBlocked(!isBlocked);
             doctorRepository.save(doctor);
         }
     }

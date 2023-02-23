@@ -69,9 +69,9 @@ public class DoctorController {
     }
 
     @PostMapping("/verified")
-    public ResponseEntity<?> verifyDoctor(@RequestParam(name = "doctorEmail") String email, @RequestParam boolean isActive) {
+    public ResponseEntity<?> verifyDoctor(@RequestParam(name = "doctorEmail") String email, @RequestParam boolean isActive, @RequestParam boolean isBlocked) {
 
-        doctorServiceImpl.verifyDoctor(email, isActive);
+        doctorServiceImpl.verifyDoctor(email, isActive, isBlocked);
 
         return ResponseEntity.ok().build();
     }

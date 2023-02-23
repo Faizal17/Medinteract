@@ -24,7 +24,6 @@
         <table id="doctorTable" class="table"  class="display" style="width:100%">
             <thead>
                 <tr>
-                    <th>Id</th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>To Verify</th>
@@ -38,6 +37,10 @@
 </html>
 
 <script>
+    function refreshTable() {
+        $("#doctorTable").dataTable().fnDestroy();
+    }
+
     function showPendingDoctors() {
         $.ajax({
             url: globalURL + "doctor/isPending",
@@ -47,23 +50,23 @@
         .done(function(response) {
             let data = response.data;
             try {
-                $("#doctorTable").dataTable().fnDestroy();
+                refreshTable();
                 $('#doctorTable').DataTable({
                     data: data,
                     columns: [
-                        { data: 'id' },
                         { data: 'doctorName' },
                         { data: 'doctorEmail' },
                         {
-                            // "data": null,
-                            // "defaultContent": "<button id = '' class = 'verify btn btn-success'>Verify</button>"
-                            render: function (data, type) {
-	                        return '<button id = "' + data + ' class = "verify btn btn-success">Verify</button>';
+                            data: 'doctorEmail',
+                            render: function (data) {
+                                return "<button id = '" + data + "' class = 'verify btn btn-success'>Verify</button>";
                             },
                         },
                         {
-                            "data": null,
-                            "defaultContent": "<button id = '' class = 'block btn btn-danger'>Block</button>"
+                          data: 'doctorEmail',
+                            render: function (data) {
+                                return "<button id = '" + data + "' class = 'block btn btn-danger'>Block</button>";
+                            },
                         }
                     ]
                 });
@@ -86,20 +89,23 @@
         .done(function(response) {
             let data = response.data;
             try {
-                $("#doctorTable").dataTable().fnDestroy();
+                refreshTable();
                 $('#doctorTable').DataTable({
                     data: data,
                     columns: [
-                        { data: 'id' },
                         { data: 'doctorName' },
                         { data: 'doctorEmail' },
                         {
-                            "data": null,
-                            "defaultContent": "<button id = '' class = 'verify btn btn-success'>Verify</button>"
+                            data: 'doctorEmail',
+                            render: function (data) {
+                                return "<button id = '" + data + "' class = 'verify btn btn-light' disabled>Verified</button>";
+                            },
                         },
                         {
-                            "data": null,
-                            "defaultContent": "<button id = '' class = 'block btn btn-danger'>Block</button>"
+                            data: 'doctorEmail',
+                            render: function (data) {
+                                return "<button id = '" + data + "' class = 'block btn btn-danger'>Block</button>";
+                            },
                         }
                     ]
                 });
@@ -122,20 +128,24 @@
         .done(function(response) {
             let data = response.data;
             try {
-                $("#doctorTable").dataTable().fnDestroy();
+                // $("#doctorTable").dataTable().fnDestroy();
+                refreshTable();
                 $('#doctorTable').DataTable({
                     data: data,
                     columns: [
-                        { data: 'id' },
                         { data: 'doctorName' },
                         { data: 'doctorEmail' },
                         {
-                            "data": null,
-                            "defaultContent": "<button id = '' class = 'verify btn btn-success'>Verify</button>"
+                            data: 'doctorEmail',
+                            render: function (data) {
+                                return "<button id = '" + data + "' class = 'verify btn btn-success'>Verify</button>";
+                            },
                         },
                         {
-                            "data": null,
-                            "defaultContent": "<button id = '' class = 'block btn btn-danger'>Block</button>"
+                            data: 'doctorEmail',
+                            render: function (data) {
+                                return "<button id = '" + data + "' class = 'block btn btn-light' disabled>Blocked</button>";
+                            },
                         }
                     ]
                 });
@@ -152,18 +162,42 @@
     $('#doctorTable').on('click', '.verify', function() {
     // Get the data for the current row
     var data = $(this).closest('tr').data();
+    var doctorEmail = $(this).attr('id');
 
     // Make a POST call to the server
     $.ajax({
       type: 'POST',
-      url: globalURL + 'doctor/verified?doctorEmail=d1@gmail.com&isActive=true',
+      url: globalURL + 'doctor/verified?doctorEmail='+doctorEmail+'&isActive=true&isBlocked=true',
       data: JSON.stringify(data),
       contentType: 'application/json',
       success: function(response) {
+        showBlockedDoctors();
         console.log('Verification successful:', response);
       },
       error: function(error) {
         console.error('Verification failed:', error);
+      }
+    });
+  });
+
+  $('#doctorTable').on('click', '.block', function() {
+
+    // Get the data for the current row
+    var data = $(this).closest('tr').data();
+    var doctorEmail = $(this).attr('id');
+
+    // Make a POST call to the server
+    $.ajax({
+      type: 'POST',
+      url: globalURL + 'doctor/blocked?doctorEmail='+doctorEmail+'&isBlocked=true',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      success: function(response) {
+        showApprovedDoctors();
+        console.log('Succesful:', response);
+      },
+      error: function(error) {
+        console.error('Failed:', error);
       }
     });
   });
