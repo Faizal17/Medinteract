@@ -4,7 +4,9 @@ import com.csci5308.medinteract.Doctor.Model.DoctorModel;
 import com.csci5308.medinteract.Doctor.Repository.DoctorRepository;
 import com.csci5308.medinteract.utilities.PasswordEncodeDecode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.HashMap;
 import java.util.List;
@@ -76,6 +78,10 @@ public class DoctorServiceImpl implements DoctorService{
         return PasswordEncodeDecode.encrypt(password);
     }
 
-    
+    public List<DoctorModel> fetchDoctorsOnCity(DoctorModel doctorModel)
+    {
+        Long cityId = doctorModel.getDoctorAddressCity();
+        return doctorRepository.findByDoctorAddressCity(cityId);
+    }
 
 }

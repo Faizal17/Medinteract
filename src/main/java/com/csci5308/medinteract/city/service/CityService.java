@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface CityService {
     List<CityModel> fetchAll();
+    public Long getCityId(CityModel cityModel);
 }

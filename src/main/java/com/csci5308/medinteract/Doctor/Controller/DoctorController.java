@@ -80,7 +80,13 @@ public class DoctorController {
         }
     }
 
-
-
+    @GetMapping("/city")
+    public ResponseEntity fetchDoctorsOnCity(@RequestBody DoctorModel doctorModel)
+    //public ResponseEntity fetchDoctorsOnCity(String city)
+    {
+        List<DoctorModel> doctorModelList = doctorServiceImpl.fetchDoctorsOnCity(doctorModel);
+        Response res = new Response(doctorModelList, false, "Doctor in City found successfully!");
+        return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+    }
 
 }

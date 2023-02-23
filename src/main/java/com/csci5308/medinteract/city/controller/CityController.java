@@ -5,9 +5,7 @@ import com.csci5308.medinteract.utilities.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,6 +24,14 @@ public class CityController {
     {
         List<CityModel> cityModelList= cityServiceImpl.fetchAll();
         Response res = new Response(cityModelList, false, "All citys fetched successfully");
+        return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+    }
+
+    @GetMapping("/city_id")
+    public ResponseEntity getCityId(@RequestBody CityModel cityModel)
+    {
+        Long cityId = cityServiceImpl.getCityId(cityModel);
+        Response res = new Response(cityId, false, "City Id found");
         return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
     }
 }
