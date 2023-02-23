@@ -75,6 +75,13 @@ public class DoctorController {
 
         return ResponseEntity.ok().build();
     }
+    @PostMapping("/blocked")
+    public ResponseEntity<?> blockDoctor(@RequestParam(name = "doctorEmail") String email, @RequestParam boolean isBlocked) {
+
+        doctorServiceImpl.blockDoctor(email, isBlocked);
+
+        return ResponseEntity.ok().build();
+    }
 
     @GetMapping("/fetchAll")
     public ResponseEntity fetchAll()

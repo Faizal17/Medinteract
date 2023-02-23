@@ -111,4 +111,15 @@ public class DoctorServiceImpl implements DoctorService{
         }
     }
 
+    @Override
+    public void blockDoctor(String email, boolean isBlocked) {
+        Optional<DoctorModel> doctorOptional = doctorRepository.findByDoctorEmail(email);
+
+        if (doctorOptional.isPresent()) {
+            DoctorModel doctor = doctorOptional.get();
+            doctor.setBlocked(isBlocked);
+            doctorRepository.save(doctor);
+        }
+    }
+
 }

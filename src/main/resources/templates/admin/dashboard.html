@@ -55,12 +55,15 @@
                         { data: 'doctorName' },
                         { data: 'doctorEmail' },
                         {
-                            "data": null,
-                            "defaultContent": "<button>Verify</button>"
+                            // "data": null,
+                            // "defaultContent": "<button id = '' class = 'verify btn btn-success'>Verify</button>"
+                            render: function (data, type) {
+	                        return '<button id = "' + data + ' class = "verify btn btn-success">Verify</button>';
+                            },
                         },
                         {
                             "data": null,
-                            "defaultContent": "<button>Block</button>"
+                            "defaultContent": "<button id = '' class = 'block btn btn-danger'>Block</button>"
                         }
                     ]
                 });
@@ -92,11 +95,11 @@
                         { data: 'doctorEmail' },
                         {
                             "data": null,
-                            "defaultContent": "<button>Verify</button>"
+                            "defaultContent": "<button id = '' class = 'verify btn btn-success'>Verify</button>"
                         },
                         {
                             "data": null,
-                            "defaultContent": "<button>Block</button>"
+                            "defaultContent": "<button id = '' class = 'block btn btn-danger'>Block</button>"
                         }
                     ]
                 });
@@ -128,11 +131,11 @@
                         { data: 'doctorEmail' },
                         {
                             "data": null,
-                            "defaultContent": "<button>Verify</button>"
+                            "defaultContent": "<button id = '' class = 'verify btn btn-success'>Verify</button>"
                         },
                         {
                             "data": null,
-                            "defaultContent": "<button>Block</button>"
+                            "defaultContent": "<button id = '' class = 'block btn btn-danger'>Block</button>"
                         }
                     ]
                 });
@@ -145,5 +148,24 @@
             addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
         });
     }
+
+    $('#doctorTable').on('click', '.verify', function() {
+    // Get the data for the current row
+    var data = $(this).closest('tr').data();
+
+    // Make a POST call to the server
+    $.ajax({
+      type: 'POST',
+      url: globalURL + 'doctor/verified?doctorEmail=d1@gmail.com&isActive=true',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      success: function(response) {
+        console.log('Verification successful:', response);
+      },
+      error: function(error) {
+        console.error('Verification failed:', error);
+      }
+    });
+  });
 
 </script>
