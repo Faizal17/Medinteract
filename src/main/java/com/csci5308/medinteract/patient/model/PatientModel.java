@@ -39,8 +39,6 @@ public class PatientModel {
     @NotNull
     private Date patientDOB;
 
-
-
     @Digits(integer = 10, fraction = 0)
     @NotBlank
     @NotNull

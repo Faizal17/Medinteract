@@ -28,7 +28,6 @@ public class DoctorModel {
     private Long doctorAddressProvince;
     private String doctorAddressPostalCode;
 
-
     private Long doctorAddressCity;
     @NotBlank
     @NotNull
@@ -83,7 +82,6 @@ public class DoctorModel {
     private String doctorPassword;
 
     private String emailToken;
-
 
     public DoctorModel() {
     }

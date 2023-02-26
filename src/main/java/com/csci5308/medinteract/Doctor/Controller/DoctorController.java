@@ -2,6 +2,7 @@ package com.csci5308.medinteract.Doctor.Controller;
 
 import com.csci5308.medinteract.Doctor.Model.DoctorModel;
 import com.csci5308.medinteract.Doctor.Service.DoctorService;
+import com.csci5308.medinteract.patient.model.PatientModel;
 import com.csci5308.medinteract.utilities.JWT.JWT;
 import com.csci5308.medinteract.utilities.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/doctor")
@@ -19,16 +21,11 @@ public class DoctorController {
     private final DoctorService doctorServiceImpl;
     private final JWT jwtTokenUtil;
 
-
     @Autowired
     public DoctorController(DoctorService doctorServiceImpl, JWT jwtTokenUtil){
         this.doctorServiceImpl = doctorServiceImpl;
         this.jwtTokenUtil = jwtTokenUtil;
     }
-
-
-
-
 
     @GetMapping("/fetchAll")
     public ResponseEntity fetchAll()
@@ -36,8 +33,6 @@ public class DoctorController {
         List<DoctorModel> doctorModelList= doctorServiceImpl.fetchAll();
         return new ResponseEntity<>(doctorModelList, HttpStatus.OK);
     }
-
-
 
     @PostMapping("/register")
     public ResponseEntity registerDoctor(@RequestBody DoctorModel doctorModel) throws Exception {
@@ -80,7 +75,34 @@ public class DoctorController {
         }
     }
 
+    //-------------------------------------
+    @GetMapping("/profile")
+    public List<DoctorModel> getAllDoctors(){
+        return doctorServiceImpl.getAllDoctors();
+    }
 
+    @GetMapping("/profile/{doctorId}")
+    public Optional<DoctorModel> getDoctorById(@PathVariable("doctorId") Long id){
+        return doctorServiceImpl.getDoctorById(id);
+    }
 
+    @DeleteMapping(path = "/{doctorId}")
+    public void deleteDoctorById(@PathVariable("doctorId") Long id){
+        doctorServiceImpl.deleteDoctorById(id);
+    }
 
+    @PutMapping(path = "/{doctorId}")
+    public void updateDoctorById(@PathVariable("doctorId") Long id,
+                                  @RequestParam(required = false) String new_doctorName,
+                                  @RequestParam(required = false) String new_doctorAddressPostalCode,
+                                  @RequestParam(required = false) String new_doctorAddressStreet,
+                                  @RequestParam(required = false) String new_doctorMobileNumber
+    ){
+        doctorServiceImpl.updateDoctorById(
+                id,
+                new_doctorName,
+                new_doctorAddressPostalCode,
+                new_doctorAddressStreet,
+                new_doctorMobileNumber);
+    }
 }
