@@ -431,6 +431,7 @@
                         setCookie("city", data.data.obj.patientAddressCity);
                         setCookie("province", data.data.obj.patientAddressProvince);
                         setCookie("type", "patient");
+												window.location.href = './dashboard.html'
                     } else if (data.data.type == 'doctor') {
                         setCookie("id", data.data.obj.id);
                         setCookie("name", data.data.obj.doctorName);
@@ -438,9 +439,10 @@
                         setCookie("city", data.data.obj.doctorAddressCity);
                         setCookie("province", data.data.obj.doctorAddressProvince);
                         setCookie("type", "doctor");
+												window.location.href = './appointments.html'
                     } else if (data.data.type == 'admin') {
-                        window.location.href = './admin/dashboard.html'
-                    }
+												window.location.href = './admin/dashboard.html'
+										}
                 }
             } catch(err){
                 // addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
@@ -577,13 +579,14 @@
                 url = globalURL + "patient/login";
                 data["patientEmail"] = $("#emailSignIn").val();
                 data["patientPassword"] = $("#pwdSignIn").val();
+            		redirectURL = "./dashboard.html";
             }
             else {
                 url = globalURL + "doctor/login";
                 data["doctorEmail"] = $("#emailSignIn").val();
                 data["doctorPassword"] = $("#pwdSignIn").val();
+								redirectURL = "./appointments.html";
             }
-            redirectURL = "./dashboard.html";
         } else if(id === "signUpForm") {
             if ($('input[name="userTypeSignUp"]:checked').val() == 'Patient'){
                 data["patientEmail"] = $("#emailSignup").val();
