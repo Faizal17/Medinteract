@@ -38,7 +38,11 @@ function setCookie(name, value) {
 }
 
 $(document).ready(function () {
-    $('#navDiv').load('./nav.html');
+    if (getCookie("type") === "patient") {
+        $('#navDiv').load('./nav.html');
+    } else {
+        $('#navDiv').load('./doctor_nav.html');
+    }
 
     $(".nav-link").click(function (){
         $(".nav-link").removeClass("active");
@@ -60,26 +64,26 @@ $(document).ready(function () {
     })
     .done(function(response) {
         try {
-            let data = response;
+            let data = response.data;
             if(data.isError){
                 addToast(true, "Error", data.msg);
                 window.location.href="./index.html";
             } else {
-                if (data.type == 'patient'){
+                if (data.type === 'patient'){
                     setCookie("id", data.obj.id);
                     setCookie("name", data.obj.patientName);
                     setCookie("email", data.obj.patientEmail);
                     setCookie("city", data.obj.patientAddressCity);
                     setCookie("province", data.obj.patientAddressProvince);
                     setCookie("type", "patient");
-                } else if (data.type == 'doctor') {
+                } else if (data.type === 'doctor') {
                     setCookie("id", data.obj.id);
                     setCookie("name", data.obj.doctorName);
                     setCookie("email", data.obj.doctorEmail);
                     setCookie("city", data.obj.doctorAddressCity);
                     setCookie("province", data.obj.doctorAddressProvince);
                     setCookie("type", "doctor");
-                } else if (data.type == 'admin') {
+                } else if (data.type === 'admin') {
                     window.location.href = './admin/dashboard.html'
                 }
             }
