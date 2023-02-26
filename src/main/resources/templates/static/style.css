@@ -23,7 +23,7 @@ body
     margin-left: auto !important;
 }
 
-.nav-item:hover {
+.navItem:hover {
     background-color: #e3f2fd;
 }
 
