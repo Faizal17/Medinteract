@@ -2,16 +2,15 @@ package com.csci5308.medinteract.Doctor.Service;
 
 import com.csci5308.medinteract.Doctor.Model.DoctorModel;
 import com.csci5308.medinteract.Doctor.Repository.DoctorRepository;
+import com.csci5308.medinteract.patient.model.PatientModel;
 import com.csci5308.medinteract.utilities.PasswordEncodeDecode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import javax.transaction.Transactional;
+import java.util.*;
 
 @Service
 public class DoctorServiceImpl implements DoctorService{
@@ -48,6 +47,7 @@ public class DoctorServiceImpl implements DoctorService{
         res.put("result", result);
         if(newDoctor.isPresent()){
             res.put("id", newDoctor.get().getId());
+            res.put("data", newDoctor.get());
         }
         return res;
     }
@@ -104,4 +104,53 @@ public class DoctorServiceImpl implements DoctorService{
         return doctorRepository.findByDoctorQualification(qualification);
     }
 
+    @Override
+    public List<DoctorModel> getAllDoctors() {
+        return doctorRepository.findAll();
+    }
+
+    public Optional<DoctorModel> getDoctorById(Long id){
+        return doctorRepository.findById(id);
+    }
+
+    @Override
+    public void deleteDoctorById(Long id){
+        doctorRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void updateDoctorById(
+            Long id,
+            String new_doctorName,
+            String new_doctorAddressPostalCode,
+            String new_doctorAddressStreet,
+            String new_doctorMobileNumber) {
+
+        DoctorModel doctorModel = doctorRepository.findById(id).orElseThrow(() -> new IllegalStateException(
+                "Doctor with id " + id + " does not exist"));
+
+        // Update name:
+        if(new_doctorName != null && new_doctorName.length() > 0 &&
+                !Objects.equals(doctorModel.getDoctorName(), new_doctorName)){
+            doctorModel.setDoctorName(new_doctorName);
+        }
+
+        // Update AddressPostalCode:
+        if(new_doctorAddressPostalCode != null && new_doctorAddressPostalCode.length() > 0 &&
+                !Objects.equals(doctorModel.getDoctorAddressPostalCode(), new_doctorAddressPostalCode)){
+            doctorModel.setDoctorAddressPostalCode(new_doctorAddressPostalCode);
+        }
+
+        // Update AddressStreet:
+        if(new_doctorAddressStreet != null && new_doctorAddressStreet.length() > 0 &&
+                !Objects.equals(doctorModel.getDoctorAddressStreet(), new_doctorAddressStreet)){
+            doctorModel.setDoctorAddressStreet(new_doctorAddressStreet);
+        }
+
+        // Update MobileNumber:
+        if(new_doctorMobileNumber != null && new_doctorMobileNumber.length() > 0 &&
+                !Objects.equals(doctorModel.getDoctorMobileNumber(), new_doctorMobileNumber)){
+            doctorModel.setDoctorMobileNumber(new_doctorMobileNumber);
+        }
+    }
 }
