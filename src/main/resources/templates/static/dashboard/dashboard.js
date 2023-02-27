@@ -95,10 +95,10 @@ function searchdoctor(event) {
 
           console.log("Here..1");
           let tempResponceData = responseData.data[i];
-          let htmlString = `<div class="card float-center"  id="doctor_list_div_card" style="width: 25rem;">
+          let htmlString = `<div class="card col-md-6 mx-auto"  id="doctor_list_div_card" style="width: 35rem;">
           <div class="card-body">
             <h5 class="card-title">`+ tempResponceData.doctorName + `</h5>
-            <p class="card-text">Dr. `+ tempResponceData.doctorName + ` is a ` + tempResponceData.doctorType + ` who provieds their services in` + tempResponceData.doctorAddressCity + `</p>
+            <p class="card-text">Dr. `+ tempResponceData.doctorName + ` is a ` + tempResponceData.doctorType + ` who provieds their services in ` + tempResponceData.doctorAddressCity + `</p>
             <ul class="list-group list-group-flush">
               <li class="list-group-item">Email: `+ tempResponceData.doctorEmail + `</li>
               <li class="list-group-item">From: `+ tempResponceData.doctorAddressProvince + `,` + tempResponceData.doctorAddressCity + `</li>
