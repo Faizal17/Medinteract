@@ -153,4 +153,50 @@ public class DoctorServiceImpl implements DoctorService{
             doctorModel.setDoctorMobileNumber(new_doctorMobileNumber);
         }
     }
+
+    @Override
+    public List<DoctorModel> isPending()
+    {
+        Optional<List<DoctorModel>> pendingDoctorList;
+        pendingDoctorList = doctorRepository.findPendingDoctors();
+        return pendingDoctorList.orElse(null);
+    }
+
+    @Override
+    public List<DoctorModel> isApproved()
+    {
+        Optional<List<DoctorModel>> approvedDoctorList;
+        approvedDoctorList = doctorRepository.findApprovedDoctors();
+        return approvedDoctorList.orElse(null);
+    }
+
+    @Override
+    public List<DoctorModel> isBlocked() {
+        Optional<List<DoctorModel>> blockedDoctorList;
+        blockedDoctorList = doctorRepository.findBlockedDoctors();
+        return blockedDoctorList.orElse(null);
+    }
+
+    @Override
+    public void verifyDoctor(String email, boolean isActive, boolean isBlocked) {
+        Optional<DoctorModel> doctorOptional = doctorRepository.findByDoctorEmail(email);
+
+        if (doctorOptional.isPresent()) {
+            DoctorModel doctor = doctorOptional.get();
+            doctor.setActive(isActive);
+            doctor.setBlocked(!isBlocked);
+            doctorRepository.save(doctor);
+        }
+    }
+
+    @Override
+    public void blockDoctor(String email, boolean isBlocked) {
+        Optional<DoctorModel> doctorOptional = doctorRepository.findByDoctorEmail(email);
+
+        if (doctorOptional.isPresent()) {
+            DoctorModel doctor = doctorOptional.get();
+            doctor.setBlocked(isBlocked);
+            doctorRepository.save(doctor);
+        }
+    }
 }

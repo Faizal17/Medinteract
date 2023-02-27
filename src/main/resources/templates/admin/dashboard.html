@@ -14,10 +14,192 @@
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.2/css/jquery.dataTables.min.css">
     <script type="text/javascript" src="static/script.js"></script>
 </head>
 <body>
     <div id="navDiv"></div>
-    <div id="contentDiv"></div>
+    <div id="contentDiv" class="mt-5 py-3" style="background-color: white">
+        <table id="doctorTable" class="table"  class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>To Verify</th>
+                    <th>To Block</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
 </body>
 </html>
+
+<script>
+    function refreshTable() {
+        $("#doctorTable").dataTable().fnDestroy();
+    }
+
+    function showPendingDoctors() {
+        $.ajax({
+            url: globalURL + "doctor/isPending",
+            type: "GET",
+            dataType: "json"
+        })
+        .done(function(response) {
+            let data = response.data;
+            try {
+                refreshTable();
+                $('#doctorTable').DataTable({
+                    data: data,
+                    columns: [
+                        { data: 'doctorName' },
+                        { data: 'doctorEmail' },
+                        {
+                            data: 'doctorEmail',
+                            render: function (data) {
+                                return "<button id = '" + data + "' class = 'verify btn btn-success'>Verify</button>";
+                            },
+                        },
+                        {
+                          data: 'doctorEmail',
+                            render: function (data) {
+                                return "<button id = '" + data + "' class = 'block btn btn-danger'>Block</button>";
+                            },
+                        }
+                    ]
+                });
+                addToast(false, "Success", "Success!")
+            } catch(err){
+                addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
+            }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown){
+            addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
+        });
+    }
+
+    function showApprovedDoctors() {
+        $.ajax({
+            url: globalURL + "doctor/isApproved",
+            type: "GET",
+            dataType: "json"
+        })
+        .done(function(response) {
+            let data = response.data;
+            try {
+                refreshTable();
+                $('#doctorTable').DataTable({
+                    data: data,
+                    columns: [
+                        { data: 'doctorName' },
+                        { data: 'doctorEmail' },
+                        {
+                            data: 'doctorEmail',
+                            render: function (data) {
+                                return "<button id = '" + data + "' class = 'verify btn btn-light' disabled>Verified</button>";
+                            },
+                        },
+                        {
+                            data: 'doctorEmail',
+                            render: function (data) {
+                                return "<button id = '" + data + "' class = 'block btn btn-danger'>Block</button>";
+                            },
+                        }
+                    ]
+                });
+                addToast(false, "Success", "Success!")
+            } catch(err){
+                addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
+            }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown){
+            addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
+        });
+    }
+
+    function showBlockedDoctors() {
+        $.ajax({
+            url: globalURL + "doctor/isBlocked",
+            type: "GET",
+            dataType: "json"
+        })
+        .done(function(response) {
+            let data = response.data;
+            try {
+                // $("#doctorTable").dataTable().fnDestroy();
+                refreshTable();
+                $('#doctorTable').DataTable({
+                    data: data,
+                    columns: [
+                        { data: 'doctorName' },
+                        { data: 'doctorEmail' },
+                        {
+                            data: 'doctorEmail',
+                            render: function (data) {
+                                return "<button id = '" + data + "' class = 'verify btn btn-success'>Verify</button>";
+                            },
+                        },
+                        {
+                            data: 'doctorEmail',
+                            render: function (data) {
+                                return "<button id = '" + data + "' class = 'block btn btn-light' disabled>Blocked</button>";
+                            },
+                        }
+                    ]
+                });
+                addToast(false, "Success", "Success!")
+            } catch(err){
+                addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
+            }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown){
+            addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
+        });
+    }
+
+    $('#doctorTable').on('click', '.verify', function() {
+    // Get the data for the current row
+    var data = $(this).closest('tr').data();
+    var doctorEmail = $(this).attr('id');
+
+    // Make a POST call to the server
+    $.ajax({
+      type: 'POST',
+      url: globalURL + 'doctor/verified?doctorEmail='+doctorEmail+'&isActive=true&isBlocked=true',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      success: function(response) {
+        showBlockedDoctors();
+        console.log('Verification successful:', response);
+      },
+      error: function(error) {
+        console.error('Verification failed:', error);
+      }
+    });
+  });
+
+  $('#doctorTable').on('click', '.block', function() {
+
+    // Get the data for the current row
+    var data = $(this).closest('tr').data();
+    var doctorEmail = $(this).attr('id');
+
+    // Make a POST call to the server
+    $.ajax({
+      type: 'POST',
+      url: globalURL + 'doctor/blocked?doctorEmail='+doctorEmail+'&isBlocked=true',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      success: function(response) {
+        showApprovedDoctors();
+        console.log('Succesful:', response);
+      },
+      error: function(error) {
+        console.error('Failed:', error);
+      }
+    });
+  });
+
+</script>
