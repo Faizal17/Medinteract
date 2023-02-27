@@ -82,23 +82,11 @@ public class PatientServiceImpl implements PatientService {
     }
 
     public Optional<PatientModel> getPatientById(Long id){
-        boolean existPatient = patientRepository.existsById(id);
-        if (!existPatient){
-            throw new IllegalStateException(
-                    "Patient with id " + id + " does not exist"
-            );
-        }
         return patientRepository.findById(id);
     }
 
     @Override
     public void deletePatientById(Long id){
-        boolean existPatient = patientRepository.existsById(id);
-        if (!existPatient){
-            throw new IllegalStateException(
-                    "Patient with id " + id + " does not exist"
-            );
-        }
         patientRepository.deleteById(id);
     }
 

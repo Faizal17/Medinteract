@@ -75,34 +75,46 @@ public class PatientController {
     }
 
 
-    //-------------------------------------
     @GetMapping("/profile")
     public List<PatientModel> getPatients(){
         return patientServiceImpl.getPatients();
     }
 
     @GetMapping("/profile/{patientId}")
-    public Optional<PatientModel> getPatientById(@PathVariable("patientId") Long id){
-        return patientServiceImpl.getPatientById(id);
+    public ResponseEntity getPatientById(@PathVariable("patientId") Long id){
+        Optional<PatientModel> patientModel= patientServiceImpl.getPatientById(id);
+        if(patientModel.isEmpty() || patientModel.get().isBlocked() || !patientModel.get().isActive()) {
+            Response res = new Response("", true, "Unable to find user with the given id!");
+            return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
+        }
+        patientModel.get().setPatientPassword("");
+        Response  res = new Response(patientModel, false, "User details fetched Successfully!");
+        return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/{patientId}")
-    public void deletePatientById(@PathVariable("patientId") Long id){
+    public ResponseEntity deletePatientById(@PathVariable("patientId") Long id){
         patientServiceImpl.deletePatientById(id);
+        Response  res = new Response("", false, "User deleted Successfully!");
+        return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
     }
 
-    @PutMapping(path = "/{patientId}")
-    public void updatePatientById(@PathVariable("patientId") Long id,
-                                  @RequestParam(required = false) String new_patientName,
-                                  @RequestParam(required = false) String new_patientAddressPostalCode,
-                                  @RequestParam(required = false) String new_patientAddressStreet,
-                                  @RequestParam(required = false) String new_patientMobileNumber
-    ){
-        patientServiceImpl.updatePatientById(
-                id,
-                new_patientName,
-                new_patientAddressPostalCode,
-                new_patientAddressStreet,
-                new_patientMobileNumber);
+    @PostMapping(path = "/updateProfile")
+    public ResponseEntity updatePatientById(@RequestBody PatientModel patientModel){
+        Optional<PatientModel> optionalPatientModel= patientServiceImpl.getPatientById(patientModel.getId());
+        if(optionalPatientModel.isEmpty() || !optionalPatientModel.get().getPatientEmail().equals(patientModel.getPatientEmail()))
+        {
+            //patient already exists
+            Response res = new Response(null, true, "Unable to update profile!");
+            return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+        }
+        PatientModel foundPatientModel = optionalPatientModel.get();
+        patientModel.setPatientPassword(foundPatientModel.getPatientPassword());
+        patientModel.setActive(foundPatientModel.isActive());
+        patientModel.setBlocked(foundPatientModel.isBlocked());
+        patientServiceImpl.savePatient(patientModel);
+        patientModel.setPatientPassword("");
+        Response  res = new Response(patientModel, false, "User updated Successfully!");
+        return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
     }
 }

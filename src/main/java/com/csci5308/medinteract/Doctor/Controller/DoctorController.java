@@ -75,34 +75,47 @@ public class DoctorController {
         }
     }
 
-    //-------------------------------------
     @GetMapping("/profile")
     public List<DoctorModel> getAllDoctors(){
         return doctorServiceImpl.getAllDoctors();
     }
 
     @GetMapping("/profile/{doctorId}")
-    public Optional<DoctorModel> getDoctorById(@PathVariable("doctorId") Long id){
-        return doctorServiceImpl.getDoctorById(id);
+    public ResponseEntity getDoctorById(@PathVariable("doctorId") Long id){
+        Optional<DoctorModel> doctorModel = doctorServiceImpl.getDoctorById(id);
+        if(doctorModel.isEmpty() || doctorModel.get().isBlocked() || !doctorModel.get().isActive()) {
+            Response res = new Response("", true, "Unable to find user with the given id!");
+            return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
+        }
+        doctorModel.get().setDoctorPassword("");
+        Response  res = new Response(doctorModel, false, "User details fetched Successfully!");
+        return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/{doctorId}")
-    public void deleteDoctorById(@PathVariable("doctorId") Long id){
+    public ResponseEntity deleteDoctorById(@PathVariable("doctorId") Long id){
         doctorServiceImpl.deleteDoctorById(id);
+        Response  res = new Response("", false, "User deleted Successfully!");
+        return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
     }
 
-    @PutMapping(path = "/{doctorId}")
-    public void updateDoctorById(@PathVariable("doctorId") Long id,
-                                  @RequestParam(required = false) String new_doctorName,
-                                  @RequestParam(required = false) String new_doctorAddressPostalCode,
-                                  @RequestParam(required = false) String new_doctorAddressStreet,
-                                  @RequestParam(required = false) String new_doctorMobileNumber
-    ){
-        doctorServiceImpl.updateDoctorById(
-                id,
-                new_doctorName,
-                new_doctorAddressPostalCode,
-                new_doctorAddressStreet,
-                new_doctorMobileNumber);
+    @PostMapping(path = "/updateProfile")
+    public ResponseEntity updateDoctorById(@RequestBody DoctorModel doctorModel){
+        Optional<DoctorModel> optionalDoctorModel= doctorServiceImpl.getDoctorById(doctorModel.getId());
+        System.out.println(optionalDoctorModel.get());
+        if(optionalDoctorModel.isEmpty() || !optionalDoctorModel.get().getDoctorEmail().equals(doctorModel.getDoctorEmail()))
+        {
+            //doctor already exists
+            Response res = new Response(null, true, "Unable to update profile!");
+            return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+        }
+        DoctorModel foundDoctorModel = optionalDoctorModel.get();
+        doctorModel.setDoctorPassword(foundDoctorModel.getDoctorPassword());
+        doctorModel.setActive(foundDoctorModel.isActive());
+        doctorModel.setBlocked(foundDoctorModel.isBlocked());
+        doctorServiceImpl.saveDoctor(doctorModel);
+        doctorModel.setDoctorPassword("");
+        Response  res = new Response(doctorModel, false, "User updated Successfully!");
+        return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
     }
 }

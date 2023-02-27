@@ -45,6 +45,7 @@ public class DoctorServiceImpl implements DoctorService{
         res.put("result", result);
         if(newDoctor.isPresent()){
             res.put("id", newDoctor.get().getId());
+            res.put("data", newDoctor.get());
         }
         return res;
     }
@@ -81,23 +82,11 @@ public class DoctorServiceImpl implements DoctorService{
     }
 
     public Optional<DoctorModel> getDoctorById(Long id){
-        boolean existDoctor = doctorRepository.existsById(id);
-        if (!existDoctor){
-            throw new IllegalStateException(
-                    "Doctor with id " + id + " does not exist"
-            );
-        }
         return doctorRepository.findById(id);
     }
 
     @Override
     public void deleteDoctorById(Long id){
-        boolean existPatient = doctorRepository.existsById(id);
-        if (!existPatient){
-            throw new IllegalStateException(
-                    "Doctor with id " + id + " does not exist"
-            );
-        }
         doctorRepository.deleteById(id);
     }
 

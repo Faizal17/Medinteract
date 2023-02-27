@@ -15,7 +15,8 @@
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2023.1.117/styles/kendo.default-ocean-blue.min.css" />
     <script src="https://kendo.cdn.telerik.com/2023.1.117/js/kendo.all.min.js"></script>
-
+		<script src="./static/login/provinceList.js"></script>
+		
     <style>
         #slide {
             height: 80vh;
@@ -366,9 +367,6 @@
     let slideIndex = 0;
     let slides, dots;
     let url = "";
-    let provinceList = new Map();
-
-
 
     $(document).ready(function () {
         showSlides();
@@ -383,33 +381,37 @@
                 $(".doctorDetailsClass").removeClass("d-none");
             }
         });
+		
+				for (let [key, value] of provinceList) {
+						$('#province').append(`<option value=${key}>${value["abbrv"]}</option>`);
+				}
 
-        $.ajax({
-            url: globalURL + "province/fetchAll",
-            type: "GET",
-            dataType: "json",
-            contentType: "application/json",
-        })
-        .done(function(response) {
-            try {
-                console.log(response);
-                let data = response.data;
-                for (let i = 0; i < data.length; i++) {
-                    // for (let j = 0; j < data[i]['cities'].length; j++) {
-                        provinceList.set(data[i]['id'].toString(), data[i]['cities']);
-                    // }
-                    $('#province').append(`<option value=${data[i]['id']}>${data[i]['abbrv']}</option>`);
-                }
-                console.log(provinceList);
-            } catch(err){
-                addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
-            }
-        })
-        .fail(function (jqXHR, textStatus, errorThrown){
-            // let msg = JSON.parse(jqXHR.responseText);
-            addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
-            // console.log(jqXHR, textStatus, errorThrown);
-        });
+        // $.ajax({
+        //     url: globalURL + "province/fetchAll",
+        //     type: "GET",
+        //     dataType: "json",
+        //     contentType: "application/json",
+        // })
+        // .done(function(response) {
+        //     try {
+        //         console.log(response);
+        //         let data = response.data;
+        //         for (let i = 0; i < data.length; i++) {
+        //             // for (let j = 0; j < data[i]['cities'].length; j++) {
+        //                 provinceList.set(data[i]['id'].toString(), data[i]['cities']);
+        //             // }
+        //             $('#province').append(`<option value=${data[i]['id']}>${data[i]['abbrv']}</option>`);
+        //         }
+        //         console.log(provinceList);
+        //     } catch(err){
+        //         addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
+        //     }
+        // })
+        // .fail(function (jqXHR, textStatus, errorThrown){
+        //     // let msg = JSON.parse(jqXHR.responseText);
+        //     addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
+        //     // console.log(jqXHR, textStatus, errorThrown);
+        // });
 
         $.ajax({
             url: globalURL + "jwt/validateJWTToken",
@@ -498,7 +500,7 @@
     function selectProvince(province) {
         let citySel = document.getElementById("city");
         citySel.length = 1;
-        let cities = provinceList.get(province);
+        let cities = provinceList.get(province)["data"];
         console.log(cities, province, provinceList)
         for (let i = 0; i < cities.length; i++) {
             $('#city').append(`<option value="${cities[i]['id']}">${cities[i]['city']}</option>`);
@@ -602,7 +604,8 @@
                 data["active"] = true;
                 data["blocked"] = false;
                 url = globalURL + "patient/register";
-            }
+								redirectURL = "./dashboard.html";
+						}
             else{
                 data["doctorEmail"] = $("#emailSignup").val();
                 data["doctorName"] = $("#nameSignup").val();
@@ -619,8 +622,8 @@
                 data["active"] = false;
                 data["blocked"] = false;
                 url = globalURL + "doctor/register";
-            }
-            redirectURL = "./index.html";
+								redirectURL = "./appointments.html";
+						}
         }
         $.ajax({
             type: "POST",
