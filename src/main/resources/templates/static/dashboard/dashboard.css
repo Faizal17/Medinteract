@@ -1,0 +1,26 @@
+.doctor_list {
+    border: 1px solid black;
+    padding: 10px;
+}
+
+#doctor_list_div_subdiv {
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    width: 300px;
+    /*height: 100px;*/
+    background-color: #ccc;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+
+}
+
+#doctor_list_div_subdiv:hover {
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    width: 310px;
+    /*height: 100px;*/
+    background-color: blue;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+
+}

@@ -109,6 +109,8 @@ function logout() {
     window.location.href = "./index.html";
 }
 
+
+
 //reference https://stackoverflow.com/questions/179355/clearing-all-cookies-with-javascript
 function deleteCookies() {
     const cookies = document.cookie.split(";");
@@ -120,3 +122,5 @@ function deleteCookies() {
         document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT" + ";path=/";
     }
 }
+
+

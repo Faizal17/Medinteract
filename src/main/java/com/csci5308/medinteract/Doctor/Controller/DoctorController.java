@@ -80,7 +80,7 @@ public class DoctorController {
         }
     }
 
-    @GetMapping("/city")
+    @PostMapping("/city")
     public ResponseEntity fetchDoctorsOnCity(@RequestBody DoctorModel doctorModel)
     //public ResponseEntity fetchDoctorsOnCity(String city)
     {
@@ -88,7 +88,7 @@ public class DoctorController {
         Response res = new Response(doctorModelList, false, "Doctor in City found successfully!");
         return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
     }
-    @GetMapping("/province")
+    @PostMapping("/province")
     public ResponseEntity fetchDoctorsOnProvince(@RequestBody DoctorModel doctorModel)
     {
         List<DoctorModel> doctorModelList = doctorServiceImpl.fetchDoctorsOnProvince(doctorModel);
@@ -97,7 +97,7 @@ public class DoctorController {
     }
 
 
-    @GetMapping("/name")
+    @PostMapping("/name")
     public ResponseEntity fetchDoctorsOnName(@RequestBody DoctorModel doctorModel)
     {
         List<DoctorModel> doctorModelList = doctorServiceImpl.fetchDoctorsOnName(doctorModel);
@@ -106,7 +106,7 @@ public class DoctorController {
     }
 
 
-    @GetMapping("/qualification")
+    @PostMapping("/qualification")
     public ResponseEntity fetchDoctorsOnQualification(@RequestBody DoctorModel doctorModel)
     {
         List<DoctorModel> doctorModelList = doctorServiceImpl.fetchDoctorsOnQualification(doctorModel);
