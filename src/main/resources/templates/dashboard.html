@@ -29,24 +29,41 @@
     <div id="navDiv"></div>
     <div id="contentDiv">
 
+        <nav class="navbar bg-body-tertiary">
+            <div class="container-fluid">
+                <form class="d-flex" id="doctor_search_form" onsubmit="searchdoctor();return false" role="search">
 
-        <label for="name">Name</label>
-        <input type="radio" id="name" name="doctor_search_options" value="name">
-        <label for="city">City</label>
-        <input type="radio" id="city" name="doctor_search_options" value="city">
-        <label for="province">Province</label>
-        <input type="radio" id="province" name="doctor_search_options" value="province">
-        <br>
-        <input type="text" id="search_input" name="doctor_searchbar" placeholder="Enter...">
+                    <div class="form-check form-check-inline">
+                        <input class="btn-check" type="radio" name="doctor_search_options" id="name" value="name"
+                            autocomplete="off">
+                        <label class="btn btn-secondary" for="inlineRadio1">Name</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="btn-check" type="radio" name="doctor_search_options" id="city" value="city"
+                            autocomplete="off">
+                        <label class="btn btn-secondary" for="inlineRadio2">City</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="btn-check" type="radio" name="doctor_search_options" id="province"
+                            autocomplete="off" value="province">
+                        <label class="btn btn-secondary" for="inlineRadio3">Province</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="btn-check" type="radio" name="doctor_search_options" id="qualification"
+                            autocomplete="off" value="qualification">
+                        <label class="btn btn-secondary" for="inlineRadio3">Qualification</label>
+                    </div>
 
-        <button onclick="searchdoctor()">Search</button>
+                    <input class="form-control me-2" id="search_input" type="search" placeholder="Search"
+                        aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </nav>
+
 
         <div class="doctor_list" id="doctor_list_div">
-            <h6 id="doctor_list_name"></h6>
-            <h6 id="doctor_list_email"></h6>
-            <h6 id="doctor_list_province"></h6>
-            <h6 id="doctor_list_city"></h6>
-            <h6 id="doctor_list_qualification"></h6>
+
         </div>
 
 

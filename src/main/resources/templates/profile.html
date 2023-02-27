@@ -217,7 +217,7 @@
 								window.disabled = true;
 								$("#btn").html("Update Profile");
 								$("#cancelDiv").addClass("d-none");
-								$("#disabledFieldSet").attr("disabled");
+								$("#disabledFieldSet").attr("disabled", true);
 								
 						})
 						.fail(function (jqXHR, textStatus, errorThrown){
@@ -245,7 +245,7 @@
 				window.disabled = true;
 				$("#btn").html("Update Profile");
 				$("#cancelDiv").addClass("d-none");
-				$("#disabledFieldSet").attr("disabled");
+				$("#disabledFieldSet").attr("disabled", true);
 		})
 		
 		$(document).ready(function(){

@@ -1,6 +1,12 @@
 //const globalURL = "http://localhost:6969/";
 
-function searchdoctor() {
+function searchdoctor(event) {
+  /*
+  var form = document.getElementById("doctor_search_form");
+  function handleForm(event) { event.preventDefault(); }
+  form.addEventListener('submit', handleForm);*/
+
+  console.log("In search..........");
 
   const doctorList = document.getElementById("doctor_list_div");
 
@@ -48,6 +54,14 @@ function searchdoctor() {
     };
   }
 
+  else if (selectedType == "qualification") {
+    console.log("In qualification");
+    apiUrl = "doctor/qualification";
+    data = {
+      "doctorQualification": searchbarInput
+    };
+  }
+
   let responseData;
 
   $.ajax({
@@ -81,7 +95,21 @@ function searchdoctor() {
 
           console.log("Here..1");
           let tempResponceData = responseData.data[i];
-          let htmlString = "Name: " + tempResponceData.doctorName + "Email: " + tempResponceData.doctorEmail + "Province: " + tempResponceData.doctorAddressProvince + "City: " + tempResponceData.doctorAddressCity + "Qualifications: " + tempResponceData.doctorQualification + "";
+          let htmlString = `<div class="card float-center"  id="doctor_list_div_card" style="width: 25rem;">
+          <div class="card-body">
+            <h5 class="card-title">`+ tempResponceData.doctorName + `</h5>
+            <p class="card-text">Dr. `+ tempResponceData.doctorName + ` is a ` + tempResponceData.doctorType + ` who provieds their services in` + tempResponceData.doctorAddressCity + `</p>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">Email: `+ tempResponceData.doctorEmail + `</li>
+              <li class="list-group-item">From: `+ tempResponceData.doctorAddressProvince + `,` + tempResponceData.doctorAddressCity + `</li>
+              <li class="list-group-item">Qualifications: `+ tempResponceData.doctorQualification + `</li>
+            </ul>
+            
+            <a href="#" class="btn btn-primary float-end" style="width: 10rem;">Book a Appointment</a>
+            
+          </div>
+        </div>`;
+
           let div = document.createElement("div");
           div.id = "doctor_list_div_subdiv";
           div.innerHTML = htmlString;
