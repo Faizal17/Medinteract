@@ -27,10 +27,26 @@ public class CityController {
         return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
     }
 
-    @GetMapping("/city_id")
+    @PostMapping("/city_id")
     public ResponseEntity getCityId(@RequestBody CityModel cityModel)
     {
         Long cityId = cityServiceImpl.getCityId(cityModel);
+        Response res = new Response(cityId, false, "City Id found");
+        return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+    }
+
+    @PostMapping("/city_name")
+    public ResponseEntity getCityName(@RequestBody CityModel cityModel)
+    {
+        Object cityName = cityServiceImpl.getCityName(cityModel);
+        Response res = new Response(cityName, false, "City Id found");
+        return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+    }
+
+    @PostMapping("/city_name_with_province")
+    public ResponseEntity getCityIdWithProvince(@RequestBody CityModel cityModel)
+    {
+        Object cityId = cityServiceImpl.getCityIdWithProvince(cityModel);
         Response res = new Response(cityId, false, "City Id found");
         return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
     }

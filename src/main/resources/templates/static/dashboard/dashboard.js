@@ -1,12 +1,73 @@
 //const globalURL = "http://localhost:6969/";
 
-function searchdoctor(event) {
-  /*
-  var form = document.getElementById("doctor_search_form");
-  function handleForm(event) { event.preventDefault(); }
-  form.addEventListener('submit', handleForm);*/
+function getCityName(tempResponceData, doctorList) {
+  console.log(doctorList)
+  console.log(tempResponceData);
 
-  console.log("In search..........");
+  let responseData;
+
+  $.ajax({
+    url: globalURL + 'city/city_name_with_province',
+    type: "POST",
+    dataType: "json",
+    contentType: "application/json",
+    data: JSON.stringify(tempResponceData),
+
+  }).done(function (response) {
+    console.log(response);
+
+    tempResponceData.doctorAddressProvince = response.data[0];
+    tempResponceData.doctorAddressCity = response.data[1];
+
+    let htmlString = `<div class="card col-md-6 mx-auto"  id="doctor_list_div_card" style="width: 35rem;">
+          <div class="card-body">
+            <h5 class="card-title">`+ tempResponceData.doctorName + `</h5>
+            <p class="card-text">Dr. `+ tempResponceData.doctorName + ` is a ` + tempResponceData.doctorType + ` who provieds their services in ` + tempResponceData.doctorAddressCity + `</p>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">Email: `+ tempResponceData.doctorEmail + `</li>
+              <li class="list-group-item">From: `+ tempResponceData.doctorAddressProvince + `,` + tempResponceData.doctorAddressCity + `</li>
+              <li class="list-group-item">Qualifications: `+ tempResponceData.doctorQualification + `</li>
+            </ul>
+            
+            <a href="#" class="btn btn-primary float-end" style="width: 10rem;">Book a Appointment</a>
+            
+          </div>
+        </div>`;
+
+    let div = document.createElement("div");
+    div.id = "doctor_list_div_subdiv";
+    div.innerHTML = htmlString;
+
+    doctorList.appendChild(div);
+    doctorList.appendChild(document.createElement("br"))
+
+    try {
+      responseData = response;
+
+      if (responseData.isError) {
+        addToast(true, "Error", responseData.msg);
+        return false;
+      } else {
+
+        console.log("here in get city");
+
+        //addToast(false, "Success", "Doctors featched successfully!")
+      }
+    } catch (err) {
+      addToast(true, "Error", "Some unknown error occurred. Unable to featch City Name!" + err)
+      return false;
+    }
+  })
+    .fail(function (jqXHR, textStatus, errorThrown) {
+      addToast(true, "Error", "Some unknown error occurred. Unable to featch City Name!");
+      return false;
+    });;
+
+}
+
+
+
+function searchdoctor(event) {
 
   const doctorList = document.getElementById("doctor_list_div");
 
@@ -72,50 +133,23 @@ function searchdoctor(event) {
     data: JSON.stringify(data),
 
   }).done(function (response) {
-    //console.log(response);
 
     try {
       responseData = response;
 
       if (responseData.isError) {
-        //responseData = response;
         addToast(true, "Error", responseData.msg);
         return false;
       } else {
 
-        console.log(responseData);
-        //console.log(responseData.data[0]);
-
         doctorList.innerHTML = "";
 
-
-
         for (let i = 0; i < responseData.data.length; i++) {
-          console.log(responseData.data[i])
 
-          console.log("Here..1");
           let tempResponceData = responseData.data[i];
-          let htmlString = `<div class="card col-md-6 mx-auto"  id="doctor_list_div_card" style="width: 35rem;">
-          <div class="card-body">
-            <h5 class="card-title">`+ tempResponceData.doctorName + `</h5>
-            <p class="card-text">Dr. `+ tempResponceData.doctorName + ` is a ` + tempResponceData.doctorType + ` who provieds their services in ` + tempResponceData.doctorAddressCity + `</p>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">Email: `+ tempResponceData.doctorEmail + `</li>
-              <li class="list-group-item">From: `+ tempResponceData.doctorAddressProvince + `,` + tempResponceData.doctorAddressCity + `</li>
-              <li class="list-group-item">Qualifications: `+ tempResponceData.doctorQualification + `</li>
-            </ul>
-            
-            <a href="#" class="btn btn-primary float-end" style="width: 10rem;">Book a Appointment</a>
-            
-          </div>
-        </div>`;
 
-          let div = document.createElement("div");
-          div.id = "doctor_list_div_subdiv";
-          div.innerHTML = htmlString;
-
-          doctorList.appendChild(div);
-          doctorList.appendChild(document.createElement("br"))
+          console.log(tempResponceData);
+          getCityName(tempResponceData, doctorList);
 
         }
         addToast(false, "Success", "Doctors featched successfully!")
@@ -133,4 +167,44 @@ function searchdoctor(event) {
 
 }
 
-//function 
+
+$(document).ready(function () {
+  const doctorList = document.getElementById("doctor_list_div");
+  let responseData;
+  console.log("In document ready..")
+
+  $.ajax({
+    url: globalURL + "doctor/fetchAll",
+    type: "GET",
+    dataType: "json",
+    contentType: "application/json",
+
+  }).done(function (response) {
+    //console.log(response);
+
+    try {
+      responseData = response;
+
+      if (responseData.isError) {
+        //responseData = response;
+        addToast(true, "Error", responseData.msg);
+        return false;
+      } else {
+        doctorList.innerHTML = "";
+        for (let i = 0; i < responseData.length; i++) {
+          let tempResponceData = responseData[i];
+          getCityName(tempResponceData, doctorList);
+        }
+        addToast(false, "Success", "Doctors featched successfully!")
+      }
+    } catch (err) {
+      addToast(true, "Error", "Some unknown error occurred. Unable to featch Doctors!" + err)
+      return false;
+    }
+  })
+    .fail(function (jqXHR, textStatus, errorThrown) {
+      addToast(true, "Error", "Some unknown error occurred. Unable to featch Doctors!");
+      return false;
+    });;
+
+});

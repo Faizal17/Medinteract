@@ -7,10 +7,7 @@ import com.csci5308.medinteract.utilities.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,7 +30,7 @@ public class ProvinceController {
         return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
     }
 
-    @GetMapping("/province_id")
+    @PostMapping("/province_id")
     public ResponseEntity getProvinceId(@RequestBody ProvinceModel provinceModel)
     {
         Long provinceId = provinceServiceImpl.getProvinceId(provinceModel);
