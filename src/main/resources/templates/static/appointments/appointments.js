@@ -536,7 +536,7 @@ function loadAppointments(type, id, editable = false) {
                     console.log(responseDataList)
                     console.log(calendar);
                     calendar.setEvents(responseDataList);
-                    addToast(false, "Success", "Data fetched successfully!")
+                    // addToast(false, "Success", "Data fetched successfully!")
                 }
             } catch(err){
                 addToast(true, "Error", "Some unknown error occurred. Unable to fetch the appointments!")
