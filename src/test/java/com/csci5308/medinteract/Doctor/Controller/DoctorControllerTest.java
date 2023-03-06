@@ -31,10 +31,10 @@ class DoctorControllerTest {
     @Test
     void fetchAll() throws Exception {
 
-        mockMvc.perform(get("http://localhost:6969/doctor/fetchAll"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.msg").value("All doctors fetched Successfully!"))
-                .andExpect(jsonPath("$.isError").value("false"));
+            mockMvc.perform(get("http://localhost:6969/doctor/fetchAll"))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.msg").value("All doctors fetched Successfully!"))
+                    .andExpect(jsonPath("$.isError").value("false"));
 
 }
 
