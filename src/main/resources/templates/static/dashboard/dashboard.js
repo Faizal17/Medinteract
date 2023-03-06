@@ -183,11 +183,12 @@ $(document).ready(function () {
     //console.log(response);
 
     try {
-      responseData = response;
+      responseData = response.data;
 
-      if (responseData.isError) {
+      // console.log(responseData);
+      if (response.isError) {
         //responseData = response;
-        addToast(true, "Error", responseData.msg);
+        addToast(true, "Error", response.msg);
         return false;
       } else {
         doctorList.innerHTML = "";
