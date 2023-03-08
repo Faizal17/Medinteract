@@ -43,7 +43,7 @@ public class CityServiceImpl implements CityService {
     {
         Long city = cityModel.getId();
         List<Object> cityModelList = cityRepository.findByCityWithProvince(city);
-        return cityModelList.get(0);
+        return cityModelList;
     }
 }
 
