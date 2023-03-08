@@ -1,23 +1,26 @@
 //const globalURL = "http://localhost:6969/";
 
 function getCityName(tempResponceData, doctorList) {
-  console.log(doctorList)
-  console.log(tempResponceData);
+  //console.log(doctorList)
+  //console.log("........."+tempResponceData.doctorAddressCity+JSON.stringify(tempResponceData));
 
   let responseData;
+  let cidtyData ={
+  "id": tempResponceData.doctorAddressCity
+  }
 
   $.ajax({
     url: globalURL + 'city/city_name_with_province',
     type: "POST",
     dataType: "json",
     contentType: "application/json",
-    data: JSON.stringify(tempResponceData),
+    data: JSON.stringify(cidtyData),
 
   }).done(function (response) {
-    console.log(response);
+    //console.log(response.data[0][0]);
 
-    tempResponceData.doctorAddressProvince = response.data[0];
-    tempResponceData.doctorAddressCity = response.data[1];
+    tempResponceData.doctorAddressProvince = response.data[0][0];
+    tempResponceData.doctorAddressCity = response.data[0][1];
 
     let htmlString = `<div class="card col-md-6 mx-auto"  id="doctor_list_div_card" style="width: 35rem;">
           <div class="card-body">
@@ -51,15 +54,15 @@ function getCityName(tempResponceData, doctorList) {
 
         console.log("here in get city");
 
-        //addToast(false, "Success", "Doctors featched successfully!")
+        //addToast(false, "Success", "Doctors fetched successfully!")
       }
     } catch (err) {
-      addToast(true, "Error", "Some unknown error occurred. Unable to featch City Name!" + err)
+      addToast(true, "Error", "Some unknown error occurred. Unable to fetch City Name!" + err)
       return false;
     }
   })
     .fail(function (jqXHR, textStatus, errorThrown) {
-      addToast(true, "Error", "Some unknown error occurred. Unable to featch City Name!");
+      addToast(true, "Error", "Some unknown error occurred. Unable to fetch City Name!");
       return false;
     });;
 
@@ -195,15 +198,15 @@ $(document).ready(function () {
           let tempResponceData = responseData[i];
           getCityName(tempResponceData, doctorList);
         }
-        addToast(false, "Success", "Doctors featched successfully!")
+        addToast(false, "Success", "Doctors fetched successfully!")
       }
     } catch (err) {
-      addToast(true, "Error", "Some unknown error occurred. Unable to featch Doctors!" + err)
+      addToast(true, "Error", "Some unknown error occurred. Unable to fetch Doctors!" + err)
       return false;
     }
   })
     .fail(function (jqXHR, textStatus, errorThrown) {
-      addToast(true, "Error", "Some unknown error occurred. Unable to featch Doctors!");
+      addToast(true, "Error", "Some unknown error occurred. Unable to fetch Doctors!");
       return false;
     });;
 
