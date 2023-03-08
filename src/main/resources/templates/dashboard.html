@@ -53,11 +53,13 @@
                             value="qualification">
                         <label class="form-check-label" for="inlineRadio3">Qualification</label>
                     </div>
-
-
-                    <input class="form-control me-2" id="search_input" type="search" placeholder="Search"
-                        aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
+		
+		
+										<div class="ms-auto row">
+												<input class="form-control col me-2" id="search_input" type="search" placeholder="Search"
+															 aria-label="Search">
+												<button class="btn btn-outline-success col-3 me-2" type="submit">Search</button>
+										</div>
                 </form>
             </div>
         </nav>
@@ -184,9 +186,12 @@
 </html>
 
 <script>
-    $(".calendar").click(function () {
-        $("#show").click();
-        loadAppointments("Doctor", this.id, true)
-    })
+		$(document).ready(function (){
+				$(document).on("click", '.calendar', function () {
+						$("#show").click();
+						$("#modalTitleDoctorName").html(this.id.split("_")[1]);
+						loadAppointments("Doctor", this.id.split("_")[0], true)
+				})
+		})
 
 </script>

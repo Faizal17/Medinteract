@@ -152,4 +152,58 @@ public class DoctorController {
         Response  res = new Response(doctorModel, false, "User updated Successfully!");
         return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
     }
+
+    @GetMapping("/isPending")
+    public ResponseEntity isPending()
+    {
+        List<DoctorModel> pendingDoctors = doctorServiceImpl.isPending();
+        if(pendingDoctors.isEmpty())
+        {
+            Response res = new Response(pendingDoctors, true, "No Pending Doctors!");
+            return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+        }
+        Response res = new Response(pendingDoctors, false, "Pending Doctors Fetched!", pendingDoctors.size());
+        return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+    }
+
+    @GetMapping("/isApproved")
+    public ResponseEntity isApproved()
+    {
+        List<DoctorModel> approvedDoctors = doctorServiceImpl.isApproved();
+        if(approvedDoctors.isEmpty())
+        {
+            Response res = new Response(approvedDoctors, true, "No Approved Doctors!");
+            return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+        }
+        Response res = new Response(approvedDoctors, false, "Approved Doctors Fetched!");
+        return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+    }
+
+    @GetMapping("/isBlocked")
+    public ResponseEntity isBlocked()
+    {
+        List<DoctorModel> blockedDoctors = doctorServiceImpl.isBlocked();
+        if(blockedDoctors.isEmpty())
+        {
+            Response res = new Response(blockedDoctors, true, "No Blocked Doctors!");
+            return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+        }
+        Response res = new Response(blockedDoctors, false, "Blocked Doctors Fetched!");
+        return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+    }
+
+    @PostMapping("/verified")
+    public ResponseEntity<?> verifyDoctor(@RequestParam(name = "doctorEmail") String email, @RequestParam boolean isActive, @RequestParam boolean isBlocked) {
+
+        doctorServiceImpl.verifyDoctor(email, isActive, isBlocked);
+
+        return ResponseEntity.ok().build();
+    }
+    @PostMapping("/blocked")
+    public ResponseEntity<?> blockDoctor(@RequestParam(name = "doctorEmail") String email, @RequestParam boolean isBlocked) {
+
+        doctorServiceImpl.blockDoctor(email, isBlocked);
+
+        return ResponseEntity.ok().build();
+    }
 }

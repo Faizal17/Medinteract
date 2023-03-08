@@ -31,4 +31,14 @@ public interface DoctorService {
     void deleteDoctorById(Long id);
 
     void updateDoctorById(Long id, String newDoctorName, String newDoctorAddressPostalCode, String newDoctorAddressStreet, String newDoctorMobileNumber);
+
+    List<DoctorModel> isPending();
+
+    List<DoctorModel> isApproved();
+
+    List<DoctorModel> isBlocked();
+
+    void verifyDoctor(String email, boolean isActive, boolean isBlocked);
+
+    void blockDoctor(String email, boolean isBlocked);
 }

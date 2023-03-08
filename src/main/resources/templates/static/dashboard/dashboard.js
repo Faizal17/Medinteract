@@ -29,7 +29,7 @@ function getCityName(tempResponceData, doctorList) {
               <li class="list-group-item">Qualifications: `+ tempResponceData.doctorQualification + `</li>
             </ul>
             
-            <a href="#" class="btn btn-primary float-end" style="width: 10rem;">Book a Appointment</a>
+            <button id="${tempResponceData.id}_${tempResponceData.doctorName}" class="btn btn-primary float-end calendar" style="width: 10rem;">Book a Appointment</button>
             
           </div>
         </div>`;
