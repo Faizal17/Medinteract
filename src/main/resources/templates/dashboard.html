@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="static/appointments/appointments.css">
     <link rel="stylesheet" href="static/dashboard/dashboard.css">
     <link rel="stylesheet" href="static/appointments/mobiscroll.jquery.min.css">
+    <script type="text/javascript" src="static/login/provinceList.js"></script>
 </head>
 
 <body>
@@ -38,7 +39,7 @@
                             value="name">
                         <label class="form-check-label" for="inlineRadio1">Name</label>
                     </div>
-                    <div class="form-check form-check-inline">
+                    <!-- <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="doctor_search_options" id="city"
                             value="city">
                         <label class="form-check-label" for="inlineRadio2">City</label>
@@ -47,19 +48,32 @@
                         <input class="form-check-input" type="radio" name="doctor_search_options" id="province"
                             value="province">
                         <label class="form-check-label" for="inlineRadio3">Province</label>
+                    </div>-->
+                    <div class="col-12 col-sm-9 col-xl-3">
+                        <select class="form-select" aria-label="Select province" name="doctor_search_options"
+                            id="province" onchange="selectProvince(this.value)">
+                            <option value="" selected disabled>Select Province</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-sm-9 col-xl-4 mt-0 mt-sm-3 mt-xl-0">
+                        <!--                                <input type="text" class="form-control" placeholder="Enter city" id="city" name="city" required>-->
+                        <select class="form-select" aria-label="Select city" name="doctor_search_options" id="city"
+                            required>
+                            <option value="" selected disabled>Select city</option>
+                        </select>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="doctor_search_options" id="qualification"
                             value="qualification">
                         <label class="form-check-label" for="inlineRadio3">Qualification</label>
                     </div>
-		
-		
-										<div class="ms-auto row">
-												<input class="form-control col me-2" id="search_input" type="search" placeholder="Search"
-															 aria-label="Search">
-												<button class="btn btn-outline-success col-3 me-2" type="submit">Search</button>
-										</div>
+
+
+                    <div class="ms-auto row">
+                        <input class="form-control col me-2" id="search_input" type="search" placeholder="Search"
+                            aria-label="Search">
+                        <button class="btn btn-outline-success col-3 me-2" type="submit">Search</button>
+                    </div>
                 </form>
             </div>
         </nav>
@@ -186,12 +200,16 @@
 </html>
 
 <script>
-		$(document).ready(function (){
-				$(document).on("click", '.calendar', function () {
-						$("#show").click();
-						$("#modalTitleDoctorName").html(this.id.split("_")[1]);
-						loadAppointments("Doctor", this.id.split("_")[0], true)
-				})
-		})
+    $(document).ready(function () {
+        $(document).on("click", '.calendar', function () {
+            $("#show").click();
+            $("#modalTitleDoctorName").html(this.id.split("_")[1]);
+            loadAppointments("Doctor", this.id.split("_")[0], true)
+        })
+
+        for (let [key, value] of provinceList) {
+            $('#province').append(`<option value=${key}>${value["abbrv"]}</option>`);
+        }
+    })
 
 </script>

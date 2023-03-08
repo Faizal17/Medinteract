@@ -12,13 +12,15 @@ import java.util.Optional;
 @Repository
 public interface DoctorRepository extends JpaRepository<DoctorModel,Long> {
     Optional<DoctorModel> findByDoctorEmail(String doctorEmail);
-
-
     List<DoctorModel> findByDoctorAddressCity(Long cityId);
     List<DoctorModel> findByDoctorAddressProvince(Long provinceId);
     List<DoctorModel> findByDoctorNameContaining(String name);
-    List<DoctorModel> findByDoctorQualification(String qualification);
-    
+    List<DoctorModel> findByDoctorQualificationContaining(String qualification);
+
+    List<DoctorModel> findByDoctorNameContainingAndDoctorAddressProvinceAndDoctorAddressCityAndDoctorQualificationContaining(String name, Long province, Long city, String qualification);
+
+    @Query("select d from DoctorModel d where (?1 is null or d.doctorName like %?1%) and (?2 is null OR d.doctorAddressProvince = ?2) and (?3 is null OR d.doctorAddressCity = ?3) and (?4 is null or d.doctorQualification like %?4%)")
+    List<DoctorModel> findByDoctorOnDetails(String name, Long province, Long city, String qualification);
     @Modifying
     @Query("Update DoctorModel SET isActive = false WHERE id = ?1")
     void deleteById(Long id);

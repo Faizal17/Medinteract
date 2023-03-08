@@ -101,7 +101,7 @@ public class DoctorServiceImpl implements DoctorService{
     public List<DoctorModel> fetchDoctorsOnQualification(DoctorModel doctorModel)
     {
         String qualification = doctorModel.getDoctorQualification();
-        return doctorRepository.findByDoctorQualification(qualification);
+        return doctorRepository.findByDoctorQualificationContaining(qualification);
     }
 
     @Override
@@ -198,5 +198,14 @@ public class DoctorServiceImpl implements DoctorService{
             doctor.setBlocked(isBlocked);
             doctorRepository.save(doctor);
         }
+    }
+
+    public List<DoctorModel> getDoctorByDetails(DoctorModel doctorModel)
+    {
+        String name = doctorModel.getDoctorName();
+        Long province = doctorModel.getDoctorAddressProvince();
+        Long city = doctorModel.getDoctorAddressCity();
+        String qualification = doctorModel.getDoctorQualification();
+        return doctorRepository.findByDoctorOnDetails(name, province, city, qualification);
     }
 }

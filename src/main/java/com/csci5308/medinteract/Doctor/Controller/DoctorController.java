@@ -206,4 +206,12 @@ public class DoctorController {
 
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/get_doctor_on_doctor_details")
+    public ResponseEntity fetchDoctorsOnDetails(@RequestBody DoctorModel doctorModel)
+    {
+        List<DoctorModel> doctorModelList = doctorServiceImpl.getDoctorByDetails(doctorModel);
+        Response res = new Response(doctorModelList, false, "Doctor by qualification found successfully!");
+        return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+    }
 }

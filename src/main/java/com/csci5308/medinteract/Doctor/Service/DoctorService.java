@@ -2,6 +2,7 @@ package com.csci5308.medinteract.Doctor.Service;
 
 import com.csci5308.medinteract.Doctor.Model.DoctorModel;
 import com.csci5308.medinteract.patient.model.PatientModel;
+import org.thymeleaf.model.IDocType;
 
 import java.util.List;
 import java.util.Map;
@@ -41,4 +42,6 @@ public interface DoctorService {
     void verifyDoctor(String email, boolean isActive, boolean isBlocked);
 
     void blockDoctor(String email, boolean isBlocked);
+
+    List<DoctorModel> getDoctorByDetails(DoctorModel doctorModel);
 }

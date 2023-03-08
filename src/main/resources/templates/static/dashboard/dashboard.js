@@ -5,8 +5,8 @@ function getCityName(tempResponceData, doctorList) {
   //console.log("........."+tempResponceData.doctorAddressCity+JSON.stringify(tempResponceData));
 
   let responseData;
-  let cidtyData ={
-  "id": tempResponceData.doctorAddressCity
+  let cidtyData = {
+    "id": tempResponceData.doctorAddressCity
   }
 
   $.ajax({
@@ -211,3 +211,14 @@ $(document).ready(function () {
     });;
 
 });
+
+function selectProvince(province) {
+  console.log("In the selectProvince" + "\n" + provinceList.get(province));
+  let citySel = document.getElementById("city");
+  citySel.length = 1;
+  let cities = provinceList.get(province)["data"];
+  console.log(cities, province, provinceList)
+  for (let i = 0; i < cities.length; i++) {
+    $('#city').append(`<option value="${cities[i]['id']}">${cities[i]['city']}</option>`);
+  }
+}
