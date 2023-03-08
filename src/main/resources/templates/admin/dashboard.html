@@ -59,13 +59,13 @@
                         {
                             data: 'doctorEmail',
                             render: function (data) {
-                                return "<button id = '" + data + "' class = 'verify btn btn-success'>Verify</button>";
+                                return "<button id = '" + data + "' class = 'pending-verify btn btn-success'>Verify</button>";
                             },
                         },
                         {
                           data: 'doctorEmail',
                             render: function (data) {
-                                return "<button id = '" + data + "' class = 'block btn btn-danger'>Block</button>";
+                                return "<button id = '" + data + "' class = 'pending-block btn btn-danger'>Block</button>";
                             },
                         }
                     ]
@@ -194,6 +194,49 @@
       contentType: 'application/json',
       success: function(response) {
         showApprovedDoctors();
+        console.log('Succesful:', response);
+      },
+      error: function(error) {
+        console.error('Failed:', error);
+      }
+    });
+  });
+
+  $('#doctorTable').on('click', '.pending-verify', function() {
+    // Get the data for the current row
+    var data = $(this).closest('tr').data();
+    var doctorEmail = $(this).attr('id');
+
+    // Make a POST call to the server
+    $.ajax({
+      type: 'POST',
+      url: globalURL + 'doctor/verified?doctorEmail='+doctorEmail+'&isActive=true&isBlocked=true',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      success: function(response) {
+        showPendingDoctors();
+        console.log('Verification successful:', response);
+      },
+      error: function(error) {
+        console.error('Verification failed:', error);
+      }
+    });
+  });
+
+  $('#doctorTable').on('click', '.pending-block', function() {
+
+    // Get the data for the current row
+    var data = $(this).closest('tr').data();
+    var doctorEmail = $(this).attr('id');
+
+    // Make a POST call to the server
+    $.ajax({
+      type: 'POST',
+      url: globalURL + 'doctor/blocked?doctorEmail='+doctorEmail+'&isBlocked=true',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      success: function(response) {
+        showPendingDoctors();
         console.log('Succesful:', response);
       },
       error: function(error) {
