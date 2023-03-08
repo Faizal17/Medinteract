@@ -32,14 +32,15 @@
 
         <nav class="navbar bg-body-tertiary">
             <div class="container-fluid">
-                <form class="d-flex" id="doctor_search_form" onsubmit="searchdoctor();return false" role="search">
-
+                <form class="d-flex" id="doctor_search_form" onsubmit="searchdoctor(); return false" role="search"
+                    method="post">
+                    <!--
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="doctor_search_options" id="name"
                             value="name">
                         <label class="form-check-label" for="inlineRadio1">Name</label>
                     </div>
-                    <!-- <div class="form-check form-check-inline">
+                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="doctor_search_options" id="city"
                             value="city">
                         <label class="form-check-label" for="inlineRadio2">City</label>
@@ -49,30 +50,41 @@
                             value="province">
                         <label class="form-check-label" for="inlineRadio3">Province</label>
                     </div>-->
-                    <div class="col-12 col-sm-9 col-xl-3">
-                        <select class="form-select" aria-label="Select province" name="doctor_search_options"
-                            id="province" onchange="selectProvince(this.value)">
-                            <option value="" selected disabled>Select Province</option>
-                        </select>
-                    </div>
-                    <div class="col-12 col-sm-9 col-xl-4 mt-0 mt-sm-3 mt-xl-0">
-                        <!--                                <input type="text" class="form-control" placeholder="Enter city" id="city" name="city" required>-->
-                        <select class="form-select" aria-label="Select city" name="doctor_search_options" id="city"
-                            required>
-                            <option value="" selected disabled>Select city</option>
-                        </select>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="doctor_search_options" id="qualification"
-                            value="qualification">
-                        <label class="form-check-label" for="inlineRadio3">Qualification</label>
-                    </div>
+
+                    <div class="row">
+                        <div class="col-12 col-sm-9 col-xl-2">
+                            <input class="form-control" type="text" name="doctor_search_options"
+                                id="doctor_search_form_name" placeholder="Name">
+                        </div>
+
+                        <div class="col-12 col-sm-9 col-xl-2">
+                            <select class="form-select" aria-label="Province" name="doctor_search_options"
+                                id="doctor_search_form_province" onchange="selectProvince(this.value)">
+                                <option value="" selected disabled>Province</option>
+                            </select>
+                        </div>
 
 
-                    <div class="ms-auto row">
-                        <input class="form-control col me-2" id="search_input" type="search" placeholder="Search"
-                            aria-label="Search">
-                        <button class="btn btn-outline-success col-3 me-2" type="submit">Search</button>
+                        <div class="col-12 col-sm-9 col-xl-2">
+                            <select class="form-select" aria-label="City" name="doctor_search_options"
+                                id="doctor_search_form_city">
+                                <option value="" selected disabled>City</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12 col-sm-9 col-xl-2">
+                            <input class="form-control" type="text" name="doctor_search_options"
+                                id="doctor_search_form_qualification" placeholder="Qualification">
+                        </div>
+
+
+
+
+                        <div class="col-12 col-sm-9 col-xl-2">
+
+                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        </div>
+
                     </div>
                 </form>
             </div>
@@ -208,7 +220,7 @@
         })
 
         for (let [key, value] of provinceList) {
-            $('#province').append(`<option value=${key}>${value["abbrv"]}</option>`);
+            $('#doctor_search_form_province').append(`<option value=${key}>${value["abbrv"]}</option>`);
         }
     })
 

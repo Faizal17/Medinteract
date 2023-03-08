@@ -52,7 +52,7 @@ function getCityName(tempResponceData, doctorList) {
         return false;
       } else {
 
-        console.log("here in get city");
+        //console.log("here in get city");
 
         //addToast(false, "Success", "Doctors fetched successfully!")
       }
@@ -68,65 +68,31 @@ function getCityName(tempResponceData, doctorList) {
 
 }
 
-
-
 function searchdoctor(event) {
 
-  const doctorList = document.getElementById("doctor_list_div");
 
-  var searchType = document.getElementsByName('doctor_search_options');
-  var selectedType = '';
-  for (var i = 0; i < searchType.length; i++) {
-    if (searchType[i].checked) {
-      selectedType = searchType[i].value;
-      break;
-    }
-  }
-
-  var searchbar = document.getElementById('search_input');
-  var searchbarInput = searchbar.value;
-
-  let data;
+  //console.log("In searchDoctor ");
+  //event.preventDefault();
   let apiUrl;
-  console.log(selectedType);
+  let data;
+  //const id = this.id;
 
-  if (selectedType == "city") {
-    console.log("In city");
-    searchbarInput = parseInt(searchbarInput, 10);
-    apiUrl = "doctor/city";
-    data = {
-      "doctorAddressCity": searchbarInput
-    };
 
-    console.log(data);
+
+  apiUrl = "doctor/get_doctor_on_doctor_details";
+  data = {
+    "doctorName": document.getElementById("doctor_search_form_name").value,
+    "doctorAddressProvince": document.getElementById("doctor_search_form_province").value,
+    "doctorAddressCity": document.getElementById("doctor_search_form_city").value,
+    "doctorQualification": document.getElementById("doctor_search_form_qualification").value
   }
 
-  else if (selectedType == "province") {
-    console.log("In province");
-    searchbarInput = parseInt(searchbarInput, 10);
-    apiUrl = "doctor/province";
-    data = {
-      "doctorAddressProvince": searchbarInput
-    };
-  }
 
-  else if (selectedType == "name") {
-    console.log("In name");
-    apiUrl = "doctor/name";
-    data = {
-      "doctorName": searchbarInput
-    };
-  }
 
-  else if (selectedType == "qualification") {
-    console.log("In qualification");
-    apiUrl = "doctor/qualification";
-    data = {
-      "doctorQualification": searchbarInput
-    };
-  }
+  //console.log("checking data\n" + JSON.stringify(data));
 
   let responseData;
+  let doctorList = document.getElementById("doctor_list_div");
 
   $.ajax({
     url: globalURL + apiUrl,
@@ -151,7 +117,7 @@ function searchdoctor(event) {
 
           let tempResponceData = responseData.data[i];
 
-          console.log(tempResponceData);
+          //console.log(tempResponceData);
           getCityName(tempResponceData, doctorList);
 
         }
@@ -168,8 +134,8 @@ function searchdoctor(event) {
     });;
 
 
-}
 
+}
 
 $(document).ready(function () {
   const doctorList = document.getElementById("doctor_list_div");
@@ -213,12 +179,12 @@ $(document).ready(function () {
 });
 
 function selectProvince(province) {
-  console.log("In the selectProvince" + "\n" + provinceList.get(province));
-  let citySel = document.getElementById("city");
+  //console.log("In the selectProvince" + "\n" + provinceList.get(province));
+  let citySel = document.getElementById("doctor_search_form_city");
   citySel.length = 1;
   let cities = provinceList.get(province)["data"];
   console.log(cities, province, provinceList)
   for (let i = 0; i < cities.length; i++) {
-    $('#city').append(`<option value="${cities[i]['id']}">${cities[i]['city']}</option>`);
+    $('#doctor_search_form_city').append(`<option value="${cities[i]['id']}">${cities[i]['city']}</option>`);
   }
 }
