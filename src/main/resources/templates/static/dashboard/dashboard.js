@@ -26,11 +26,13 @@ function getCityName(tempResponceData, doctorList) {
           <div class="card-body">
             <h5 class="card-title">`+ tempResponceData.doctorName + `</h5>
             <p class="card-text">Dr. `+ tempResponceData.doctorName + ` is a ` + tempResponceData.doctorType + ` who provieds their services in ` + tempResponceData.doctorAddressCity + `</p>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">Email: `+ tempResponceData.doctorEmail + `</li>
-              <li class="list-group-item">From: `+ tempResponceData.doctorAddressProvince + `,` + tempResponceData.doctorAddressCity + `</li>
-              <li class="list-group-item">Qualifications: `+ tempResponceData.doctorQualification + `</li>
-            </ul>
+            <div class="card-body">
+              <ul class="list-group ">
+                <li class="list-group-item">Email: <a href="mailto:`+ tempResponceData.doctorEmail + `" class="card-link">` + tempResponceData.doctorEmail + `</a></li>
+                <li class="list-group-item">From: `+ tempResponceData.doctorAddressProvince + `,` + tempResponceData.doctorAddressCity + `</li>
+                <li class="list-group-item">Qualifications: `+ tempResponceData.doctorQualification + `</li>
+              </ul>
+            </div>
             
             <button id="${tempResponceData.id}_${tempResponceData.doctorName}" class="btn btn-primary float-end calendar" style="width: 10rem;">Book a Appointment</button>
             

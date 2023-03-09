@@ -52,29 +52,33 @@
                     </div>-->
 
                     <div class="row">
-                        <div class="col-12 col-sm-9 col-xl-2">
+                        <div class="form-floating col-12 col-sm-9 col-xl-2">
                             <input class="form-control" type="text" name="doctor_search_options"
                                 id="doctor_search_form_name" placeholder="Name">
+                            <label for="doctor_search_form_name">Name</label>
                         </div>
 
-                        <div class="col-12 col-sm-9 col-xl-2">
+                        <div class="form-floating col-12 col-sm-9 col-xl-2">
                             <select class="form-select" aria-label="Province" name="doctor_search_options"
                                 id="doctor_search_form_province" onchange="selectProvince(this.value)">
                                 <option value="" selected disabled>Province</option>
                             </select>
+                            <label for="doctor_search_form_province">Province</label>
                         </div>
 
 
-                        <div class="col-12 col-sm-9 col-xl-2">
+                        <div class="form-floating col-12 col-sm-9 col-xl-2">
                             <select class="form-select" aria-label="City" name="doctor_search_options"
                                 id="doctor_search_form_city">
                                 <option value="" selected disabled>City</option>
                             </select>
+                            <label for="doctor_search_form_city">City</label>
                         </div>
 
-                        <div class="col-12 col-sm-9 col-xl-2">
+                        <div class="form-floating col-12 col-sm-9 col-xl-2">
                             <input class="form-control" type="text" name="doctor_search_options"
                                 id="doctor_search_form_qualification" placeholder="Qualification">
+                            <label for="doctor_search_form_qualification">Qualification</label>
                         </div>
 
 
@@ -91,7 +95,7 @@
         </nav>
 
 
-        <div class="doctor_list" id="doctor_list_div">
+        <div class="doctor_list scrollable" id="doctor_list_div">
 
         </div>
 
