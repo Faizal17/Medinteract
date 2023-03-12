@@ -21,21 +21,26 @@ createappointment.addEventListener("click", function(event){
 
 });
 
+var viewDoctors = document.getElementById("viewDoctors");
+viewDoctors.addEventListener("click", function(event){
+  createBubble("allDoctors")
+});
 
 
-sendForm.onkeydown = function(e){
-  if(e.keyCode == 13){
-    e.preventDefault();
 
-    //No mix ups with upper and lowercases
-    var input = textInput.value.toLowerCase();
-
-    //Empty textarea fix
-    if(input.length > 0) {
-      createBubble(input)
-    }
-  }
-};
+// sendForm.onkeydown = function(e){
+//   if(e.keyCode == 13){
+//     e.preventDefault();
+//
+//     //No mix ups with upper and lowercases
+//     var input = textInput.value.toLowerCase();
+//
+//     //Empty textarea fix
+//     if(input.length > 0) {
+//       createBubble(input)
+//     }
+//   }
+// };
 
 sendForm.addEventListener('submit', function(e) {
   //so form doesnt submit page (no page refresh)
@@ -184,6 +189,29 @@ function responseText(e) {
   }, 0)
 }
 
+function responseButtons(e) {
+
+  var list = document.createElement('li');
+  list.classList.add('bot__output');
+
+  var button = document.createElement('button');
+  button.classList.add('btn-primary')
+  button.id= e
+  button.innerHTML = e
+
+  list.appendChild(button)
+  chatList.appendChild(list);
+
+  animateBotOutput();
+
+
+  //Sets chatlist scroll to bottom
+  setTimeout(function(){
+    chatList.scrollTop = chatList.scrollHeight;
+    console.log(list.clientHeight);
+  }, 0)
+}
+
 
 
 //change to SCSS loop
@@ -203,35 +231,31 @@ var possibleInput = {
 
   "hi" : function(){
     responseText("Hello, How can i help you?");
-
     commandReset(2);
     return
   },
 
 
-  "humidity" : function(){
-    var weather= new XMLHttpRequest();
-    weather.open("GET", "https://api.thingspeak.com/channels/725914/feeds.json?api_key=R8UXP1FFMCLN5G4E", false);
-    weather.send(null);
-    var r =JSON.parse(weather.response);
-    celcius = Math.round(r.feeds[r.channel.last_entry_id-1].field1);
-    coverage = r.feeds[r.channel.last_entry_id-1].field2;
-    responseText("The humidity is "+coverage);
-    commandReset(2);
+
+  "allDoctors" : async function () {
+    let url = "http://localhost:6969/doctor/fetchAll";
+    let responseData = await fetch(url)
+    const data= await responseData.json();
+
+
+    // console.log(response);
+    console.log(data.msg)
+    for (let i = 0; i < data.data.length; i++) {
+      console.log(data.data[i].doctorName.toString());
+      responseButtons(data.data[i].doctorName.toString());
+      commandReset(2);
+
+    }
     return
+
+
   }
 
-  // ,
-  // "contact" : function(){
-  //   responseText("email: <a href='mailto:meesrutten@gmail.com?Subject=Hello%20Mees' target='_top'>send me a message</a>");
-  //   responseText("Twitter: <a href='https://twitter.com/meesrttn'>@MeesRttn</a>");
-  //   commandReset(7);
-  //   return
-  // }
-  ,
-  "rick roll" : function(){
-    window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-  },
-  // work experience
+
 }
 
