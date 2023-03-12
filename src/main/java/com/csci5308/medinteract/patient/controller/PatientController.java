@@ -30,7 +30,6 @@ public class PatientController {
     public ResponseEntity fetchAll()
     {
         List<PatientModel> patientModelList= patientServiceImpl.fetchAll();
-
         Response  res = new Response(patientModelList, false, "All Patients Fetched Successfully!");
         return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
     }

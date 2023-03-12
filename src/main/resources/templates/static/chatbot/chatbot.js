@@ -17,7 +17,7 @@ var sendForm = document.querySelector('#chatform'),
 
 var createappointment = document.getElementById("createappointment");
 createappointment.addEventListener("click", function(event){
-
+createBubble("createappointment")
 
 });
 
@@ -26,21 +26,26 @@ viewDoctors.addEventListener("click", function(event){
   createBubble("allDoctors")
 });
 
+var viewPatients = document.getElementById("viewPatients");
+viewPatients.addEventListener("click", function(event){
+  createBubble("viewPatients")
+});
 
 
-// sendForm.onkeydown = function(e){
-//   if(e.keyCode == 13){
-//     e.preventDefault();
-//
-//     //No mix ups with upper and lowercases
-//     var input = textInput.value.toLowerCase();
-//
-//     //Empty textarea fix
-//     if(input.length > 0) {
-//       createBubble(input)
-//     }
-//   }
-// };
+
+sendForm.onkeydown = function(e){
+  if(e.keyCode == 13){
+    e.preventDefault();
+
+    //No mix ups with upper and lowercases
+    var input = textInput.value.toLowerCase();
+
+    //Empty textarea fix
+    if(input.length > 0) {
+      createBubble(input)
+    }
+  }
+};
 
 sendForm.addEventListener('submit', function(e) {
   //so form doesnt submit page (no page refresh)
@@ -53,7 +58,7 @@ sendForm.addEventListener('submit', function(e) {
   if(input.length > 0) {
     createBubble(input)
   }
-}) //end of eventlistener
+})
 
 var createBubble = function(input) {
   //create input bubble
@@ -189,7 +194,7 @@ function responseText(e) {
   }, 0)
 }
 
-function responseButtons(e) {
+function responseButtons(e,otherElement) {
 
   var list = document.createElement('li');
   list.classList.add('bot__output');
@@ -200,6 +205,8 @@ function responseButtons(e) {
   button.innerHTML = e
 
   list.appendChild(button)
+  if(otherElement!=null)
+    list.appendChild(otherElement)
   chatList.appendChild(list);
 
   animateBotOutput();
@@ -234,6 +241,57 @@ var possibleInput = {
     commandReset(2);
     return
   },
+  "viewPatients":async function () {
+    let url = "http://localhost:6969/patient/fetchAll";
+    let responseData = await fetch(url)
+    const data= await responseData.json();
+
+    console.log(responseData);
+    console.log(data.msg)
+    for (let i = 0; i < data.data.length; i++) {
+      console.log(data.data[i].patientName.toString());
+      responseButtons(data.data[i].patientName.toString());
+      commandReset(2);
+
+    }
+    return
+
+
+  }
+    ,
+  "createappointment": function(){
+
+    // Create the label element
+    const datetimeLabel = document.createElement("label");
+    datetimeLabel.for = "datetime";
+    datetimeLabel.textContent = "Select a date and time:";
+
+// Create the input element
+    const datetimePicker = document.createElement("input");
+    datetimePicker.type = "datetime-local";
+    datetimePicker.id = "datetime";
+    datetimePicker.name = "datetime";
+
+// Set the minimum and maximum dates
+    const minDate = new Date().toISOString().slice(0, 16);
+    const maxDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 16);
+    datetimePicker.setAttribute("min", minDate);
+    datetimePicker.setAttribute("max", maxDate);
+
+// Set the default value to the current date and time
+    const defaultDate = new Date().toISOString().slice(0, 16);
+    datetimePicker.setAttribute("value", defaultDate);
+
+// Append the label and input elements to the document body
+//     chatList.appendChild(datetimeLabel);
+//     chatList.appendChild(datetimePicker);
+
+    //if not logged in/ ask to log in
+      responseButtons("Enter datetime",datetimePicker);
+  commandReset(2);
+  return
+}
+  ,
 
 
 
@@ -241,7 +299,6 @@ var possibleInput = {
     let url = "http://localhost:6969/doctor/fetchAll";
     let responseData = await fetch(url)
     const data= await responseData.json();
-
 
     // console.log(response);
     console.log(data.msg)
@@ -255,6 +312,8 @@ var possibleInput = {
 
 
   }
+
+
 
 
 }
