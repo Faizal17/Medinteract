@@ -1,5 +1,6 @@
 package com.csci5308.medinteract.appointment.service;
 
+import com.csci5308.medinteract.Doctor.Model.DoctorModel;
 import com.csci5308.medinteract.appointment.model.AppointmentModel;
 import com.csci5308.medinteract.appointment.repository.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,10 @@ public class AppointmentServiceImpl implements AppointmentService {
     public List<AppointmentModel> fetchAppointmentsByPatient(Long patientId) {
         return appointmentRepository.findByPatientId(patientId);
     }
+
+//    @Override
+//    public List<DoctorModel> fetchDoctorsByAppointment(Long appointmentId) {
+//        return null;
+//    }
 
 }
