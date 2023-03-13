@@ -2,7 +2,6 @@ package com.csci5308.medinteract.Doctor.Controller;
 
 import com.csci5308.medinteract.Doctor.Model.DoctorModel;
 import com.csci5308.medinteract.Doctor.Service.DoctorService;
-import com.csci5308.medinteract.patient.model.PatientModel;
 import com.csci5308.medinteract.utilities.JWT.JWT;
 import com.csci5308.medinteract.utilities.Response;
 import org.springframework.beans.factory.annotation.Autowired;
