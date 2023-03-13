@@ -21,4 +21,5 @@ public interface AppointmentService {
     List<Object> fetchAppointmentsWithinThreeDays();
 
     List<Object> fetchAppointmentsWeekly();
+    List<DoctorModel> fetchDoctorNamesByPatientsAppointment(Long patientId);
 }

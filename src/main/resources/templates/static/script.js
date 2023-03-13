@@ -65,6 +65,7 @@ $(document).ready(function () {
         data: getCookie("token")
     })
     .done(function(response) {
+        debugger;
         try {
             let data = response.data;
             if(data.isError){

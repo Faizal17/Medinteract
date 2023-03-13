@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -124,6 +121,14 @@ public class AppointmentController {
     public ResponseEntity fetchAppointmentsByDoctor(@RequestBody AppointmentModel appointmentModel) {
         List<AppointmentModel> appointmentModelList = appointmentServiceImpl.fetchAppointmentsByDoctor(appointmentModel.getDoctorId());
         Response res = new Response(appointmentModelList, false, "Appointments fetched Successfully!");
+        return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
+    }
+
+
+    @PostMapping("/fetchDoctorNamesByAppointments")
+    public ResponseEntity fetchDoctorNamesByAppointments(@RequestBody PatientModel patientModel) {
+        List<DoctorModel> doctorModelList = appointmentServiceImpl.fetchDoctorNamesByPatientsAppointment(patientModel.getId());
+        Response res = new Response(doctorModelList, false, "Doctors fetched Successfully!");
         return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
     }
 

@@ -57,4 +57,9 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentRepository.findWeeklyAppointments(LocalDateTime.now());
     }
 
+    @Override
+    public List<DoctorModel> fetchDoctorNamesByPatientsAppointment(Long patientId) {
+        return appointmentRepository.doctorNameByPatientAppointments(patientId);
+    }
+
 }

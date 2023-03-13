@@ -303,71 +303,47 @@ var possibleInput = {
     commandReset(2)
     return
   },
-
-  "createAppointment" : async function () {
-
-    var appointmentData,doctorData;
-
-    const apiUrl = "http://localhost:6969/appointment/fetchAppointmentsByPatient";
-
-// Set the JSON data to send in the request body
-    const jsonData = {
-      patientId: getCookie("id")
-    };
-
-    let responseData = await fetch(apiUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(jsonData)
-    })
-    const data= await responseData.json();
-    appointmentData = data.data
-    console.log(appointmentData)
-
-
-
-          for (let i = 0; i < appointmentData.length; i++) {
-            let doctorID = appointmentData[i].doctorId
-
-
-            let url = "http://localhost:6969/doctor/profile/"+doctorID;
-            const response = await fetch(url);
-            const data2 = await response.json();
-
-            doctorData = data2.data
-
-            let doctorName = doctorData.doctorName
-            console.log(doctorName)
-            console.log(doctorID)
-
-            // const data2 = await postData(doctorID);
-
-            const list = document.createElement('li');
-            list.classList.add('bot__output');
-
-            const button = document.createElement('button');
-            button.classList.add('btn-primary', 'btn', 'calendar')
-
-            button.id= id+"_"+name
-            button.innerHTML = name
-
-            list.appendChild(button)
-            chatList.appendChild(list);
-
-
-
-            // responseButtons(doctorData.doctorName, null, appointmentData[i].doctorId.toString(), "calendar");
-            // commandReset(2);
-
-          }
-
-
-    return
-
-
-  },
+//
+//   "createAppointment" : async function () {
+//
+//
+// //     const apiUrl = "http://localhost:6969/appointment/fetchDoctorNamesByAppointments";
+// //
+// // // Set the JSON data to send in the request body
+// //     const jsonData = {
+// //       "id": getCookie("id")
+// //     };
+// //     console.log(jsonData)
+// //
+// //     let responseData = await fetch(apiUrl, {
+// //       method: "POST",
+// //       headers: {
+// //         "Content-Type": "application/json"
+// //       },
+// //       body: JSON.stringify(jsonData)
+// //     })
+// //     const data= await responseData.json();
+// //     console.log(data)
+//
+//
+//           // for (let i = 0; i < appointmentData.length; i++) {
+//           //
+//           //   // const data2 = await postData(doctorID);
+//           //
+//           //
+//           //
+//           //
+//           //
+//           //   // responseButtons(doctorData.doctorName, null, appointmentData[i].doctorId.toString(), "calendar");
+//           //   // commandReset(2);
+//           //
+//           // }
+//
+//
+//     return
+//
+//
+//   },
 
 
 

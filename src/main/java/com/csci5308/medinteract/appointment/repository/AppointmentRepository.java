@@ -1,5 +1,6 @@
 package com.csci5308.medinteract.appointment.repository;
 
+import com.csci5308.medinteract.Doctor.Model.DoctorModel;
 import com.csci5308.medinteract.appointment.model.AppointmentModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -32,4 +33,7 @@ public interface AppointmentRepository extends JpaRepository<AppointmentModel, L
 
     @Query("SELECT a,p,d FROM AppointmentModel a JOIN DoctorModel d ON d.id = a.doctorId JOIN PatientModel p ON p.id = a.patientId WHERE DATEDIFF(a.startTime, ?1) = 7 AND a.isActive = true")
     List<Object> findWeeklyAppointments(LocalDateTime localDate);
+
+    @Query("SELECT DISTINCT d FROM AppointmentModel a JOIN DoctorModel d ON d.id = a.doctorId WHERE a.patientId = ?1")
+    List<DoctorModel> doctorNameByPatientAppointments(Long patientId);
 }
