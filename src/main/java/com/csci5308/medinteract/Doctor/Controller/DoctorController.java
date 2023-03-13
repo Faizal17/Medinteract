@@ -30,7 +30,8 @@ public class DoctorController {
     public ResponseEntity fetchAll()
     {
         List<DoctorModel> doctorModelList= doctorServiceImpl.fetchAll();
-        return new ResponseEntity<>(doctorModelList, HttpStatus.OK);
+        Response res = new Response(doctorModelList, false, "All doctors fetched Successfully!");
+        return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
     }
 
     @PostMapping("/register")
@@ -64,7 +65,7 @@ public class DoctorController {
             doctorModel.setDoctorPassword("");
             Response  res = new Response(jwtTokenUtil.generateToken(doctorModel.getDoctorEmail(),"doctor",doctorModel)
                     , false
-                    , "User logged in Successfully!");
+                    , "Doctor logged in Successfully!");
             return  new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
 
         }
@@ -91,10 +92,10 @@ public class DoctorController {
         return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
     }
 
-    @GetMapping("/profile")
-    public List<DoctorModel> getAllDoctors(){
-        return doctorServiceImpl.getAllDoctors();
-    }
+//    @GetMapping("/profile")
+//    public List<DoctorModel> getAllDoctors(){
+//        return doctorServiceImpl.getAllDoctors();
+//    }
 
     @GetMapping("/profile/{doctorId}")
     public ResponseEntity getDoctorById(@PathVariable("doctorId") Long id){
@@ -104,7 +105,7 @@ public class DoctorController {
             return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
         }
         doctorModel.get().setDoctorPassword("");
-        Response  res = new Response(doctorModel, false, "User details fetched Successfully!");
+        Response  res = new Response(doctorModel, false, "Doctor details fetched Successfully!");
         return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
     }
 

@@ -30,7 +30,9 @@ public class PatientController {
     public ResponseEntity fetchAll()
     {
         List<PatientModel> patientModelList= patientServiceImpl.fetchAll();
-        return new ResponseEntity<>(patientModelList, HttpStatus.OK);
+
+        Response  res = new Response(patientModelList, false, "All Patients Fetched Successfully!");
+        return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
     }
 
     @PostMapping("/register")
@@ -64,7 +66,7 @@ public class PatientController {
         {
             patientModel = patientServiceImpl.getPatientByEmail(patientModel.getPatientEmail());
             patientModel.setPatientPassword("");
-            Response  res = new Response(jwtTokenUtil.generateToken(patientModel.getPatientEmail(),"patient",patientModel), false, "User logged in Successfully!");
+            Response  res = new Response(jwtTokenUtil.generateToken(patientModel.getPatientEmail(),"patient",patientModel), false, "Patient logged in Successfully!");
             return  new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
 
         }
@@ -74,21 +76,21 @@ public class PatientController {
         }
     }
 
-
-    @GetMapping("/profile")
-    public List<PatientModel> getPatients(){
-        return patientServiceImpl.getPatients();
-    }
+//
+//    @GetMapping("/profile")
+//    public List<PatientModel> getPatients(){
+//        return patientServiceImpl.getPatients();
+//    }
 
     @GetMapping("/profile/{patientId}")
     public ResponseEntity getPatientById(@PathVariable("patientId") Long id){
         Optional<PatientModel> patientModel= patientServiceImpl.getPatientById(id);
         if(patientModel.isEmpty() || patientModel.get().isBlocked() || !patientModel.get().isActive()) {
-            Response res = new Response("", true, "Unable to find user with the given id!");
+            Response res = new Response("", true, "Unable to find patient with the given id!");
             return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
         }
         patientModel.get().setPatientPassword("");
-        Response  res = new Response(patientModel, false, "User details fetched Successfully!");
+        Response  res = new Response(patientModel, false, "Patient details fetched Successfully!");
         return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
     }
 
