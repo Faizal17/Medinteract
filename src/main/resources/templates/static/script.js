@@ -2,6 +2,8 @@ const globalURL = "http://localhost:6969/";
 
 window.count = 1;
 
+window.stompClient = null;
+
 function toastHTML(isError, title, msg) {
     if(isError){
         return `<div id="liveToast${count}" class="toast" role="alert" aria-live="assertive" aria-atomic="false"><div class="toast-header"><svg className="bd-placeholder-img rounded" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#FF0000"></rect></svg><strong class="ms-2 me-auto">${title}</strong><button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button></div><div class="toast-body">${msg}</div></div>`
@@ -86,6 +88,54 @@ $(document).ready(function () {
                 } else if (data.type === 'admin') {
                     window.location.href = './admin/dashboard.html'
                 }
+                var socket = new SockJS(globalURL + 'sockets');
+                stompClient = Stomp.over(socket);
+                stompClient.connect({}, function (frame) {
+                    console.log('Connected: ' + frame);
+                    stompClient.subscribe("/user/errors", function(message) {
+                        alert("Error " + message.body);
+                    });
+
+                    stompClient.subscribe("/user/" + getCookie("id") + "/" + getCookie("type"), function(message) {
+                        // alert("/user/" + getCookie("id") + "/" + getCookie("type") + JSON.parse(message.body));
+                        console.log(JSON.parse(message.body), message, message.body)
+                        let payload = JSON.parse(message.body);
+                        if($('#demo-day-week-view').children().length != 0) {
+                            if(payload.type === "appointment") {
+                                let responseData = {};
+                                const d = new Date();
+                                let diff = 2*d.getTimezoneOffset()*60*1000*-1;
+                                responseData["id"] = payload.data.id
+                                responseData["title"] = payload.data.title
+                                responseData["description"] = payload.data.description
+                                responseData["start"] = new Date(new Date(payload.data.startTime).getTime() + new Date(payload.data.startTime).getTimezoneOffset()*60*1000*-1).toJSON();
+                                responseData["end"] = new Date(new Date(payload.data.endTime).getTime() + new Date(payload.data.endTime).getTimezoneOffset()*60*1000*-1).toJSON();
+
+                                // responseData["start"] = new Date(new Date(payload.data.startTime).getTime() + diff).toJSON()
+                                // responseData["end"] = new Date(new Date(payload.data.endTime).getTime() + diff).toJSON()
+
+                                // responseData["start"] = new Date(payload.data.startTime).toJSON()
+                                // responseData["end"] = new Date(payload.data.endTime).toJSON()
+                                responseData["color"] = payload.data.colorCode
+                                responseData["doctorId"] = payload.data.doctorId;
+                                responseData["patientId"] = payload.data.patientId;
+                                console.log(responseData)
+                                if(payload.action === "create") {
+                                    calendar.addEvent(responseData);
+                                } else if(payload.action === "update") {
+                                    calendar.updateEvent(responseData);
+                                } else if(payload.action === "delete") {
+                                    calendar.removeEvent(responseData);
+                                }
+                            }
+                        }
+                        if(payload.type !== "reminder") {
+                            addToast(false, "New Notification", payload.message)
+                        } else {
+                            addToast(false, "Reminder", payload.message)
+                        }
+                    });
+                });
             }
         } catch(err){
             addToast(true, "Error", "Some unknown error occurred. Pls try again later!")

@@ -43,23 +43,26 @@ function loadAppointments(type, id, editable = false) {
                 text: 'Add',
                 keyCode: 'enter',
                 handler: function () {
+                    calendar.removeEvent(tempEvent);
                     let args = {
                         id: tempEvent.id,
                         title: tempEvent.title,
                         description: tempEvent.description,
-                        allDay: tempEvent.allDay,
                         start: tempEvent.start,
                         end: tempEvent.end,
                         color: tempEvent.color
                     };
                     let savePayloadData = {};
-                    savePayloadData["id"] = args.id;
+                    // savePayloadData["id"] = args.id;
                     savePayloadData["title"] = args.title;
-                    savePayloadData["description"] = args.description;
-                    savePayloadData["startTime"] = args.start;
-                    savePayloadData["endTime"] = args.end;
-                    savePayloadData["colorCode"] = args.color;
+                    savePayloadData["description"] = args.description? args.description: "";
+                    savePayloadData["startTime"] = new Date(new Date(args.start).getTime() + args.start.getTimezoneOffset()*60*1000*-1).toJSON();
+                    savePayloadData["endTime"] = new Date(new Date(args.end).getTime() + args.end.getTimezoneOffset()*60*1000*-1).toJSON();
+                    // savePayloadData["startTime"] = args.start;
+                    // savePayloadData["endTime"] = args.end;
+                    savePayloadData["colorCode"] = args.color? args.color: "";
                     savePayloadData["active"] = true;
+                    console.log(args, savePayloadData)
                     if (hasModifiedOverlap(args, calendar.getInst())) {
                         mobiscroll.toast({
                             message: 'Make sure not to double book'
@@ -122,7 +125,8 @@ function loadAppointments(type, id, editable = false) {
                                 addToast(true, "Error", data.msg);
                                 return false;
                             } else {
-                                addToast(false, "Success", "Appointment created successfully!")
+                                console.log(calendar.getEvents())
+                                // addToast(false, "Success", "Appointment created successfully!")
                             }
                         } catch(err){
                             addToast(true, "Error", "Some unknown error occurred. Unable to create an appointment!")
@@ -133,7 +137,6 @@ function loadAppointments(type, id, editable = false) {
                         addToast(true, "Error", "Some unknown error occurred. Unable to create an appointment!");
                         return false;
                     });
-                    calendar.updateEvent(args);
                     // navigate the calendar to the correct view
                     calendar.navigateToEvent(tempEvent);
                     deleteEvent = false;
@@ -193,8 +196,10 @@ function loadAppointments(type, id, editable = false) {
                     savePayloadData["id"] = eventToSave.id;
                     savePayloadData["title"] = eventToSave.title;
                     savePayloadData["description"] = eventToSave.description;
-                    savePayloadData["startTime"] = eventToSave.start;
-                    savePayloadData["endTime"] = eventToSave.end;
+                    // savePayloadData["startTime"] = eventToSave.start;
+                    // savePayloadData["endTime"] = eventToSave.end;
+                    savePayloadData["startTime"] = new Date(new Date(eventToSave.start).getTime() + eventToSave.start.getTimezoneOffset()*60*1000*-1).toJSON();
+                    savePayloadData["endTime"] = new Date(new Date(eventToSave.end).getTime() + eventToSave.end.getTimezoneOffset()*60*1000*-1).toJSON();
                     savePayloadData["colorCode"] = eventToSave.color;
                     savePayloadData["patientId"] = eventToSave.patientId;
                     savePayloadData["doctorId"] = eventToSave.doctorId;
@@ -250,7 +255,7 @@ function loadAppointments(type, id, editable = false) {
                     //     return false;
                     // }
                     $.ajax({
-                        url: globalURL + "appointment/register",
+                        url: globalURL + "appointment/update",
                         type: "POST",
                         dataType: "json",
                         contentType: "application/json",
@@ -263,7 +268,7 @@ function loadAppointments(type, id, editable = false) {
                                 addToast(true, "Error", data.msg);
                                 return false;
                             } else {
-                                addToast(false, "Success", "Appointment updated successfully!")
+                                // addToast(false, "Success", "Appointment updated successfully!")
                             }
                         } catch(err){
                             addToast(true, "Error", "Some unknown error occurred. Unable to update the appointment!")
@@ -323,9 +328,10 @@ function loadAppointments(type, id, editable = false) {
         return events.length > 0;
     }
     // mobiscroll.momentTimezone.moment = moment;
-    let calendar = $('#demo-day-week-view').mobiscroll().eventcalendar({
-        dataTimezone: 'utc',
-        displayTimezone: 'local',
+    window.calendar = $('#demo-day-week-view').mobiscroll().eventcalendar({
+        // dataTimezone: 'utc',
+        // displayTimezone: 'local',
+        // timezonePlugin: mobiscroll.momentTimezone,
         invalid: [
             {
                 // More info about invalid: https://docs.mobiscroll.com/5-21-2/eventcalendar#opt-invalid
@@ -388,8 +394,11 @@ function loadAppointments(type, id, editable = false) {
             tempEvent = args.event;
             console.log(args)
 
+            const d = new Date();
+            let diff = d.getTimezoneOffset()*60*1000*-1;
+
             if (!popup.isVisible()) {
-                if(new Date(tempEvent.start) < new Date() || new Date(tempEvent.end) < new Date()) {
+                if(new Date(new Date(tempEvent.start).getTime() - diff) < new Date() || new Date(new Date(tempEvent.end).getTime() - diff) < new Date()) {
                     createEditPopup(args, false);
                 } else {
                     createEditPopup(args);
@@ -425,7 +434,7 @@ function loadAppointments(type, id, editable = false) {
             savePayloadData["doctorId"] = tempEvent.doctorId;
             savePayloadData["active"] = false;
             $.ajax({
-                url: globalURL + "appointment/register",
+                url: globalURL + "appointment/delete",
                 type: "POST",
                 dataType: "json",
                 contentType: "application/json",
@@ -438,7 +447,7 @@ function loadAppointments(type, id, editable = false) {
                         addToast(true, "Error", data.msg);
                         return false;
                     } else {
-                        addToast(false, "Success", "Appointment deleted successfully!")
+                        // addToast(false, "Success", "Appointment deleted successfully!")
                     }
                 } catch(err){
                     addToast(true, "Error", "Some unknown error occurred. Unable to delete an appointment!")
@@ -526,8 +535,12 @@ function loadAppointments(type, id, editable = false) {
                         responseData["id"] = data.data[i].id
                         responseData["title"] = data.data[i].title
                         responseData["description"] = data.data[i].description
-                        responseData["start"] = new Date(new Date(data.data[i].startTime).getTime() + diff).toJSON()
-                        responseData["end"] = new Date(new Date(data.data[i].endTime).getTime() + diff).toJSON()
+                        // responseData["start"] = new Date(new Date(data.data[i].startTime).getTime() + diff).toJSON()
+                        // responseData["end"] = new Date(new Date(data.data[i].endTime).getTime() + diff).toJSON()
+                        // responseData["start"] = new Date(data.data[i].startTime).toJSON()
+                        // responseData["end"] = new Date(data.data[i].endTime).toJSON()
+                        responseData["start"] = new Date(new Date(data.data[i].startTime).getTime() + new Date(data.data[i].startTime).getTimezoneOffset()*60*1000*-1).toJSON();
+                        responseData["end"] = new Date(new Date(data.data[i].endTime).getTime() + new Date(data.data[i].endTime).getTimezoneOffset()*60*1000*-1).toJSON();
                         responseData["color"] = data.data[i].colorCode
                         responseData["doctorId"] = data.data[i].doctorId;
                         responseData["patientId"] = data.data[i].patientId;
@@ -539,6 +552,7 @@ function loadAppointments(type, id, editable = false) {
                     // addToast(false, "Success", "Data fetched successfully!")
                 }
             } catch(err){
+                console.log(err)
                 addToast(true, "Error", "Some unknown error occurred. Unable to fetch the appointments!")
                 // window.location.href="./index.html";
             }
@@ -658,7 +672,7 @@ function loadAppointments(type, id, editable = false) {
         savePayloadData["doctorId"] = tempEvent.doctorId;
         savePayloadData["active"] = false;
         $.ajax({
-            url: globalURL + "appointment/register",
+            url: globalURL + "appointment/delete",
             type: "POST",
             dataType: "json",
             contentType: "application/json",
@@ -671,7 +685,7 @@ function loadAppointments(type, id, editable = false) {
                     addToast(true, "Error", data.msg);
                     return false;
                 } else {
-                    addToast(false, "Success", "Appointment deleted successfully!")
+                    // addToast(false, "Success", "Appointment deleted successfully!")
                 }
             } catch(err){
                 addToast(true, "Error", "Some unknown error occurred. Unable to delete an appointment!")
