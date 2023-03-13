@@ -30,7 +30,7 @@ public class DoctorController {
     public ResponseEntity fetchAll()
     {
         List<DoctorModel> doctorModelList= doctorServiceImpl.fetchAll();
-        Response res = new Response(doctorModelList, false, "All doctors fetched Successfully!");
+        Response res = new Response(doctorModelList, false, "All Doctors Fetched Successfully!");
         return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
     }
 
