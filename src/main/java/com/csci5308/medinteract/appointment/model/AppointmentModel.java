@@ -1,23 +1,18 @@
 package com.csci5308.medinteract.appointment.model;
 
-import com.csci5308.medinteract.Doctor.Model.DoctorModel;
-import com.csci5308.medinteract.city.model.CityModel;
-import com.csci5308.medinteract.patient.model.PatientModel;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.sql.Time;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name="appointments")
 public class AppointmentModel {
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -86,8 +81,9 @@ public class AppointmentModel {
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
-    private String id;
+    private Long id;
     @NotBlank
     @NotNull
     private Long patientId;

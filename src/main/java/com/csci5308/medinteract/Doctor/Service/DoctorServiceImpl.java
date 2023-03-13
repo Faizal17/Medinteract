@@ -2,12 +2,9 @@ package com.csci5308.medinteract.Doctor.Service;
 
 import com.csci5308.medinteract.Doctor.Model.DoctorModel;
 import com.csci5308.medinteract.Doctor.Repository.DoctorRepository;
-import com.csci5308.medinteract.patient.model.PatientModel;
 import com.csci5308.medinteract.utilities.PasswordEncodeDecode;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.transaction.Transactional;
 import java.util.*;

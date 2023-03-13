@@ -34,7 +34,7 @@ class AppointmentControllerTest {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         System.out.println(dateFormat.format(date));
-        obj.put("id", "Test");
+//        obj.put("id", 0);
         obj.put("patientId", 12);
         obj.put("doctorId", 37);
         obj.put("colorCode", "#f44437");
