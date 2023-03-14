@@ -2,7 +2,9 @@ package com.csci5308.medinteract.Doctor.Service;
 
 import com.csci5308.medinteract.Doctor.Model.DoctorModel;
 import com.csci5308.medinteract.Doctor.Repository.DoctorRepository;
+import com.csci5308.medinteract.city.model.CityModel;
 import com.csci5308.medinteract.patient.model.PatientModel;
+import com.csci5308.medinteract.province.model.ProvinceModel;
 import com.csci5308.medinteract.utilities.PasswordEncodeDecode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -207,5 +209,35 @@ public class DoctorServiceImpl implements DoctorService{
         Long city = doctorModel.getDoctorAddressCity();
         String qualification = doctorModel.getDoctorQualification();
         return doctorRepository.findByDoctorOnDetails(name, province, city, qualification);
+    }
+
+    public List<Map<String, Object>> findDoctorOnDetailsWithCity(DoctorModel doctorModel)
+    {
+        String name = doctorModel.getDoctorName();
+        Long province = doctorModel.getDoctorAddressProvince();
+        Long city = doctorModel.getDoctorAddressCity();
+        String qualification = doctorModel.getDoctorQualification();
+        List<Object> doctorModelList = doctorRepository.findDoctorOnDetailsWithCity(name, province, city, qualification);
+        List<Map<String, Object>> doctorDetailsList = new ArrayList<>();
+
+        for(int i = 0; i<doctorModelList.size();i++)
+        {
+            DoctorModel doctorModel1 = (DoctorModel) (((Object[]) doctorModelList.get(i))[0]);
+            ProvinceModel provinceModel = (ProvinceModel) (((Object[]) doctorModelList.get(i))[1]);
+            CityModel cityModel = (CityModel) (((Object[]) doctorModelList.get(i))[2]);
+            Map<String, Object> data = new HashMap<>();
+
+            data.put("id", doctorModel1.getId());
+            data.put("doctorEmail", doctorModel1.getDoctorEmail());
+            data.put("doctorName", doctorModel1.getDoctorName());
+            data.put("doctorAddressProvince", provinceModel.getName());
+            data.put("doctorAddressCity", cityModel.getCity());
+            data.put("doctorType", doctorModel1.getDoctorType());
+            data.put("doctorQualification", doctorModel1.getDoctorQualification());
+
+            doctorDetailsList.add(data);
+        }
+
+        return doctorDetailsList;
     }
 }

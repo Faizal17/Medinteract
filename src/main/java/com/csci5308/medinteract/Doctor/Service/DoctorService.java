@@ -25,6 +25,8 @@ public interface DoctorService {
     List<DoctorModel> fetchDoctorsOnName(DoctorModel doctorModel);
     List<DoctorModel> fetchDoctorsOnQualification(DoctorModel doctorModel);
 
+    List<Map<String, Object>> findDoctorOnDetailsWithCity(DoctorModel doctorModel);
+
     List<DoctorModel> getAllDoctors();
 
     Optional<DoctorModel> getDoctorById(Long id);

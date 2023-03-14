@@ -1,28 +1,12 @@
 //const globalURL = "http://localhost:6969/";
 
-function getCityName(tempResponceData, doctorList) {
+function showDoctorList(tempResponceData, doctorList) {
   //console.log(doctorList)
   //console.log("........."+tempResponceData.doctorAddressCity+JSON.stringify(tempResponceData));
 
-  let responseData;
-  let cidtyData = {
-    "id": tempResponceData.doctorAddressCity
-  }
 
-  $.ajax({
-    url: globalURL + 'city/city_name_with_province',
-    type: "POST",
-    dataType: "json",
-    contentType: "application/json",
-    data: JSON.stringify(cidtyData),
 
-  }).done(function (response) {
-    //console.log(response.data[0][0]);
-
-    tempResponceData.doctorAddressProvince = response.data[0][0];
-    tempResponceData.doctorAddressCity = response.data[0][1];
-
-    let htmlString = `<div class="card col-md-6 mx-auto"  id="doctor_list_div_card" style="width: 35rem;">
+  let htmlString = `<div class="card col-md-6 mx-auto"  id="doctor_list_div_card" style="width: 35rem;">
           <div class="card-body">
             <h5 class="card-title">`+ tempResponceData.doctorName + `</h5>
             <p class="card-text">Dr. `+ tempResponceData.doctorName + ` is a ` + tempResponceData.doctorType + ` who provieds their services in ` + tempResponceData.doctorAddressCity + `</p>
@@ -33,40 +17,38 @@ function getCityName(tempResponceData, doctorList) {
                 <li class="list-group-item">Qualifications: `+ tempResponceData.doctorQualification + `</li>
               </ul>
             </div>
-            
+          
+            <div class="rating">
+            <div class="rating-stars">
+            <span><i class="bi bi-star" id="start1_${tempResponceData.id}"></i></span>
+            <span><i class="bi bi-star" id="star2_${tempResponceData.id}"></i></span>
+            <span><i class="bi bi-star" id="star3_${tempResponceData.id}"></i></span>
+            <span><i class="bi bi-star" id="star4_${tempResponceData.id}"></i></span>
+            <span><i class="bi bi-star" id="star5_${tempResponceData.id}"></i></span>
+            </div>
+            </div>
             <button id="${tempResponceData.id}_${tempResponceData.doctorName}" class="btn btn-primary float-end calendar" style="width: 10rem;">Book a Appointment</button>
             
           </div>
         </div>`;
 
-    let div = document.createElement("div");
-    div.id = "doctor_list_div_subdiv";
-    div.innerHTML = htmlString;
+  let div = document.createElement("div");
+  div.id = "doctor_list_div_subdiv";
+  div.innerHTML = htmlString;
 
-    doctorList.appendChild(div);
-    doctorList.appendChild(document.createElement("br"))
+  let ratingStar1 = document.getElementById("start1_" + tempResponceData.id);
+  let ratingStar2 = document.getElementById("start2_" + tempResponceData.id);
+  let ratingStar3 = document.getElementById("start3_" + tempResponceData.id);
+  let ratingStar4 = document.getElementById("start4_" + tempResponceData.id);
+  let ratingStar5 = document.getElementById("start5_" + tempResponceData.id);
 
-    try {
-      responseData = response;
 
-      if (responseData.isError) {
-        addToast(true, "Error", responseData.msg);
-        return false;
-      } else {
 
-        //console.log("here in get city");
+  doctorList.appendChild(div);
+  doctorList.appendChild(document.createElement("br"))
 
-        //addToast(false, "Success", "Doctors fetched successfully!")
-      }
-    } catch (err) {
-      addToast(true, "Error", "Some unknown error occurred. Unable to fetch City Name!" + err)
-      return false;
-    }
-  })
-    .fail(function (jqXHR, textStatus, errorThrown) {
-      addToast(true, "Error", "Some unknown error occurred. Unable to fetch City Name!");
-      return false;
-    });;
+
+
 
 }
 
@@ -81,7 +63,7 @@ function searchdoctor(event) {
 
 
 
-  apiUrl = "doctor/get_doctor_on_doctor_details";
+  apiUrl = "doctor/get_doctor_on_details_and_city";
   data = {
     "doctorName": document.getElementById("doctor_search_form_name").value,
     "doctorAddressProvince": document.getElementById("doctor_search_form_province").value,
@@ -120,7 +102,7 @@ function searchdoctor(event) {
           let tempResponceData = responseData.data[i];
 
           //console.log(tempResponceData);
-          getCityName(tempResponceData, doctorList);
+          showDoctorList(tempResponceData, doctorList);
 
         }
         addToast(false, "Success", "Doctors featched successfully!")
@@ -144,39 +126,7 @@ $(document).ready(function () {
   let responseData;
   console.log("In document ready..")
 
-  $.ajax({
-    url: globalURL + "doctor/fetchAll",
-    type: "GET",
-    dataType: "json",
-    contentType: "application/json",
-
-  }).done(function (response) {
-    //console.log(response);
-
-    try {
-      responseData = response;
-
-      if (responseData.isError) {
-        //responseData = response;
-        addToast(true, "Error", responseData.msg);
-        return false;
-      } else {
-        doctorList.innerHTML = "";
-        for (let i = 0; i < responseData.length; i++) {
-          let tempResponceData = responseData[i];
-          getCityName(tempResponceData, doctorList);
-        }
-        addToast(false, "Success", "Doctors fetched successfully!")
-      }
-    } catch (err) {
-      addToast(true, "Error", "Some unknown error occurred. Unable to fetch Doctors!" + err)
-      return false;
-    }
-  })
-    .fail(function (jqXHR, textStatus, errorThrown) {
-      addToast(true, "Error", "Some unknown error occurred. Unable to fetch Doctors!");
-      return false;
-    });;
+  searchdoctor();
 
 });
 
