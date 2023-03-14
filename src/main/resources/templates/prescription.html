@@ -74,7 +74,7 @@
                 </ul>
               </div>
               <div class="mb-3 mt-2 d-flex justify-content-between">
-                <div class="form-end">
+                <div class="form-footer">
                   <input type="submit" id="submit-form" class="btn btn-primary" style="width: 10rem;">
                   <button class="btn btn-secondary clear-form" style="width: 10rem;">Clear</button>
                 </div>
@@ -140,4 +140,9 @@
       $(row_item).remove();
     });
   });
+
+  $('.clear-form').click(function() {
+    $(this).closest('form')[0].reset();
+  });
+  
 </script>
