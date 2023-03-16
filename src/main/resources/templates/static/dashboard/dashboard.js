@@ -279,11 +279,11 @@ function loadComents(doctorId) {
                       
                       <div class="rating col float-end">
                       <div class="rating-stars float-end">
-                        <span><i class="1 bi bi-star patientFeedbackStar" data-my-info="0" id="star1_${patientId}_${doctorId}" onclick="setStar(1, ${patientId}, ${doctorId})"></i></span>
-                        <span><i class="2 bi bi-star patientFeedbackStar" data-my-info="0" id="star2_${patientId}_${doctorId}" onclick="setStar(2, ${patientId}, ${doctorId})"></i></span>
-                        <span><i class="3 bi bi-star patientFeedbackStar" data-my-info="0" id="star3_${patientId}_${doctorId}" onclick="setStar(3, ${patientId}, ${doctorId})"></i></span>
-                        <span><i class="4 bi bi-star patientFeedbackStar" data-my-info="0" id="star4_${patientId}_${doctorId}" onclick="setStar(4, ${patientId}, ${doctorId})"></i></span>
-                        <span><i class="5 bi bi-star patientFeedbackStar" data-my-info="0" id="star5_${patientId}_${doctorId}" onclick="setStar(5, ${patientId}, ${doctorId})"></i></span>
+                        <span><i class="1 bi bi-star patientFeedbackStar" data-my-info="${rating}" id="star1_${patientId}_${doctorId}" onclick="setStar(1, ${patientId}, ${doctorId}, ${responseData.data[0].id})"></i></span>
+                        <span><i class="2 bi bi-star patientFeedbackStar" data-my-info="${rating}" id="star2_${patientId}_${doctorId}" onclick="setStar(2, ${patientId}, ${doctorId}, ${responseData.data[0].id})"></i></span>
+                        <span><i class="3 bi bi-star patientFeedbackStar" data-my-info="${rating}" id="star3_${patientId}_${doctorId}" onclick="setStar(3, ${patientId}, ${doctorId}, ${responseData.data[0].id})"></i></span>
+                        <span><i class="4 bi bi-star patientFeedbackStar" data-my-info="${rating}" id="star4_${patientId}_${doctorId}" onclick="setStar(4, ${patientId}, ${doctorId}, ${responseData.data[0].id})"></i></span>
+                        <span><i class="5 bi bi-star patientFeedbackStar" data-my-info="${rating}" id="star5_${patientId}_${doctorId}" onclick="setStar(5, ${patientId}, ${doctorId}, ${responseData.data[0].id})"></i></span>
                       </div>
                       </div>
                       </div>
@@ -337,6 +337,7 @@ function loadComents(doctorId) {
   if (!commentFlag) {
     postButton.textContent = "Edit Comment";
     patientComment.setAttribute("disabled", "");
+
   }
 
   console.log(rating);
@@ -358,10 +359,16 @@ function loadComents(doctorId) {
       let filledTill = this.dataset.myInfo;
 
       let tempCurrentStar;
-      for (let i = 1; i < currentStar; i++) {
+      let i;
+      for (i = 1; i <= currentStar; i++) {
         tempCurrentStar = document.getElementById("star" + i + "_" + patientId + "_" + doctorId);
         tempCurrentStar.classList.remove("bi-star");
         tempCurrentStar.classList.add("bi-star-fill");
+      }
+      for (; i <= 5; i++) {
+        tempCurrentStar = document.getElementById("star" + i + "_" + patientId + "_" + doctorId);
+        tempCurrentStar.classList.remove("bi-star-fill");
+        tempCurrentStar.classList.add("bi-star");
       }
 
 
@@ -456,7 +463,7 @@ function saveComment(doctorId, feedbackId) {
 }
 
 
-function setStar(currentStar, patientId, doctorId) {
+function setStar(currentStar, patientId, doctorId, feedbackId) {
   console.log("In setSatr")
   let i;
   let tempCurrentStar;
@@ -473,5 +480,6 @@ function setStar(currentStar, patientId, doctorId) {
     tempCurrentStar.dataset.myInfo = currentStar;
   }
 
+  saveComment(doctorId, feedbackId);
 
 }
