@@ -7,3 +7,7 @@
     height: auto;
     overflow: auto;
 }
+
+.patientFeedbackStar {
+    color: orange;
+}

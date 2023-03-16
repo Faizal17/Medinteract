@@ -197,6 +197,8 @@ $(document).ready(function () {
   const doctorList = document.getElementById("doctor_list_div");
   let responseData;
 
+
+
   console.log("In document ready..")
 
   searchdoctor();
@@ -259,10 +261,14 @@ function loadComents(doctorId) {
 
 
   let commentFlag = false;
+  let rating = 0;
   if (typeof responseData.data[0].comment === 'undefined') {
     responseData.data[0].comment = "";
     responseData.data[0].id = -1;
     commentFlag = true;
+  }
+  else {
+    rating = responseData.data[0].rating;
   }
 
   let commentList = document.getElementById("comments_body_" + doctorId);
@@ -273,11 +279,11 @@ function loadComents(doctorId) {
                       
                       <div class="rating col float-end">
                       <div class="rating-stars float-end">
-                        <span><i class="bi bi-star" style="color:orange" id="star1_${patientId}"></i></span>
-                        <span><i class="bi bi-star" style="color:orange" id="star2_${patientId}"></i></span>
-                        <span><i class="bi bi-star" style="color:orange" id="star3_${patientId}"></i></span>
-                        <span><i class="bi bi-star" style="color:orange" id="star4_${patientId}"></i></span>
-                        <span><i class="bi bi-star" style="color:orange" id="star5_${patientId}"></i></span>
+                        <span><i class="1 bi bi-star patientFeedbackStar" data-my-info="0" id="star1_${patientId}_${doctorId}" onclick="setStar(1, ${patientId}, ${doctorId})"></i></span>
+                        <span><i class="2 bi bi-star patientFeedbackStar" data-my-info="0" id="star2_${patientId}_${doctorId}" onclick="setStar(2, ${patientId}, ${doctorId})"></i></span>
+                        <span><i class="3 bi bi-star patientFeedbackStar" data-my-info="0" id="star3_${patientId}_${doctorId}" onclick="setStar(3, ${patientId}, ${doctorId})"></i></span>
+                        <span><i class="4 bi bi-star patientFeedbackStar" data-my-info="0" id="star4_${patientId}_${doctorId}" onclick="setStar(4, ${patientId}, ${doctorId})"></i></span>
+                        <span><i class="5 bi bi-star patientFeedbackStar" data-my-info="0" id="star5_${patientId}_${doctorId}" onclick="setStar(5, ${patientId}, ${doctorId})"></i></span>
                       </div>
                       </div>
                       </div>
@@ -333,6 +339,55 @@ function loadComents(doctorId) {
     patientComment.setAttribute("disabled", "");
   }
 
+  console.log(rating);
+  let currentPatientRating;
+  for (let i = 1; i <= rating; i++) {
+    console.log("In setting star for crueent user comment");
+    currentPatientRating = document.getElementById("star" + i + "_" + patientId + "_" + doctorId);
+    currentPatientRating.classList.remove("bi-star");
+    currentPatientRating.classList.add("bi-star-fill");
+  }
+
+  const patientFeedbackStar = document.querySelectorAll(".patientFeedbackStar");
+
+  patientFeedbackStar.forEach(function (element) {
+    element.addEventListener("mouseenter", function () {
+      this.classList.remove("bi-star");
+      this.classList.add("bi-star-fill");
+      let currentStar = this.classList[0];
+      let filledTill = this.dataset.myInfo;
+
+      let tempCurrentStar;
+      for (let i = 1; i < currentStar; i++) {
+        tempCurrentStar = document.getElementById("star" + i + "_" + patientId + "_" + doctorId);
+        tempCurrentStar.classList.remove("bi-star");
+        tempCurrentStar.classList.add("bi-star-fill");
+      }
+
+
+    });
+
+    element.addEventListener("mouseleave", function () {
+      this.classList.remove("bi-star-fill");
+      this.classList.add("bi-star");
+      let currentStar = this.dataset.myInfo;
+      let tempCurrentStar;
+      let i;
+      for (i = 1; i <= currentStar; i++) {
+        tempCurrentStar = document.getElementById("star" + i + "_" + patientId + "_" + doctorId);
+        tempCurrentStar.classList.remove("bi-star");
+        tempCurrentStar.classList.add("bi-star-fill");
+      }
+      for (; i <= 5; i++) {
+        tempCurrentStar = document.getElementById("star" + i + "_" + patientId + "_" + doctorId);
+        tempCurrentStar.classList.remove("bi-star-fill");
+        tempCurrentStar.classList.add("bi-star");
+      }
+
+    });
+  });
+
+
 }
 
 
@@ -340,13 +395,15 @@ function saveComment(doctorId, feedbackId) {
   const patientId = getCookie('id');
   let textCommentArea = document.getElementById("textCommentArea_" + doctorId);
   let postButton = document.getElementById("postButton_" + doctorId);
+  let rating = document.getElementById("star1_" + patientId + "_" + doctorId).dataset.myInfo;
 
   //console.log(javaDate, localDate);
 
   let data = {
     "patientId": patientId,
     "doctorId": doctorId,
-    "comment": textCommentArea.value
+    "comment": textCommentArea.value,
+    "rating": rating
   }
 
 
@@ -395,5 +452,26 @@ function saveComment(doctorId, feedbackId) {
   postButton.textContent = "Edit Comment";
   textCommentArea.setAttribute("disabled", "");
   //loadComents(doctorId);
+
+}
+
+
+function setStar(currentStar, patientId, doctorId) {
+  console.log("In setSatr")
+  let i;
+  let tempCurrentStar;
+  for (i = 1; i <= currentStar; i++) {
+    tempCurrentStar = document.getElementById("star" + i + "_" + patientId + "_" + doctorId);
+    tempCurrentStar.classList.remove("bi-star");
+    tempCurrentStar.classList.add("bi-star-fill");
+    tempCurrentStar.dataset.myInfo = currentStar;
+  }
+  for (; i <= 5; i++) {
+    tempCurrentStar = document.getElementById("star" + i + "_" + patientId + "_" + doctorId);
+    tempCurrentStar.classList.remove("bi-star-fill");
+    tempCurrentStar.classList.add("bi-star");
+    tempCurrentStar.dataset.myInfo = currentStar;
+  }
+
 
 }
