@@ -29,7 +29,7 @@ public class DoctorServiceImpl implements DoctorService{
 
     @Override
     public DoctorModel saveDoctor(DoctorModel doctorModel) {
-        return doctorRepository.save(doctorModel);
+            return doctorRepository.save(doctorModel);
     }
 
     @Override
