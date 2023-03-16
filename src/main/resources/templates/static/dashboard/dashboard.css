@@ -1,6 +1,9 @@
-.scrollable {
+#doctor_list_div.scrollable {
     height: 530px;
-    /* set a fixed height for the div */
     overflow: auto;
-    /* enable a scrollbar when content exceeds the height */
+}
+
+#othersCommentBoxDiv.scrollable {
+    height: auto;
+    overflow: auto;
 }

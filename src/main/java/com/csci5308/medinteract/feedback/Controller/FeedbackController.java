@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/feedback")
@@ -39,13 +40,34 @@ public class FeedbackController {
         return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
     }
 
+    @PostMapping("/fetchFeedback_by_doctorId")
+    public ResponseEntity fetchFeedbackByDoctorId(@RequestBody FeedbackModel feedbackModel)
+    {
+        List<FeedbackModel> feedbackModelList = feedbackServiceImpl.fetchFeedbackByDoctorId(feedbackModel);
+        Response  res = new Response(feedbackModelList, false, "Feedback added Successfully!");
+        return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
+    }
+
+    @PostMapping("/fetchFeedback_by_doctorId_and_patient")
+    public ResponseEntity fetchFeedbackByDoctorIdAndPatient(@RequestBody FeedbackModel feedbackModel)
+    {
+        List<Map<String, Object>> feedbackModelList = feedbackServiceImpl.fetchFeedbackByDoctorIdAndPatient(feedbackModel);
+        Response  res = new Response(feedbackModelList, false, "Feedback added Successfully!");
+        return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
+    }
+
     @PutMapping("/deleteAll")
     public void deleteAll()
     {
         feedbackServiceImpl.deleteAll();
     }
 
-
-
+    @GetMapping("/fetchAvgFeedback")
+    public ResponseEntity findAvgRatingOfDoctor()
+    {
+        List<Map<String, Object>> feedbackModelList = feedbackServiceImpl.findAvgRatingOfDoctor();
+        Response  res = new Response(feedbackModelList, false, "Feedback added Successfully!");
+        return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
+    }
 
 }
