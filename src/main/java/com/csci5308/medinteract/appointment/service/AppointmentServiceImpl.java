@@ -5,6 +5,8 @@ import com.csci5308.medinteract.appointment.repository.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -30,6 +32,11 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public List<AppointmentModel> fetchAppointmentsByPatient(Long patientId) {
         return appointmentRepository.findByPatientId(patientId);
+    }
+
+    public List<AppointmentModel> fetchAppointmentsByPatientAfterDate(Long patientID, LocalDateTime date)
+    {
+        return appointmentRepository.fetchAppointmentsByPatientAfterDate(patientID, date);
     }
 
 }

@@ -6,21 +6,21 @@ function showDoctorList(tempResponceData, doctorList, avgRating) {
   //console.log(avgRating);
 
 
-  let htmlString = `<div class="card col-md-6 mx-auto"  id="doctor_list_div_card" style="width: 35rem;">
+  let htmlString = `<div class="card col-md-6 mx-auto shadow doctorListDivCard"  id="doctor_list_div_card" style="width: 20rem;">
           <div class="card-body">
             <h5 class="card-title">`+ tempResponceData.doctorName + `</h5>
             <p class="card-text">Dr. `+ tempResponceData.doctorName + ` is a ` + tempResponceData.doctorType + ` who provieds their services in ` + tempResponceData.doctorAddressCity + `</p>
             <div class="card-body">
-              <ul class="list-group ">
-                <li class="list-group-item">Email: <a href="mailto:`+ tempResponceData.doctorEmail + `" class="card-link">` + tempResponceData.doctorEmail + `</a></li>
-                <li class="list-group-item">From: `+ tempResponceData.doctorAddressProvince + `,` + tempResponceData.doctorAddressCity + `</li>
-                <li class="list-group-item">Qualifications: `+ tempResponceData.doctorQualification + `</li>
+              <ul class="list-group listGroupBorder">
+                <li class="list-group-item listGroupBorder"><i class="bi bi-envelope-fill"></i> <a href="mailto:`+ tempResponceData.doctorEmail + `" class="card-link">` + tempResponceData.doctorEmail + `</a></li>
+                <li class="list-group-item listGroupBorder"><i class="bi bi-geo-alt-fill"></i> `+ tempResponceData.doctorAddressProvince + `,` + tempResponceData.doctorAddressCity + `</li>
+                <li class="list-group-item listGroupBorder"><i class="bi bi-mortarboard-fill"></i> `+ tempResponceData.doctorQualification + `</li>
               </ul>
             </div>
           
             <div class="row">
             <div class="rating col">
-            <span class="text-muted fw-light fs-1"><b>${avgRating}</b>/5</span>
+            <span class="text-muted fw-light fs-1"><b>${avgRating}</b><spam class="fs-5">/5</spam></span>
               <div class="rating-stars">
                 <span><i class="bi bi-star" style="color:orange" id="star1_${tempResponceData.id}"></i></span>
                 <span><i class="bi bi-star" style="color:orange" id="star2_${tempResponceData.id}"></i></span>
@@ -31,12 +31,16 @@ function showDoctorList(tempResponceData, doctorList, avgRating) {
             </div>
             <div class="col">
             
-            <button id="${tempResponceData.id}_${tempResponceData.doctorName}" class="btn btn-primary float-end calendar" style="width: 10rem;">Book a Appointment</button>
             </div>
             </div>
-            <button class="btn btn-primary" type="button"  style="width: 10rem;" data-toggle="collapse" data-target="#comments_${tempResponceData.id}" aria-expanded="false" onclick="loadComents(${tempResponceData.id})" style="width: 10rem;">
+            
+            <div class="d-grid gap-2 d-md-block">
+            <button class="btn btn-outline-warning btn-sm" type="button"  style="width: 6rem; color:black" data-toggle="collapse" data-target="#comments_${tempResponceData.id}" aria-expanded="false" onclick="loadComents(${tempResponceData.id})" style="width: 10rem;">
               Feedback
             </button>
+
+            <button id="${tempResponceData.id}_${tempResponceData.doctorName}" class="btn btn-primary btn-sm float-end calendar" style="width: 10rem;">Book</button>
+           </div>
             
             <br><br>
 
@@ -50,16 +54,23 @@ function showDoctorList(tempResponceData, doctorList, avgRating) {
 
           
         </div>
+        <br>
         
        
         `;
 
   let div = document.createElement("div");
   div.id = "doctor_list_div_subdiv";
+  div.classList.add("col-sm-5");
   div.innerHTML = htmlString;
 
   doctorList.appendChild(div);
   doctorList.appendChild(document.createElement("br"))
+
+  let divEmpty = document.createElement("div");
+  divEmpty.classList.add("col-sm-1");
+
+  doctorList.appendChild(divEmpty);
 
   let j = 1;
   let starHtml;
@@ -202,6 +213,8 @@ $(document).ready(function () {
   console.log("In document ready..")
 
   searchdoctor();
+  const patientId = getCookie('id');
+  loadAppointmentsDashboard(patientId);
 
 });
 
@@ -481,5 +494,78 @@ function setStar(currentStar, patientId, doctorId, feedbackId) {
   }
 
   saveComment(doctorId, feedbackId);
+
+}
+
+function loadAppointmentsDashboard(patientId) {
+
+  let data = {
+    "patientId": patientId
+  }
+
+  let responseData;
+
+  $.ajax({
+    url: globalURL + "appointment/fetchAppointmentsByPatientAfterDate",
+    type: "POST",
+    dataType: "json",
+    async: false,
+    contentType: "application/json",
+    data: JSON.stringify(data),
+
+  }).done(function (response) {
+
+    try {
+      responseData = response;
+
+      if (responseData.isError) {
+        addToast(true, "Error", responseData.msg);
+        return false;
+      } else {
+        console.log(responseData);
+        addToast(false, "Success", "Doctors featched successfully!")
+      }
+    } catch (err) {
+      addToast(true, "Error", "Some unknown error occurred. Unable to featch Doctors!" + err)
+      return false;
+    }
+  })
+    .fail(function (jqXHR, textStatus, errorThrown) {
+      addToast(true, "Error", "Some unknown error occurred. Unable to featch Doctors!");
+      return false;
+    });;
+
+  let i;
+  let todayDate = new Date();
+  let todayTextCommentArea = document.getElementById("todayAppoinmentList");
+  let laterTextCommentArea = document.getElementById("laterAppoinmentList");
+  let todayHtmlString = `<ul class="list-group list-group-flush">`
+  let laterHtmlString = `<ul class="list-group list-group-flush">`
+  let todayHaveAppoinments = false;
+  let laterHaveAppoinments = true;
+
+  for (i = 0; i < responseData.data.length; i++) {
+    tempResponceData = responseData.data[i];
+    tempDate = new Date(tempResponceData.startTime);
+    if (tempDate.getDate() === todayDate.getDate() && tempDate.getMonth() === todayDate.getMonth() && tempDate.getFullYear() === todayDate.getFullYear()) {
+      todayHaveAppoinments = true;
+      todayHtmlString = todayHtmlString + ` <li class="list-group-item"><a  href="./appointments.html"><i class="bi bi-clock"></i> ${tempDate.getHours()}h:${tempDate.getMinutes()}m</a ></li > `;
+    }
+    else {
+      laterHaveAppoinments = true;
+      laterHtmlString = laterHtmlString + ` <li class="list-group-item"><a  href="./appointments.html"><i class="bi bi-calendar4-week"></i> ${tempDate.getMonth()}/${tempDate.getDay()}/${tempDate.getFullYear()}</a ></li > `;
+    }
+  }
+
+  todayHtmlString = todayHtmlString + `</ul > `;
+  laterHtmlString = laterHtmlString + `</ul > `;
+
+  if (todayHaveAppoinments) {
+    todayTextCommentArea.innerHTML = todayHtmlString;
+  }
+  if (laterTextCommentArea) {
+    laterTextCommentArea.innerHTML = laterHtmlString;
+  }
+
 
 }

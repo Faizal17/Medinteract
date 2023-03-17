@@ -26,7 +26,7 @@
     <script type="text/javascript" src="static/login/provinceList.js"></script>
     <!--<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
 </head>
 
@@ -38,22 +38,6 @@
             <div class="container-fluid">
                 <form class="d-flex" id="doctor_search_form" onsubmit="searchdoctor(); return false" role="search"
                     method="post">
-                    <!--
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="doctor_search_options" id="name"
-                            value="name">
-                        <label class="form-check-label" for="inlineRadio1">Name</label>
-                    </div>
-                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="doctor_search_options" id="city"
-                            value="city">
-                        <label class="form-check-label" for="inlineRadio2">City</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="doctor_search_options" id="province"
-                            value="province">
-                        <label class="form-check-label" for="inlineRadio3">Province</label>
-                    </div>-->
 
                     <div class="row">
                         <div class="col-12 col-sm-9 col-xl-2">
@@ -101,128 +85,154 @@
 
             </div>
 
-
         </nav>
+        <br>
 
+        <div class="" id="dashbordbody">
+            <div class="row">
+                <div class="col-sm-1"></div>
 
+                <div class="col-sm-2">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title"><b>Today Appointments</b></h5>
+                            <div id="todayAppoinmentList">
+                                <p class="card-text">No Appointments Today.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title"><b>Future Appointments</b></h5>
+                            <div id="laterAppoinmentList">
+                                <p class="card-text">No Appointments.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-1"></div>
 
-        <div class="doctor_list scrollable" id="doctor_list_div">
+                <div class="col-sm-7">
+                    <div class="doctor_list row scrollable" id="doctor_list_div">
+
+                    </div>
+                </div>
+
+            </div>
 
         </div>
 
+        <button type="button" class="btn btn-primary d-none" id="show" data-bs-toggle="modal"
+            data-bs-target="#exampleModal"></button>
 
-
-    </div>
-
-    <button type="button" class="btn btn-primary d-none" id="show" data-bs-toggle="modal"
-        data-bs-target="#exampleModal"></button>
-
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-focus="false"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable" style="min-width: 75vw">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Schedule For
-                        <text id="modalTitleDoctorName">Doctor Name</text>
-                    </h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div mbsc-page class="demo-switching-calendar-scheduler-agenda">
-                        <div style="height:100%">
-                            <div id="demo-day-week-view" class="md-switching-view-cont"></div>
-                        </div>
-                        <div style="display:none">
-                            <div id="demo-add-popup">
-                                <div class="mbsc-form-group">
-                                    <label>
-                                        Title
-                                        <input mbsc-input id="event-title" style="z-index: 100;">
-                                    </label>
-                                    <label>
-                                        Description
-                                        <textarea mbsc-textarea id="event-desc" style="z-index: 100;"></textarea>
-                                    </label>
-                                </div>
-                                <div class="mbsc-form-group">
-                                    <label>
-                                        Starts
-                                        <input mbsc-input id="start-input" />
-                                    </label>
-                                    <label>
-                                        Ends
-                                        <input mbsc-input id="end-input" />
-                                    </label>
-                                    <div id="event-date"></div>
-                                    <div id="event-color-picker" class="event-color-c">
-                                        <div class="event-color-label">Color</div>
-                                        <div id="event-color-cont">
-                                            <div id="event-color" class="event-color"></div>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            data-bs-focus="false" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable" style="min-width: 75vw">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Schedule For
+                            <text id="modalTitleDoctorName">Doctor Name</text>
+                        </h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div mbsc-page class="demo-switching-calendar-scheduler-agenda">
+                            <div style="height:100%">
+                                <div id="demo-day-week-view" class="md-switching-view-cont"></div>
+                            </div>
+                            <div style="display:none">
+                                <div id="demo-add-popup">
+                                    <div class="mbsc-form-group">
+                                        <label>
+                                            Title
+                                            <input mbsc-input id="event-title" style="z-index: 100;">
+                                        </label>
+                                        <label>
+                                            Description
+                                            <textarea mbsc-textarea id="event-desc" style="z-index: 100;"></textarea>
+                                        </label>
+                                    </div>
+                                    <div class="mbsc-form-group">
+                                        <label>
+                                            Starts
+                                            <input mbsc-input id="start-input" />
+                                        </label>
+                                        <label>
+                                            Ends
+                                            <input mbsc-input id="end-input" />
+                                        </label>
+                                        <div id="event-date"></div>
+                                        <div id="event-color-picker" class="event-color-c">
+                                            <div class="event-color-label">Color</div>
+                                            <div id="event-color-cont">
+                                                <div id="event-color" class="event-color"></div>
+                                            </div>
+                                        </div>
+                                        <div class="mbsc-button-group">
+                                            <button class="mbsc-button-block" id="event-delete" mbsc-button
+                                                data-color="danger" data-variant="outline">Delete event
+                                            </button>
                                         </div>
                                     </div>
-                                    <div class="mbsc-button-group">
-                                        <button class="mbsc-button-block" id="event-delete" mbsc-button
-                                            data-color="danger" data-variant="outline">Delete event
-                                        </button>
-                                    </div>
                                 </div>
-                            </div>
 
-                            <div id="demo-event-color">
-                                <div class="crud-color-row">
-                                    <div class="crud-color-c" data-value="#ffeb3c">
-                                        <div class="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
-                                            style="background:#ffeb3c"></div>
+                                <div id="demo-event-color">
+                                    <div class="crud-color-row">
+                                        <div class="crud-color-c" data-value="#ffeb3c">
+                                            <div class="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
+                                                style="background:#ffeb3c"></div>
+                                        </div>
+                                        <div class="crud-color-c" data-value="#ff9900">
+                                            <div class="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
+                                                style="background:#ff9900"></div>
+                                        </div>
+                                        <div class="crud-color-c" data-value="#f44437">
+                                            <div class="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
+                                                style="background:#f44437"></div>
+                                        </div>
+                                        <div class="crud-color-c" data-value="#ea1e63">
+                                            <div class="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
+                                                style="background:#ea1e63"></div>
+                                        </div>
+                                        <div class="crud-color-c" data-value="#9c26b0">
+                                            <div class="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
+                                                style="background:#9c26b0"></div>
+                                        </div>
                                     </div>
-                                    <div class="crud-color-c" data-value="#ff9900">
-                                        <div class="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
-                                            style="background:#ff9900"></div>
-                                    </div>
-                                    <div class="crud-color-c" data-value="#f44437">
-                                        <div class="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
-                                            style="background:#f44437"></div>
-                                    </div>
-                                    <div class="crud-color-c" data-value="#ea1e63">
-                                        <div class="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
-                                            style="background:#ea1e63"></div>
-                                    </div>
-                                    <div class="crud-color-c" data-value="#9c26b0">
-                                        <div class="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
-                                            style="background:#9c26b0"></div>
-                                    </div>
-                                </div>
-                                <div class="crud-color-row">
-                                    <div class="crud-color-c" data-value="#3f51b5">
-                                        <div class="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
-                                            style="background:#3f51b5"></div>
-                                    </div>
-                                    <div class="crud-color-c" data-value="">
-                                        <div class="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"></div>
-                                    </div>
-                                    <div class="crud-color-c" data-value="#009788">
-                                        <div class="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
-                                            style="background:#009788"></div>
-                                    </div>
-                                    <div class="crud-color-c" data-value="#4baf4f">
-                                        <div class="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
-                                            style="background:#4baf4f"></div>
-                                    </div>
-                                    <div class="crud-color-c" data-value="#7e5d4e">
-                                        <div class="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
-                                            style="background:#7e5d4e"></div>
+                                    <div class="crud-color-row">
+                                        <div class="crud-color-c" data-value="#3f51b5">
+                                            <div class="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
+                                                style="background:#3f51b5"></div>
+                                        </div>
+                                        <div class="crud-color-c" data-value="">
+                                            <div class="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check">
+                                            </div>
+                                        </div>
+                                        <div class="crud-color-c" data-value="#009788">
+                                            <div class="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
+                                                style="background:#009788"></div>
+                                        </div>
+                                        <div class="crud-color-c" data-value="#4baf4f">
+                                            <div class="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
+                                                style="background:#4baf4f"></div>
+                                        </div>
+                                        <div class="crud-color-c" data-value="#7e5d4e">
+                                            <div class="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
+                                                style="background:#7e5d4e"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 </body>
 
 </html>

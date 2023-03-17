@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -42,6 +43,16 @@ public class AppointmentController {
     @PostMapping("/fetchAppointmentsByPatient")
     public ResponseEntity fetchAppointmentsByPatient(@RequestBody AppointmentModel appointmentModel) {
         List<AppointmentModel> appointmentModelList = appointmentServiceImpl.fetchAppointmentsByPatient(appointmentModel.getPatientId());
+        Response res = new Response(appointmentModelList, false, "Appointments fetched Successfully!");
+        return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
+    }
+
+    @PostMapping("/fetchAppointmentsByPatientAfterDate")
+    public ResponseEntity fetchAppointmentsByPatientAfterDate(@RequestBody AppointmentModel appointmentModel)
+    {
+        LocalDateTime dateTime = LocalDateTime.now();
+        dateTime = dateTime.minusDays(1);
+        List<AppointmentModel> appointmentModelList = appointmentServiceImpl.fetchAppointmentsByPatientAfterDate(appointmentModel.getPatientId(), dateTime);
         Response res = new Response(appointmentModelList, false, "Appointments fetched Successfully!");
         return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
     }
