@@ -5,4 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PrescriptionRepository extends JpaRepository<PrescriptionModel,Long> {
+    PrescriptionModel getByPrescriptionId(Long prescriptionId);
 }

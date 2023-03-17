@@ -1,10 +1,13 @@
 package com.csci5308.medinteract.prescription.model;
 
+import com.csci5308.medinteract.medicine.model.MedicineModel;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "prescription")
@@ -24,8 +27,8 @@ public class PrescriptionModel {
 
     private LocalDateTime prescriptionTime;
 
-    @OneToMany(mappedBy = "pres")
-    private Set<MedicineModel> medicines;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pres", fetch = FetchType.LAZY)
+    private List<MedicineModel> medicines;
 
     public Long getId() {
         return prescriptionId;
@@ -49,6 +52,15 @@ public class PrescriptionModel {
 
     public void setPatientId(Long patientId) {
         this.patientId = patientId;
+    }
+
+    @JsonManagedReference
+    public List<MedicineModel> getMedicines() {
+        return medicines;
+    }
+
+    public void setMedicines(List<MedicineModel> medicines) {
+        this.medicines = medicines;
     }
 
     public Long getDoctorId() {

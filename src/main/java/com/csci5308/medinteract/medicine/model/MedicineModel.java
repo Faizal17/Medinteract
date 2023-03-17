@@ -1,4 +1,7 @@
-package com.csci5308.medinteract.prescription.model;
+package com.csci5308.medinteract.medicine.model;
+
+import com.csci5308.medinteract.prescription.model.PrescriptionModel;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -12,15 +15,16 @@ public class MedicineModel {
     @Column(name = "medicine_id", nullable = false)
     private Long medicineId;
 
-    @NotBlank
-    @NotNull
-    private Long patientId;
+//    @NotBlank
+//    @NotNull
+//    private Long patientId;
 
     @ManyToOne
-    @JoinColumn(name = "pres_id", nullable = false)
+    @JoinColumn(name = "pres_id")
     private PrescriptionModel pres;
 
-    public MedicineModel() {}
+    public MedicineModel() {
+    }
 
     @NotBlank
     @NotNull
@@ -30,23 +34,29 @@ public class MedicineModel {
     @NotNull
     private int medicineAmount;
 
-    private boolean isInMorning;
+    private boolean isMorning;
 
-    private boolean isInAfternoon;
+    private boolean isAfternoon;
 
-    private boolean isInEvening;
+    private boolean isEvening;
 
     private String additionalNotes;
 
-    public Long getPatientId() {
-        return patientId;
+//    public Long getPatientId() {
+//        return patientId;
+//    }
+//
+//    public void setPatientId(Long patientId) {
+//        this.patientId = patientId;
+//    }
+    @JsonBackReference
+    public PrescriptionModel getPres() {
+        return pres;
     }
 
-    public void setPatientId(Long patientId) {
-        this.patientId = patientId;
+    public void setPres(PrescriptionModel pres) {
+        this.pres = pres;
     }
-
-
 
     public String getMedicineName() {
         return medicineName;
@@ -65,27 +75,27 @@ public class MedicineModel {
     }
 
     public boolean isInMorning() {
-        return isInMorning;
+        return isMorning;
     }
 
     public void setInMorning(boolean inMorning) {
-        isInMorning = inMorning;
+        isMorning = inMorning;
     }
 
     public boolean isInAfternoon() {
-        return isInAfternoon;
+        return isAfternoon;
     }
 
     public void setInAfternoon(boolean inAfternoon) {
-        isInAfternoon = inAfternoon;
+        isAfternoon = inAfternoon;
     }
 
     public boolean isInEvening() {
-        return isInEvening;
+        return isEvening;
     }
 
     public void setInEvening(boolean inEvening) {
-        isInEvening = inEvening;
+        isEvening = inEvening;
     }
 
     public String getAdditionalNotes() {
