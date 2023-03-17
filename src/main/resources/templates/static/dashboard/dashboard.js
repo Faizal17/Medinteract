@@ -12,7 +12,7 @@ function showDoctorList(tempResponceData, doctorList, avgRating) {
             <p class="card-text">Dr. `+ tempResponceData.doctorName + ` is a ` + tempResponceData.doctorType + ` who provieds their services in ` + tempResponceData.doctorAddressCity + `</p>
             <div class="card-body">
               <ul class="list-group listGroupBorder">
-                <li class="list-group-item listGroupBorder"><i class="bi bi-envelope-fill"></i> <a href="mailto:`+ tempResponceData.doctorEmail + `" class="card-link">` + tempResponceData.doctorEmail + `</a></li>
+                <li class="list-group-item listGroupBorder"><i class="bi bi-envelope-fill"></i> <a href="mailto:`+ tempResponceData.doctorEmail + `" class="card-link" >` + tempResponceData.doctorEmail + `</a></li>
                 <li class="list-group-item listGroupBorder"><i class="bi bi-geo-alt-fill"></i> `+ tempResponceData.doctorAddressProvince + `,` + tempResponceData.doctorAddressCity + `</li>
                 <li class="list-group-item listGroupBorder"><i class="bi bi-mortarboard-fill"></i> `+ tempResponceData.doctorQualification + `</li>
               </ul>
@@ -129,15 +129,15 @@ function searchdoctor(event) {
         return false;
       } else {
 
-        addToast(false, "Success", "Doctors featched successfully!")
+        //addToast(false, "Success", "Doctors featched successfully!")
       }
     } catch (err) {
-      addToast(true, "Error", "Some unknown error occurred. Unable to featch Doctors!" + err)
+      //addToast(true, "Error", "Some unknown error occurred. Unable to featch Doctors!" + err)
       return false;
     }
   })
     .fail(function (jqXHR, textStatus, errorThrown) {
-      addToast(true, "Error", "Some unknown error occurred. Unable to featch Doctors!");
+      //addToast(true, "Error", "Some unknown error occurred. Unable to featch Doctors!");
       return false;
     });;
 
@@ -161,15 +161,15 @@ function searchdoctor(event) {
         return false;
       } else {
 
-        addToast(false, "Success", "Doctors featched successfully!")
+        //addToast(false, "Success", "Doctors featched successfully!")
       }
     } catch (err) {
-      addToast(true, "Error", "Some unknown error occurred. Unable to featch Doctors!" + err)
+      //addToast(true, "Error", "Some unknown error occurred. Unable to featch Doctors!" + err)
       return false;
     }
   })
     .fail(function (jqXHR, textStatus, errorThrown) {
-      addToast(true, "Error", "Some unknown error occurred. Unable to featch Doctors!");
+      //addToast(true, "Error", "Some unknown error occurred. Unable to featch Doctors!");
       return false;
     });;
 
@@ -260,15 +260,15 @@ function loadComents(doctorId) {
         return false;
       } else {
         //console.log(responseData);
-        addToast(false, "Success", "Doctors featched successfully!")
+        //addToast(false, "Success", "Doctors featched successfully!")
       }
     } catch (err) {
-      addToast(true, "Error", "Some unknown error occurred. Unable to featch Doctors!" + err)
+      //addToast(true, "Error", "Some unknown error occurred. Unable to featch Doctors!" + err)
       return false;
     }
   })
     .fail(function (jqXHR, textStatus, errorThrown) {
-      addToast(true, "Error", "Some unknown error occurred. Unable to featch Doctors!");
+      //addToast(true, "Error", "Some unknown error occurred. Unable to featch Doctors!");
       return false;
     });;
 
@@ -457,15 +457,15 @@ function saveComment(doctorId, feedbackId) {
         return false;
       } else {
         console.log(responseData);
-        addToast(false, "Success", "Doctors featched successfully!")
+        //addToast(false, "Success", "Doctors featched successfully!")
       }
     } catch (err) {
-      addToast(true, "Error", "Some unknown error occurred. Unable to featch Doctors!" + err)
+      //addToast(true, "Error", "Some unknown error occurred. Unable to featch Doctors!" + err)
       return false;
     }
   })
     .fail(function (jqXHR, textStatus, errorThrown) {
-      addToast(true, "Error", "Some unknown error occurred. Unable to featch Doctors!");
+      //addToast(true, "Error", "Some unknown error occurred. Unable to featch Doctors!");
       return false;
     });;
 
@@ -523,15 +523,15 @@ function loadAppointmentsDashboard(patientId) {
         return false;
       } else {
         console.log(responseData);
-        addToast(false, "Success", "Doctors featched successfully!")
+        //addToast(false, "Success", "Doctors featched successfully!")
       }
     } catch (err) {
-      addToast(true, "Error", "Some unknown error occurred. Unable to featch Doctors!" + err)
+      //addToast(true, "Error", "Some unknown error occurred. Unable to featch Doctors!" + err)
       return false;
     }
   })
     .fail(function (jqXHR, textStatus, errorThrown) {
-      addToast(true, "Error", "Some unknown error occurred. Unable to featch Doctors!");
+      //addToast(true, "Error", "Some unknown error occurred. Unable to featch Doctors!");
       return false;
     });;
 
