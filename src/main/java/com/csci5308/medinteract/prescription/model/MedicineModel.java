@@ -16,6 +16,12 @@ public class MedicineModel {
     @NotNull
     private Long patientId;
 
+    @ManyToOne
+    @JoinColumn(name = "pres_id", nullable = false)
+    private PrescriptionModel pres;
+
+    public MedicineModel() {}
+
     @NotBlank
     @NotNull
     private String medicineName;
@@ -39,6 +45,8 @@ public class MedicineModel {
     public void setPatientId(Long patientId) {
         this.patientId = patientId;
     }
+
+
 
     public String getMedicineName() {
         return medicineName;

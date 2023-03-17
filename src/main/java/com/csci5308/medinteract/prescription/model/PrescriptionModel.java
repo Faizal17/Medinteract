@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "prescription")
@@ -22,6 +23,9 @@ public class PrescriptionModel {
     private Long doctorId;
 
     private LocalDateTime prescriptionTime;
+
+    @OneToMany(mappedBy = "pres")
+    private Set<MedicineModel> medicines;
 
     public Long getId() {
         return prescriptionId;

@@ -19,9 +19,6 @@
     <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.2/css/jquery.dataTables.min.css">
     <script type="text/javascript" src="static/script.js"></script>
-    <script src="
-https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js
-"></script>
 </head>
 
 <body>
@@ -36,7 +33,7 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js
                 <div class="card-body p-4 overflow-auto" style="height: 65vh;">
                     <form action="#" method="post" id="prescription-form">
                         <div class="col-md-6 mb-3">
-                            <input type="text" class="form-control" placeholder="Patient's Name" disabled>
+                            <input id="patient-name" type="text" class="form-control" placeholder="Patient's Name" style="background-color: white; border: 1rem;" disabled>
                         </div>
                         <div class="col-md-6 mb-3">
                             <select id="patient-email" class="form-select" aria-label="Default select example">
@@ -146,14 +143,13 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js
             $(row_item).remove();
         });
 
-
         $.ajax({
-            url: globalURL + "patient/patientAppointment/" + Cookies.get('id'),
+            url: globalURL + "patient/patientAppointment/" + getCookie('id'),
             type: "POST",
             success: function(response) {
               for (let index = 0; index < response.data.length; index++) {
                 let patientEmail = response.data[index].patientEmail;
-                console.log(patientEmail);
+                // console.log(patientEmail);
                 $("#patient-email").append(new Option(patientEmail));
               }
             },
@@ -161,6 +157,29 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js
                 console.error(error);
             }
         }); 
+        let patientId;
+        $("#patient-email").on("change", function() {
+           var selectedEmail = $(this).children("option:selected").val();
+           $.ajax({
+            url: globalURL + "patient/patientAppointment/" + getCookie('id'),
+            type: "POST",
+            success: function(response) {
+              for (let index = 0; index < response.data.length; index++) {
+                let patientEmail = response.data[index].patientEmail;
+                if (patientEmail === selectedEmail) {
+                    patientId = response.data[index].id;
+                    $("#patient-name").attr("placeholder", response.data[index].patientName);
+                }
+                // console.log(patientEmail);
+              }
+            //   console.log(patientId);
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        }); 
+        });
+
     });
 
     $('.clear-form').click(function() {
