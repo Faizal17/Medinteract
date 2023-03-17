@@ -170,22 +170,11 @@ function emergencyResponse() {
   var response = document.createElement('li');
   response.classList.add('bot__output');
 
-
-
-  // Get the info element
-  // const infoElement = document.getElementById("info");
-
-// Set the website URL
   const websiteUrl = "911.novascotia.ca";
 
-// Set the information about calling 911
   const infoText = "Call 911 when someone’s health, safety or property is threatened and help is needed right away.";
 
-// Display the information in the HTML document
   response.innerHTML = `<p><a href="${websiteUrl}">${websiteUrl}</a><p>${infoText}</p>`;
-
-  //Adds whatever is given to responseText() to response bubble
-  // response.innerHTML = e;
 
   chatList.appendChild(response);
 
@@ -214,7 +203,7 @@ function responseText(e) {
 
   animateBotOutput();
 
-  console.log(response.clientHeight);
+  // console.log(response.clientHeight);
 
   //Sets chatlist scroll to bottom
   setTimeout(function(){
@@ -255,6 +244,9 @@ function responseButtons(name,otherElement,id,customClassName) {
 
 //change to SCSS loop
 function animateBotOutput() {
+  for (let i = 0; i < chatList.length; i++) {
+    console.log(chatList[i].innerHTML)
+  }
   chatList.lastElementChild.style.animationDelay= (animationCounter * animationBubbleDelay)+"ms";
   animationCounter++;
   chatList.lastElementChild.style.animationPlayState = "running";
@@ -303,47 +295,37 @@ var possibleInput = {
     commandReset(2)
     return
   },
-//
-//   "createAppointment" : async function () {
-//
-//
-// //     const apiUrl = "http://localhost:6969/appointment/fetchDoctorNamesByAppointments";
-// //
-// // // Set the JSON data to send in the request body
-// //     const jsonData = {
-// //       "id": getCookie("id")
-// //     };
-// //     console.log(jsonData)
-// //
-// //     let responseData = await fetch(apiUrl, {
-// //       method: "POST",
-// //       headers: {
-// //         "Content-Type": "application/json"
-// //       },
-// //       body: JSON.stringify(jsonData)
-// //     })
-// //     const data= await responseData.json();
-// //     console.log(data)
-//
-//
-//           // for (let i = 0; i < appointmentData.length; i++) {
-//           //
-//           //   // const data2 = await postData(doctorID);
-//           //
-//           //
-//           //
-//           //
-//           //
-//           //   // responseButtons(doctorData.doctorName, null, appointmentData[i].doctorId.toString(), "calendar");
-//           //   // commandReset(2);
-//           //
-//           // }
-//
-//
-//     return
-//
-//
-//   },
+
+  "createAppointment" : async function () {
+
+
+    const apiUrl = "http://localhost:6969/appointment/fetchDoctorNamesByAppointments";
+
+    const jsonData = {
+      "id": getCookie("id")
+    };
+    // console.log("cookie = "jsonData)
+
+    let responseData = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(jsonData)
+    })
+    const data= await responseData.json();
+    const doctorData = data.data
+    console.log(doctorData)
+
+          for (let i = 0; i < doctorData.length; i++) {
+           responseButtons(doctorData[i].doctorName,null,doctorData[i].id,"calendar")
+            animateBotOutput();
+            commandReset(2);
+          }
+    return
+
+
+  },
 
 
 
@@ -372,12 +354,5 @@ var possibleInput = {
 }
 
 
-async function postData(doctorID) {
-    let url = "http://localhost:6969/doctor/profile/"+doctorID;
-    const response = await fetch(url);
-      const data = await response.json();
-      return data;
-
-}
 
 
