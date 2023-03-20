@@ -35,11 +35,11 @@ function showDoctorList(tempResponceData, doctorList, avgRating) {
             </div>
             
             <div class="d-grid gap-2 d-md-block">
-            <button class="btn btn-outline-warning btn-sm" type="button"  style="width: 6rem; color:black" data-toggle="collapse" data-target="#comments_${tempResponceData.id}" aria-expanded="false" onclick="loadComents(${tempResponceData.id})" style="width: 10rem;">
+            <button class="btn btn-outline-warning btn-sm" type="button"  style="width: 8rem; color:black" data-toggle="collapse" data-target="#comments_${tempResponceData.id}" aria-expanded="false" onclick="loadComents(${tempResponceData.id})" style="width: 10rem;">
               Feedback
             </button>
 
-            <button id="${tempResponceData.id}_${tempResponceData.doctorName}" class="btn btn-primary btn-sm float-end calendar" style="width: 10rem;">Book</button>
+            <button id="${tempResponceData.id}_${tempResponceData.doctorName}" class="btn btn-primary btn-sm float-end calendar" style="width: 8rem;">Book</button>
            </div>
             
             <br><br>
