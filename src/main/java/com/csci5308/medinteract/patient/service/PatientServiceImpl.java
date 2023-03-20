@@ -126,4 +126,9 @@ public class PatientServiceImpl implements PatientService {
             patientModel.setPatientMobileNumber(new_patientMobileNumber);
         }
     }
+
+    @Override
+    public Optional<List<PatientModel>> fetchPatientsWithAppointment(Long id) {
+        return patientRepository.findByPatientId(id);
+    }
 }

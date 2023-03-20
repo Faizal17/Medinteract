@@ -12,11 +12,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
             crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2023.1.117/styles/kendo.default-ocean-blue.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+            integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2023.1.117/styles/kendo.default-ocean-blue.min.css"/>
     <script src="https://kendo.cdn.telerik.com/2023.1.117/js/kendo.all.min.js"></script>
-		<script src="./static/login/provinceList.js"></script>
-		
+    <script src="./static/login/provinceList.js"></script>
+
     <style>
         #slide {
             height: 80vh;
@@ -178,7 +179,8 @@
                 <div class="card-header p-0 border-bottom" style="background-color: #121926">
                     <ul class="nav nav-tabs text-dark">
                         <li class="nav-item col-6 p-0">
-                            <a id="signIn" class="nav-link active" aria-current="true" onclick="setActiveTab('signIn')">Sign In</a>
+                            <a id="signIn" class="nav-link active" aria-current="true" onclick="setActiveTab('signIn')">Sign
+                                In</a>
                         </li>
                         <li class="nav-item col-6 p-0">
                             <a id="signUp" class="nav-link link-light" onclick="setActiveTab('signUp')">Sign up</a>
@@ -192,7 +194,8 @@
                             <label class="col-12 col-xl-3"> UserType : </label>
                             <div class="col">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="userTypeSignIn" id="userTypeSignIn1" value="Patient" checked>
+                                    <input class="form-check-input" type="radio" name="userTypeSignIn"
+                                           id="userTypeSignIn1" value="Patient" checked>
                                     <label class="form-check-label" for="userTypeSignIn1">
                                         Patient
                                     </label>
@@ -200,7 +203,8 @@
                             </div>
                             <div class="col">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="userTypeSignIn" id="userTypeSignIn2" value="Doctor">
+                                    <input class="form-check-input" type="radio" name="userTypeSignIn"
+                                           id="userTypeSignIn2" value="Doctor">
                                     <label class="form-check-label" for="userTypeSignIn2">
                                         Doctor
                                     </label>
@@ -210,13 +214,15 @@
                         <div class="form-group row my-3">
                             <label class="col-12 col-form-label col-xl-3" for="emailSignIn"> Email :</label>
                             <div class="col-12 col-xl-9">
-                                <input type="text" class="form-control" placeholder="Enter Username" id="emailSignIn" name="emailSignIn" autofocus required>
+                                <input type="text" class="form-control" placeholder="Enter Username" id="emailSignIn"
+                                       name="emailSignIn" autofocus required>
                             </div>
                         </div>
                         <div class="form-group row my-3">
                             <label class="col-12 col-form-label col-xl-3" for="pwdSignIn"> Password :</label>
                             <div class="col-12 col-xl-9">
-                                <input type="password" class="form-control" placeholder="Enter password" id="pwdSignIn" name="pwdSignIn" required>
+                                <input type="password" class="form-control" placeholder="Enter password" id="pwdSignIn"
+                                       name="pwdSignIn" required>
                             </div>
                         </div>
                         <div class="text-center">
@@ -230,7 +236,8 @@
                             <label class="col-12 col-xl-3"> UserType : </label>
                             <div class="col">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="userTypeSignUp" id="userTypeSignup1" value="Patient" checked>
+                                    <input class="form-check-input" type="radio" name="userTypeSignUp"
+                                           id="userTypeSignup1" value="Patient" checked>
                                     <label class="form-check-label" for="userTypeSignup1">
                                         Patient
                                     </label>
@@ -238,7 +245,8 @@
                             </div>
                             <div class="col">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="userTypeSignUp" id="userTypeSignup2" value="Doctor">
+                                    <input class="form-check-input" type="radio" name="userTypeSignUp"
+                                           id="userTypeSignup2" value="Doctor">
                                     <label class="form-check-label" for="userTypeSignup2">
                                         Doctor
                                     </label>
@@ -248,38 +256,44 @@
                         <div class="form-group row my-3">
                             <label class="col-12 col-form-label col-xl-3" for="nameSignup"> Name :</label>
                             <div class="col-12 col-xl-9">
-                                <input type="text" class="form-control" placeholder="Enter Name" id="nameSignup" name="nameSignup" autofocus required>
+                                <input type="text" class="form-control" placeholder="Enter Name" id="nameSignup"
+                                       name="nameSignup" autofocus required>
                             </div>
                         </div>
                         <div class="form-group row my-3">
                             <label class="col-12 col-form-label col-xl-3" for="emailSignup"> Email :</label>
                             <div class="col-12 col-xl-9">
-                                <input type="text" class="form-control" placeholder="Enter User Email" id="emailSignup" name="emailSignup" required>
+                                <input type="text" class="form-control" placeholder="Enter User Email" id="emailSignup"
+                                       name="emailSignup" required>
                             </div>
                         </div>
                         <div class="form-group row my-3">
                             <label class="col-12 col-form-label col-xl-3" for="pwdSignup"> Password :</label>
                             <div class="col-12 col-xl-9">
-                                <input type="password" class="form-control" placeholder="Enter password" id="pwdSignup" name="pwdSignup" required>
+                                <input type="password" class="form-control" placeholder="Enter password" id="pwdSignup"
+                                       name="pwdSignup" required>
                             </div>
                         </div>
                         <div class="form-group row my-3">
                             <label class="col-12 col-form-label col-xl-3" for="verifyPwd"> Verify Password :</label>
                             <div class="col-12 col-xl-9">
-                                <input type="password" class="form-control" placeholder="Enter verify password" id="verifyPwd" name="verifyPwd" required>
+                                <input type="password" class="form-control" placeholder="Enter verify password"
+                                       id="verifyPwd" name="verifyPwd" required>
                             </div>
                         </div>
                         <div class="form-group row my-3">
                             <label class="col-12 col-form-label col-xl-3" for="mobileNumber"> Mobile No :</label>
                             <div class="col-12 col-xl-9">
-                                <input type="number" class="form-control" placeholder="Enter mobile number" id="mobileNumber" name="mobileNumber" required>
+                                <input type="number" class="form-control" placeholder="Enter mobile number"
+                                       id="mobileNumber" name="mobileNumber" required>
                             </div>
                         </div>
                         <div class="form-group my-3 row">
                             <label class="col-12 col-xl-3"> Gender : </label>
                             <div class="col">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="gender" id="genderM" value="M" checked>
+                                    <input class="form-check-input" type="radio" name="gender" id="genderM" value="M"
+                                           checked>
                                     <label class="form-check-label" for="genderM">
                                         Male
                                     </label>
@@ -305,20 +319,23 @@
                         <div class="form-group row my-3">
                             <label class="col-12 col-form-label col-md-4 col-lg-3" for="DOB"> DOB :</label>
                             <div class="col-12 col-md-7 col-lg-6">
-                                <input type="text" class="form-control" placeholder="Enter DOB" id="DOB" name="DOB" required>
+                                <input type="text" class="form-control" placeholder="Enter DOB" id="DOB" name="DOB"
+                                       required>
                             </div>
                         </div>
                         <div class="form-group row my-3">
                             <label class="col-12 col-sm-3 col-form-label col-xl-3" for="province"> Province :</label>
                             <div class="col-12 col-sm-9 col-xl-3">
-<!--                                <input type="text" class="form-control" placeholder="Enter province" id="province" name="province" required>-->
-                                <select class="form-select" aria-label="Select province" name="province" id="province" onchange="selectProvince(this.value)" required>
+                                <!--                                <input type="text" class="form-control" placeholder="Enter province" id="province" name="province" required>-->
+                                <select class="form-select" aria-label="Select province" name="province" id="province"
+                                        onchange="selectProvince(this.value)" required>
                                     <option value="" selected disabled>Select Province</option>
                                 </select>
                             </div>
-                            <label class="col-12 col-sm-3 col-form-label col-xl-2 mt-3 mt-xl-0" for="city"> City :</label>
+                            <label class="col-12 col-sm-3 col-form-label col-xl-2 mt-3 mt-xl-0" for="city"> City
+                                :</label>
                             <div class="col-12 col-sm-9 col-xl-4 mt-0 mt-sm-3 mt-xl-0">
-<!--                                <input type="text" class="form-control" placeholder="Enter city" id="city" name="city" required>-->
+                                <!--                                <input type="text" class="form-control" placeholder="Enter city" id="city" name="city" required>-->
                                 <select class="form-select" aria-label="Select city" name="city" id="city" required>
                                     <option value="" selected disabled>Select city</option>
                                 </select>
@@ -327,27 +344,32 @@
                         <div class="form-group row my-3">
                             <label class="col-12 col-form-label col-xl-3" for="street"> Street Lane :</label>
                             <div class="col-12 col-xl-9">
-                                <input type="text" class="form-control" placeholder="Enter street" id="street" name="street" required>
+                                <input type="text" class="form-control" placeholder="Enter street" id="street"
+                                       name="street" required>
                             </div>
                         </div>
                         <div class="form-group row my-3">
                             <label class="col-12 col-form-label col-xl-3" for="postalCode"> Postal Code :</label>
                             <div class="col-12 col-xl-9">
-                                <input type="text" class="form-control" placeholder="Enter Postal Code" id="postalCode" name="postalCode" required>
+                                <input type="text" class="form-control" placeholder="Enter Postal Code" id="postalCode"
+                                       name="postalCode" required>
                             </div>
                         </div>
 
                         <div class="doctorDetailsClass d-none">
                             <div class="form-group row my-3">
-                                <label class="col-12 col-form-label col-xl-3" for="qualification"> Qualification :</label>
+                                <label class="col-12 col-form-label col-xl-3" for="qualification"> Qualification
+                                    :</label>
                                 <div class="col-12 col-xl-9">
-                                    <input type="text" class="form-control" placeholder="Enter your qualifications" id="qualification" name="qualification">
+                                    <input type="text" class="form-control" placeholder="Enter your qualifications"
+                                           id="qualification" name="qualification">
                                 </div>
                             </div>
                             <div class="form-group row my-3">
                                 <label class="col-12 col-form-label col-xl-3" for="field"> Expertise :</label>
                                 <div class="col-12 col-xl-9">
-                                    <input type="text" class="form-control" placeholder="Enter your field of Expertise" id="field" name="field">
+                                    <input type="text" class="form-control" placeholder="Enter your field of Expertise"
+                                           id="field" name="field">
                                 </div>
                             </div>
                         </div>
@@ -381,10 +403,10 @@
                 $(".doctorDetailsClass").removeClass("d-none");
             }
         });
-		
-				for (let [key, value] of provinceList) {
-						$('#province').append(`<option value=${key}>${value["abbrv"]}</option>`);
-				}
+
+        for (let [key, value] of provinceList) {
+            $('#province').append(`<option value=${key}>${value["abbrv"]}</option>`);
+        }
 
         // $.ajax({
         //     url: globalURL + "province/fetchAll",
@@ -419,42 +441,42 @@
             dataType: "json",
             data: getCookie("token")
         })
-        .done(function(response) {
-            let data = response;
-            try {
-                if(data.isError){
-                    // addToast(true, "Error", data.msg);
+            .done(function (response) {
+                let data = response;
+                try {
+                    if (data.isError) {
+                        // addToast(true, "Error", data.msg);
+                        // window.location.href="./index.html";
+                    } else {
+                        if (data.data.type == 'patient') {
+                            setCookie("id", data.data.obj.id);
+                            setCookie("name", data.data.obj.patientName);
+                            setCookie("email", data.data.obj.patientEmail);
+                            setCookie("city", data.data.obj.patientAddressCity);
+                            setCookie("province", data.data.obj.patientAddressProvince);
+                            setCookie("type", "patient");
+                            window.location.href = './dashboard.html'
+                        } else if (data.data.type == 'doctor') {
+                            setCookie("id", data.data.obj.id);
+                            setCookie("name", data.data.obj.doctorName);
+                            setCookie("email", data.data.obj.doctorEmail);
+                            setCookie("city", data.data.obj.doctorAddressCity);
+                            setCookie("province", data.data.obj.doctorAddressProvince);
+                            setCookie("type", "doctor");
+                            window.location.href = './appointments.html'
+                        } else if (data.data.type == 'admin') {
+                            window.location.href = './admin/dashboard.html'
+                        }
+                    }
+                } catch (err) {
+                    // addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
                     // window.location.href="./index.html";
-                } else {
-                    if (data.data.type == 'patient'){
-                        setCookie("id", data.data.obj.id);
-                        setCookie("name", data.data.obj.patientName);
-                        setCookie("email", data.data.obj.patientEmail);
-                        setCookie("city", data.data.obj.patientAddressCity);
-                        setCookie("province", data.data.obj.patientAddressProvince);
-                        setCookie("type", "patient");
-												window.location.href = './dashboard.html'
-                    } else if (data.data.type == 'doctor') {
-                        setCookie("id", data.data.obj.id);
-                        setCookie("name", data.data.obj.doctorName);
-                        setCookie("email", data.data.obj.doctorEmail);
-                        setCookie("city", data.data.obj.doctorAddressCity);
-                        setCookie("province", data.data.obj.doctorAddressProvince);
-                        setCookie("type", "doctor");
-												window.location.href = './appointments.html'
-                    } else if (data.data.type == 'admin') {
-												window.location.href = './admin/dashboard.html'
-										}
                 }
-            } catch(err){
-                // addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                // addToast(true, "Error", "Pls log in again!");
                 // window.location.href="./index.html";
-            }
-        })
-        .fail(function (jqXHR, textStatus, errorThrown){
-            // addToast(true, "Error", "Pls log in again!");
-            // window.location.href="./index.html";
-        });
+            });
     });
 
     const globalURL = "http://localhost:6969/";
@@ -462,17 +484,18 @@
     window.count = 1;
 
     function toastHTML(isError, title, msg) {
-        if(isError){
+        if (isError) {
             return `<div id="liveToast${count}" class="toast" role="alert" aria-live="assertive" aria-atomic="false"><div class="toast-header"><svg className="bd-placeholder-img rounded" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#FF0000"></rect></svg><strong class="ms-2 me-auto">${title}</strong><button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button></div><div class="toast-body">${msg}</div></div>`
         }
         return `<div id="liveToast${count}" class="toast" role="alert" aria-live="assertive" aria-atomic="false"><div class="toast-header"><svg className="bd-placeholder-img rounded" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#007aff"></rect></svg><strong class="ms-2 me-auto">${title}</strong><button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button></div><div class="toast-body">${msg}</div></div>`;
     }
+
     //reference - https://www.w3schools.com/js/js_cookies.asp
     function getCookie(cname) {
         let name = cname + "=";
         let decodedCookie = decodeURIComponent(document.cookie);
         let ca = decodedCookie.split(';');
-        for(let i = 0; i <ca.length; i++) {
+        for (let i = 0; i < ca.length; i++) {
             let c = ca[i];
             while (c.charAt(0) == ' ') {
                 c = c.substring(1);
@@ -486,14 +509,14 @@
 
     function setCookie(name, value) {
         const d = new Date();
-        d.setTime(d.getTime() + (7*24*60*60*1000));
-        let expires = "expires="+ d.toUTCString();
+        d.setTime(d.getTime() + (7 * 24 * 60 * 60 * 1000));
+        let expires = "expires=" + d.toUTCString();
         document.cookie = name + "=" + value + ";" + expires + ";path=/";
     }
 
-    function addToast(isError, title, msg){
+    function addToast(isError, title, msg) {
         $('#toastDiv').append(toastHTML(isError, title, msg));
-        $("#liveToast"+count).toast('show');
+        $("#liveToast" + count).toast('show');
         count++;
     }
 
@@ -563,11 +586,11 @@
 
     function setActiveTab(currentTab) {
         $(".nav-link").removeClass("active");
-        $("#"+currentTab).addClass("active");
+        $("#" + currentTab).addClass("active");
         $(".nav-link").addClass("link-light");
-        $("#"+currentTab).removeClass("link-light");
+        $("#" + currentTab).removeClass("link-light");
         $("form").addClass("d-none");
-        $("#"+currentTab+"Form").removeClass("d-none");
+        $("#" + currentTab + "Form").removeClass("d-none");
     }
 
     $("form").submit(function (event) {
@@ -576,21 +599,20 @@
         const id = this.id;
         console.log(id);
         let redirectURL = ""
-        if(id === "signInForm"){
-            if($('input[name="userTypeSignIn"]:checked').val() == 'Patient'){
+        if (id === "signInForm") {
+            if ($('input[name="userTypeSignIn"]:checked').val() == 'Patient') {
                 url = globalURL + "patient/login";
                 data["patientEmail"] = $("#emailSignIn").val();
                 data["patientPassword"] = $("#pwdSignIn").val();
-            		redirectURL = "./dashboard.html";
-            }
-            else {
+                redirectURL = "./dashboard.html";
+            } else {
                 url = globalURL + "doctor/login";
                 data["doctorEmail"] = $("#emailSignIn").val();
                 data["doctorPassword"] = $("#pwdSignIn").val();
-								redirectURL = "./appointments.html";
+                redirectURL = "./prescription.html";
             }
-        } else if(id === "signUpForm") {
-            if ($('input[name="userTypeSignUp"]:checked').val() == 'Patient'){
+        } else if (id === "signUpForm") {
+            if ($('input[name="userTypeSignUp"]:checked').val() == 'Patient') {
                 data["patientEmail"] = $("#emailSignup").val();
                 data["patientName"] = $("#nameSignup").val();
                 data["patientAddressProvince"] = $("#province").val();
@@ -604,9 +626,8 @@
                 data["active"] = true;
                 data["blocked"] = false;
                 url = globalURL + "patient/register";
-								redirectURL = "./dashboard.html";
-						}
-            else{
+                redirectURL = "./dashboard.html";
+            } else {
                 data["doctorEmail"] = $("#emailSignup").val();
                 data["doctorName"] = $("#nameSignup").val();
                 data["doctorAddressProvince"] = $("#province").val();
@@ -622,8 +643,8 @@
                 data["active"] = false;
                 data["blocked"] = false;
                 url = globalURL + "doctor/register";
-								redirectURL = "./appointments.html";
-						}
+                redirectURL = "./appointments.html";
+            }
         }
         $.ajax({
             type: "POST",
@@ -633,13 +654,13 @@
             contentType: "application/json"
         }).done(function (data) {
             console.log(data);
-            if(data.isError){
+            if (data.isError) {
                 addToast(true, "Error", data.msg);
             } else {
                 addToast(false, "Hurray", data.msg);
                 setCookie("token", data.data.token);
                 setCookie("id", data.data.user.id);
-                if (id === "signInForm" && $('input[name="userTypeSignIn"]:checked').val() == 'Patient'){
+                if (id === "signInForm" && $('input[name="userTypeSignIn"]:checked').val() == 'Patient') {
                     setCookie("name", data.data.user.patientName);
                     setCookie("email", data.data.user.patientEmail);
                     setCookie("city", data.data.user.patientAddressCity);
@@ -653,13 +674,13 @@
                     setCookie("type", "doctor");
                 }
             }
-            window.location.href=redirectURL;
+            window.location.href = redirectURL;
         })
-        .fail(function (jqXHR, textStatus, errorThrown){
-            // let msg = JSON.parse(jqXHR.responseText);
-            addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
-            // console.log(jqXHR, textStatus, errorThrown);
-        });
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                // let msg = JSON.parse(jqXHR.responseText);
+                addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
+                // console.log(jqXHR, textStatus, errorThrown);
+            });
     });
 
 </script>
