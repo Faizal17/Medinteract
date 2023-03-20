@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,8 +28,19 @@ public class PrescriptionModel {
 
     private LocalDateTime prescriptionTime;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pres", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "pres_id")
     private List<MedicineModel> medicines;
+
+    public PrescriptionModel(){}
+
+
+    public PrescriptionModel(Long patientId, Long doctorId, LocalDateTime prescriptionTime, List<MedicineModel> medicines) {
+        this.patientId = patientId;
+        this.doctorId = doctorId;
+        this.prescriptionTime = prescriptionTime;
+        this.medicines = medicines;
+    }
 
     public Long getId() {
         return prescriptionId;
@@ -54,7 +66,6 @@ public class PrescriptionModel {
         this.patientId = patientId;
     }
 
-    @JsonManagedReference
     public List<MedicineModel> getMedicines() {
         return medicines;
     }

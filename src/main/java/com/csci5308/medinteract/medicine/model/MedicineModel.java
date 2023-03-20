@@ -2,6 +2,7 @@ package com.csci5308.medinteract.medicine.model;
 
 import com.csci5308.medinteract.prescription.model.PrescriptionModel;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -19,9 +20,10 @@ public class MedicineModel {
 //    @NotNull
 //    private Long patientId;
 
-    @ManyToOne
-    @JoinColumn(name = "pres_id")
-    private PrescriptionModel pres;
+//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "pres_id")
+//    private PrescriptionModel pres;
 
     public MedicineModel() {
     }
@@ -49,14 +51,14 @@ public class MedicineModel {
 //    public void setPatientId(Long patientId) {
 //        this.patientId = patientId;
 //    }
-    @JsonBackReference
-    public PrescriptionModel getPres() {
-        return pres;
-    }
-
-    public void setPres(PrescriptionModel pres) {
-        this.pres = pres;
-    }
+//    @JsonBackReference
+//    public PrescriptionModel getPres() {
+//        return pres;
+//    }
+//
+//    public void setPres(PrescriptionModel pres) {
+//        this.pres = pres;
+//    }
 
     public String getMedicineName() {
         return medicineName;
@@ -74,28 +76,28 @@ public class MedicineModel {
         this.medicineAmount = medicineAmount;
     }
 
-    public boolean isInMorning() {
+    public boolean isMorning() {
         return isMorning;
     }
 
-    public void setInMorning(boolean inMorning) {
-        isMorning = inMorning;
+    public void setMorning(boolean morning) {
+        isMorning = morning;
     }
 
-    public boolean isInAfternoon() {
+    public boolean isAfternoon() {
         return isAfternoon;
     }
 
-    public void setInAfternoon(boolean inAfternoon) {
-        isAfternoon = inAfternoon;
+    public void setAfternoon(boolean afternoon) {
+        isAfternoon = afternoon;
     }
 
-    public boolean isInEvening() {
+    public boolean isEvening() {
         return isEvening;
     }
 
-    public void setInEvening(boolean inEvening) {
-        isEvening = inEvening;
+    public void setEvening(boolean evening) {
+        isEvening = evening;
     }
 
     public String getAdditionalNotes() {
