@@ -1,6 +1,6 @@
 package com.csci5308.medinteract.prescription.controller;
 
-import com.csci5308.medinteract.Doctor.Model.DoctorModel;
+import com.csci5308.medinteract.doctor.Model.DoctorModel;
 import com.csci5308.medinteract.prescription.model.PrescriptionModel;
 import com.csci5308.medinteract.prescription.service.PrescriptionService;
 import com.csci5308.medinteract.utilities.Response;

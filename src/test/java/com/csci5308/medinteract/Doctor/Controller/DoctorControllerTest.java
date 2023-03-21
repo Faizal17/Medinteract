@@ -1,4 +1,4 @@
-package com.csci5308.medinteract.Doctor.Controller;
+package com.csci5308.medinteract.doctor.Controller;
 
 import org.json.JSONException;
 import org.json.JSONObject;
