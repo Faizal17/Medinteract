@@ -1,8 +1,8 @@
 package com.csci5308.medinteract.appointment.controller;
 
 import com.csci5308.medinteract.appointment.service.AppointmentService;
-import com.csci5308.medinteract.Doctor.Model.DoctorModel;
-import com.csci5308.medinteract.Doctor.Service.DoctorService;
+import com.csci5308.medinteract.doctor.Model.DoctorModel;
+import com.csci5308.medinteract.doctor.Service.DoctorService;
 import com.csci5308.medinteract.appointment.model.AppointmentModel;
 import com.csci5308.medinteract.notification.model.NotificationModel;
 import com.csci5308.medinteract.notification.service.NotificationService;

@@ -31,5 +31,7 @@ public interface PatientService {
     void updatePatientById(Long id, String newPatientName, String newPatientAddressPostalCode, String newPatientAddressStreet, String newPatientMobileNumber);
 
     Optional<PatientModel> getPatientById(Long id);
+
+    public Optional<List<PatientModel>> fetchPatientsWithAppointment(Long id);
 }
 
