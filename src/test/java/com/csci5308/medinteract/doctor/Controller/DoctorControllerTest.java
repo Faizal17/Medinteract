@@ -25,7 +25,7 @@ class DoctorControllerTest {
 
             mockMvc.perform(get("http://localhost:6969/doctor/fetchAll"))
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.msg").value("All Doctors Fetched Successfully!"))
+                    .andExpect(jsonPath("$.msg").value("All doctors fetched Successfully!"))
                     .andExpect(jsonPath("$.isError").value("false"));
 
 }

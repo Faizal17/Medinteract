@@ -1,6 +1,6 @@
 package com.csci5308.medinteract.appointment.repository;
 
-import com.csci5308.medinteract.Doctor.Model.DoctorModel;
+import com.csci5308.medinteract.doctor.Model.DoctorModel;
 import com.csci5308.medinteract.appointment.model.AppointmentModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
