@@ -24,6 +24,8 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.2/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/pdfmake.min.js"></script>
     <script type="text/javascript" src="static/script.js"></script>
 </head>
 
@@ -115,7 +117,7 @@
                 }
             },
             {
-                data: 'doctorId',
+                data: 'prescriptionId',
                 render: function (data) {
                     return "<button id = '" + data + "' class = 'download btn btn-outline-danger'>PDF</button>";
                 }
@@ -135,34 +137,6 @@
     }).fail(function (jqXHR, textStatus, errorThrown) {
         addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
     });
-
-
-    // $(document).on('click', '.view', function () {
-    //     let buttonId = $(this).attr("id");
-    //     let row = $(this).closest("tr");
-    //     dName = row.find("td:eq(0)").text();
-    //     // console.log("button id: " + buttonId);
-    //     $.ajax({
-    //         type: "get",
-    //         url: globalURL + "prescription/fetch/" + getCookie('id'),
-    //         dataType: "JSON",
-    //         success: function (response) {
-    //             for (let i = 0; i < response.data.length; i++) {
-    //                 const prescription = response.data[i];
-    //                 // console.log(response.data[index].id);
-    //                 // console.log(buttonId);
-    //                 if(buttonId === response.data[i].id.toString()) {
-    //                     for (let j = 0; j < prescription.medicines.length; j++) {
-    //                         const medicines = prescription.medicines[j];
-    //                         console.log(medicines);
-
-    //                     }
-    //                 }
-    //             }
-    //             console.log(dName);
-    //         }
-    //     });
-    // })
 
 
     $(document).on('click', '.view', function () {
@@ -187,16 +161,16 @@
                             const medicines = prescription.medicines[j];
                             let medicineInfo = '<p><b>Medicine Name: </b> ' + medicines.medicineName + '<br><b>Medicine Amount:</b> ' + medicines.medicineAmount;
                             if (medicines.morning) {
-                                medicineInfo += '<br><b>Morning</b>';
+                                medicineInfo += '<br><i>Morning</i>';
                             }
                             if (medicines.afternoon) {
-                                medicineInfo += '<br><b>Afternoon</b>';
+                                medicineInfo += '<br><i>Afternoon</i>';
                             }
                             if (medicines.evening) {
-                                medicineInfo += '<br><b>Evening</b>';
+                                medicineInfo += '<br><i>Evening</i>';
                             }
                             medicineInfo +=
-                                
+
                                 '<br><b>Additional Notes:</b> ' + medicines.additionalNotes + '</p>';
                             $(medicineInfo).appendTo('#details');
                         }
@@ -206,5 +180,56 @@
         });
     });
 
+    $(document).on('click', '.download', function () {
+        let buttonId = $(this).attr("id");
+        let row = $(this).closest("tr");
+        dName = row.find("td:eq(0)").text();
+
+        // Fetch prescription data using AJAX call
+        $.ajax({
+            type: "get",
+            url: globalURL + "prescription/fetch/" + getCookie('id'),
+            dataType: "JSON",
+            success: function (response) {
+
+                // Initialize a new instance of jsPDF Library
+                let doc = new jsPDF();
+
+                // Add a title to the PDF document
+                doc.text('Prescription Details', 10, 10);
+
+                for (let i = 0; i < response.data.length; i++) {
+                    const prescription = response.data[i];
+                    console.log(prescription);
+
+                    if (buttonId === response.data[i].id.toString()) {
+                        let doctorHeader = `Doctor Name: ${dName}`;
+                        // console.log(doctorHeader);
+                        doc.text(doctorHeader, 10, 20); // Add Doctor Name to the PDF document
+
+                        for (let j = 0; j < prescription.medicines.length; j++) {
+                            const medicines = prescription.medicines[j];
+                            let medicineInfo = `Medicine Name: ${medicines.medicineName}\nMedicine Amount: ${medicines.medicineAmount}\n`;
+                            if (medicines.morning) {
+                                medicineInfo += 'Morning\n';
+                            }
+                            if (medicines.afternoon) {
+                                medicineInfo += 'Afternoon\n';
+                            }
+                            if (medicines.evening) {
+                                medicineInfo += 'Evening\n';
+                            }
+                            medicineInfo += `Additional Notes: ${medicines.additionalNotes}\n\n`;
+
+                            doc.text(medicineInfo, 10, 40 + (j * 30)); // Add Medicine details to the PDF document
+                        }
+                    }
+                }
+
+                // Save the PDF document with a filename
+                doc.save('prescription.pdf');
+            }
+        });
+    });
 
 </script>
