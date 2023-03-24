@@ -40,4 +40,7 @@ public interface DoctorService {
     void verifyDoctor(String email, boolean isActive, boolean isBlocked);
 
     void blockDoctor(String email, boolean isBlocked);
+
+    Optional<List<DoctorModel>> fetchDoctor(Long id);
+
 }

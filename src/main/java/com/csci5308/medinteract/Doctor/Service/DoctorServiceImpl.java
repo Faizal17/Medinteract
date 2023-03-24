@@ -196,4 +196,9 @@ public class DoctorServiceImpl implements DoctorService{
             doctorRepository.save(doctor);
         }
     }
+
+    @Override
+    public Optional<List<DoctorModel>> fetchDoctor(Long id) {
+        return doctorRepository.getDoctorModelBy(id);
+    }
 }

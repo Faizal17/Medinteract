@@ -5,6 +5,9 @@ import com.csci5308.medinteract.medicine.repository.MedicineRepository;
 import com.csci5308.medinteract.prescription.repository.PrescriptionRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class PrescriptionServiceImpl implements PrescriptionService {
 
@@ -28,5 +31,10 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     @Override
     public Iterable<PrescriptionModel> findAllPrescription() {
         return prescriptionRepository.findAll();
+    }
+
+    @Override
+    public Optional<List<PrescriptionModel>> fetchPrescription(Long id) {
+        return prescriptionRepository.getPrescriptionModelBy(id);
     }
 }

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> Medinteract</title>
+
+    <link rel="stylesheet" type="text/css" href="static/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"
+        integrity="sha512-1QvjE7BtotQjkq8PxLeF6P46gEpBRXuskzIVgjFpekzFVF4yjRgrQvTG1MTOJ3yQgvTteKAcO7DSZI92+u/yZw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"
+        integrity="sha512-iKDtgDyTHjAitUDdLljGhenhPwrbBfqTKWO1mkhSFH3A7blITC9MhYon6SjnMhp4o0rADGw9yAC6EW4t5a4K3g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.2/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="static/script.js"></script>
+</head>
+
+<body>
+    <div id="navDiv"></div>
+    <div id="contentDiv" class="mt-5 py-3" style="background-color: white">
+        <table id="prescriptionTable" class="table" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Doctor's Name</th>
+                    <th>Date, Time</th>
+                    <th>View</th>
+                    <th>Donwload</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="prescriptionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id="doctor-name" class="modal-header">
+                </div>
+                <div id="details" class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+<script>
+
+    let dName;
+    let myData;
+
+    $.when(
+        $.ajax({
+            url: globalURL + "prescription/fetch/" + getCookie("id"),
+            type: "GET",
+            dataType: "json"
+        }),
+        $.ajax({
+            url: globalURL + "doctor/fetch/" + getCookie("id"),
+            type: "GET",
+            dataType: "json"
+        })
+    ).done(function (response1, response2) {
+        let response = response1.concat(response2);
+        // console.log(response);
+        console.log(response[0].data);
+        // console.log(response2);
+        let prescriptionData = response[0].data;
+        let doctorData = response[3].data;
+        let mergedData = [];
+
+        // Join prescriptionTime and doctorName data based on matching keys
+        if (prescriptionData && doctorData) {
+            for (let i = 0; i < prescriptionData.length; i++) {
+                let match = doctorData.find(obj => obj.id === prescriptionData[i].doctorId);
+                if (typeof match !== "undefined") {
+                    let dateTime = new Date(prescriptionData[i].prescriptionTime)
+                    mergedData.push({
+                        prescriptionTime: dateTime.toLocaleString(),
+                        doctorName: match.doctorName,
+                        prescriptionId: prescriptionData[i].prescriptionId
+                    });
+                }
+            }
+        }
+
+        // console.log(mergedData);
+
+        // Define columns
+        let columns = [
+            { data: 'doctorName' },
+            { data: 'prescriptionTime' },
+            {
+                data: 'prescriptionId',
+                render: function (data) {
+                    return '<button id = "' + data + '" type="button" class="view btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#prescriptionModal">View</button>';
+                }
+            },
+            {
+                data: 'doctorId',
+                render: function (data) {
+                    return "<button id = '" + data + "' class = 'download btn btn-outline-danger'>PDF</button>";
+                }
+            }
+        ];
+
+        // Initialize DataTable with mergedData and columns definitions
+        try {
+            $('#prescriptionTable').DataTable({
+                data: mergedData,
+                columns: columns
+            });
+            addToast(false, "Success", "Success!")
+        } catch (err) {
+            addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
+        }
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
+    });
+
+
+    // $(document).on('click', '.view', function () {
+    //     let buttonId = $(this).attr("id");
+    //     let row = $(this).closest("tr");
+    //     dName = row.find("td:eq(0)").text();
+    //     // console.log("button id: " + buttonId);
+    //     $.ajax({
+    //         type: "get",
+    //         url: globalURL + "prescription/fetch/" + getCookie('id'),
+    //         dataType: "JSON",
+    //         success: function (response) {
+    //             for (let i = 0; i < response.data.length; i++) {
+    //                 const prescription = response.data[i];
+    //                 // console.log(response.data[index].id);
+    //                 // console.log(buttonId);
+    //                 if(buttonId === response.data[i].id.toString()) {
+    //                     for (let j = 0; j < prescription.medicines.length; j++) {
+    //                         const medicines = prescription.medicines[j];
+    //                         console.log(medicines);
+
+    //                     }
+    //                 }
+    //             }
+    //             console.log(dName);
+    //         }
+    //     });
+    // })
+
+
+    $(document).on('click', '.view', function () {
+        let buttonId = $(this).attr("id");
+        let row = $(this).closest("tr");
+        dName = row.find("td:eq(0)").text();
+        $('#doctor-name').empty();
+        $('#details').empty(); // Added this to clear #details
+
+        $.ajax({
+            type: "get",
+            url: globalURL + "prescription/fetch/" + getCookie('id'),
+            dataType: "JSON",
+            success: function (response) {
+                for (let i = 0; i < response.data.length; i++) {
+                    const prescription = response.data[i];
+
+                    if (buttonId === response.data[i].id.toString()) {
+                        let doctorHeader = `<h1 class="modal-title fs-5" id="exampleModalLabel">${dName}</h1><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>`
+                        $(doctorHeader).appendTo('#doctor-name');
+                        for (let j = 0; j < prescription.medicines.length; j++) {
+                            const medicines = prescription.medicines[j];
+                            let medicineInfo = '<p><b>Medicine Name: </b> ' + medicines.medicineName + '<br><b>Medicine Amount:</b> ' + medicines.medicineAmount;
+                            if (medicines.morning) {
+                                medicineInfo += '<br><b>Morning</b>';
+                            }
+                            if (medicines.afternoon) {
+                                medicineInfo += '<br><b>Afternoon</b>';
+                            }
+                            if (medicines.evening) {
+                                medicineInfo += '<br><b>Evening</b>';
+                            }
+                            medicineInfo +=
+                                
+                                '<br><b>Additional Notes:</b> ' + medicines.additionalNotes + '</p>';
+                            $(medicineInfo).appendTo('#details');
+                        }
+                    }
+                }
+            }
+        });
+    });
+
+
+</script>

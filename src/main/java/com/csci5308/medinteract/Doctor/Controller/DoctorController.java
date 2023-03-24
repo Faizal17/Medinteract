@@ -2,6 +2,7 @@ package com.csci5308.medinteract.Doctor.Controller;
 
 import com.csci5308.medinteract.Doctor.Model.DoctorModel;
 import com.csci5308.medinteract.Doctor.Service.DoctorService;
+import com.csci5308.medinteract.prescription.model.PrescriptionModel;
 import com.csci5308.medinteract.utilities.JWT.JWT;
 import com.csci5308.medinteract.utilities.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -205,5 +206,12 @@ public class DoctorController {
         doctorServiceImpl.blockDoctor(email, isBlocked);
 
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/fetch/{patientId}")
+    public ResponseEntity fetchPrescriptionByPatientId(@PathVariable("patientId") Long id){
+        Optional<List<DoctorModel>> prescriptionModelList = doctorServiceImpl.fetchDoctor(id);
+        Response  res = new Response(prescriptionModelList, false, "Doctor details fetched Successfully!");
+        return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
     }
 }

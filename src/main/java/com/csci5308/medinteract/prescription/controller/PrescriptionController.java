@@ -1,6 +1,7 @@
 package com.csci5308.medinteract.prescription.controller;
 
 import com.csci5308.medinteract.Doctor.Model.DoctorModel;
+import com.csci5308.medinteract.patient.model.PatientModel;
 import com.csci5308.medinteract.prescription.model.PrescriptionModel;
 import com.csci5308.medinteract.prescription.service.PrescriptionService;
 import com.csci5308.medinteract.utilities.Response;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -34,10 +36,10 @@ public class PrescriptionController {
         return prescriptionService.findAllPrescription();
     }
 
-    @GetMapping("/fetch/{prescriptionId}")
-    public ResponseEntity getPrescriptionById(@PathVariable("prescriptionId") Long id){
-        Optional<PrescriptionModel> prescriptionModel = Optional.ofNullable(prescriptionService.findPrescriptionById(id));
-        Response  res = new Response(prescriptionModel, false, "Prescription details fetched Successfully!");
+    @GetMapping("/fetch/{patientId}")
+    public ResponseEntity fetchPrescriptionByPatientId(@PathVariable("patientId") Long id){
+        Optional<List<PrescriptionModel>> prescriptionModelList = prescriptionService.fetchPrescription(id);
+        Response  res = new Response(prescriptionModelList, false, "Prescription details fetched Successfully!");
         return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
     }
 }

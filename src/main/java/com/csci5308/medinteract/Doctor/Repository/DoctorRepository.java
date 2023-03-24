@@ -1,6 +1,7 @@
 package com.csci5308.medinteract.Doctor.Repository;
 
 import com.csci5308.medinteract.Doctor.Model.DoctorModel;
+import com.csci5308.medinteract.prescription.model.PrescriptionModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -31,4 +32,7 @@ public interface DoctorRepository extends JpaRepository<DoctorModel,Long> {
 
     @Query("select d from DoctorModel d where d.isBlocked = true")
     Optional<List<DoctorModel>> findBlockedDoctors();
+
+    @Query("SELECT d FROM PatientModel p JOIN PrescriptionModel pr ON p.id = pr.patientId JOIN DoctorModel d ON pr.doctorId = d.id WHERE p.id = ?1")
+    Optional<List<DoctorModel>> getDoctorModelBy(Long id);
 }
