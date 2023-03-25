@@ -4,23 +4,27 @@
 <head>
 
   <meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title> Medinteract</title>
-		
-		<link rel="stylesheet" type="text/css" href="static/style.css">
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-					integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-		<link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-						integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-						crossorigin="anonymous"></script>
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-		<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js" integrity="sha512-1QvjE7BtotQjkq8PxLeF6P46gEpBRXuskzIVgjFpekzFVF4yjRgrQvTG1MTOJ3yQgvTteKAcO7DSZI92+u/yZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js" integrity="sha512-iKDtgDyTHjAitUDdLljGhenhPwrbBfqTKWO1mkhSFH3A7blITC9MhYon6SjnMhp4o0rADGw9yAC6EW4t5a4K3g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-		<script type="text/javascript" src="static/script.js"></script>
-		<!-- <script type="text/javascript" src="static/appointments/mobiscroll.jquery.min.js"></script> -->
-		<!-- <link rel="stylesheet" href="static/appointments/mobiscroll.jquery.min.css"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> Medinteract</title>
+
+  <link rel="stylesheet" type="text/css" href="static/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+    integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"
+    integrity="sha512-1QvjE7BtotQjkq8PxLeF6P46gEpBRXuskzIVgjFpekzFVF4yjRgrQvTG1MTOJ3yQgvTteKAcO7DSZI92+u/yZw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"
+    integrity="sha512-iKDtgDyTHjAitUDdLljGhenhPwrbBfqTKWO1mkhSFH3A7blITC9MhYon6SjnMhp4o0rADGw9yAC6EW4t5a4K3g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script type="text/javascript" src="static/script.js"></script>
+  <script type="text/javascript" src="static/prescription/doctorPrescription.js"></script>
 </head>
 
 <body>
@@ -101,176 +105,3 @@
 </body>
 
 </html>
-
-<script>
-  let patientId;
-  let data = [];
-  let index = 0;
-
-
-  $(document).ready(function () {
-    $(".add-item").click(function (e) {
-      e.preventDefault();
-      index++;
-      $("#show-item").append(`
-            <ul class="list-group">
-              <li class="list-group-item ${index}">
-                  <div class="row">
-                      <div class="col-md-4 mb-3">
-                          <input type="text" name="medicineName" class="form-control" 
-                          placeholder="Medicine Name" 
-                          onchange="handleChange(this.name,this.value,${index})"
-                          required>
-                      </div>
-                      <div class="col-md-2 mb-3">
-                          <input type="number" name="medicineAmount" class="form-control" placeholder="Amount" onchange="handleChange(this.name,this.value,${index})" required>
-                      </div>
-                      <div class="col-md-2 mb-3">
-                          <input class="form-check-input" type="checkbox" onchange="handleChange(this.name,this.checked,${index})"
-                          name="morning" defaultchecked=false value="" id="defaultCheck1">
-                          <label class="form-check-label" for="defaultCheck1">
-                              Morning
-                          </label>
-                      </div>
-                      <div class="col-md-2 mb-3">
-                          <input class="form-check-input" onchange="handleChange(this.name,this.checked,${index})"
-                          type="checkbox" name="afternoon" defaultchecked=false value="" id="defaultCheck2">
-                          <label class="form-check-label" for="defaultCheck2">
-                              Afternoon
-                          </label>
-                      </div>
-                      <div class="col-md-2 mb-3">
-                          <input class="form-check-input" type="checkbox" name="evening" defaultchecked=false onchange="handleChange(this.name,this.checked,${index})"
-                          value="" id="defaultCheck3">
-                          <label class="form-check-label" for="defaultCheck3">
-                              Evening
-                          </label>
-                      </div>
-                      <div class="col-md-10 mb-3">
-                        <input type="text" name="additionalNotes" class="form-control" onchange="handleChange(this.name,this.value,${index})" placeholder="Additional Notes">
-                      </div>
-                      <div class="col-md-2 mb-3 d-flex justify-content-end">
-                        <button class="btn btn-danger remove-item d-grid">Remove</button>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-        `);
-    });
-
-    $(document).on('click', '.remove-item', function (e) {
-      e.preventDefault();
-      let row_item = $(this).parent().parent().parent();
-      let remove_index = row_item[0].className.substring(row_item[0].className.indexOf("item") + 5);
-      // data.slice(remove_index, 1);
-      data[remove_index] = {}
-      // index--;
-      $(row_item).remove();
-    });
-
-    // $(document).on('click', '.add-item', function (e) {
-    //   e.preventDefault();
-    //   data.push({})
-    //   console.log(data)
-    // });
-
-    $.ajax({
-      url: globalURL + "patient/patientAppointment/" + getCookie('id'),
-      type: "GET",
-      success: function (response) {
-        for (let index = 0; index < response.data.length; index++) {
-          let patientEmail = response.data[index].patientEmail;
-          // console.log(patientEmail);
-          $("#patient-email").append(new Option(patientEmail));
-        }
-      },
-      error: function (xhr, status, error) {
-        console.error(error);
-      }
-    });
-    $("#patient-email").on("change", function () {
-      var selectedEmail = $(this).children("option:selected").val();
-      $.ajax({
-        url: globalURL + "patient/patientAppointment/" + getCookie('id'),
-        type: "GET",
-        success: function (response) {
-          for (let index = 0; index < response.data.length; index++) {
-            let patientEmail = response.data[index].patientEmail;
-            if (patientEmail === selectedEmail) {
-              patientId = response.data[index].id;
-              $("#patient-name").attr("placeholder", response.data[index].patientName);
-            }
-            // console.log(patientEmail);
-          }
-          //   console.log(patientId);
-        },
-        error: function (xhr, status, error) {
-          console.error(error);
-        }
-      });
-    });
-
-  });
-
-  $("form").submit(function (e) {
-    let dataa = {};
-    e.preventDefault();
-    const id = patientId;
-    var currentdate = new Date();
-
-    function padNum(num) {
-      return num < 10 ? "0" + num : num;
-    }
-
-    var year = currentdate.getFullYear();
-    var month = padNum(currentdate.getMonth() + 1);
-    var day = padNum(currentdate.getDate());
-    var hours = padNum(currentdate.getHours());
-    var minutes = padNum(currentdate.getMinutes());
-    var seconds = padNum(currentdate.getSeconds());
-    var milliseconds = padNum(currentdate.getMilliseconds()) + "00";
-
-    var formattedDate = year + "-" + month + "-" + day + "T" + hours + ":" + minutes + ":" + seconds + "." + milliseconds;
-    console.log(id);
-    let redirectURL = "";
-
-    dataa["patientId"] = patientId;
-    dataa["doctorId"] = getCookie('id');
-    dataa["prescriptionTime"] = formattedDate;
-    dataa["medicines"] = data.filter(value => Object.keys(value).length !== 0);;
-
-    console.log(JSON.stringify(dataa));
-
-    $.ajax({
-      type: "POST",
-      url: globalURL + "prescription/addPrescription",
-      data: JSON.stringify(dataa),
-      dataType: "json",
-      contentType: "application/json"
-    }).done(function (dataa) {
-      console.log(dataa);
-      if (data.isError) {
-        addToast(true, "Error", data.msg);
-      } else {
-        addToast(false, "Hurray", data.msg);
-      }
-      window.location.href = redirectURL;
-    })
-      .fail(function (jqXHR, textStatus, errorThrown) {
-        addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
-      });
-  });
-
-  function handleChange(name, value, index) {
-    console.log(name, value, index)
-    oldata = [...data];
-    oldata[index] = { [name]: value, ...oldata[index] }
-    data = oldata;
-    console.log("data", oldata)
-  }
-
-  $('.clear-form').click(function () {
-    $(this).closest('form')[0].reset();
-  });
-
-</script>
