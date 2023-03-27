@@ -45,5 +45,5 @@ public interface DoctorRepository extends JpaRepository<DoctorModel,Long> {
     Optional<List<DoctorModel>> findBlockedDoctors();
 
     @Query("SELECT d FROM PatientModel p JOIN PrescriptionModel pr ON p.id = pr.patientId JOIN DoctorModel d ON pr.doctorId = d.id WHERE p.id = ?1")
-    Optional<List<DoctorModel>> getDoctorModelBy(Long id);
+    Optional<List<DoctorModel>> getDoctorModelById(Long id);
 }
