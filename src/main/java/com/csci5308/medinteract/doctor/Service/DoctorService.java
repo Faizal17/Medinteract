@@ -1,12 +1,6 @@
 package com.csci5308.medinteract.doctor.Service;
 
-<<<<<<< HEAD:src/main/java/com/csci5308/medinteract/Doctor/Service/DoctorService.java
-import com.csci5308.medinteract.Doctor.Model.DoctorModel;
-import com.csci5308.medinteract.patient.model.PatientModel;
-import org.thymeleaf.model.IDocType;
-=======
 import com.csci5308.medinteract.doctor.Model.DoctorModel;
->>>>>>> dev:src/main/java/com/csci5308/medinteract/doctor/Service/DoctorService.java
 
 import java.util.List;
 import java.util.Map;
@@ -14,7 +8,9 @@ import java.util.Optional;
 
 public interface DoctorService {
     List<DoctorModel> fetchAll();
+
     DoctorModel saveDoctor(DoctorModel DoctorModel);
+
     Optional<DoctorModel> findById(Long id);
 
     Map<String, Object> checkIfEmailExists(String email);
@@ -22,11 +18,15 @@ public interface DoctorService {
     DoctorModel getDoctorByEmail(String email);
 
     boolean isDoctorValid(String DoctorEmail, String DoctorPassword) throws Exception;
+
     String encodePassword(String password) throws Exception;
 
     List<DoctorModel> fetchDoctorsOnCity(DoctorModel doctorModel);
+
     List<DoctorModel> fetchDoctorsOnProvince(DoctorModel doctorModel);
+
     List<DoctorModel> fetchDoctorsOnName(DoctorModel doctorModel);
+
     List<DoctorModel> fetchDoctorsOnQualification(DoctorModel doctorModel);
 
     List<Map<String, Object>> findDoctorOnDetailsWithCity(DoctorModel doctorModel);
@@ -39,7 +39,8 @@ public interface DoctorService {
 
     void deleteDoctorById(Long id);
 
-    void updateDoctorById(Long id, String newDoctorName, String newDoctorAddressPostalCode, String newDoctorAddressStreet, String newDoctorMobileNumber);
+    void updateDoctorById(Long id, String newDoctorName, String newDoctorAddressPostalCode,
+            String newDoctorAddressStreet, String newDoctorMobileNumber);
 
     List<DoctorModel> isPending();
 

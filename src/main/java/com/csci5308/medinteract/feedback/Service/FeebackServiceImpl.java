@@ -1,6 +1,6 @@
 package com.csci5308.medinteract.feedback.Service;
 
-import com.csci5308.medinteract.Doctor.Model.DoctorModel;
+import com.csci5308.medinteract.doctor.Model.DoctorModel;
 import com.csci5308.medinteract.city.model.CityModel;
 import com.csci5308.medinteract.feedback.Model.FeedbackModel;
 import com.csci5308.medinteract.feedback.Repository.FeedbackRepository;
@@ -23,38 +23,34 @@ public class FeebackServiceImpl implements FeedbackService {
     }
 
     @Override
-    public List<FeedbackModel> fetchAll()
-    {
+    public List<FeedbackModel> fetchAll() {
         return feedbackRepository.findAll();
     }
 
-    public void saveFeedback(FeedbackModel feedbackModel)
-    {
+    public void saveFeedback(FeedbackModel feedbackModel) {
         Date currentDateAndTime = new Date();
         feedbackModel.setFeedbackDate(currentDateAndTime);
         feedbackRepository.save(feedbackModel);
     }
 
-    public void deleteAll()
-    {
+    public void deleteAll() {
         feedbackRepository.deleteAll();
     }
 
-    public List<FeedbackModel> fetchFeedbackByDoctorId(FeedbackModel feedbackModel)
-    {
+    public List<FeedbackModel> fetchFeedbackByDoctorId(FeedbackModel feedbackModel) {
         return feedbackRepository.findByDoctorId(feedbackModel.getDoctorId());
     }
 
-    public List<Map<String, Object>> fetchFeedbackByDoctorIdAndPatient(FeedbackModel feedbackModel)
-    {
-        FeedbackModel feedbackModelCurrentPatient = feedbackRepository.findByDoctorIdAndPatientId(feedbackModel.getDoctorId(), feedbackModel.getPatientId());
+    public List<Map<String, Object>> fetchFeedbackByDoctorIdAndPatient(FeedbackModel feedbackModel) {
+        FeedbackModel feedbackModelCurrentPatient = feedbackRepository
+                .findByDoctorIdAndPatientId(feedbackModel.getDoctorId(), feedbackModel.getPatientId());
 
         List<Object> feedbackModelList = feedbackRepository.findByDoctorIdAndPatient(feedbackModel.getDoctorId());
 
         List<Map<String, Object>> feedbackDetailsList = new ArrayList<>();
         Map<String, Object> data = new HashMap<>();
-        if(feedbackModelCurrentPatient!=null) {
-            System.out.println("..................."+feedbackModelCurrentPatient.getPatientId());
+        if (feedbackModelCurrentPatient != null) {
+            System.out.println("..................." + feedbackModelCurrentPatient.getPatientId());
             data.put("id", feedbackModelCurrentPatient.getId());
             data.put("feedbackDate", feedbackModelCurrentPatient.getFeedbackDate());
             data.put("rating", feedbackModelCurrentPatient.getRating());
@@ -67,14 +63,10 @@ public class FeebackServiceImpl implements FeedbackService {
 
         System.out.println(feedbackDetailsList.size());
 
-
-        for(int i = 0; i<feedbackModelList.size();i++)
-        {
+        for (int i = 0; i < feedbackModelList.size(); i++) {
             data = new HashMap<>();
             FeedbackModel feedbackModel1 = (FeedbackModel) (((Object[]) feedbackModelList.get(i))[0]);
             PatientModel patientModel = (PatientModel) (((Object[]) feedbackModelList.get(i))[1]);
-
-
 
             data.put("id", feedbackModel1.getId());
             data.put("feedbackDate", feedbackModel1.getFeedbackDate());
@@ -90,15 +82,13 @@ public class FeebackServiceImpl implements FeedbackService {
         return feedbackDetailsList;
     }
 
-    public List<Map<String, Object>> findAvgRatingOfDoctor()
-    {
+    public List<Map<String, Object>> findAvgRatingOfDoctor() {
 
         List<Object> feedbackModelList = feedbackRepository.findAvgRatingOfDoctor();
 
         List<Map<String, Object>> feedbackDetailsList = new ArrayList<>();
 
-        for(int i = 0; i<feedbackModelList.size();i++)
-        {
+        for (int i = 0; i < feedbackModelList.size(); i++) {
             Long doctorId = (Long) (((Object[]) feedbackModelList.get(i))[0]);
             Double avgRating = (Double) (((Object[]) feedbackModelList.get(i))[1]);
 
@@ -112,6 +102,5 @@ public class FeebackServiceImpl implements FeedbackService {
 
         return feedbackDetailsList;
     }
-
 
 }

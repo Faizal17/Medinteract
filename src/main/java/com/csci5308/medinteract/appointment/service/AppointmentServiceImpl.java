@@ -6,13 +6,9 @@ import com.csci5308.medinteract.appointment.repository.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-<<<<<<< HEAD
 import java.time.LocalDateTime;
 import java.util.Date;
-=======
 import java.time.LocalDate;
-import java.time.LocalDateTime;
->>>>>>> dev
 import java.util.List;
 import java.util.Map;
 
@@ -21,10 +17,9 @@ public class AppointmentServiceImpl implements AppointmentService {
     AppointmentRepository appointmentRepository;
 
     @Autowired
-    public AppointmentServiceImpl(AppointmentRepository appointmentRepository){
+    public AppointmentServiceImpl(AppointmentRepository appointmentRepository) {
         this.appointmentRepository = appointmentRepository;
     }
-
 
     @Override
     public AppointmentModel saveAppointment(AppointmentModel appointmentModel) {
@@ -41,14 +36,10 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentRepository.findByPatientId(patientId);
     }
 
-<<<<<<< HEAD
-    public List<AppointmentModel> fetchAppointmentsByPatientAfterDate(Long patientID, LocalDateTime date)
-    {
+    public List<AppointmentModel> fetchAppointmentsByPatientAfterDate(Long patientID, LocalDateTime date) {
         return appointmentRepository.fetchAppointmentsByPatientAfterDate(patientID, date);
     }
 
-}
-=======
     @Override
     public List<Object> fetchAppointmentsHourly() {
         return appointmentRepository.findHourlyAppointments(LocalDateTime.now());
@@ -76,4 +67,3 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
 }
->>>>>>> dev
