@@ -562,7 +562,7 @@ function loadAppointmentsDashboard(patientId) {
   let laterHtmlString = `<ul class="list-group list-group-flush">`
   let todayHaveAppoinments = false;
   let laterHaveAppoinments = true;
-  let laterAppoinmentCount = 4;
+  let laterAppoinmentCount = 2;
 
   for (i = 0; i < responseData.data.length; i++) {
     tempResponceData = responseData.data[i];

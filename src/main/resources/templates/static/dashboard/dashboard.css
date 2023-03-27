@@ -1,11 +1,19 @@
 #doctor_list_div.scrollable {
     height: 75vh;
     overflow: auto;
+    overflow-x: hidden;
 }
 
 #othersCommentBoxDiv.scrollable {
     height: auto;
     overflow: auto;
+    overflow-x: hidden;
+}
+
+#dashbordbody.scrollable {
+    height: 75vh;
+    overflow: auto;
+    overflow-x: hidden;
 }
 
 .patientFeedbackStar {
