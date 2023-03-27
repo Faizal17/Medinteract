@@ -4,14 +4,15 @@ function showDoctorList(tempResponceData, doctorList, avgRating) {
   //console.log(doctorList)
   //console.log("........."+tempResponceData.doctorAddressCity+JSON.stringify(tempResponceData));
   //console.log(avgRating);
+  let imagePath = "static/images/doctor/";
 
 
   let htmlString = `<div class="card col-md-6 mx-auto shadow doctorListDivCard"  id="doctor_list_div_card" style="width: 20rem;">
-          <div class="card-body">
-            <h5 class="card-title">`+ tempResponceData.doctorName + `</h5>
-            <p class="card-text">Dr. `+ tempResponceData.doctorName + ` is a ` + tempResponceData.doctorType + ` who provieds their services in ` + tempResponceData.doctorAddressCity + `</p>
-            <div class="card-body">
+  
+    <img class="rounded-circle" src="${imagePath}${tempResponceData.id}.jpg" class="rounded" onError="this.onerror=null;this.src='${imagePath}default.jpg';">           
+            <div class="card-body text-center">
               <ul class="list-group listGroupBorder">
+                <li class="list-group-item listGroupBorder"><h5 class="card-title">`+ tempResponceData.doctorName + `</h5></li>
                 <li class="list-group-item listGroupBorder"><i class="bi bi-envelope-fill"></i> <a href="mailto:`+ tempResponceData.doctorEmail + `" class="card-link" >` + tempResponceData.doctorEmail + `</a></li>
                 <li class="list-group-item listGroupBorder"><i class="bi bi-geo-alt-fill"></i> `+ tempResponceData.doctorAddressProvince + `,` + tempResponceData.doctorAddressCity + `</li>
                 <li class="list-group-item listGroupBorder"><i class="bi bi-mortarboard-fill"></i> `+ tempResponceData.doctorQualification + `</li>
@@ -19,6 +20,7 @@ function showDoctorList(tempResponceData, doctorList, avgRating) {
             </div>
           
             <div class="row">
+            <div class="col-1"></div>
             <div class="rating col">
             <span class="text-muted fw-light fs-1"><b>${avgRating}</b><spam class="fs-5">/5</spam></span>
               <div class="rating-stars">
@@ -34,16 +36,18 @@ function showDoctorList(tempResponceData, doctorList, avgRating) {
             </div>
             </div>
             
-            <div class="d-grid gap-2 d-md-block">
-            <button class="btn btn-outline-warning btn-sm" type="button"  style="width: 8rem; color:black" data-toggle="collapse" data-target="#comments_${tempResponceData.id}" aria-expanded="false" onclick="loadComents(${tempResponceData.id})" style="width: 10rem;">
-              Feedback
-            </button>
-
-            <button id="${tempResponceData.id}_${tempResponceData.doctorName}" class="btn btn-primary btn-sm float-end calendar" style="width: 8rem;">Book</button>
-           </div>
-            
-            <br><br>
-
+            <div class="row ">
+              <div class="col-1"></div>
+              <div class="col-5">
+                <button class="btn btn-outline-warning btn-sm" style="width: 8rem; color:black" data-toggle="collapse" data-target="#comments_${tempResponceData.id}" aria-expanded="false" onclick="loadComents(${tempResponceData.id})" style="width: 10rem;">Feedback</button>
+              </div>
+              <div class="col-1"></div>
+              <div class="col-4">
+                <button id="${tempResponceData.id}_${tempResponceData.doctorName}" class="btn btn-primary btn-sm float-end calendar" style="width: 8rem;">Book</button>
+              </div>
+              <div class="col-1"></div>
+            </div>
+            <br>
             <div class="collapse w-100" id="comments_${tempResponceData.id}">
               <div class="card card-body" id="comments_body_${tempResponceData.id}">
                 
