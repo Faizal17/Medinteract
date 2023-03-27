@@ -7,10 +7,12 @@ function showDoctorList(tempResponceData, doctorList, avgRating) {
   let imagePath = "static/images/doctor/";
 
 
-  let htmlString = `<div class="card col-md-6 mx-auto shadow doctorListDivCard"  id="doctor_list_div_card" style="width: 20rem;">
+  let htmlString = `<div class="card col-md-8 mx-auto shadow doctorListDivCard"  id="doctor_list_div_card" style="width: 18rem;">
   
-    <img class="rounded-circle" src="${imagePath}${tempResponceData.id}.jpg" class="rounded" onError="this.onerror=null;this.src='${imagePath}default.jpg';">           
-            <div class="card-body text-center">
+  <div class="text-center">
+    <img class="rounded-circle" src="${imagePath}${tempResponceData.id}.jpg" height="150" width="150" onError="this.onerror=null;this.src='${imagePath}default.jpg';">           
+    </div>        
+    <div class="card-body text-center">
               <ul class="list-group listGroupBorder">
                 <li class="list-group-item listGroupBorder"><h5 class="card-title">`+ tempResponceData.doctorName + `</h5></li>
                 <li class="list-group-item listGroupBorder"><i class="bi bi-envelope-fill"></i> <a href="mailto:`+ tempResponceData.doctorEmail + `" class="card-link" >` + tempResponceData.doctorEmail + `</a></li>
@@ -39,33 +41,43 @@ function showDoctorList(tempResponceData, doctorList, avgRating) {
             <div class="row ">
               <div class="col-1"></div>
               <div class="col-5">
-                <button class="btn btn-outline-warning btn-sm" style="width: 8rem; color:black" data-toggle="collapse" data-target="#comments_${tempResponceData.id}" aria-expanded="false" onclick="loadComents(${tempResponceData.id})" style="width: 10rem;">Feedback</button>
+                <button type="button" class="btn btn-outline-warning btn-sm" style="width: 7rem; color:black" data-bs-toggle="modal" data-bs-target="#comments_${tempResponceData.id}" onclick="loadComents(${tempResponceData.id})" style="width: 10rem;">Feedback</button>
               </div>
               <div class="col-1"></div>
               <div class="col-4">
-                <button id="${tempResponceData.id}_${tempResponceData.doctorName}" class="btn btn-primary btn-sm float-end calendar" style="width: 8rem;">Book</button>
+                <button id="${tempResponceData.id}_${tempResponceData.doctorName}" class="btn btn-primary btn-sm float-end calendar" style="width: 7rem;">Book</button>
               </div>
               <div class="col-1"></div>
             </div>
             <br>
-            <div class="collapse w-100" id="comments_${tempResponceData.id}">
-              <div class="card card-body" id="comments_body_${tempResponceData.id}">
+            
+          </div>
+        </div>
+        <br>
+
+        <div class="modal fade" id="comments_${tempResponceData.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="comments_${tempResponceData.id}Label" aria-hidden="true">
+              <div class="modal-dialog">
+              
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="comments_${tempResponceData.id}Label">Feedback</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body" id="comments_body_${tempResponceData.id}">
+                    
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  </div>
+                </div>
                 
               </div>
             </div>
-
-          </div>
-
-          
-        </div>
-        <br>
-        
-       
         `;
 
   let div = document.createElement("div");
   div.id = "doctor_list_div_subdiv";
-  div.classList.add("col-sm-5");
+  div.classList.add("col-sm-3");
   div.innerHTML = htmlString;
 
   doctorList.appendChild(div);
@@ -308,7 +320,8 @@ function loadComents(doctorId) {
                       <textarea class="form-control ml-1 shadow-none textarea" id="textCommentArea_${doctorId}">${responseData.data[0].comment}</textarea></div>
                       <div class="mt-2 text-right float-end"><button class="btn btn-primary btn-sm shadow-none" id="postButton_${doctorId}" type="button" onclick="saveComment(${doctorId}, ${responseData.data[0].id})" >Post Comment</button></div>
                     </div><br><br>
-                    <div class="scrollable" id="othersCommentBoxDiv">`;
+                    <div id="othersCommentBoxDiv">
+                    `;
 
   let tempResponceData;
   let feedbackDate;
@@ -325,9 +338,11 @@ function loadComents(doctorId) {
     TimeOptions = { hour: 'numeric', minute: 'numeric', hour12: true };
     formattedFeedbackTime = feedbackDate.toLocaleTimeString('en-US', TimeOptions);
 
+    let imagePath = "static/images/patient/"
     htmlString = htmlString + `
     <div class="d-flex flex-row-end align-items-end">
-    <div><a href="#" class="text-decoration-none" disabled>${tempResponceData.patientName}</a></div>
+    <div><img class="rounded-circle" src="${imagePath}${tempResponceData.id}.jpg" height="40" width="40" onError="this.onerror=null;this.src='${imagePath}default.jpg';">           
+    <a href="#" class="text-decoration-none" disabled>${tempResponceData.patientName}</a></div>
     <div class="col align-text-bottom"><p class="fw-light fs-6 col align-text-bottom text-end mb-0">${formattedFeedbackDate} ${formattedFeedbackTime}</p></div>
     </div>
     <div class="input-group mb-3">
@@ -547,6 +562,7 @@ function loadAppointmentsDashboard(patientId) {
   let laterHtmlString = `<ul class="list-group list-group-flush">`
   let todayHaveAppoinments = false;
   let laterHaveAppoinments = true;
+  let laterAppoinmentCount = 4;
 
   for (i = 0; i < responseData.data.length; i++) {
     tempResponceData = responseData.data[i];
@@ -556,8 +572,11 @@ function loadAppointmentsDashboard(patientId) {
       todayHtmlString = todayHtmlString + ` <li class="list-group-item"><a  href="./appointments.html"><i class="bi bi-clock"></i> ${tempDate.getHours()}h:${tempDate.getMinutes()}m</a ></li > `;
     }
     else {
-      laterHaveAppoinments = true;
-      laterHtmlString = laterHtmlString + ` <li class="list-group-item"><a  href="./appointments.html"><i class="bi bi-calendar4-week"></i> ${tempDate.getMonth()}/${tempDate.getDay()}/${tempDate.getFullYear()}</a ></li > `;
+      if (laterAppoinmentCount > 0) {
+        laterHaveAppoinments = true;
+        laterHtmlString = laterHtmlString + ` <li class="list-group-item"><a  href="./appointments.html"><i class="bi bi-calendar4-week"></i> ${tempDate.getMonth()}/${tempDate.getDay()}/${tempDate.getFullYear()}</a ></li > `;
+        laterAppoinmentCount--;
+      }
     }
   }
 

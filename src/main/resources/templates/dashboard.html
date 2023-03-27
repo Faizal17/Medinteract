@@ -40,51 +40,51 @@
                     role="search" method="post">
                     <div class="row">
                         <div class="col-1"></div>
-                        <div class="row col-11">
-                            <div class="col-2 ms-4">
-                                <div class="form-floating ">
-                                    <input class="form-control" type="text" name="doctor_search_options"
-                                        id="doctor_search_form_name" placeholder="Name">
-                                    <label for="doctor_search_form_name">Name</label>
-                                </div>
+                        <!--<div class="row col-11">-->
+                        <div class="col-2">
+                            <div class="form-floating ">
+                                <input class="form-control" type="text" name="doctor_search_options"
+                                    id="doctor_search_form_name" placeholder="Name">
+                                <label for="doctor_search_form_name">Name</label>
                             </div>
-
-                            <div class="col-2">
-                                <div class="form-floating">
-                                    <select class="form-select" aria-label="Province" name="doctor_search_options"
-                                        id="doctor_search_form_province" onchange="selectProvince(this.value)">
-                                        <option value="" selected disabled>Select</option>
-                                    </select>
-                                    <label for="doctor_search_form_province">Province</label>
-                                </div>
-                            </div>
-
-                            <div class="col-2">
-                                <div class="form-floating">
-                                    <select class="form-select" aria-label="City" name="doctor_search_options"
-                                        id="doctor_search_form_city">
-                                        <option value="" selected disabled>Select</option>
-                                    </select>
-                                    <label for="doctor_search_form_city">City</label>
-                                </div>
-                            </div>
-
-                            <div class="col-2">
-                                <div class="form-floating">
-                                    <input class="form-control" type="text" name="doctor_search_options"
-                                        id="doctor_search_form_qualification" placeholder="Qualification">
-                                    <label for="doctor_search_form_qualification">Qualification</label>
-                                </div>
-                            </div>
-
-                            <div class="col-2">
-                                <button class="btn btn-outline-success btn-lg" style="height: 100%; width: 100%;"
-                                    type="submit">Search</button>
-                            </div>
-
-                            <div class="col-1"></div>
-
                         </div>
+
+                        <div class="col-2">
+                            <div class="form-floating">
+                                <select class="form-select" aria-label="Province" name="doctor_search_options"
+                                    id="doctor_search_form_province" onchange="selectProvince(this.value)">
+                                    <option value="" selected disabled>Select</option>
+                                </select>
+                                <label for="doctor_search_form_province">Province</label>
+                            </div>
+                        </div>
+
+                        <div class="col-2">
+                            <div class="form-floating">
+                                <select class="form-select" aria-label="City" name="doctor_search_options"
+                                    id="doctor_search_form_city">
+                                    <option value="" selected disabled>Select</option>
+                                </select>
+                                <label for="doctor_search_form_city">City</label>
+                            </div>
+                        </div>
+
+                        <div class="col-2">
+                            <div class="form-floating">
+                                <input class="form-control" type="text" name="doctor_search_options"
+                                    id="doctor_search_form_qualification" placeholder="Qualification">
+                                <label for="doctor_search_form_qualification">Qualification</label>
+                            </div>
+                        </div>
+
+                        <div class="col-2">
+                            <button class="btn btn-outline-success btn-lg" style="height: 100%; width: 100%;"
+                                type="submit">Search</button>
+                        </div>
+
+                        <div class="col-1"></div>
+
+                        <!-- </div>-->
                     </div>
                 </form>
 
@@ -113,12 +113,14 @@
                             <div id="laterAppoinmentList">
                                 <p class="card-text">No Appointments.</p>
                             </div>
+                            <a class="btn btn-outline-primary stretched-link" href="./appointments.html">Goto
+                                Appointments</a>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-1"></div>
 
-                <div class="col-sm-7">
+
+                <div class="col-sm-8">
                     <div class="doctor_list row scrollable" id="doctor_list_div">
 
                     </div>
