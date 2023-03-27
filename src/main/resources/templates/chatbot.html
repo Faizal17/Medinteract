@@ -19,7 +19,12 @@
     <link rel="stylesheet" href="./static/chatbot/chatbot.css">
 
 
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"
+            integrity="sha512-1QvjE7BtotQjkq8PxLeF6P46gEpBRXuskzIVgjFpekzFVF4yjRgrQvTG1MTOJ3yQgvTteKAcO7DSZI92+u/yZw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"
+            integrity="sha512-iKDtgDyTHjAitUDdLljGhenhPwrbBfqTKWO1mkhSFH3A7blITC9MhYon6SjnMhp4o0rADGw9yAC6EW4t5a4K3g=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script type="text/javascript" src="static/appointments/appointments.js"></script>
     <script type="text/javascript" src="static/appointments/mobiscroll.jquery.min.js"></script>
@@ -35,29 +40,27 @@
 Working prototype on meesrutten.me :) -->
 <div class="contentDiv">
     <div class="chatbot__overview">
-            <ul class="chatlist">
+        <ul class="chatlist">
             <li class="bot__output bot__output--standard">Hey, I'm your MedInteract ChatBot</li>
             <li class="bot__output bot__output--standard">
-                <input class="btn btn-primary" type="button" id="createappointment"  value="Create Appointment">
+                <input class="btn btn-primary" type="button" id="createappointment" value="Create Appointment">
                 <input class="btn btn-primary myBooking" type="button" id="myBooking" value="My Appointments">
-                <input class="btn btn-primary" id ="viewDoctors" type="button"  value="View Doctors">
-                <input class="btn btn-primary" id ="emergencyInfo" type="button" value="Emergency Contact">
-<!--                <input class="btn btn-primary" id ="viewPatients" type="button" value="View Patients">-->
+                <input class="btn btn-primary" id="viewDoctors" type="button" value="View Doctors">
+                <input class="btn btn-primary" id="emergencyInfo" type="button" value="Emergency Contact">
+                <!--                <input class="btn btn-primary" id ="viewPatients" type="button" value="View Patients">-->
             </li>
 
-            </ul>
+        </ul>
     </div>
     <div class="chatbox-area col-12 py-3">
         <form action="" id="chatform">
-            <textarea placeholder="Select any options to continue" class="chatbox" name="chatbox"   minlength="2"></textarea>
+            <textarea placeholder="Select any options to continue" class="chatbox" name="chatbox"
+                      minlength="2"></textarea>
             <input class="submit-button" type="submit" value="send">
         </form>
     </div>
 
 </div>
-
-
-
 
 
 <button type="button" class="btn btn-primary d-none" id="show" data-bs-toggle="modal"
@@ -94,11 +97,11 @@ Working prototype on meesrutten.me :) -->
                             <div class="mbsc-form-group">
                                 <label>
                                     Starts
-                                    <input mbsc-input id="start-input" />
+                                    <input mbsc-input id="start-input"/>
                                 </label>
                                 <label>
                                     Ends
-                                    <input mbsc-input id="end-input" />
+                                    <input mbsc-input id="end-input"/>
                                 </label>
                                 <div id="event-date"></div>
                                 <div id="event-color-picker" class="event-color-c">
@@ -171,7 +174,6 @@ Working prototype on meesrutten.me :) -->
 </div>
 
 
-
 </body>
 
 
@@ -180,20 +182,19 @@ Working prototype on meesrutten.me :) -->
 <script src="./static/chatbot/chatbot.js"></script>
 
 <script>
-    $(document).ready(function (){
+    $(document).ready(function () {
 
         const createAppointment = document.getElementById("createappointment")
-        const myBooking = document.getElementById("myBooking")
+        // const myBooking = document.getElementById("myBooking")
         const viewDoctors = document.getElementById("viewDoctors")
 
         // if(getCookie("type") == "patient" ) {
         //     ele.hidden = true
         // }
-         if (getCookie("type") == "doctor")
-         {
+        if (getCookie("type") == "doctor") {
             createAppointment.hidden = true;
             viewDoctors.hidden = true;
-         }
+        }
 
 
         $(document).on("click", '.myBooking', function () {
@@ -202,10 +203,9 @@ Working prototype on meesrutten.me :) -->
             $("#modalTitleDoctorName").html(name);
 
 
-            if(getCookie("type") == "patient" || getCookie("type") == "doctor") {
-                loadAppointments(getCookie("type").charAt(0).toUpperCase() + getCookie("type").slice(1),  getCookie("id"), true);
+            if (getCookie("type") == "patient" || getCookie("type") == "doctor") {
+                loadAppointments(getCookie("type").charAt(0).toUpperCase() + getCookie("type").slice(1), getCookie("id"), true);
             }
-
 
 
         })
@@ -213,35 +213,42 @@ Working prototype on meesrutten.me :) -->
         $(document).on("click", '.calendar', function () {
             $("#show").click();
             $("#modalTitleDoctorName").html(this.id.split("_")[1]);
-
-
-            if(getCookie("type") == "patient" || getCookie("type") == "doctor") {
-                loadAppointments(getCookie("type").charAt(0).toUpperCase() + getCookie("type").slice(1),  this.id.split("_")[0], true);
+            console.log(getCookie("type"))
+            if (getCookie("type") == "patient" ) {
+                loadAppointments("Doctor", this.id.split("_")[0], true);
             }
-
-
+            else if (getCookie("type") == "Doctor")
+                loadAppointments("patient", this.id.split("_")[0], true);
 
         })
 
+        // $(document).on("click", '.calendar', function () {
+        //     $("#show").click();
+        //     $("#modalTitleDoctorName").html(this.id.split("_")[1]);
+        //
+        //
+        //     if(getCookie("type") == "patient" || getCookie("type") == "doctor") {
+        //         loadAppointments(getCookie("type").charAt(0).toUpperCase() + getCookie("type").slice(1),  this.id.split("_")[0], true);
+        //     }
+        //
+        //
+        //
+        // })
 
 
-        $(document).on("click", '.calendar', function () {
-            $("#show").click();
-            $("#modalTitleDoctorName").html(this.id.split("_")[1]);
-
-
-            if(getCookie("type") == "patient" || getCookie("type") == "doctor") {
-                loadAppointments(getCookie("type").charAt(0).toUpperCase() + getCookie("type").slice(1),  this.id.split("_")[0], true);
-            }
-
-
-
-        })
+        // $(document).on("click", '.calendar', function () {
+        //     $("#show").click();
+        //     $("#modalTitleDoctorName").html(this.id.split("_")[1]);
+        //
+        //
+        //     if(getCookie("type") == "patient" || getCookie("type") == "doctor") {
+        //         loadAppointments(getCookie("type").charAt(0).toUpperCase() + getCookie("type").slice(1),  this.id.split("_")[0], true);
+        //     }
+        //
+        //
+        //
+        // })
     })
-
-
-
-
 
 
 </script>

@@ -1,5 +1,5 @@
 package com.csci5308.medinteract.city.controller;
-import com.csci5308.medinteract.Doctor.Model.DoctorModel;
+import com.csci5308.medinteract.doctor.Model.DoctorModel;
 import com.csci5308.medinteract.city.model.CityModel;
 import com.csci5308.medinteract.city.service.CityService;
 import com.csci5308.medinteract.utilities.Response;

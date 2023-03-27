@@ -15,7 +15,7 @@ public interface CityRepository extends JpaRepository<CityModel, Long> {
     List<CityModel> findByCity(String city);
 
     Optional<CityModel> findById(Long cityId);
-    @Query("select c.city, p.name from CityModel c join ProvinceModel p on c.province_mapping = p.id")
+    @Query("select c.city, p.name from CityModel c join ProvinceModel p on c.province_mapping = p.id WHERE c.id=?1")
     List<Object> findByCityWithProvince(Long id);
 
 }

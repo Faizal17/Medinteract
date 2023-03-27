@@ -29,6 +29,11 @@
     <link rel="stylesheet" href="static/appointments/appointments.css">
     <link rel="stylesheet" href="static/dashboard/dashboard.css">
     <link rel="stylesheet" href="static/appointments/mobiscroll.jquery.min.css">
+    <script type="text/javascript" src="static/login/provinceList.js"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
 </head>
 
 <body>
@@ -198,6 +203,10 @@
             $("#modalTitleDoctorName").html(this.id.split("_")[1]);
             loadAppointments("Doctor", this.id.split("_")[0], true)
         })
+
+        for (let [key, value] of provinceList) {
+            $('#doctor_search_form_province').append(`<option value=${key}>${value["abbrv"]}</option>`);
+        }
     })
 
 </script>

@@ -1,7 +1,7 @@
-package com.csci5308.medinteract.Doctor.Controller;
+package com.csci5308.medinteract.doctor.Controller;
 
-import com.csci5308.medinteract.Doctor.Model.DoctorModel;
-import com.csci5308.medinteract.Doctor.Service.DoctorService;
+import com.csci5308.medinteract.doctor.Model.DoctorModel;
+import com.csci5308.medinteract.doctor.Service.DoctorService;
 import com.csci5308.medinteract.prescription.model.PrescriptionModel;
 import com.csci5308.medinteract.utilities.JWT.JWT;
 import com.csci5308.medinteract.utilities.Response;
@@ -31,7 +31,7 @@ public class DoctorController {
     public ResponseEntity fetchAll()
     {
         List<DoctorModel> doctorModelList= doctorServiceImpl.fetchAll();
-        Response res = new Response(doctorModelList, false, "All Doctors Fetched Successfully!");
+        Response res = new Response(doctorModelList, false, "All doctors fetched Successfully!");
         return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
     }
 
@@ -200,6 +200,7 @@ public class DoctorController {
 
         return ResponseEntity.ok().build();
     }
+
     @PostMapping("/blocked")
     public ResponseEntity<?> blockDoctor(@RequestParam(name = "doctorEmail") String email, @RequestParam boolean isBlocked) {
 
@@ -213,5 +214,28 @@ public class DoctorController {
         Optional<List<DoctorModel>> prescriptionModelList = doctorServiceImpl.fetchDoctor(id);
         Response  res = new Response(prescriptionModelList, false, "Doctor details fetched Successfully!");
         return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
+    }
+    @PostMapping("/get_doctor_on_doctor_details")
+    public ResponseEntity fetchDoctorsOnDetails(@RequestBody DoctorModel doctorModel)
+    {
+        List<DoctorModel> doctorModelList = doctorServiceImpl.getDoctorByDetails(doctorModel);
+        Response res = new Response(doctorModelList, false, "Doctor by qualification found successfully!");
+        return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+    }
+
+    @PostMapping("/get_doctor_on_details_and_city")
+    public ResponseEntity findDoctorOnDetailsWithCity(@RequestBody DoctorModel doctorModel)
+    {
+        List<Map<String, Object>> doctorModelList = doctorServiceImpl.findDoctorOnDetailsWithCity(doctorModel);
+        Response res = new Response(doctorModelList, false, "Doctor by qualification found successfully!");
+        return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+    }
+
+    @PostMapping("/get_doctor_on_details_and_city_with_feedback")
+    public ResponseEntity findDoctorOnDetailsWithCityAndFeedback(@RequestBody DoctorModel doctorModel)
+    {
+        List<Map<String, Object>> doctorModelList = doctorServiceImpl.findDoctorOnDetailsWithCityAndFeedback(doctorModel);
+        Response res = new Response(doctorModelList, false, "Doctor by qualification found successfully!");
+        return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
     }
 }

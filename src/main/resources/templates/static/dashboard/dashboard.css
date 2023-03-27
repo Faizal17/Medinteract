@@ -1,0 +1,45 @@
+#doctor_list_div.scrollable {
+    height: 75vh;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+#othersCommentBoxDiv.scrollable {
+    height: auto;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+#dashbordbody.scrollable {
+    height: 75vh;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+.patientFeedbackStar {
+    color: orange;
+}
+
+a {
+    text-decoration: none;
+}
+
+.doctorListDivCard:hover {
+    transform: scale(1.03);
+}
+
+.bi-envelope-fill {
+    color: lawngreen;
+}
+
+.bi-geo-alt-fill {
+    color: red;
+}
+
+.bi-mortarboard-fill {
+    color: blue;
+}
+
+.listGroupBorder {
+    border: 0 !important;
+}

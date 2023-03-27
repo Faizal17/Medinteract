@@ -1,4 +1,4 @@
-package com.csci5308.medinteract.Doctor.Model;
+package com.csci5308.medinteract.doctor.Model;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
