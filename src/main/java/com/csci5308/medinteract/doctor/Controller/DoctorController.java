@@ -1,8 +1,7 @@
-package com.csci5308.medinteract.Doctor.Controller;
+package com.csci5308.medinteract.doctor.Controller;
 
-import com.csci5308.medinteract.Doctor.Model.DoctorModel;
-import com.csci5308.medinteract.Doctor.Service.DoctorService;
-import com.csci5308.medinteract.patient.model.PatientModel;
+import com.csci5308.medinteract.doctor.Model.DoctorModel;
+import com.csci5308.medinteract.doctor.Service.DoctorService;
 import com.csci5308.medinteract.utilities.JWT.JWT;
 import com.csci5308.medinteract.utilities.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,8 @@ public class DoctorController {
     public ResponseEntity fetchAll()
     {
         List<DoctorModel> doctorModelList= doctorServiceImpl.fetchAll();
-        return new ResponseEntity<>(doctorModelList, HttpStatus.OK);
+        Response res = new Response(doctorModelList, false, "All doctors fetched Successfully!");
+        return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
     }
 
     @PostMapping("/register")
@@ -65,7 +65,7 @@ public class DoctorController {
             doctorModel.setDoctorPassword("");
             Response  res = new Response(jwtTokenUtil.generateToken(doctorModel.getDoctorEmail(),"doctor",doctorModel)
                     , false
-                    , "User logged in Successfully!");
+                    , "Doctor logged in Successfully!");
             return  new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
 
         }
@@ -92,10 +92,10 @@ public class DoctorController {
         return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
     }
 
-    @GetMapping("/profile")
-    public List<DoctorModel> getAllDoctors(){
-        return doctorServiceImpl.getAllDoctors();
-    }
+//    @GetMapping("/profile")
+//    public List<DoctorModel> getAllDoctors(){
+//        return doctorServiceImpl.getAllDoctors();
+//    }
 
     @GetMapping("/profile/{doctorId}")
     public ResponseEntity getDoctorById(@PathVariable("doctorId") Long id){
@@ -105,7 +105,7 @@ public class DoctorController {
             return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
         }
         doctorModel.get().setDoctorPassword("");
-        Response  res = new Response(doctorModel, false, "User details fetched Successfully!");
+        Response  res = new Response(doctorModel, false, "Doctor details fetched Successfully!");
         return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
     }
 

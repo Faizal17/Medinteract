@@ -1,8 +1,12 @@
-package com.csci5308.medinteract.Doctor.Service;
+package com.csci5308.medinteract.doctor.Service;
 
+<<<<<<< HEAD:src/main/java/com/csci5308/medinteract/Doctor/Service/DoctorService.java
 import com.csci5308.medinteract.Doctor.Model.DoctorModel;
 import com.csci5308.medinteract.patient.model.PatientModel;
 import org.thymeleaf.model.IDocType;
+=======
+import com.csci5308.medinteract.doctor.Model.DoctorModel;
+>>>>>>> dev:src/main/java/com/csci5308/medinteract/doctor/Service/DoctorService.java
 
 import java.util.List;
 import java.util.Map;

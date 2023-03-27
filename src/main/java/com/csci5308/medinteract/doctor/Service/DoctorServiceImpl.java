@@ -1,16 +1,19 @@
-package com.csci5308.medinteract.Doctor.Service;
+package com.csci5308.medinteract.doctor.Service;
 
+<<<<<<< HEAD:src/main/java/com/csci5308/medinteract/Doctor/Service/DoctorServiceImpl.java
 import com.csci5308.medinteract.Doctor.Model.DoctorModel;
 import com.csci5308.medinteract.Doctor.Repository.DoctorRepository;
 import com.csci5308.medinteract.city.model.CityModel;
 import com.csci5308.medinteract.feedback.Model.FeedbackModel;
 import com.csci5308.medinteract.patient.model.PatientModel;
 import com.csci5308.medinteract.province.model.ProvinceModel;
+=======
+import com.csci5308.medinteract.doctor.Model.DoctorModel;
+import com.csci5308.medinteract.doctor.Repository.DoctorRepository;
+>>>>>>> dev:src/main/java/com/csci5308/medinteract/doctor/Service/DoctorServiceImpl.java
 import com.csci5308.medinteract.utilities.PasswordEncodeDecode;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.transaction.Transactional;
 import java.util.*;
@@ -32,7 +35,7 @@ public class DoctorServiceImpl implements DoctorService{
 
     @Override
     public DoctorModel saveDoctor(DoctorModel doctorModel) {
-        return doctorRepository.save(doctorModel);
+            return doctorRepository.save(doctorModel);
     }
 
     @Override

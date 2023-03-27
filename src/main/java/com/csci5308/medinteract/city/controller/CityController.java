@@ -1,4 +1,5 @@
 package com.csci5308.medinteract.city.controller;
+import com.csci5308.medinteract.doctor.Model.DoctorModel;
 import com.csci5308.medinteract.city.model.CityModel;
 import com.csci5308.medinteract.city.service.CityService;
 import com.csci5308.medinteract.utilities.Response;
@@ -23,9 +24,11 @@ public class CityController {
     public ResponseEntity fetchAll()
     {
         List<CityModel> cityModelList= cityServiceImpl.fetchAll();
-        Response res = new Response(cityModelList, false, "All citys fetched successfully");
+        Response res = new Response(cityModelList, false, "All cities fetched successfully");
         return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
     }
+
+
 
     @PostMapping("/city_id")
     public ResponseEntity getCityId(@RequestBody CityModel cityModel)
@@ -39,7 +42,7 @@ public class CityController {
     public ResponseEntity getCityName(@RequestBody CityModel cityModel)
     {
         Object cityName = cityServiceImpl.getCityName(cityModel);
-        Response res = new Response(cityName, false, "City Id found");
+        Response res = new Response(cityName, false, "City name found");
         return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
     }
 

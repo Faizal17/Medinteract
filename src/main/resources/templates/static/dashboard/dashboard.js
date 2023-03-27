@@ -269,7 +269,7 @@ function loadComents(doctorId) {
   }).done(function (response) {
 
     try {
-      responseData = response;
+      responseData = response.data;
 
       if (responseData.isError) {
         addToast(true, "Error", responseData.msg);
