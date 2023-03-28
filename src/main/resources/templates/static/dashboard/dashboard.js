@@ -40,7 +40,7 @@ function showDoctorList(tempResponceData, doctorList, avgRating) {
         <div class="row ">
             <div class="col-6">
                 <button type="button" class="btn btn-outline-warning btn-sm" style="width: 100%; color:black"
-                    data-bs-toggle="modal" data-bs-target="#comments_${tempResponceData.id}"
+                    data-bs-toggle="modal" data-bs-target="#comments_modal"
                     onclick="loadComents(${tempResponceData.id})" style="width: 10rem;">Feedback</button>
             </div>
             <div class="col-6">
@@ -52,23 +52,6 @@ function showDoctorList(tempResponceData, doctorList, avgRating) {
   </div>
   <br>
 
-  <div class="modal fade" id="comments_${tempResponceData.id}" data-bs-backdrop="static" data-bs-keyboard="false"
-    tabindex="-1" aria-labelledby="comments_${tempResponceData.id}Label" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="comments_${tempResponceData.id}Label">Feedback</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="comments_body_${tempResponceData.id}">
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-  </div>
   `;
 
   let div = document.createElement("div");
@@ -303,7 +286,7 @@ function loadComents(doctorId) {
     rating = responseData.data[0].rating;
   }
 
-  let commentList = document.getElementById("comments_body_" + doctorId);
+  let commentList = document.getElementById("comments_modal_body");
 
   let htmlString = `<div class="bg-light p-2">
                       <div class="d-flex flex-row-end">
