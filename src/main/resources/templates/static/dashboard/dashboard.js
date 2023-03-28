@@ -1,4 +1,12 @@
 //const globalURL = "http://localhost:6969/";
+var numberOfCards = 6;
+var currentPage = 1;
+var startCard = 0;
+var endCard = 6;
+var lastPage = 1;
+var totalCards = 6;
+let doctorResponseData;
+let avgRatingList;
 
 function showDoctorList(tempResponceData, doctorList, avgRating) {
   //console.log(doctorList)
@@ -90,12 +98,8 @@ function showDoctorList(tempResponceData, doctorList, avgRating) {
 
 function searchdoctor(event) {
 
-
-  //console.log("In searchDoctor ");
-  //event.preventDefault();
   let apiUrl;
   let data;
-  //const id = this.id;
 
   apiUrl = "doctor/get_doctor_on_details_and_city";
   data = {
@@ -108,7 +112,7 @@ function searchdoctor(event) {
   //console.log("checking data\n" + JSON.stringify(data));
 
   let responseData;
-  let doctorList = document.getElementById("doctor_list_div");
+
 
   $.ajax({
     url: globalURL + apiUrl,
@@ -141,8 +145,6 @@ function searchdoctor(event) {
     });;
 
 
-  let avgRatingList;
-
   $.ajax({
     url: globalURL + "feedback/fetchAvgFeedback",
 
@@ -174,13 +176,26 @@ function searchdoctor(event) {
 
 
   console.log(avgRatingList);
-  doctorList.innerHTML = "";
+  doctorResponseData = responseData;
 
+  lastPage = Math.ceil(responseData.data.length / numberOfCards);
+  totalCards = responseData.data.length;
+  changeCards(6);
+
+  loopOverDoc();
+
+}
+
+function loopOverDoc() {
+  let doctorList = document.getElementById("doctor_list_div");
+  doctorList.innerHTML = "";
   let tempResponceData;
   let tempAvgRating;
   let tempDocAvgRating;
   let DocAvgRating;
-  for (let i = 0; i < responseData.data.length; i++) {
+  let responseData = doctorResponseData;
+
+  for (let i = startCard; i < responseData.data.length && i < endCard; i++) {
 
     tempResponceData = responseData.data[i];
 
@@ -200,15 +215,17 @@ function searchdoctor(event) {
     showDoctorList(tempResponceData, doctorList, DocAvgRating);
 
   }
-
 }
 
 $(document).ready(function () {
   const doctorList = document.getElementById("doctor_list_div");
   let responseData;
 
-
-
+  numberOfCards = parseInt(document.getElementById("select_number_of_cards").value);
+  currentPage = 1;
+  startCard = 0;
+  endCard = 6;
+  lastPage = 1;
   console.log("In document ready..")
 
   searchdoctor();
@@ -583,5 +600,70 @@ function loadAppointmentsDashboard(patientId) {
     laterTextCommentArea.innerHTML = laterHtmlString;
   }
 
+}
 
+function changePage(pageNumber) {
+  if (pageNumber === "+1") {
+    console.log("here inside +1")
+    if (currentPage < lastPage)
+      currentPage++;
+  }
+  else if (pageNumber == "-1") {
+    if (currentPage > 1)
+      currentPage--;
+  }
+  else if (pageNumber > lastPage) {
+    currentPage = lastPage;
+  }
+  else if (pageNumber < 1) {
+    currentPage = 1;
+  }
+  else {
+    currentPage = parseInt(pageNumber);
+  }
+
+  startCard = (currentPage - 1) * numberOfCards;
+  endCard = startCard + numberOfCards;
+
+  console.log("pagenumber: " + pageNumber, "currentPage:" + currentPage, "lastPage:" + lastPage, "start" + startCard, "end" + endCard);
+  loopOverDoc();
+
+}
+
+function changeCards(value) {
+  if (value == "ALL") {
+    numberOfCards = lastPage * numberOfCards;
+  }
+  else {
+    numberOfCards = parseInt(value);
+  }
+
+  lastPage = Math.ceil(totalCards / numberOfCards);
+
+  if (currentPage > lastPage) {
+    currentPage = lastPage;
+  }
+  startCard = (currentPage - 1) * numberOfCards;
+  endCard = startCard + numberOfCards;
+
+  let htmlString = ``
+  let buttonValue;
+
+  cardNumbersDiv = document.getElementById("page_number_list");
+  for (let i = 1; i <= lastPage; i++) {
+    buttonValue = i;
+    if (lastPage > 5 && i == 3) {
+      buttonValue = '...';
+      i = lastPage - 2;
+      htmlString = htmlString + `<li class="page-item"><button type="button" class="page-link" disabled  onclick="changePage(${buttonValue})">${buttonValue}</button></li>`
+    }
+    else {
+      htmlString = htmlString + `<li class="page-item"><button type="button" class="page-link" onclick="changePage(${buttonValue})">${buttonValue}</button></li>`
+    }
+
+  }
+
+  cardNumbersDiv.innerHTML = htmlString;
+  console.log(currentPage, lastPage, startCard, endCard);
+  loopOverDoc();
 }
