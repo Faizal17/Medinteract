@@ -96,8 +96,6 @@ function searchdoctor(event) {
   let data;
   //const id = this.id;
 
-
-
   apiUrl = "doctor/get_doctor_on_details_and_city";
   data = {
     "doctorName": document.getElementById("doctor_search_form_name").value,
@@ -105,8 +103,6 @@ function searchdoctor(event) {
     "doctorAddressCity": document.getElementById("doctor_search_form_city").value,
     "doctorQualification": document.getElementById("doctor_search_form_qualification").value
   }
-
-
 
   //console.log("checking data\n" + JSON.stringify(data));
 
@@ -287,10 +283,14 @@ function loadComents(doctorId) {
   }
 
   let commentList = document.getElementById("comments_modal_body");
+  let imagePath = "static/images/patient/"
 
   let htmlString = `<div class="bg-light p-2">
                       <div class="d-flex flex-row-end">
-                      <div class="col align-self-end"><a href="#" class="text-decoration-none" disabled>${patientName} (You)</a></div>
+                      <div class="col align-self-end">
+                      <img class="rounded-circle" src="${imagePath}${patientId}.jpg" height="40" width="40" onError="this.onerror=null;this.src='${imagePath}default.jpg';">           
+                      <a href="#" class="text-decoration-none" disabled>${patientName} (You)</a>
+                      </div>
                       
                       <div class="rating col float-end">
                       <div class="rating-stars float-end">
@@ -324,7 +324,7 @@ function loadComents(doctorId) {
     TimeOptions = { hour: 'numeric', minute: 'numeric', hour12: true };
     formattedFeedbackTime = feedbackDate.toLocaleTimeString('en-US', TimeOptions);
 
-    let imagePath = "static/images/patient/"
+
     htmlString = htmlString + `
     <div class="d-flex flex-row-end align-items-end">
     <div><img class="rounded-circle" src="${imagePath}${tempResponceData.id}.jpg" height="40" width="40" onError="this.onerror=null;this.src='${imagePath}default.jpg';">           
@@ -477,6 +477,7 @@ function saveComment(doctorId, feedbackId) {
   postButton.textContent = "Edit Comment";
   textCommentArea.setAttribute("disabled", "");
   loadComents(doctorId);
+  searchdoctor();
 
 }
 
