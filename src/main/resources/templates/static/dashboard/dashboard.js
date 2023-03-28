@@ -7,10 +7,10 @@ function showDoctorList(tempResponceData, doctorList, avgRating) {
   let imagePath = "static/images/doctor/";
 
 
-  let htmlString = `<div class="card col-md-8 mx-auto shadow doctorListDivCard"  id="doctor_list_div_card" style="width: 18rem;">
+  let htmlString = `<div class="card col-md-8 mx-auto shadow doctorListDivCard"  id="doctor_list_div_card" style="width: 100%; height:90%">
   
   <div class="text-center">
-    <img class="rounded-circle" src="${imagePath}${tempResponceData.id}.jpg" height="150" width="150" onError="this.onerror=null;this.src='${imagePath}default.jpg';">           
+    <img class="rounded-circle" src="${imagePath}${tempResponceData.id}.jpg" style="height: 50%; width: 50%;" onError="this.onerror=null;this.src='${imagePath}default.jpg';">           
     </div>        
     <div class="card-body text-center">
               <ul class="list-group listGroupBorder">
@@ -19,10 +19,9 @@ function showDoctorList(tempResponceData, doctorList, avgRating) {
                 <li class="list-group-item listGroupBorder"><i class="bi bi-geo-alt-fill"></i> `+ tempResponceData.doctorAddressProvince + `,` + tempResponceData.doctorAddressCity + `</li>
                 <li class="list-group-item listGroupBorder"><i class="bi bi-mortarboard-fill"></i> `+ tempResponceData.doctorQualification + `</li>
               </ul>
-            </div>
+            
           
             <div class="row">
-            <div class="col-1"></div>
             <div class="rating col">
             <span class="text-muted fw-light fs-1"><b>${avgRating}</b><spam class="fs-5">/5</spam></span>
               <div class="rating-stars">
@@ -39,19 +38,17 @@ function showDoctorList(tempResponceData, doctorList, avgRating) {
             </div>
             
             <div class="row ">
-              <div class="col-1"></div>
-              <div class="col-5">
-                <button type="button" class="btn btn-outline-warning btn-sm" style="width: 7rem; color:black" data-bs-toggle="modal" data-bs-target="#comments_${tempResponceData.id}" onclick="loadComents(${tempResponceData.id})" style="width: 10rem;">Feedback</button>
+              <div class="col-6">
+                <button type="button" class="btn btn-outline-warning btn-sm" style="width: 100%; color:black" data-bs-toggle="modal" data-bs-target="#comments_${tempResponceData.id}" onclick="loadComents(${tempResponceData.id})" style="width: 10rem;">Feedback</button>
               </div>
-              <div class="col-1"></div>
-              <div class="col-4">
-                <button id="${tempResponceData.id}_${tempResponceData.doctorName}" class="btn btn-primary btn-sm float-end calendar" style="width: 7rem;">Book</button>
+              <div class="col-6">
+                <button id="${tempResponceData.id}_${tempResponceData.doctorName}" class="btn btn-primary btn-sm float-end calendar" style="width: 100%;">Book</button>
               </div>
-              <div class="col-1"></div>
             </div>
-            <br>
+            
             
           </div>
+        </div>
         </div>
         <br>
 
@@ -77,16 +74,16 @@ function showDoctorList(tempResponceData, doctorList, avgRating) {
 
   let div = document.createElement("div");
   div.id = "doctor_list_div_subdiv";
-  div.classList.add("col-sm-3");
+  div.classList.add("col-sm-4");
   div.innerHTML = htmlString;
 
   doctorList.appendChild(div);
   doctorList.appendChild(document.createElement("br"))
 
-  let divEmpty = document.createElement("div");
-  divEmpty.classList.add("col-sm-1");
+  // let divEmpty = document.createElement("div");
+  // divEmpty.classList.add("col-sm-1");
 
-  doctorList.appendChild(divEmpty);
+  // doctorList.appendChild(divEmpty);
 
   let j = 1;
   let starHtml;
