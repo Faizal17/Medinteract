@@ -119,7 +119,7 @@ public class PatientController {
         return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
     }
 
-    @PostMapping("/patientAppointment/{doctorId}")
+    @GetMapping("/patientAppointment/{doctorId}")
     public ResponseEntity fetchPatientsWithAppointment(@PathVariable ("doctorId") Long id) {
         Optional<List<PatientModel>> patientModelList = patientServiceImpl.fetchPatientsWithAppointment(id);
         Response res = new Response(patientModelList, false, "Patients fetched Successfully!");

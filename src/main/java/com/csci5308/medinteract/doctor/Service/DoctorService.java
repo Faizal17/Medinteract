@@ -52,5 +52,7 @@ public interface DoctorService {
 
     void blockDoctor(String email, boolean isBlocked);
 
+    Optional<List<DoctorModel>> fetchDoctor(Long id);
+
     List<DoctorModel> getDoctorByDetails(DoctorModel doctorModel);
 }

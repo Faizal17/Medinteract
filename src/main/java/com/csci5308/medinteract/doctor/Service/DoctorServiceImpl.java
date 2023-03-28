@@ -189,6 +189,11 @@ public class DoctorServiceImpl implements DoctorService {
         }
     }
 
+    @Override
+    public Optional<List<DoctorModel>> fetchDoctor(Long id) {
+        return doctorRepository.getDoctorModelById(id);
+    }
+
     public List<DoctorModel> getDoctorByDetails(DoctorModel doctorModel) {
         String name = doctorModel.getDoctorName();
         Long province = doctorModel.getDoctorAddressProvince();
