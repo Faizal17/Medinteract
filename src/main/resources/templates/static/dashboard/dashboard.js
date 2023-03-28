@@ -9,11 +9,11 @@ function showDoctorList(tempResponceData, doctorList, avgRating) {
 
   let htmlString = `
   <div class="card mx-auto text-center shadow" id="doctor_list_div_subdiv_card">
-    <div style="height:30%;">
-      <img class="rounded-circle mx-auto" src="${imagePath}${tempResponceData.id}.jpg" style="height: 100%; width: 30%;"
+    <div class="py-2" style="">
+      <img class="rounded-circle mx-auto" src="${imagePath}${tempResponceData.id}.jpg" style="height: 8rem; width: 8rem;"
         onError="this.onerror=null;this.src='${imagePath}default.jpg';">
     </div>
-    <div class="card-body">
+    <div class="card-body d-flex flex-column">
         <ul class="list-group listGroupBorder">
             <li class="list-group-item listGroupBorder"><h5 class="card-title">`+ tempResponceData.doctorName + `</h5></li>
             <li class="list-group-item listGroupBorder"><i class="bi bi-envelope-fill"></i> <a href="mailto:`+ tempResponceData.doctorEmail + `" class="card-link">` + tempResponceData.doctorEmail + `</a></li>
@@ -21,6 +21,7 @@ function showDoctorList(tempResponceData, doctorList, avgRating) {
             <li class="list-group-item listGroupBorder"><i class="bi bi-mortarboard-fill"></i> `+ tempResponceData.doctorQualification + `</li>
         </ul>
 
+        <div class="mt-auto">
         <div class="row">
             <div class="rating col">
                 <span class="text-muted fw-light fs-1"><b>${avgRating}</b>
@@ -48,9 +49,9 @@ function showDoctorList(tempResponceData, doctorList, avgRating) {
                     class="btn btn-primary btn-sm float-end calendar" style="width: 100%;">Book</button>
             </div>
         </div>
+        </div>
     </div>
   </div>
-  <br>
 
   `;
 
