@@ -306,7 +306,7 @@ function loadComents(doctorId) {
                       <textarea class="form-control ml-1 shadow-none textarea" id="textCommentArea_${doctorId}">${responseData.data[0].comment}</textarea></div>
                       <div class="mt-2 text-right float-end"><button class="btn btn-primary btn-sm shadow-none" id="postButton_${doctorId}" type="button" onclick="saveComment(${doctorId}, ${responseData.data[0].id})" >Post Comment</button></div>
                     </div><br><br>
-                    <div id="othersCommentBoxDiv">
+                    <div id="othersCommentBoxDiv" class="scrollable">
                     `;
 
   let tempResponceData;
@@ -332,9 +332,9 @@ function loadComents(doctorId) {
     <div class="col align-text-bottom"><p class="fw-light fs-6 col align-text-bottom text-end mb-0">${formattedFeedbackDate} ${formattedFeedbackTime}</p></div>
     </div>
     <div class="input-group mb-3">
-  <span class="input-group-text" id="rating">${tempResponceData.rating} <i class="bi bi-star" id="comment_start_${tempResponceData.id}"></i></span>
-  <span class="form-control" ><p  id="rating">${tempResponceData.comment}</p></span>
-  </div>`
+    <span class="input-group-text" id="rating">${tempResponceData.rating} <i class="bi bi-star" id="comment_start_${tempResponceData.id}"></i></span>
+    <span class="form-control" ><p  id="rating">${tempResponceData.comment}</p></span>
+    </div>`
   }
 
   htmlString = htmlString + "</div>";
