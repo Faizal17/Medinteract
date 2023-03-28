@@ -44,10 +44,10 @@
             <div class="container-fluid">
                 <form class="container-fluid" id="doctor_search_form" onsubmit="searchdoctor(); return false"
                     role="search" method="post">
-                    <div class="row">
-                        <div class="col-1"></div>
+                    <div class="row justify-content-md-center">
+                        <!--<div class="col-1"></div>-->
                         <!--<div class="row col-11">-->
-                        <div class="col-2">
+                        <div class="col-sm-4 col-md-2 col-12">
                             <div class="form-floating ">
                                 <input class="form-control" type="text" name="doctor_search_options"
                                     id="doctor_search_form_name" placeholder="Name">
@@ -55,7 +55,7 @@
                             </div>
                         </div>
 
-                        <div class="col-2">
+                        <div class="col-sm-4 col-md-2 col-12">
                             <div class="form-floating">
                                 <select class="form-select" aria-label="Province" name="doctor_search_options"
                                     id="doctor_search_form_province" onchange="selectProvince(this.value)">
@@ -65,7 +65,7 @@
                             </div>
                         </div>
 
-                        <div class="col-2">
+                        <div class="col-sm-4 col-md-2 col-12">
                             <div class="form-floating">
                                 <select class="form-select" aria-label="City" name="doctor_search_options"
                                     id="doctor_search_form_city">
@@ -75,7 +75,7 @@
                             </div>
                         </div>
 
-                        <div class="col-2">
+                        <div class="col-sm-4 col-md-2 col-12">
                             <div class="form-floating">
                                 <input class="form-control" type="text" name="doctor_search_options"
                                     id="doctor_search_form_qualification" placeholder="Qualification">
@@ -83,12 +83,12 @@
                             </div>
                         </div>
 
-                        <div class="col-2 me-4">
+                        <div class="col-sm-4 col-md-2 col-12">
                             <button class="btn btn-outline-success btn-lg" style="height: 100%; width: 100%;"
                                 type="submit">Search</button>
                         </div>
 
-                        <div class="col-1"></div>
+                        <!--<div class="col-1"></div>-->
 
                         <!-- </div>-->
                     </div>
@@ -100,10 +100,10 @@
 
 
         <div class="scrollable" id="dashbordbody">
-            <div class="row">
-                <div class="col-sm-1"></div>
+            <div class="row justify-content-md-center">
+                <!--<div class="col-1"></div>-->
 
-                <div class="col-sm-2">
+                <div class="col-sm-12 col-md-2 col-12">
                     <div class="card shadow-sm">
                         <div class="card-body">
                             <h5 class="card-title"><b>Today Appointments</b></h5>
@@ -128,7 +128,7 @@
                 </div>
 
 
-                <div class="col-sm-8">
+                <div class="col-sm-12 col-md-8 col-12">
                     <div class="doctor_list row scrollable" id="doctor_list_div">
 
                     </div>

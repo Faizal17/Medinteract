@@ -4,6 +4,11 @@
     overflow-x: hidden;
 }
 
+#doctor_list_div_subdiv_card {
+    height: 100%;
+
+}
+
 #othersCommentBoxDiv.scrollable {
     height: auto;
     overflow: auto;

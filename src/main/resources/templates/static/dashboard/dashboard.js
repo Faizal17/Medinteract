@@ -7,78 +7,84 @@ function showDoctorList(tempResponceData, doctorList, avgRating) {
   let imagePath = "static/images/doctor/";
 
 
-  let htmlString = `<div class="card col-md-8 mx-auto shadow doctorListDivCard"  id="doctor_list_div_card" style="width: 100%; height:90%">
-  
-  <div class="text-center">
-    <img class="rounded-circle" src="${imagePath}${tempResponceData.id}.jpg" style="height: 50%; width: 50%;" onError="this.onerror=null;this.src='${imagePath}default.jpg';">           
-    </div>        
-    <div class="card-body text-center">
-              <ul class="list-group listGroupBorder">
-                <li class="list-group-item listGroupBorder"><h5 class="card-title">`+ tempResponceData.doctorName + `</h5></li>
-                <li class="list-group-item listGroupBorder"><i class="bi bi-envelope-fill"></i> <a href="mailto:`+ tempResponceData.doctorEmail + `" class="card-link" >` + tempResponceData.doctorEmail + `</a></li>
-                <li class="list-group-item listGroupBorder"><i class="bi bi-geo-alt-fill"></i> `+ tempResponceData.doctorAddressProvince + `,` + tempResponceData.doctorAddressCity + `</li>
-                <li class="list-group-item listGroupBorder"><i class="bi bi-mortarboard-fill"></i> `+ tempResponceData.doctorQualification + `</li>
-              </ul>
-            
-          
-            <div class="row">
-            <div class="rating col">
-            <span class="text-muted fw-light fs-1"><b>${avgRating}</b><spam class="fs-5">/5</spam></span>
-              <div class="rating-stars">
-                <span><i class="bi bi-star" style="color:orange" id="star1_${tempResponceData.id}"></i></span>
-                <span><i class="bi bi-star" style="color:orange" id="star2_${tempResponceData.id}"></i></span>
-                <span><i class="bi bi-star" style="color:orange" id="star3_${tempResponceData.id}"></i></span>
-                <span><i class="bi bi-star" style="color:orange" id="star4_${tempResponceData.id}"></i></span>
-                <span><i class="bi bi-star" style="color:orange" id="star5_${tempResponceData.id}"></i></span>
-              </div>
-            </div>
-            <div class="col">
-            
-            </div>
-            </div>
-            
-            <div class="row ">
-              <div class="col-6">
-                <button type="button" class="btn btn-outline-warning btn-sm" style="width: 100%; color:black" data-bs-toggle="modal" data-bs-target="#comments_${tempResponceData.id}" onclick="loadComents(${tempResponceData.id})" style="width: 10rem;">Feedback</button>
-              </div>
-              <div class="col-6">
-                <button id="${tempResponceData.id}_${tempResponceData.doctorName}" class="btn btn-primary btn-sm float-end calendar" style="width: 100%;">Book</button>
-              </div>
-            </div>
-            
-            
-          </div>
-        </div>
-        </div>
-        <br>
+  let htmlString = `
+  <div class="card mx-auto text-center shadow" id="doctor_list_div_subdiv_card">
+    <div style="height:30%;">
+      <img class="rounded-circle mx-auto" src="${imagePath}${tempResponceData.id}.jpg" style="height: 100%; width: 30%;"
+        onError="this.onerror=null;this.src='${imagePath}default.jpg';">
+    </div>
+    <div class="card-body">
+        <ul class="list-group listGroupBorder">
+            <li class="list-group-item listGroupBorder"><h5 class="card-title">`+ tempResponceData.doctorName + `</h5></li>
+            <li class="list-group-item listGroupBorder"><i class="bi bi-envelope-fill"></i> <a href="mailto:`+ tempResponceData.doctorEmail + `" class="card-link">` + tempResponceData.doctorEmail + `</a></li>
+            <li class="list-group-item listGroupBorder"><i class="bi bi-geo-alt-fill"></i> `+ tempResponceData.doctorAddressProvince + `,` + tempResponceData.doctorAddressCity + `</li>
+            <li class="list-group-item listGroupBorder"><i class="bi bi-mortarboard-fill"></i> `+ tempResponceData.doctorQualification + `</li>
+        </ul>
 
-        <div class="modal fade" id="comments_${tempResponceData.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="comments_${tempResponceData.id}Label" aria-hidden="true">
-              <div class="modal-dialog">
-              
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="comments_${tempResponceData.id}Label">Feedback</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body" id="comments_body_${tempResponceData.id}">
-                    
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  </div>
+        <div class="row">
+            <div class="rating col">
+                <span class="text-muted fw-light fs-1"><b>${avgRating}</b>
+                    <spam class="fs-5">/5</spam>
+                </span>
+                <div class="rating-stars">
+                    <span><i class="bi bi-star" style="color:orange" id="star1_${tempResponceData.id}"></i></span>
+                    <span><i class="bi bi-star" style="color:orange" id="star2_${tempResponceData.id}"></i></span>
+                    <span><i class="bi bi-star" style="color:orange" id="star3_${tempResponceData.id}"></i></span>
+                    <span><i class="bi bi-star" style="color:orange" id="star4_${tempResponceData.id}"></i></span>
+                    <span><i class="bi bi-star" style="color:orange" id="star5_${tempResponceData.id}"></i></span>
                 </div>
-                
-              </div>
             </div>
-        `;
+            
+        </div>
+
+        <div class="row ">
+            <div class="col-6">
+                <button type="button" class="btn btn-outline-warning btn-sm" style="width: 100%; color:black"
+                    data-bs-toggle="modal" data-bs-target="#comments_${tempResponceData.id}"
+                    onclick="loadComents(${tempResponceData.id})" style="width: 10rem;">Feedback</button>
+            </div>
+            <div class="col-6">
+                <button id="${tempResponceData.id}_${tempResponceData.doctorName}"
+                    class="btn btn-primary btn-sm float-end calendar" style="width: 100%;">Book</button>
+            </div>
+        </div>
+    </div>
+  </div>
+  <br>
+
+  <div class="modal fade" id="comments_${tempResponceData.id}" data-bs-backdrop="static" data-bs-keyboard="false"
+    tabindex="-1" aria-labelledby="comments_${tempResponceData.id}Label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="comments_${tempResponceData.id}Label">Feedback</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="comments_body_${tempResponceData.id}">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+  </div>
+  `;
 
   let div = document.createElement("div");
   div.id = "doctor_list_div_subdiv";
-  div.classList.add("col-sm-4");
+  div.classList.add("col-md-4");
+  div.classList.add("col-sm-6");
+  //div.classList.add("col-12");
+  div.classList.add("mb-4");
+  //div.classList.add("card");
+  //div.classList.add("mx-auto");
+  //div.classList.add("shadow");
+  div.classList.add("doctorListDivCard");
   div.innerHTML = htmlString;
 
   doctorList.appendChild(div);
-  doctorList.appendChild(document.createElement("br"))
+  //doctorList.appendChild(document.createElement("br"))
 
   // let divEmpty = document.createElement("div");
   // divEmpty.classList.add("col-sm-1");
@@ -266,7 +272,7 @@ function loadComents(doctorId) {
   }).done(function (response) {
 
     try {
-      responseData = response.data;
+      responseData = response;
 
       if (responseData.isError) {
         addToast(true, "Error", responseData.msg);
@@ -487,7 +493,7 @@ function saveComment(doctorId, feedbackId) {
 
   postButton.textContent = "Edit Comment";
   textCommentArea.setAttribute("disabled", "");
-  //loadComents(doctorId);
+  loadComents(doctorId);
 
 }
 
@@ -560,13 +566,18 @@ function loadAppointmentsDashboard(patientId) {
   let todayHaveAppoinments = false;
   let laterHaveAppoinments = true;
   let laterAppoinmentCount = 2;
+  let todayAppoinmentCount = 3;
 
   for (i = 0; i < responseData.data.length; i++) {
     tempResponceData = responseData.data[i];
     tempDate = new Date(tempResponceData.startTime);
     if (tempDate.getDate() === todayDate.getDate() && tempDate.getMonth() === todayDate.getMonth() && tempDate.getFullYear() === todayDate.getFullYear()) {
-      todayHaveAppoinments = true;
-      todayHtmlString = todayHtmlString + ` <li class="list-group-item"><a  href="./appointments.html"><i class="bi bi-clock"></i> ${tempDate.getHours()}h:${tempDate.getMinutes()}m</a ></li > `;
+      if (todayAppoinmentCount > 0) {
+        todayHaveAppoinments = true;
+        todayHtmlString = todayHtmlString + ` <li class="list-group-item"><a  href="./appointments.html"><i class="bi bi-clock"></i> ${tempDate.getHours()}h:${tempDate.getMinutes()}m</a ></li > `;
+        todayAppoinmentCount--;
+      }
+
     }
     else {
       if (laterAppoinmentCount > 0) {
