@@ -1,13 +1,13 @@
 let patientId;
-  let data = [];
-  let index = 0;
+let data = [];
+let index = 0;
 
 
-  $(document).ready(function () {
-    $(".add-item").click(function (e) {
-      e.preventDefault();
-      index++;
-      $("#show-item").append(`
+$(document).ready(function () {
+  $(".add-item").click(function (e) {
+    e.preventDefault();
+    index++;
+    $("#show-item").append(`
             <ul class="list-group">
               <li class="list-group-item ${index}">
                   <div class="row">
@@ -51,119 +51,119 @@ let patientId;
                   </li>
                 </ul>
         `);
-    });
+  });
 
-    $(document).on('click', '.remove-item', function (e) {
-      e.preventDefault();
-      let row_item = $(this).parent().parent().parent();
-      let remove_index = row_item[0].className.substring(row_item[0].className.indexOf("item") + 5);
-      // data.slice(remove_index, 1);
-      data[remove_index] = {}
-      // index--;
-      $(row_item).remove();
-    });
+  $(document).on('click', '.remove-item', function (e) {
+    e.preventDefault();
+    let row_item = $(this).parent().parent().parent();
+    let remove_index = row_item[0].className.substring(row_item[0].className.indexOf("item") + 5);
+    // data.slice(remove_index, 1);
+    data[remove_index] = {}
+    // index--;
+    $(row_item).remove();
+  });
 
-    // $(document).on('click', '.add-item', function (e) {
-    //   e.preventDefault();
-    //   data.push({})
-    //   console.log(data)
-    // });
-
+  $.ajax({
+    url: globalURL + "patient/patientAppointment/" + getCookie('id'),
+    type: "GET",
+    success: function (response) {
+      for (let index = 0; index < response.data.length; index++) {
+        let patientEmail = response.data[index].patientEmail;
+        // console.log(patientEmail);
+        $("#patient-email").append(new Option(patientEmail));
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error(error);
+    }
+  });
+  $("#patient-email").on("change", function () {
+    var selectedEmail = $(this).children("option:selected").val();
     $.ajax({
       url: globalURL + "patient/patientAppointment/" + getCookie('id'),
       type: "GET",
       success: function (response) {
         for (let index = 0; index < response.data.length; index++) {
           let patientEmail = response.data[index].patientEmail;
+          if (patientEmail === selectedEmail) {
+            patientId = response.data[index].id;
+            $("#patient-name").attr("placeholder", response.data[index].patientName);
+          }
           // console.log(patientEmail);
-          $("#patient-email").append(new Option(patientEmail));
         }
+        //   console.log(patientId);
       },
       error: function (xhr, status, error) {
         console.error(error);
       }
     });
-    $("#patient-email").on("change", function () {
-      var selectedEmail = $(this).children("option:selected").val();
-      $.ajax({
-        url: globalURL + "patient/patientAppointment/" + getCookie('id'),
-        type: "GET",
-        success: function (response) {
-          for (let index = 0; index < response.data.length; index++) {
-            let patientEmail = response.data[index].patientEmail;
-            if (patientEmail === selectedEmail) {
-              patientId = response.data[index].id;
-              $("#patient-name").attr("placeholder", response.data[index].patientName);
-            }
-            // console.log(patientEmail);
-          }
-          //   console.log(patientId);
-        },
-        error: function (xhr, status, error) {
-          console.error(error);
-        }
-      });
-    });
-
   });
 
-  $("form").submit(function (e) {
-    let dataa = {};
-    e.preventDefault();
-    const id = patientId;
-    var currentdate = new Date();
+});
 
-    function padNum(num) {
-      return num < 10 ? "0" + num : num;
-    }
+$("form").submit(function (e) {
+  let dataa = {};
+  e.preventDefault();
+  const id = patientId;
+  var currentdate = new Date();
 
-    var year = currentdate.getFullYear();
-    var month = padNum(currentdate.getMonth() + 1);
-    var day = padNum(currentdate.getDate());
-    var hours = padNum(currentdate.getHours());
-    var minutes = padNum(currentdate.getMinutes());
-    var seconds = padNum(currentdate.getSeconds());
-    var milliseconds = padNum(currentdate.getMilliseconds()) + "00";
-
-    var formattedDate = year + "-" + month + "-" + day + "T" + hours + ":" + minutes + ":" + seconds + "." + milliseconds;
-    console.log(id);
-    let redirectURL = "";
-
-    dataa["patientId"] = patientId;
-    dataa["doctorId"] = getCookie('id');
-    dataa["prescriptionTime"] = formattedDate;
-    dataa["medicines"] = data.filter(value => Object.keys(value).length !== 0);;
-
-    console.log(JSON.stringify(dataa));
-
-    $.ajax({
-      type: "POST",
-      url: globalURL + "prescription/addPrescription",
-      data: JSON.stringify(dataa),
-      dataType: "json",
-      contentType: "application/json"
-    }).done(function (dataa) {
-      console.log(dataa);
-      if (data.isError) {
-        addToast(true, "Error", data.msg);
-      } else {
-        addToast(false, "Hurray", data.msg);
-      }
-      window.location.href = redirectURL;
-    })
-      .fail(function (jqXHR, textStatus, errorThrown) {
-        addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
-      });
-  });
-
-  function handleChange(name, value, index) {
-    console.log(name, value, index)
-    oldata = [...data];
-    oldata[index] = { [name]: value, ...oldata[index] }
-    data = oldata;
-    console.log("data", oldata)
+  function padNum(num) {
+    return num < 10 ? "0" + num : num;
   }
 
-  $('.clear-form').click(function () {
-    $(this).closest('form')[0].reset();
-  });
+  var year = currentdate.getFullYear();
+  var month = padNum(currentdate.getMonth() + 1);
+  var day = padNum(currentdate.getDate());
+  var hours = padNum(currentdate.getHours());
+  var minutes = padNum(currentdate.getMinutes());
+  var seconds = padNum(currentdate.getSeconds());
+  var milliseconds = padNum(currentdate.getMilliseconds()) + "00";
+
+  var formattedDate = year + "-" + month + "-" + day + "T" + hours + ":" + minutes + ":" + seconds + "." + milliseconds;
+  console.log(id);
+  let redirectURL = "";
+
+  dataa["patientId"] = patientId;
+  dataa["doctorId"] = getCookie('id');
+  dataa["prescriptionTime"] = formattedDate;
+  dataa["medicines"] = data.filter(value => Object.keys(value).length !== 0);;
+
+  console.log(JSON.stringify(dataa));
+
+  $.ajax({
+    type: "POST",
+    url: globalURL + "prescription/addPrescription",
+    data: JSON.stringify(dataa),
+    dataType: "json",
+    contentType: "application/json"
+  }).done(function (dataa) {
+    console.log(dataa);
+    if (data.isError) {
+      addToast(true, "Error", data.msg);
+    } else {
+      addToast(false, "Hurray", data.msg);
+    }
+    window.location.href = redirectURL;
+  })
+    .fail(function (jqXHR, textStatus, errorThrown) {
+      addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
+    });
+});
+
+function handleChange(name, value, index) {
+  console.log(name, value, index);
+  const oldata = [...data];
+  console.log(oldata);
+  const updatedElement = { ...oldata[index], [name]: value };
+  const updatedData = [
+    ...oldata.slice(0, index),
+    updatedElement,
+    ...oldata.slice(index + 1)
+  ];
+  data = updatedData;
+  console.log("data", data);
+}
+
+$('.clear-form').click(function () {
+  $(this).closest('form')[0].reset();
+});
