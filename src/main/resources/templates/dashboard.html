@@ -74,7 +74,7 @@
                             <div class="form-floating">
                                 <select class="form-select" aria-label="Province" name="doctor_search_options"
                                     id="doctor_search_form_province" onchange="selectProvince(this.value)">
-                                    <option value="" selected disabled>Select</option>
+                                    <option value="" selected>Select</option>
                                 </select>
                                 <label for="doctor_search_form_province">Province</label>
                             </div>
@@ -84,7 +84,7 @@
                             <div class="form-floating">
                                 <select class="form-select" aria-label="City" name="doctor_search_options"
                                     id="doctor_search_form_city">
-                                    <option value="" selected disabled>Select</option>
+                                    <option value="" selected>Select</option>
                                 </select>
                                 <label for="doctor_search_form_city">City</label>
                             </div>
@@ -145,42 +145,41 @@
 
 
                 <div class="col-lg-8 col-md-8 col-sm-12 col-12 position-relative">
-                    <div class="doctor_list row scrollable z-index-1" id="doctor_list_div">
+                    <div class="btn-toolbar col-lg-12 col-md-12 col-sm-12 col-12 mb-1 justify-content-center"
+                        role="toolbar" aria-label="Toolbar with button groups">
+                        <div class="btn-group me-2" role="group" aria-label="First group">
+                            <select class="form-select text-light bg-secondary" aria-label="Number of results"
+                                name="number_of_cards" id="select_number_of_cards" onchange="changeCards(this.value)">
+                                <option value="1">1</option>
+                                <option value="3">3</option>
+                                <option value="6">6</option>
+                                <option value="9" selected>9</option>
+                                <option value="12">12</option>
+                                <option value="ALL">ALL</option>
+                            </select>
+                        </div>
+                        <div class="btn-group me-2" role="group" aria-label="Second group">
+                            <button type="button" class="btn btn-secondary" aria-label="Previous"
+                                onclick="changePage('previous')">
+                                <span aria-hidden="true">&laquo;</span>
+                            </button>
+                        </div>
+                        <div class="btn-group me-2" role="group" id="page_number_list" aria-label="Third group">
+
+                        </div>
+                        <div class="btn-group" role="group" aria-label="Fourth group">
+                            <button type="button" class="btn btn-secondary" aria-label="Next"
+                                onclick="changePage('next')">
+                                <span aria-hidden="true">&raquo;</span>
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <div class="doctor_list row scrollable" id="doctor_list_div">
 
                     </div>
-                    <div class="z-index-100 position-absolute bottom-0 start-50 translate-middle-x">
-                        <nav class="" aria-label="Page navigation example">
 
-
-                            <ul class="pagination">
-                                <select class="form-select page-item me-1" aria-label="Number of results"
-                                    name="number_of_cards" id="select_number_of_cards"
-                                    onchange="changeCards(this.value)">
-                                    <option value="1">1</option>
-                                    <option value="3">3</option>
-                                    <option value="6" selected>6</option>
-                                    <option value="9">9</option>
-                                    <option value="12">12</option>
-                                    <option value="ALL">ALL</option>
-                                </select>
-                                <li class="page-item">
-                                    <button type="button" class="page-link btn btn-light" aria-label="Previous"
-                                        onclick="changePage('-1')">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </button>
-                                </li>
-                                <div class="pagination mx-1" id="page_number_list">
-
-                                </div>
-                                <li class="page-item">
-                                    <button type="button" class="page-link btn btn-light" aria-label="Next"
-                                        onclick="changePage('+1')">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </button>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
 
                 </div>
 

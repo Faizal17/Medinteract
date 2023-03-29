@@ -9,9 +9,7 @@ let doctorResponseData;
 let avgRatingList;
 
 function showDoctorList(tempResponceData, doctorList, avgRating) {
-  //console.log(doctorList)
-  //console.log("........."+tempResponceData.doctorAddressCity+JSON.stringify(tempResponceData));
-  //console.log(avgRating);
+
   let imagePath = "static/images/doctor/";
 
 
@@ -109,7 +107,6 @@ function searchdoctor(event) {
     "doctorQualification": document.getElementById("doctor_search_form_qualification").value
   }
 
-  //console.log("checking data\n" + JSON.stringify(data));
 
   let responseData;
 
@@ -175,12 +172,11 @@ function searchdoctor(event) {
     });;
 
 
-  console.log(avgRatingList);
   doctorResponseData = responseData;
 
   lastPage = Math.ceil(responseData.data.length / numberOfCards);
   totalCards = responseData.data.length;
-  changeCards(6);
+  changeCards(parseInt(document.getElementById("select_number_of_cards").value));
 
   loopOverDoc();
 
@@ -199,7 +195,7 @@ function loopOverDoc() {
 
     tempResponceData = responseData.data[i];
 
-    //console.log(tempResponceData.id);
+
     tempAvgRating = avgRatingList.data;
     tempDocAvgRating = tempAvgRating.filter(obj => obj.doctorId == tempResponceData.id);
     if (tempDocAvgRating.length > 0) {
@@ -379,7 +375,6 @@ function loadComents(doctorId) {
   console.log(rating);
   let currentPatientRating;
   for (let i = 1; i <= rating; i++) {
-    console.log("In setting star for crueent user comment");
     currentPatientRating = document.getElementById("star" + i + "_" + patientId + "_" + doctorId);
     currentPatientRating.classList.remove("bi-star");
     currentPatientRating.classList.add("bi-star-fill");
@@ -440,7 +435,6 @@ function saveComment(doctorId, feedbackId) {
   let postButton = document.getElementById("postButton_" + doctorId);
   let rating = document.getElementById("star1_" + patientId + "_" + doctorId).dataset.myInfo;
 
-  //console.log(javaDate, localDate);
 
   let data = {
     "patientId": patientId,
@@ -460,7 +454,6 @@ function saveComment(doctorId, feedbackId) {
     data.id = feedbackId;
   }
 
-  console.log(data);
 
   $.ajax({
     url: globalURL + "feedback/saveFeedback",
@@ -479,7 +472,6 @@ function saveComment(doctorId, feedbackId) {
         addToast(true, "Error", responseData.msg);
         return false;
       } else {
-        console.log(responseData);
         //addToast(false, "Success", "Doctors featched successfully!")
       }
     } catch (err) {
@@ -603,20 +595,44 @@ function loadAppointmentsDashboard(patientId) {
 }
 
 function changePage(pageNumber) {
-  if (pageNumber === "+1") {
-    console.log("here inside +1")
+
+  let currentPageButton;
+  if (lastPage > 5) {
+    if (currentPage > 2 && currentPage < lastPage - 1) {
+      currentPageButton = document.getElementById("overflowPageNumber");
+      currentPageButton.value = currentPage;
+      currentPageButton.style.width = (currentPageButton.value.length + 3) + "ch";
+      currentPageButton.classList.remove("btn-dark")
+    }
+    else {
+      currentPageButton = document.getElementById(`pageNumber_${currentPage}`);
+      currentPageButton.classList.remove("btn-dark")
+    }
+
+  }
+  else {
+    currentPageButton = document.getElementById(`pageNumber_${currentPage}`);
+    currentPageButton.classList.remove("btn-dark")
+  }
+
+
+  if (pageNumber == 'next') {
     if (currentPage < lastPage)
       currentPage++;
   }
-  else if (pageNumber == "-1") {
+  else if (pageNumber == 'previous') {
     if (currentPage > 1)
       currentPage--;
   }
   else if (pageNumber > lastPage) {
     currentPage = lastPage;
+    currentPageButton = document.getElementById("overflowPageNumber");
+    currentPageButton.value = '';
   }
   else if (pageNumber < 1) {
     currentPage = 1;
+    currentPageButton = document.getElementById("overflowPageNumber");
+    currentPageButton.value = '';
   }
   else {
     currentPage = parseInt(pageNumber);
@@ -625,7 +641,28 @@ function changePage(pageNumber) {
   startCard = (currentPage - 1) * numberOfCards;
   endCard = startCard + numberOfCards;
 
-  console.log("pagenumber: " + pageNumber, "currentPage:" + currentPage, "lastPage:" + lastPage, "start" + startCard, "end" + endCard);
+  if (lastPage > 5) {
+    if (currentPage > 2 && currentPage < lastPage - 1) {
+      currentPageButton = document.getElementById("overflowPageNumber");
+      currentPageButton.value = currentPage;
+      currentPageButton.style.width = (currentPageButton.value.length + 3) + "ch";
+      currentPageButton.classList.add("btn-dark")
+    }
+    else {
+      currentPageButton = document.getElementById(`pageNumber_${currentPage}`);
+      currentPageButton.classList.add("btn-dark")
+    }
+    if (currentPage == 2 || currentPage == lastPage - 1) {
+      currentPageButton = document.getElementById("overflowPageNumber");
+      currentPageButton.value = '';
+    }
+
+  }
+  else {
+    currentPageButton = document.getElementById(`pageNumber_${currentPage}`);
+    currentPageButton.classList.add("btn-dark")
+  }
+
   loopOverDoc();
 
 }
@@ -655,15 +692,19 @@ function changeCards(value) {
     if (lastPage > 5 && i == 3) {
       buttonValue = '...';
       i = lastPage - 2;
-      htmlString = htmlString + `<li class="page-item"><button type="button" class="page-link" disabled  onclick="changePage(${buttonValue})">${buttonValue}</button></li>`
+      htmlString = htmlString + `
+      <input class="btn btn-secondary" style="min-width:5ch; width:5ch; text-align:center" type="number" id="overflowPageNumber" onchange="changePage(this.value)" placeholder="...">`
     }
     else {
-      htmlString = htmlString + `<li class="page-item"><button type="button" class="page-link" onclick="changePage(${buttonValue})">${buttonValue}</button></li>`
+      htmlString = htmlString + `<button type="button" class="btn btn-secondary" id="pageNumber_${buttonValue}" onclick="changePage(${buttonValue})">${buttonValue}</button>`
     }
 
   }
 
+
+
   cardNumbersDiv.innerHTML = htmlString;
-  console.log(currentPage, lastPage, startCard, endCard);
+  currentPageButton = document.getElementById(`pageNumber_1`);
+  currentPageButton.classList.add("btn-dark")
   loopOverDoc();
 }
