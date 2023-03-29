@@ -1,5 +1,4 @@
 #doctor_list_div.scrollable {
-    height: 69vh;
     max-height: 69vh;
     overflow: auto;
     overflow-x: hidden;
