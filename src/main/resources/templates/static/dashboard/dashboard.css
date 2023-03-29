@@ -61,6 +61,10 @@ a {
     --bs-border-color: black;
 }
 
+.btn-info {
+    --bs-btn-border-color: black !important;
+}
+
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -75,17 +79,17 @@ input[type=number] {
 
 #overflowPageNumber::placeholder {
     /* Chrome, Firefox, Opera, Safari 10.1+ */
-    color: white;
+    color: lightseagreen;
     opacity: 1;
     /* Firefox */
 }
 
 #overflowPageNumber:-ms-input-placeholder {
     /* Internet Explorer 10-11 */
-    color: white;
+    color: lightseagreen;
 }
 
 #overflowPageNumber::-ms-input-placeholder {
     /* Microsoft Edge */
-    color: white;
+    color: lightseagreen;
 }

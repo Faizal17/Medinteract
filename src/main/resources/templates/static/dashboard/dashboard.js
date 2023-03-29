@@ -602,17 +602,20 @@ function changePage(pageNumber) {
       currentPageButton = document.getElementById("overflowPageNumber");
       currentPageButton.value = currentPage;
       currentPageButton.style.width = (currentPageButton.value.length + 3) + "ch";
-      currentPageButton.classList.remove("btn-dark")
+      currentPageButton.classList.remove("btn-info");
+      currentPageButton.classList.add("btn-outline-dark");
     }
     else {
       currentPageButton = document.getElementById(`pageNumber_${currentPage}`);
-      currentPageButton.classList.remove("btn-dark")
+      currentPageButton.classList.remove("btn-info");
+      currentPageButton.classList.add("btn-outline-dark");
     }
 
   }
   else {
     currentPageButton = document.getElementById(`pageNumber_${currentPage}`);
-    currentPageButton.classList.remove("btn-dark")
+    currentPageButton.classList.remove("btn-info");
+    currentPageButton.classList.add("btn-outline-dark");
   }
 
 
@@ -646,11 +649,13 @@ function changePage(pageNumber) {
       currentPageButton = document.getElementById("overflowPageNumber");
       currentPageButton.value = currentPage;
       currentPageButton.style.width = (currentPageButton.value.length + 3) + "ch";
-      currentPageButton.classList.add("btn-dark")
+      currentPageButton.classList.add("btn-info");
+      currentPageButton.classList.remove("btn-outline-dark");
     }
     else {
       currentPageButton = document.getElementById(`pageNumber_${currentPage}`);
-      currentPageButton.classList.add("btn-dark")
+      currentPageButton.classList.add("btn-info");
+      currentPageButton.classList.remove("btn-outline-dark");
     }
     if (currentPage == 2 || currentPage == lastPage - 1) {
       currentPageButton = document.getElementById("overflowPageNumber");
@@ -660,7 +665,8 @@ function changePage(pageNumber) {
   }
   else {
     currentPageButton = document.getElementById(`pageNumber_${currentPage}`);
-    currentPageButton.classList.add("btn-dark")
+    currentPageButton.classList.add("btn-info");
+    currentPageButton.classList.remove("btn-outline-dark");
   }
 
   loopOverDoc();
@@ -693,10 +699,10 @@ function changeCards(value) {
       buttonValue = '...';
       i = lastPage - 2;
       htmlString = htmlString + `
-      <input class="btn btn-secondary" style="min-width:5ch; width:5ch; text-align:center" type="number" id="overflowPageNumber" onchange="changePage(this.value)" placeholder="...">`
+      <input class="btn btn-outline-dark" style="min-width:5ch; width:5ch; text-align:center" type="number" id="overflowPageNumber" onchange="changePage(this.value)" placeholder="...">`
     }
     else {
-      htmlString = htmlString + `<button type="button" class="btn btn-secondary" id="pageNumber_${buttonValue}" onclick="changePage(${buttonValue})">${buttonValue}</button>`
+      htmlString = htmlString + `<button type="button" class="btn btn-outline-dark" id="pageNumber_${buttonValue}" onclick="changePage(${buttonValue})">${buttonValue}</button>`
     }
 
   }
@@ -704,7 +710,8 @@ function changeCards(value) {
 
 
   cardNumbersDiv.innerHTML = htmlString;
-  currentPageButton = document.getElementById(`pageNumber_1`);
-  currentPageButton.classList.add("btn-dark")
+  currentPageButton = document.getElementById(`pageNumber_${currentPage}`);
+  currentPageButton.classList.remove("btn-outline-dark")
+  currentPageButton.classList.add("btn-info")
   loopOverDoc();
 }
