@@ -74,7 +74,7 @@
                             <div class="form-floating">
                                 <select class="form-select" aria-label="Province" name="doctor_search_options"
                                     id="doctor_search_form_province" onchange="selectProvince(this.value)">
-                                    <option value="" selected disabled>Select</option>
+                                    <option value="" selected>Select</option>
                                 </select>
                                 <label for="doctor_search_form_province">Province</label>
                             </div>
@@ -84,7 +84,7 @@
                             <div class="form-floating">
                                 <select class="form-select" aria-label="City" name="doctor_search_options"
                                     id="doctor_search_form_city">
-                                    <option value="" selected disabled>Select</option>
+                                    <option value="" selected>Select</option>
                                 </select>
                                 <label for="doctor_search_form_city">City</label>
                             </div>
@@ -144,10 +144,43 @@
                 </div>
 
 
-                <div class="col-lg-8 col-md-8 col-sm-12 col-12">
+                <div class="col-lg-8 col-md-8 col-sm-12 col-12 position-relative">
+                    <div class="btn-toolbar col-lg-12 col-md-12 col-sm-12 col-12 mb-1 justify-content-center"
+                        role="toolbar" aria-label="Toolbar with button groups">
+                        <div class="btn-group me-2" role="group" aria-label="First group">
+                            <select class="form-select text-dark btn-outline-dark" aria-label="Number of results"
+                                name="number_of_cards" id="select_number_of_cards" onchange="changeCards(this.value)">
+                                <option value="1">1</option>
+                                <option value="3">3</option>
+                                <option value="6">6</option>
+                                <option value="9" selected>9</option>
+                                <option value="12">12</option>
+                                <option value="ALL">ALL</option>
+                            </select>
+                        </div>
+                        <div class="btn-group me-2" role="group" aria-label="Second group">
+                            <button type="button" class="btn btn-outline-dark" aria-label="Previous"
+                                onclick="changePage('previous')">
+                                <span aria-hidden="true">&laquo;</span>
+                            </button>
+                        </div>
+                        <div class="btn-group me-2" role="group" id="page_number_list" aria-label="Third group">
+
+                        </div>
+                        <div class="btn-group" role="group" aria-label="Fourth group">
+                            <button type="button" class="btn btn-outline-dark" aria-label="Next"
+                                onclick="changePage('next')">
+                                <span aria-hidden="true">&raquo;</span>
+                            </button>
+                        </div>
+                    </div>
+
+
                     <div class="doctor_list row scrollable" id="doctor_list_div">
 
                     </div>
+
+
                 </div>
 
             </div>
@@ -174,6 +207,8 @@
                 </div>
             </div>
         </div>
+
+
 
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"

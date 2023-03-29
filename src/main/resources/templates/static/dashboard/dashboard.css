@@ -1,5 +1,6 @@
 #doctor_list_div.scrollable {
-    height: 75vh;
+    height: 69vh;
+    max-height: 69vh;
     overflow: auto;
     overflow-x: hidden;
 }
@@ -47,4 +48,48 @@ a {
 
 .listGroupBorder {
     border: 0 !important;
+}
+
+
+.pagination {
+    /*--bs-body-bg: #fff0;*/
+    --bs-border-color: black;
+}
+
+#select_number_of_cards {
+    /*--bs-form-control-bg: #fff0;*/
+    --bs-border-color: black;
+}
+
+.btn-info {
+    --bs-btn-border-color: black !important;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+#overflowPageNumber::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: lightseagreen;
+    opacity: 1;
+    /* Firefox */
+}
+
+#overflowPageNumber:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: lightseagreen;
+}
+
+#overflowPageNumber::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: lightseagreen;
 }

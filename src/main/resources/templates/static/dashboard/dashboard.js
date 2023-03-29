@@ -1,9 +1,15 @@
 //const globalURL = "http://localhost:6969/";
+var numberOfCards = 6;
+var currentPage = 1;
+var startCard = 0;
+var endCard = 6;
+var lastPage = 1;
+var totalCards = 6;
+let doctorResponseData;
+let avgRatingList;
 
 function showDoctorList(tempResponceData, doctorList, avgRating) {
-  //console.log(doctorList)
-  //console.log("........."+tempResponceData.doctorAddressCity+JSON.stringify(tempResponceData));
-  //console.log(avgRating);
+
   let imagePath = "static/images/doctor/";
 
 
@@ -90,12 +96,8 @@ function showDoctorList(tempResponceData, doctorList, avgRating) {
 
 function searchdoctor(event) {
 
-
-  //console.log("In searchDoctor ");
-  //event.preventDefault();
   let apiUrl;
   let data;
-  //const id = this.id;
 
   apiUrl = "doctor/get_doctor_on_details_and_city";
   data = {
@@ -105,10 +107,9 @@ function searchdoctor(event) {
     "doctorQualification": document.getElementById("doctor_search_form_qualification").value
   }
 
-  //console.log("checking data\n" + JSON.stringify(data));
 
   let responseData;
-  let doctorList = document.getElementById("doctor_list_div");
+
 
   $.ajax({
     url: globalURL + apiUrl,
@@ -141,8 +142,6 @@ function searchdoctor(event) {
     });;
 
 
-  let avgRatingList;
-
   $.ajax({
     url: globalURL + "feedback/fetchAvgFeedback",
 
@@ -173,18 +172,30 @@ function searchdoctor(event) {
     });;
 
 
-  console.log(avgRatingList);
-  doctorList.innerHTML = "";
+  doctorResponseData = responseData;
 
+  lastPage = Math.ceil(responseData.data.length / numberOfCards);
+  totalCards = responseData.data.length;
+  changeCards(parseInt(document.getElementById("select_number_of_cards").value));
+
+  loopOverDoc();
+
+}
+
+function loopOverDoc() {
+  let doctorList = document.getElementById("doctor_list_div");
+  doctorList.innerHTML = "";
   let tempResponceData;
   let tempAvgRating;
   let tempDocAvgRating;
   let DocAvgRating;
-  for (let i = 0; i < responseData.data.length; i++) {
+  let responseData = doctorResponseData;
+
+  for (let i = startCard; i < responseData.data.length && i < endCard; i++) {
 
     tempResponceData = responseData.data[i];
 
-    //console.log(tempResponceData.id);
+
     tempAvgRating = avgRatingList.data;
     tempDocAvgRating = tempAvgRating.filter(obj => obj.doctorId == tempResponceData.id);
     if (tempDocAvgRating.length > 0) {
@@ -200,15 +211,17 @@ function searchdoctor(event) {
     showDoctorList(tempResponceData, doctorList, DocAvgRating);
 
   }
-
 }
 
 $(document).ready(function () {
   const doctorList = document.getElementById("doctor_list_div");
   let responseData;
 
-
-
+  numberOfCards = parseInt(document.getElementById("select_number_of_cards").value);
+  currentPage = 1;
+  startCard = 0;
+  endCard = 6;
+  lastPage = 1;
   console.log("In document ready..")
 
   searchdoctor();
@@ -362,7 +375,6 @@ function loadComents(doctorId) {
   console.log(rating);
   let currentPatientRating;
   for (let i = 1; i <= rating; i++) {
-    console.log("In setting star for crueent user comment");
     currentPatientRating = document.getElementById("star" + i + "_" + patientId + "_" + doctorId);
     currentPatientRating.classList.remove("bi-star");
     currentPatientRating.classList.add("bi-star-fill");
@@ -423,7 +435,6 @@ function saveComment(doctorId, feedbackId) {
   let postButton = document.getElementById("postButton_" + doctorId);
   let rating = document.getElementById("star1_" + patientId + "_" + doctorId).dataset.myInfo;
 
-  //console.log(javaDate, localDate);
 
   let data = {
     "patientId": patientId,
@@ -443,7 +454,6 @@ function saveComment(doctorId, feedbackId) {
     data.id = feedbackId;
   }
 
-  console.log(data);
 
   $.ajax({
     url: globalURL + "feedback/saveFeedback",
@@ -462,7 +472,6 @@ function saveComment(doctorId, feedbackId) {
         addToast(true, "Error", responseData.msg);
         return false;
       } else {
-        console.log(responseData);
         //addToast(false, "Success", "Doctors featched successfully!")
       }
     } catch (err) {
@@ -583,5 +592,126 @@ function loadAppointmentsDashboard(patientId) {
     laterTextCommentArea.innerHTML = laterHtmlString;
   }
 
+}
 
+function changePage(pageNumber) {
+
+  let currentPageButton;
+  if (lastPage > 5) {
+    if (currentPage > 2 && currentPage < lastPage - 1) {
+      currentPageButton = document.getElementById("overflowPageNumber");
+      currentPageButton.value = currentPage;
+      currentPageButton.style.width = (currentPageButton.value.length + 3) + "ch";
+      currentPageButton.classList.remove("btn-info");
+      currentPageButton.classList.add("btn-outline-dark");
+    }
+    else {
+      currentPageButton = document.getElementById(`pageNumber_${currentPage}`);
+      currentPageButton.classList.remove("btn-info");
+      currentPageButton.classList.add("btn-outline-dark");
+    }
+
+  }
+  else {
+    currentPageButton = document.getElementById(`pageNumber_${currentPage}`);
+    currentPageButton.classList.remove("btn-info");
+    currentPageButton.classList.add("btn-outline-dark");
+  }
+
+
+  if (pageNumber == 'next') {
+    if (currentPage < lastPage)
+      currentPage++;
+  }
+  else if (pageNumber == 'previous') {
+    if (currentPage > 1)
+      currentPage--;
+  }
+  else if (pageNumber > lastPage) {
+    currentPage = lastPage;
+    currentPageButton = document.getElementById("overflowPageNumber");
+    currentPageButton.value = '';
+  }
+  else if (pageNumber < 1) {
+    currentPage = 1;
+    currentPageButton = document.getElementById("overflowPageNumber");
+    currentPageButton.value = '';
+  }
+  else {
+    currentPage = parseInt(pageNumber);
+  }
+
+  startCard = (currentPage - 1) * numberOfCards;
+  endCard = startCard + numberOfCards;
+
+  if (lastPage > 5) {
+    if (currentPage > 2 && currentPage < lastPage - 1) {
+      currentPageButton = document.getElementById("overflowPageNumber");
+      currentPageButton.value = currentPage;
+      currentPageButton.style.width = (currentPageButton.value.length + 3) + "ch";
+      currentPageButton.classList.add("btn-info");
+      currentPageButton.classList.remove("btn-outline-dark");
+    }
+    else {
+      currentPageButton = document.getElementById(`pageNumber_${currentPage}`);
+      currentPageButton.classList.add("btn-info");
+      currentPageButton.classList.remove("btn-outline-dark");
+    }
+    if (currentPage == 2 || currentPage == lastPage - 1) {
+      currentPageButton = document.getElementById("overflowPageNumber");
+      currentPageButton.value = '';
+    }
+
+  }
+  else {
+    currentPageButton = document.getElementById(`pageNumber_${currentPage}`);
+    currentPageButton.classList.add("btn-info");
+    currentPageButton.classList.remove("btn-outline-dark");
+  }
+
+  loopOverDoc();
+
+}
+
+function changeCards(value) {
+  if (value == "ALL") {
+    numberOfCards = lastPage * numberOfCards;
+  }
+  else {
+    numberOfCards = parseInt(value);
+  }
+
+  lastPage = Math.ceil(totalCards / numberOfCards);
+
+  if (currentPage > lastPage) {
+    currentPage = lastPage;
+  }
+  startCard = (currentPage - 1) * numberOfCards;
+  endCard = startCard + numberOfCards;
+
+  let htmlString = ``
+  let buttonValue;
+
+  cardNumbersDiv = document.getElementById("page_number_list");
+  for (let i = 1; i <= lastPage; i++) {
+    buttonValue = i;
+    if (lastPage > 5 && i == 3) {
+      buttonValue = '...';
+      i = lastPage - 2;
+      htmlString = htmlString + `
+      <input class="btn btn-outline-dark" style="min-width:5ch; width:5ch; text-align:center" type="number" id="overflowPageNumber" onchange="changePage(this.value)" placeholder="...">`
+    }
+    else {
+      htmlString = htmlString + `<button type="button" class="btn btn-outline-dark" id="pageNumber_${buttonValue}" onclick="changePage(${buttonValue})">${buttonValue}</button>`
+    }
+
+  }
+
+
+
+  cardNumbersDiv.innerHTML = htmlString;
+  currentPageButton = document.getElementById(`pageNumber_${currentPage}`);
+  currentPageButton.classList.remove("btn-outline-dark")
+  currentPageButton.classList.add("btn-info")
+  loopOverDoc();
 }
