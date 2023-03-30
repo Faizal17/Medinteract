@@ -32,17 +32,22 @@ public class ArticleController {
     }
 
     @PostMapping(path = "/addArticle", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity addArticle(@RequestParam MultiValueMap<String, String> formData, @RequestParam(value = "content") String content, @RequestParam(value = "coverImage") MultipartFile multipartFile) throws IOException {
+    public ResponseEntity addArticle(@RequestParam MultiValueMap<String, String> formData, @RequestParam(value = "content") String content, @RequestParam(value = "coverImage") MultipartFile multipartFile){
         Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer()).create();
 //        Gson gson = new Gson();
         ArticleModel articleModel = gson.fromJson(formData.getFirst("objectData"), ArticleModel.class);
-        String fileName = RandomStringUtils.randomAlphanumeric(10) + "." + multipartFile.getContentType().split("/")[1];
+        String fileName = RandomStringUtils.randomAlphanumeric(10) + ".jpeg";
 //        StringUtils.cleanPath(multipartFile.getOriginalFilename())
         String uploadDir = "user-photos/blog/";
         articleModel.setCoverImage(uploadDir + fileName);
         articleModel.setContent(content.getBytes());
+        try {
+            saveFile(uploadDir, fileName, multipartFile);
+        } catch (IOException e) {
+            Response res = new Response("", true, "Error while saving article");
+            return new ResponseEntity(res, HttpStatus.OK);
+        }
         articleModel = articleServiceImpl.saveArticle(articleModel);
-        saveFile(uploadDir, fileName, multipartFile);
         Response res = new Response(articleModel, false, "Article added successfully!");
         return new ResponseEntity<>(res, HttpStatus.OK);
     }

@@ -78,6 +78,7 @@ $(document).ready(function () {
                     setCookie("email", data.obj.patientEmail);
                     setCookie("city", data.obj.patientAddressCity);
                     setCookie("province", data.obj.patientAddressProvince);
+                    setCookie("profilePicture", data.obj.profilePicture);
                     setCookie("type", "patient");
                 } else if (data.type === 'doctor') {
                     setCookie("id", data.obj.id);
@@ -85,6 +86,7 @@ $(document).ready(function () {
                     setCookie("email", data.obj.doctorEmail);
                     setCookie("city", data.obj.doctorAddressCity);
                     setCookie("province", data.obj.doctorAddressProvince);
+                    setCookie("profilePicture", data.obj.profilePicture);
                     setCookie("type", "doctor");
                 } else if (data.type === 'admin') {
                     window.location.href = './admin/dashboard.html'

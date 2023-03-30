@@ -5,19 +5,26 @@ import com.csci5308.medinteract.doctor.Service.DoctorService;
 import com.csci5308.medinteract.prescription.model.PrescriptionModel;
 import com.csci5308.medinteract.utilities.JWT.JWT;
 import com.csci5308.medinteract.utilities.Response;
+import com.google.gson.Gson;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static com.csci5308.medinteract.utilities.FileUploader.saveFile;
+
 @RestController
 @RequestMapping("/doctor")
 public class DoctorController {
-
     private final DoctorService doctorServiceImpl;
     private final JWT jwtTokenUtil;
 
@@ -134,23 +141,44 @@ public class DoctorController {
         return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
     }
 
-    @PostMapping(path = "/updateProfile")
-    public ResponseEntity updateDoctorById(@RequestBody DoctorModel doctorModel){
-        Optional<DoctorModel> optionalDoctorModel= doctorServiceImpl.getDoctorById(doctorModel.getId());
+    @PostMapping(path = "/updateProfile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity updateDoctorById(@RequestParam MultiValueMap<String, String> formData, @RequestParam(value = "profileImage",required = false) MultipartFile profileImage) throws IOException {
+        //get doctorModel from Json
+        Gson gson = new Gson();
+        DoctorModel updatedDoctorModel = gson.fromJson(formData.getFirst("objectData"), DoctorModel.class);
+        Optional<DoctorModel> optionalDoctorModel= doctorServiceImpl.getDoctorById(updatedDoctorModel.getId());
         System.out.println(optionalDoctorModel.get());
-        if(optionalDoctorModel.isEmpty() || !optionalDoctorModel.get().getDoctorEmail().equals(doctorModel.getDoctorEmail()))
+        if(optionalDoctorModel.isEmpty() || !optionalDoctorModel.get().getDoctorEmail().equals(updatedDoctorModel.getDoctorEmail()))
         {
             //doctor already exists
             Response res = new Response(null, true, "Unable to update profile!");
             return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
         }
-        DoctorModel foundDoctorModel = optionalDoctorModel.get();
-        doctorModel.setDoctorPassword(foundDoctorModel.getDoctorPassword());
-        doctorModel.setActive(foundDoctorModel.isActive());
-        doctorModel.setBlocked(foundDoctorModel.isBlocked());
-        doctorServiceImpl.saveDoctor(doctorModel);
-        doctorModel.setDoctorPassword("");
-        Response  res = new Response(doctorModel, false, "User updated Successfully!");
+        DoctorModel oldDoctorModel = optionalDoctorModel.get();
+        updatedDoctorModel.setDoctorPassword(oldDoctorModel.getDoctorPassword());
+        updatedDoctorModel.setActive(oldDoctorModel.isActive());
+        updatedDoctorModel.setBlocked(oldDoctorModel.isBlocked());
+        if (profileImage != null && !profileImage.isEmpty()) {
+            String fileName;
+            if (oldDoctorModel.getProfilePicture()!= null) {
+                fileName = oldDoctorModel.getProfilePicture().split("/")[2];
+            } else {
+                fileName = RandomStringUtils.randomAlphanumeric(10) + ".jpeg";
+            }
+            String uploadDir = "user-photos/profile/";
+            try {
+                saveFile(uploadDir, fileName, profileImage);
+            } catch (IOException e) {
+                Response res = new Response("", true, "Error while updating details!");
+                return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+            }
+            updatedDoctorModel.setProfilePicture(uploadDir + fileName);
+        } else {
+            updatedDoctorModel.setProfilePicture(oldDoctorModel.getProfilePicture());
+        }
+        doctorServiceImpl.saveDoctor(updatedDoctorModel);
+        updatedDoctorModel.setDoctorPassword("");
+        Response  res = new Response(updatedDoctorModel, false, "User updated Successfully!");
         return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
     }
 

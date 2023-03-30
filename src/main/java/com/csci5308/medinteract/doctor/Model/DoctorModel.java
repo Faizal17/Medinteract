@@ -47,6 +47,18 @@ public class DoctorModel {
     @NotNull
     private String doctorMobileNumber;
 
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
+    }
+
+    @NotBlank
+    @NotNull
+    private String profilePicture;
+
     public Long getDoctorAddressCity() {
         return doctorAddressCity;
     }

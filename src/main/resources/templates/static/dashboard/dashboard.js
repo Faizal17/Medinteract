@@ -16,7 +16,7 @@ function showDoctorList(tempResponceData, doctorList, avgRating) {
   let htmlString = `
   <div class="card mx-auto text-center shadow" id="doctor_list_div_subdiv_card">
     <div class="py-2" style="">
-      <img class="rounded-circle mx-auto" src="${imagePath}${tempResponceData.id}.jpg" style="height: 8rem; width: 8rem;"
+      <img class="rounded-circle mx-auto" src="${globalURL}${tempResponceData.profilePhoto}" style="height: 8rem; width: 8rem;"
         onError="this.onerror=null;this.src='${imagePath}default.jpg';">
     </div>
     <div class="card-body d-flex flex-column">
@@ -301,8 +301,8 @@ function loadComents(doctorId) {
 
   let htmlString = `<div class="bg-light p-2">
                       <div class="d-flex flex-row-end">
-                      <div class="col align-self-end">
-                      <img class="rounded-circle" src="${imagePath}${patientId}.jpg" height="40" width="40" onError="this.onerror=null;this.src='${imagePath}default.jpg';">           
+                      <div class="col align-self-end pb-2">
+                      <img class="rounded-circle" src="${globalURL}${getCookie("profilePicture")}" height="40" width="40" onError="this.onerror=null;this.src='${imagePath}default.jpg';">           
                       <a href="#" class="text-decoration-none" disabled>${patientName} (You)</a>
                       </div>
                       
@@ -340,8 +340,8 @@ function loadComents(doctorId) {
 
 
     htmlString = htmlString + `
-    <div class="d-flex flex-row-end align-items-end">
-    <div><img class="rounded-circle" src="${imagePath}${tempResponceData.id}.jpg" height="40" width="40" onError="this.onerror=null;this.src='${imagePath}default.jpg';">           
+    <div class="d-flex flex-row-end align-items-end pb-2">
+    <div><img class="rounded-circle" src="${globalURL}${tempResponceData.profilePicture}" height="40" width="40" onError="this.onerror=null;this.src='${imagePath}default.jpg';">           
     <a href="#" class="text-decoration-none" disabled>${tempResponceData.patientName}</a></div>
     <div class="col align-text-bottom"><p class="fw-light fs-6 col align-text-bottom text-end mb-0">${formattedFeedbackDate} ${formattedFeedbackTime}</p></div>
     </div>
