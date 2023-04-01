@@ -28,7 +28,21 @@
     <form class="p-5" id="signUpForm" method="post">
         <fieldset id="disabledFieldSet" disabled>
             <h2 class="text-center mb-5"> User Details</h2>
-            <div class="form-group row my-3">
+		        <div class="form-group row my-3">
+				        <!--                Reference taken from : https://mdbootstrap.com/docs/standard/extended/file-input-image/-->
+				        <div class="d-flex justify-content-center mb-4">
+						        <img id="image" src=""
+						             class="rounded-circle" alt="example placeholder" style="width: 200px;"/>
+				        </div>
+				        <div class="d-flex justify-content-center">
+						        <div class="btn btn-primary btn-rounded">
+								        <label class="form-label text-white m-1" for="profileImage">Choose file</label>
+								        <input type="file" class="form-control d-none" id="profileImage" name="profileImage"
+								               accept="image/png, image/jpeg"/>
+						        </div>
+				        </div>
+		        </div>
+		        <div class="form-group row my-3">
                 <label class="col-12 col-form-label col-xl-3" for="name"> Name :</label>
                 <div class="col-12 col-xl-9">
                     <input type="text" class="form-control" placeholder="Enter Name" id="name" name="name" required>
@@ -167,6 +181,15 @@
             window.disabled = false;
             $("#disabledFieldSet").removeAttr("disabled");
         } else {
+		        //--------------------HANDLE IMAGE---------------------\\
+		
+		        const fileInput = document.querySelector('input[type="file"]');
+		        let file = fileInput.files[0]; // get the first file from the input
+		        const formData = new FormData();
+		        formData.append('profileImage', file); // add the file to the form data
+		        
+		        //--------------------HANDLE DATA---------------------\\
+		        
             let data = {};
             let type = getCookie("type");
             data["id"] = window.id;
@@ -183,12 +206,13 @@
                 data[type + "Type"] = $("#field").val();
                 data[type + "Qualification"] = $("#qualification").val();
             }
+		        formData.append("objectData", JSON.stringify(data));
             $.ajax({
                 type: "POST",
                 url: globalURL + type + "/updateProfile",
-                data: JSON.stringify(data),
-                dataType: "json",
-                contentType: "application/json"
+		            data: formData,
+		            processData: false,
+		            contentType: false,
             }).done(function (data) {
                 console.log(data)
                 if (data.isError) {
@@ -196,7 +220,8 @@
                 } else {
                     addToast(false, "Hurray", data.msg);
                     setCookie("id", data.data.id);
-                    if (type == 'patient') {
+		                setCookie("profilePicture", data.data.profilePicture);
+		                if (type == 'patient') {
                         setCookie("name", data.data.patientName);
                         setCookie("email", data.data.patientEmail);
                         setCookie("city", data.data.patientAddressCity);
@@ -219,10 +244,12 @@
                     window.addressStreet = data["data"][type + "AddressStreet"];
                     window.gender = data["data"][type + "Gender"];
                     window.dob = new Date(data["data"][type + "DOB"]);
+										window.profilePicture = globalURL+data["data"]["profilePicture"];
                     if (type === "doctor") {
                         window.doctorType = data["data"][type + "Type"];
                         window.doctorQualification = data["data"][type + "Qualification"];
                     }
+		                $("#profileImage").val('');
                 }
                 window.disabled = true;
                 $("#btn").html("Update Profile");
@@ -252,6 +279,8 @@
             $("#field").val(window.doctorType);
             $("#qualification").val(window.doctorQualification);
         }
+				$("#image").attr("src", window.profilePicture);
+		    $("#profileImage").val('');
         window.disabled = true;
         $("#btn").html("Update Profile");
         $("#cancelDiv").addClass("d-none");
@@ -259,6 +288,8 @@
     })
 
     $(document).ready(function () {
+		    loadImagePreview();
+				
         for (let [key, value] of provinceList) {
             $('#province').append(`<option value=${key}>${value["abbrv"]}</option>`);
         }
@@ -289,7 +320,8 @@
                         window.addressStreet = response["data"][type + "AddressStreet"];
                         window.gender = response["data"][type + "Gender"];
                         window.dob = new Date(response["data"][type + "DOB"]);
-                        $("#email").val(window.email);
+		                    window.profilePicture = globalURL+response["data"]["profilePicture"];
+		                    $("#email").val(window.email);
                         $("#mobileNumber").val(window.mobileNumber);
                         $("#name").val(window.name);
                         $("#province").val(window.addressProvince);
@@ -305,6 +337,7 @@
                             $("#field").val(window.doctorType);
                             $("#qualification").val(window.doctorQualification);
                         }
+		                    $("#image").attr("src", window.profilePicture);
                     }
                 } catch (err) {
                     console.log(err)
@@ -323,5 +356,31 @@
         for (let i = 0; i < cities.length; i++) {
             $('#city').append(`<option value="${cities[i]['id']}">${cities[i]['city']}</option>`);
         }
+    }
+
+    function loadImagePreview()
+    {
+		    // Get the file input element
+		    const fileInput = document.querySelector('#profileImage');
+				// Get the image element
+		    const imagePreview = document.querySelector('#image');
+
+				// Listen for the 'change' event on the file input element
+		    fileInput.addEventListener('change', (event) => {
+				    // Get the selected file
+				    const file = event.target.files[0];
+				
+				    // Create a new FileReader object
+				    const reader = new FileReader();
+				
+				    // Listen for the 'load' event on the reader object
+				    reader.addEventListener('load', () => {
+						    // Set the 'src' attribute of the image element to the data URL of the selected file
+						    imagePreview.src = reader.result;
+				    });
+				
+				    // Read the contents of the selected file as a data URL
+				    reader.readAsDataURL(file);
+		    });
     }
 </script>

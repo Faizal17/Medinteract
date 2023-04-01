@@ -224,6 +224,7 @@ public class DoctorServiceImpl implements DoctorService {
             data.put("doctorAddressCity", cityModel.getCity());
             data.put("doctorType", doctorModel1.getDoctorType());
             data.put("doctorQualification", doctorModel1.getDoctorQualification());
+            data.put("profilePhoto", doctorModel1.getProfilePicture());
 
             doctorDetailsList.add(data);
         }

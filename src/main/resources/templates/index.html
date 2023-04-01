@@ -664,6 +664,7 @@
                     addToast(false, "Hurray", data.msg);
                     setCookie("token", data.data.token);
                     setCookie("id", data.data.user.id);
+										setCookie("profilePicture", data.data.user.profilePicture);
                     if (id === "signInForm" && $('input[name="userTypeSignIn"]:checked').val() == 'Patient') {
                         setCookie("name", data.data.user.patientName);
                         setCookie("email", data.data.user.patientEmail);

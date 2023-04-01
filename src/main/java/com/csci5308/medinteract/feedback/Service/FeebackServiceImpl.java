@@ -75,6 +75,7 @@ public class FeebackServiceImpl implements FeedbackService {
             data.put("doctorId", feedbackModel1.getDoctorId());
             data.put("patientId", feedbackModel1.getPatientId());
             data.put("patientName", patientModel.getPatientName());
+            data.put("profilePicture", patientModel.getProfilePicture());
 
             feedbackDetailsList.add(data);
         }

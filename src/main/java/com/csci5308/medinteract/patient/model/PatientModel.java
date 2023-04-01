@@ -69,6 +69,17 @@ public class PatientModel {
 
     private boolean isBlocked;
 
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
+    }
+
+    @NotBlank
+    @NotNull
+    private String profilePicture;
 
     public Long getPatientAddressCity() {
         return patientAddressCity;

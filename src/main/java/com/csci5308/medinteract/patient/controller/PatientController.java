@@ -1,18 +1,27 @@
 package com.csci5308.medinteract.patient.controller;
 
+import com.csci5308.medinteract.doctor.Model.DoctorModel;
 import com.csci5308.medinteract.patient.model.PatientModel;
 import com.csci5308.medinteract.patient.service.PatientService;
 import com.csci5308.medinteract.patient.service.PatientServiceImpl;
 import com.csci5308.medinteract.utilities.JWT.JWT;
 import com.csci5308.medinteract.utilities.Response;
+import com.google.gson.Gson;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import static com.csci5308.medinteract.utilities.FileUploader.saveFile;
 
 @RestController
 @RequestMapping("/patient")
@@ -100,22 +109,44 @@ public class PatientController {
         return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
     }
 
-    @PostMapping(path = "/updateProfile")
-    public ResponseEntity updatePatientById(@RequestBody PatientModel patientModel){
-        Optional<PatientModel> optionalPatientModel= patientServiceImpl.getPatientById(patientModel.getId());
-        if(optionalPatientModel.isEmpty() || !optionalPatientModel.get().getPatientEmail().equals(patientModel.getPatientEmail()))
+    @PostMapping(path = "/updateProfile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity updatePatientById(@RequestParam MultiValueMap<String, String> formData, @RequestParam(value = "profileImage",required = false) MultipartFile profileImage) throws IOException {
+        //get patientModel from Json
+        Gson gson = new Gson();
+        PatientModel updatedPatientModel = gson.fromJson(formData.getFirst("objectData"), PatientModel.class);
+        Optional<PatientModel> optionalPatientModel= patientServiceImpl.getPatientById(updatedPatientModel.getId());
+        System.out.println(optionalPatientModel.get());
+        if(optionalPatientModel.isEmpty() || !optionalPatientModel.get().getPatientEmail().equals(updatedPatientModel.getPatientEmail()))
         {
             //patient already exists
             Response res = new Response(null, true, "Unable to update profile!");
             return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
         }
-        PatientModel foundPatientModel = optionalPatientModel.get();
-        patientModel.setPatientPassword(foundPatientModel.getPatientPassword());
-        patientModel.setActive(foundPatientModel.isActive());
-        patientModel.setBlocked(foundPatientModel.isBlocked());
-        patientServiceImpl.savePatient(patientModel);
-        patientModel.setPatientPassword("");
-        Response  res = new Response(patientModel, false, "User updated Successfully!");
+        PatientModel oldPatientModel = optionalPatientModel.get();
+        updatedPatientModel.setPatientPassword(oldPatientModel.getPatientPassword());
+        updatedPatientModel.setActive(oldPatientModel.isActive());
+        updatedPatientModel.setBlocked(oldPatientModel.isBlocked());
+        if (profileImage != null && !profileImage.isEmpty()) {
+            String fileName;
+            if (oldPatientModel.getProfilePicture()!= null) {
+                fileName = oldPatientModel.getProfilePicture().split("/")[2];
+            } else {
+                fileName = RandomStringUtils.randomAlphanumeric(10) + ".jpeg";
+            }
+            String uploadDir = "user-photos/profile/";
+            try {
+                saveFile(uploadDir, fileName, profileImage);
+            } catch (IOException e) {
+                Response res = new Response("", true, "Error while updating details!");
+                return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+            }
+            updatedPatientModel.setProfilePicture(uploadDir + fileName);
+        } else {
+            updatedPatientModel.setProfilePicture(oldPatientModel.getProfilePicture());
+        }
+        patientServiceImpl.savePatient(updatedPatientModel);
+        updatedPatientModel.setPatientPassword("");
+        Response  res = new Response(updatedPatientModel, false, "User updated Successfully!");
         return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
     }
 
