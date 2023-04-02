@@ -27,65 +27,65 @@ public class CityModel {
         return lat;
     }
 
-    public void setLat(Double lat) {
-        this.lat = lat;
-    }
+//    public void setLat(Double lat) {
+//        this.lat = lat;
+//    }
 
     public Double getLng() {
         return lng;
     }
 
-    public void setLng(Double lng) {
-        this.lng = lng;
-    }
+//    public void setLng(Double lng) {
+//        this.lng = lng;
+//    }
 
     public Double getPopulation() {
         return population;
     }
 
-    public void setPopulation(Double population) {
-        this.population = population;
-    }
+//    public void setPopulation(Double population) {
+//        this.population = population;
+//    }
 
     public Double getDensity() {
         return density;
     }
 
-    public void setDensity(Double density) {
-        this.density = density;
-    }
+//    public void setDensity(Double density) {
+//        this.density = density;
+//    }
 
     public String getTimezone() {
         return timezone;
     }
 
-    public void setTimezone(String timezone) {
-        this.timezone = timezone;
-    }
+//    public void setTimezone(String timezone) {
+//        this.timezone = timezone;
+//    }
 
     public Integer getRanking() {
         return ranking;
     }
 
-    public void setRanking(Integer ranking) {
-        this.ranking = ranking;
-    }
+//    public void setRanking(Integer ranking) {
+//        this.ranking = ranking;
+//    }
 
     public String getPostal() {
         return postal;
     }
 
-    public void setPostal(String postal) {
-        this.postal = postal;
-    }
+//    public void setPostal(String postal) {
+//        this.postal = postal;
+//    }
 
     public Boolean getActive() {
         return isActive;
     }
 
-    public void setActive(Boolean active) {
-        isActive = active;
-    }
+//    public void setActive(Boolean active) {
+//        isActive = active;
+//    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
