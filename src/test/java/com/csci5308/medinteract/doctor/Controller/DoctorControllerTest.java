@@ -207,7 +207,7 @@ class DoctorControllerTest {
         mockMvc.perform(delete("http://localhost:6969/doctor/"+doctorID))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.msg").value("User deleted Successfully!"))
-                .andExpect(jsonPath("$.isError").value("false"));;
+                .andExpect(jsonPath("$.isError").value("false"));
 
     }
 

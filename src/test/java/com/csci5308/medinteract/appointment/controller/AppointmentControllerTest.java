@@ -55,28 +55,30 @@ class AppointmentControllerTest {
                 .andExpect(jsonPath("$.isError").value("false")).andReturn();
 
     }
-    void registerAppointmentWithEmptyPatientOrDoctor() throws Exception {
 
-
-        JSONObject obj = new JSONObject();
-
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = new Date();
-        System.out.println(dateFormat.format(date));
-//        obj.put("id", 0);
-        obj.put("patientId", -1);
-        obj.put("doctorId", -1);
-
-        String json = obj.toString();
-
-        System.out.println(json);
-        mockMvc.perform(post("/appointment/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(json))
-                .andExpect(jsonPath("$.msg").value("An unknown error occurred!"))
-                .andExpect(jsonPath("$.isError").value("true")).andReturn();
-
-    }
+//    @Test
+//    void registerAppointmentWithEmptyPatientOrDoctor() throws Exception {
+//
+//
+//        JSONObject obj = new JSONObject();
+//
+//        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        Date date = new Date();
+//        System.out.println(dateFormat.format(date));
+////        obj.put("id", 0);
+//        obj.put("patientId", -1);
+//        obj.put("doctorId", -1);
+//
+//        String json = obj.toString();
+//
+//        System.out.println(json);
+//        mockMvc.perform(post("/appointment/register")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(json))
+//                .andExpect(jsonPath("$.msg").value("An unknown error occurred!"))
+//                .andExpect(jsonPath("$.isError").value("true")).andReturn();
+//
+//    }
 
     @Test
     void fetchAppointmentsByDoctor() throws Exception {
