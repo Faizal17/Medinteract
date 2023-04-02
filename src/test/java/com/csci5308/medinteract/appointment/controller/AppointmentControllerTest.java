@@ -2,7 +2,6 @@ package com.csci5308.medinteract.appointment.controller;
 
 import com.csci5308.medinteract.utilities.TestUtil;
 import com.jayway.jsonpath.JsonPath;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +10,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultActions;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static com.fasterxml.jackson.databind.type.LogicalType.DateTime;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -163,7 +160,7 @@ class AppointmentControllerTest {
         obj.put("active", true);
         String json = obj.toString();
         String apiURL = "/appointment/update";
-        MvcResult mvcResult = TestUtil.getResultFromAPI(apiURL,json,mockMvc);
+        MvcResult mvcResult = TestUtil.getResultFromPostAPI(apiURL,json,mockMvc);
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
         if(mvcResult.getResponse().getStatus()==500)
         {
@@ -183,7 +180,7 @@ class AppointmentControllerTest {
         obj.put("active", true);
         String json = obj.toString();
         String apiURL = "/appointment/delete";
-        MvcResult mvcResult = TestUtil.getResultFromAPI(apiURL,json,mockMvc);
+        MvcResult mvcResult = TestUtil.getResultFromPostAPI(apiURL,json,mockMvc);
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
         if(mvcResult.getResponse().getStatus()==200)
         {
@@ -198,7 +195,7 @@ class AppointmentControllerTest {
 
         String json = obj.toString();
         String apiURL = "/appointment/fetchDoctorNamesByAppointments";
-        MvcResult mvcResult = TestUtil.getResultFromAPI(apiURL,json,mockMvc);
+        MvcResult mvcResult = TestUtil.getResultFromPostAPI(apiURL,json,mockMvc);
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
         if(mvcResult.getResponse().getStatus()==200)
         {
@@ -215,7 +212,7 @@ class AppointmentControllerTest {
 
         String json = obj.toString();
         String apiURL = "/appointment/fetchAppointmentsByPatientAfterDate";
-        MvcResult mvcResult = TestUtil.getResultFromAPI(apiURL,json,mockMvc);
+        MvcResult mvcResult = TestUtil.getResultFromPostAPI(apiURL,json,mockMvc);
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
         if(mvcResult.getResponse().getStatus()==200)
         {

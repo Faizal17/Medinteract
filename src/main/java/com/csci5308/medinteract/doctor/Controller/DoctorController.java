@@ -100,10 +100,6 @@ public class DoctorController {
         return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
     }
 
-//    @GetMapping("/profile")
-//    public List<DoctorModel> getAllDoctors(){
-//        return doctorServiceImpl.getAllDoctors();
-//    }
 
     @GetMapping("/profile/{doctorId}")
     public ResponseEntity getDoctorById(@PathVariable("doctorId") Long id){
@@ -222,7 +218,7 @@ public class DoctorController {
     }
 
     @PostMapping("/verified")
-    public ResponseEntity<?> verifyDoctor(@RequestParam(name = "doctorEmail") String email, @RequestParam boolean isActive, @RequestParam boolean isBlocked) {
+    public ResponseEntity verifyDoctor(@RequestParam(name = "doctorEmail") String email, @RequestParam boolean isActive, @RequestParam boolean isBlocked) {
 
         doctorServiceImpl.verifyDoctor(email, isActive, isBlocked);
 

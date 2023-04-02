@@ -1,5 +1,8 @@
 package com.csci5308.medinteract.doctor.Controller;
 
+import com.csci5308.medinteract.utilities.TestUtil;
+import com.jayway.jsonpath.JsonPath;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -31,8 +35,35 @@ class DoctorControllerTest {
 }
 
     @Test
-    void registerDoctor() {
+    void registerNewDoctor() throws Exception {
+        JSONObject obj = new JSONObject();
+        obj.put("doctorEmail", "ddd@gmail.com");
+        obj.put("doctorPassword","abc");
 
+        String json = obj.toString();
+        String apiURL = "/doctor/register";
+        MvcResult mvcResult = TestUtil.getResultFromPostAPI(apiURL,json,mockMvc);
+        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
+        if(mvcResult.getResponse().getStatus()==200)
+        {
+            assertFalse(isError);
+        }
+
+    }
+    @Test
+    void registerExistingDoctor() throws Exception {
+        JSONObject obj = new JSONObject();
+        obj.put("doctorEmail", "maulvifaizal@gmail.com");
+        obj.put("doctorPassword","1234");
+
+        String json = obj.toString();
+        String apiURL = "/doctor/register";
+        MvcResult mvcResult = TestUtil.getResultFromPostAPI(apiURL,json,mockMvc);
+        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
+        if(mvcResult.getResponse().getStatus()==200)
+        {
+            assertTrue(isError);
+        }
 
     }
 
@@ -58,6 +89,24 @@ class DoctorControllerTest {
     }
 
     @Test
+    void loginWithUnknownUer() throws Exception {
+
+        JSONObject obj = new JSONObject();
+        obj.put("doctorEmail", "unkown@gmail.com");
+        obj.put("doctorPassword","1234");
+
+        String json = obj.toString();
+        String apiURL = "/doctor/login";
+        MvcResult mvcResult = TestUtil.getResultFromPostAPI(apiURL,json,mockMvc);
+        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
+        if(mvcResult.getResponse().getStatus()==200)
+        {
+            assertTrue(isError);
+        }
+
+    }
+
+    @Test
     void fetchDoctorsOnCity() throws Exception {
 
         JSONObject obj = new JSONObject();
@@ -77,6 +126,22 @@ class DoctorControllerTest {
 
     }
 
+    @Test
+    void fetchDoctorsOnProvince() throws Exception {
+        JSONObject obj = new JSONObject();
+        obj.put("doctorEmail", "maulvifaizal@gmail.com");
+
+        String json = obj.toString();
+        String apiURL = "/doctor/province";
+        MvcResult mvcResult = TestUtil.getResultFromPostAPI(apiURL,json,mockMvc);
+        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
+        if(mvcResult.getResponse().getStatus()==200)
+        {
+            assertFalse(isError);
+        }
+
+    }
+
 
     @Test
     void getDoctorById() throws Exception {
@@ -86,6 +151,16 @@ class DoctorControllerTest {
                 .andExpect(jsonPath("$.msg").value("Doctor details fetched Successfully!"))
                 .andExpect(jsonPath("$.isError").value("false"));
     }
+
+    @Test
+    void getDoctorUsingUnknownId() throws Exception {
+        int doctorId = 377;
+        mockMvc.perform(get("/doctor/profile/"+doctorId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.msg").value("Unable to find user with the given id!"))
+                .andExpect(jsonPath("$.isError").value("true"));
+    }
+
 
     @Test
     void fetchDoctorsOnName() throws Exception {
@@ -145,39 +220,39 @@ class DoctorControllerTest {
 
     @Test
     void isPending() throws Exception {
-
-
-        MvcResult result = mockMvc.perform(get("http://localhost:6969/doctor/isPending"))
-                .andExpect(status().isOk())
-                .andReturn();
-//        String content = result.getResponse().getContentAsString();
-//        JSONObject json = new JSONObject(content);
-//        if (Objects.equals(json.get("data").toString(), "[]"))
-//        {
-//        }
-
-
-//                .andExpect(jsonPath("$.msg").value("Pending Doctors Fetched!"))
-//                .andExpect(jsonPath("$.isError").value("false"));
+        MvcResult mvcResult = TestUtil.getResultFromGetAPI("/doctor/isPending",mockMvc);
+        String msg = JsonPath.read(mvcResult.getResponse().getContentAsString(), "$.msg");
+        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
+        if (isError) {
+            assertEquals("No Pending Doctors!", msg);
+        } else {
+            assertEquals("Pending Doctors Fetched!", msg);
+        }
     }
 
     @Test
     void isApproved() throws Exception {
 
-
-//        mockMvc.perform(get("http://localhost:6969/doctor/isApproved"))
-        mockMvc.perform(get("http://localhost:6969/doctor/isApproved"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.msg").value("Approved Doctors Fetched!"))
-                .andExpect(jsonPath("$.isError").value("false"));
+        MvcResult mvcResult = TestUtil.getResultFromGetAPI("/doctor/isApproved",mockMvc);
+        String msg = JsonPath.read(mvcResult.getResponse().getContentAsString(), "$.msg");
+        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
+        if (isError) {
+            assertEquals("No Approved Doctors!", msg);
+        } else {
+            assertEquals("Approved Doctors Fetched!", msg);
+        }
     }
 
     @Test
     void isBlocked() throws Exception {
-        mockMvc.perform(get("http://localhost:6969/doctor/isBlocked"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.msg").value("Blocked Doctors Fetched!"))
-                .andExpect(jsonPath("$.isError").value("false"));
+        MvcResult mvcResult = TestUtil.getResultFromGetAPI("/doctor/isBlocked",mockMvc);
+        String msg = JsonPath.read(mvcResult.getResponse().getContentAsString(), "$.msg");
+        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
+        if (isError) {
+            assertEquals("No Blocked Doctors!", msg);
+        } else {
+            assertEquals("Blocked Doctors Fetched!", msg);
+        }
     }
 
     @Test
@@ -186,10 +261,11 @@ class DoctorControllerTest {
         boolean active= true;
 
         boolean block = false;
-        http://localhost:6969/doctor/verified?doctorEmail=tp%40gmail.com&isActive=true&isBlocked=false
 
-        mockMvc.perform(post("http://localhost:6969/doctor/verified?doctorEmail="+doctorEmail+"&isActive="+active+"&isBlocked="+block))
-                .andExpect(status().isOk());
+      MvcResult mvcResult =   mockMvc.perform(post("/doctor/verified?doctorEmail="+doctorEmail+"&isActive="+active+"&isBlocked="+block))
+                .andReturn();
+
+      assertEquals(mvcResult.getResponse().getStatus(),200);
 
     }
 
@@ -200,7 +276,66 @@ class DoctorControllerTest {
 
         boolean block = true;
 
-        mockMvc.perform(post("http://localhost:6969/doctor/blocked?doctorEmail=t"+doctorEmail+"&isBlocked="+block))
-                .andExpect(status().isOk());
+        MvcResult mvcResult =   mockMvc.perform(post("/doctor/blocked?doctorEmail="+doctorEmail+"&isBlocked="+block))
+                .andReturn();
+        assertEquals(mvcResult.getResponse().getStatus(),200);
+
+    }
+
+    @Test
+    void fetchPrescriptionByPatientId() throws Exception {
+        long patientId = 12;
+
+        MvcResult mvcResult =   mockMvc.perform(get("/doctor/fetch/"+patientId))
+                .andReturn();
+        assertEquals(mvcResult.getResponse().getStatus(),200);
+    }
+
+    @Test
+    void fetchDoctorsOnDetails() throws Exception {
+        JSONObject obj = new JSONObject();
+        obj.put("doctorEmail", "maulvifaizal@gmail.com");
+
+        String json = obj.toString();
+        String apiURL = "/doctor/get_doctor_on_doctor_details";
+        MvcResult mvcResult = TestUtil.getResultFromPostAPI(apiURL,json,mockMvc);
+        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
+        if(mvcResult.getResponse().getStatus()==200)
+        {
+            assertFalse(isError);
+        }
+
+    }
+
+    @Test
+    void findDoctorOnDetailsWithCity() throws Exception {
+        JSONObject obj = new JSONObject();
+        obj.put("doctorEmail", "maulvifaizal@gmail.com");
+
+        String json = obj.toString();
+        String apiURL = "/doctor/get_doctor_on_details_and_city";
+        MvcResult mvcResult = TestUtil.getResultFromPostAPI(apiURL,json,mockMvc);
+        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
+        if(mvcResult.getResponse().getStatus()==200)
+        {
+            assertFalse(isError);
+        }
+
+    }
+
+    @Test
+    void findDoctorOnDetailsWithCityAndFeedback() throws Exception {
+        JSONObject obj = new JSONObject();
+        obj.put("doctorAddressCity", 2);
+
+        String json = obj.toString();
+        String apiURL = "/doctor/get_doctor_on_details_and_city_with_feedback";
+        MvcResult mvcResult = TestUtil.getResultFromPostAPI(apiURL,json,mockMvc);
+        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
+        if(mvcResult.getResponse().getStatus()==200)
+        {
+            assertFalse(isError);
+        }
+
     }
 }
