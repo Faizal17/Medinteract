@@ -12,9 +12,9 @@ public class AppointmentModel {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
 
     public Long getPatientId() {
         return patientId;

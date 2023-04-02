@@ -13,53 +13,53 @@ public class ArticleModel {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    public Long getDoctorId() {
-        return doctorId;
-    }
-
-    public void setDoctorId(Long doctorId) {
-        this.doctorId = doctorId;
-    }
-
-    public String getCoverImage() {
-        return coverImage;
-    }
-
+//    public Long getDoctorId() {
+//        return doctorId;
+//    }
+//
+//    public void setDoctorId(Long doctorId) {
+//        this.doctorId = doctorId;
+//    }
+//
+//    public String getCoverImage() {
+//        return coverImage;
+//    }
+//
     public void setCoverImage(String coverImage) {
         this.coverImage = coverImage;
     }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public byte[] setContent() {
-        return content;
-    }
-
+//
+//    public String getTitle() {
+//        return title;
+//    }
+//
+//    public void setTitle(String title) {
+//        this.title = title;
+//    }
+//
+//    public byte[] setContent() {
+//        return content;
+//    }
+//
     public void setContent(byte[] content) {
         this.content = content;
     }
-
-    public Boolean getActive() {
-        return isActive;
-    }
-
-    public void setActive(Boolean active) {
-        isActive = active;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
+//
+//    public Boolean getActive() {
+//        return isActive;
+//    }
+//
+//    public void setActive(Boolean active) {
+//        isActive = active;
+//    }
+//
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
+//
+//    public Long getId() {
+//        return id;
+//    }
 
     @NotBlank
     @NotNull
@@ -79,13 +79,13 @@ public class ArticleModel {
     @Column(columnDefinition="LONGBLOB")
     private byte[] content;
 
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
+//    public LocalDateTime getCreatedDate() {
+//        return createdDate;
+//    }
+//
+//    public void setCreatedDate(LocalDateTime createdDate) {
+//        this.createdDate = createdDate;
+//    }
 
     @NotBlank
     @NotNull
