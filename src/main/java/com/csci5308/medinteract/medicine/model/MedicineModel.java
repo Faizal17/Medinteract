@@ -72,47 +72,47 @@ public class MedicineModel {
         return medicineAmount;
     }
 
-    public void setMedicineAmount(int medicineAmount) {
-        this.medicineAmount = medicineAmount;
-    }
+//    public void setMedicineAmount(int medicineAmount) {
+//        this.medicineAmount = medicineAmount;
+//    }
 
     public boolean isMorning() {
         return isMorning;
     }
 
-    public void setMorning(boolean morning) {
-        isMorning = morning;
-    }
+//    public void setMorning(boolean morning) {
+//        isMorning = morning;
+//    }
 
     public boolean isAfternoon() {
         return isAfternoon;
     }
 
-    public void setAfternoon(boolean afternoon) {
-        isAfternoon = afternoon;
-    }
+//    public void setAfternoon(boolean afternoon) {
+//        isAfternoon = afternoon;
+//    }
 
     public boolean isEvening() {
         return isEvening;
     }
 
-    public void setEvening(boolean evening) {
-        isEvening = evening;
-    }
+//    public void setEvening(boolean evening) {
+//        isEvening = evening;
+//    }
 
     public String getAdditionalNotes() {
         return additionalNotes;
     }
 
-    public void setAdditionalNotes(String additionalNotes) {
-        this.additionalNotes = additionalNotes;
-    }
+//    public void setAdditionalNotes(String additionalNotes) {
+//        this.additionalNotes = additionalNotes;
+//    }
 
     public Long getMedicineId() {
         return medicineId;
     }
 
-    public void setMedicineId(Long prescriptionId) {
-        this.medicineId = prescriptionId;
-    }
+//    public void setMedicineId(Long prescriptionId) {
+//        this.medicineId = prescriptionId;
+//    }
 }
