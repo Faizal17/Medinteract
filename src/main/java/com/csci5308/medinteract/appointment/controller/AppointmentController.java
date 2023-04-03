@@ -41,13 +41,13 @@ public class AppointmentController {
 
     @PostMapping("/register")
     public ResponseEntity registerAppointment(@RequestBody AppointmentModel appointmentModel) throws Exception {
-        appointmentServiceImpl.saveAppointment(appointmentModel);
         Optional<DoctorModel> doctorModel = doctorServiceImpl.getDoctorById(appointmentModel.getDoctorId());
         Optional<PatientModel> patientModel = patientServiceImpl.getPatientById(appointmentModel.getPatientId());
         if (doctorModel.isEmpty() || patientModel.isEmpty()) {
             Response res = new Response("", true, "An unknown error occurred!");
             return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
         }
+        appointmentServiceImpl.saveAppointment(appointmentModel);
         Map<String, Object> data = new HashMap<>();
         data.put("type", "appointment");
         data.put("id", appointmentModel.getId().toString());
@@ -75,13 +75,13 @@ public class AppointmentController {
 
     @PostMapping("/update")
     public ResponseEntity updateAppointment(@RequestBody AppointmentModel appointmentModel) throws Exception {
-        appointmentServiceImpl.saveAppointment(appointmentModel);
         Optional<DoctorModel> doctorModel = doctorServiceImpl.getDoctorById(appointmentModel.getDoctorId());
         Optional<PatientModel> patientModel = patientServiceImpl.getPatientById(appointmentModel.getPatientId());
         if (doctorModel.isEmpty() || patientModel.isEmpty()) {
             Response res = new Response("", true, "An unknown error occurred!");
             return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
         }
+        appointmentServiceImpl.saveAppointment(appointmentModel);
         Map<String, Object> data = new HashMap<>();
         data.put("type", "appointment");
         data.put("id", appointmentModel.getId().toString());
@@ -109,13 +109,13 @@ public class AppointmentController {
 
     @PostMapping("/delete")
     public ResponseEntity deleteAppointment(@RequestBody AppointmentModel appointmentModel) throws Exception {
-        appointmentServiceImpl.saveAppointment(appointmentModel);
         Optional<DoctorModel> doctorModel = doctorServiceImpl.getDoctorById(appointmentModel.getDoctorId());
         Optional<PatientModel> patientModel = patientServiceImpl.getPatientById(appointmentModel.getPatientId());
         if (doctorModel.isEmpty() || patientModel.isEmpty()) {
             Response res = new Response("", true, "An unknown error occurred!");
             return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
         }
+        appointmentServiceImpl.saveAppointment(appointmentModel);
         Map<String, Object> data = new HashMap<>();
         data.put("type", "appointment");
         data.put("id", appointmentModel.getId().toString());

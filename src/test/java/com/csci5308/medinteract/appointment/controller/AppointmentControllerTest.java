@@ -56,29 +56,25 @@ class AppointmentControllerTest {
 
     }
 
-//    @Test
-//    void registerAppointmentWithEmptyPatientOrDoctor() throws Exception {
-//
-//
-//        JSONObject obj = new JSONObject();
-//
-//        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        Date date = new Date();
-//        System.out.println(dateFormat.format(date));
-////        obj.put("id", 0);
-//        obj.put("patientId", -1);
-//        obj.put("doctorId", -1);
-//
-//        String json = obj.toString();
-//
-//        System.out.println(json);
-//        mockMvc.perform(post("/appointment/register")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(json))
-//                .andExpect(jsonPath("$.msg").value("An unknown error occurred!"))
-//                .andExpect(jsonPath("$.isError").value("true")).andReturn();
-//
-//    }
+    @Test
+    void registerAppointmentWithEmptyPatientOrDoctor() throws Exception {
+        JSONObject obj = new JSONObject();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        System.out.println(dateFormat.format(date));
+        obj.put("patientId", -1);
+        obj.put("doctorId", -1);
+
+        String json = obj.toString();
+
+        System.out.println(json);
+        mockMvc.perform(post("/appointment/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(jsonPath("$.msg").value("An unknown error occurred!"))
+                .andExpect(jsonPath("$.isError").value("true")).andReturn();
+
+    }
 
     @Test
     void fetchAppointmentsByDoctor() throws Exception {
@@ -154,8 +150,8 @@ class AppointmentControllerTest {
     void updateAppointmentWithInvalidID() throws Exception {
 
         JSONObject obj = new JSONObject();
-        obj.put("doctorId", 37);
-        obj.put("patientId", 12);
+        obj.put("doctorId", -1);
+        obj.put("patientId", -1);
         obj.put("startTime", "2023-04-02T04:57:35.886Z");
         obj.put("endTime", "2023-04-02T04:57:35.886Z");
         obj.put("title", "string");
@@ -164,7 +160,7 @@ class AppointmentControllerTest {
         String apiURL = "/appointment/update";
         MvcResult mvcResult = TestUtil.getResultFromPostAPI(apiURL,json,mockMvc);
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if(mvcResult.getResponse().getStatus()==500)
+        if(mvcResult.getResponse().getStatus()==200)
         {
             assertTrue(isError);
         }
@@ -187,6 +183,25 @@ class AppointmentControllerTest {
         if(mvcResult.getResponse().getStatus()==200)
         {
             assertFalse(isError);
+        }
+    }
+
+    @Test
+    void deleteAppointmentWithInvalidID() throws Exception {
+        JSONObject obj = new JSONObject();
+        obj.put("doctorId", -1);
+        obj.put("patientId", -1);
+        obj.put("startTime", "2023-04-02T04:57:35.886Z");
+        obj.put("endTime", "2023-04-02T04:57:35.886Z");
+        obj.put("title", "string");
+        obj.put("active", true);
+        String json = obj.toString();
+        String apiURL = "/appointment/delete";
+        MvcResult mvcResult = TestUtil.getResultFromPostAPI(apiURL,json,mockMvc);
+        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
+        if(mvcResult.getResponse().getStatus()==200)
+        {
+            assertTrue(isError);
         }
     }
 
