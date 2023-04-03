@@ -26,6 +26,18 @@
 		<link href="https://kendo.cdn.telerik.com/2023.1.117/styles/kendo.default-ocean-blue.min.css" rel="stylesheet"/>
 		<script src="https://kendo.cdn.telerik.com/2023.1.117/js/kendo.all.min.js"></script>
 		<script src="static/script.js" type="text/javascript"></script>
+		<style>
+				#blogContainer .card {
+						-webkit-transition: all 100ms ease-in-out;
+						transition: all 100ms ease-in-out;
+				}
+				
+				#blogContainer .card:hover {
+						transform: scale(1.04);
+						-webkit-box-shadow: 0 10px 70px rgba(0,0,0,.05);
+						box-shadow: 0 10px 70px rgba(0,0,0,.05);
+				}
+		</style>
 </head>
 <body>
 <div id="navDiv"></div>
@@ -40,7 +52,7 @@
 		<div class="row m-0 py-4" id="blogContainer">
 		</div>
 		<!-- Modal -->
-		<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="exampleModal" tabindex="-1">
+		<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="exampleModal" data-bs-focus="false" tabindex="-1">
 				<div class="modal-dialog modal-xl">
 						<div class="modal-content">
 								<div class="modal-header">
@@ -58,7 +70,7 @@
 												<div class="form-group row my-3">
 														<label class="col-md-3 col-form-label text-md-left">Cover Image</label>
 														<div class="col-9">
-																<input accept="image/*" name="cover_image" class="mb-3" id="coverImage" required type="file">
+																<input accept="image/*" name="cover_image" class="mb-3" id="coverImage" type="file">
 																<img id="image" src=""
 																     class="" alt="image previewer" style="max-width: 100%; max-height: 15rem"/>
 														</div>
@@ -219,9 +231,14 @@
 				formData.append('coverImage', file); // add the file to the form data
 				formData.append('objectData', JSON.stringify(data));
 				formData.append('content', editor.data("kendoEditor").value());
-				console.log(formData)
+				console.log(formData);
+				if(window.action == "add") {
+						url = "addArticle";
+				} else if(window.action == "edit") {
+						url = "updateArticle"
+				}
 				$.ajax({
-						url: globalURL + "article/addArticle",
+						url: globalURL + "article/" + url,
 						type: 'POST',
 						processData: false,
 						contentType: false,
@@ -272,7 +289,7 @@
 														<div class="mt-auto">
 																<h5 class="card-title">${response.data[i].title}</h5>
 														<div class="row">
-																<img class="rounded-circle mx-auto" src="${globalURL}${response.data[i].doctor}.jpg"
+																<img class="rounded-circle mx-auto" src="${globalURL}${response.data[i].profilePicture}"
 																     onError="this.onerror=null;this.src='./static/images/doctor/default.jpg';"
 																     style="width: 3rem;">
 																		<div class="align-items-end d-flex col ps-0 fw-bold">
@@ -319,15 +336,18 @@
 		function addArticle() {
 				window.id = null;
 				window.createdDate = null;
+				window.action = "add";
 				$("#title").val("");
 				$("#image").attr("src", "");
 				$("#coverImage").val("");
 				editor.data("kendoEditor").value("");
 				$("#modalBtn").click();
+				$("#coverImage").prop('required',true);
 		}
 		
 		function editArticle(id) {
 				window.id = id.split("_")[1];
+				window.action = "edit";
 				$.ajax({
 						url: globalURL + "article/getArticle/" + window.id,
 						type: 'GET',
@@ -344,6 +364,7 @@
 										$("#image").attr("src", globalURL + response.data.coverImage);
 										editor.data("kendoEditor").value(atob(response.data.content));
 										$("#modalBtn").click();
+										$("#coverImage").prop('required',false);
 										// $("#exampleModal").modal('hide');
 										// location.reload();
 								}

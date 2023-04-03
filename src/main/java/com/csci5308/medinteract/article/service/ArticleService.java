@@ -12,6 +12,11 @@ public interface ArticleService {
     List<Map<String, Object>> fetchAllArticles();
     List<Map<String, Object>> fetchAllDoctorArticles(Long id);
 
-    Optional<ArticleModel> fetchArticle(Long id);
+    List<Map<String, Object>> fetchArticleDetails(Long id);
+
+    List<Map<String, Object>> fetchLatestArticles(Long id);
+
+    Optional<ArticleModel> fetchArticleModel(Long id);
+
     void deleteArticle(Long id);
 }
