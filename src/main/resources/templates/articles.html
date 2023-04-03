@@ -26,6 +26,18 @@
 		<link href="https://kendo.cdn.telerik.com/2023.1.117/styles/kendo.default-ocean-blue.min.css" rel="stylesheet"/>
 		<script src="https://kendo.cdn.telerik.com/2023.1.117/js/kendo.all.min.js"></script>
 		<script src="static/script.js" type="text/javascript"></script>
+		<style>
+				#blogContainer .card {
+						-webkit-transition: all 100ms ease-in-out;
+						transition: all 100ms ease-in-out;
+				}
+				
+				#blogContainer .card:hover {
+						transform: scale(1.04);
+						-webkit-box-shadow: 0 10px 70px rgba(0,0,0,.05);
+						box-shadow: 0 10px 70px rgba(0,0,0,.05);
+				}
+		</style>
 </head>
 <body>
 <div id="navDiv"></div>
@@ -58,7 +70,7 @@
 														<div class="mt-auto">
 																<h5 class="card-title">${response.data[i].title}</h5>
 														<div class="row">
-																<img class="rounded-circle mx-auto" src="${globalURL}${response.data[i].doctor}.jpg"
+																<img class="rounded-circle mx-auto" src="${globalURL}${response.data[i].profilePicture}"
 																     onError="this.onerror=null;this.src='./static/images/doctor/default.jpg';"
 																     style="width: 3rem;">
 																		<div class="align-items-end d-flex col ps-0 fw-bold">

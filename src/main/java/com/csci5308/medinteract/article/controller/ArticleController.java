@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -53,6 +54,41 @@ public class ArticleController {
         return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
     }
 
+    @PostMapping(path = "/updateArticle", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity updateArticle(@RequestParam MultiValueMap<String, String> formData, @RequestParam(value = "content") String content, @RequestParam(value = "coverImage", required = false) MultipartFile multipartFile) {
+        Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer()).create();
+        ArticleModel articleModel = gson.fromJson(formData.getFirst("objectData"), ArticleModel.class);
+        Optional<ArticleModel> fetchArticleModel = articleServiceImpl.fetchArticleModel(articleModel.getId());
+        if(fetchArticleModel.isEmpty()) {
+            Response res = new Response(null, true, "Unable to update article!");
+            return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+        }
+        ArticleModel oldArticleModel = fetchArticleModel.get();
+        articleModel.setContent(content.getBytes());
+        articleModel.setActive(true);
+        if (multipartFile != null && !multipartFile.isEmpty()) {
+            String fileName;
+            if (oldArticleModel.getCoverImage()!= null) {
+                fileName = oldArticleModel.getCoverImage().split("/")[2];
+            } else {
+                fileName = RandomStringUtils.randomAlphanumeric(10) + ".jpeg";
+            }
+            String uploadDir = "user-photos/blog/";
+            try {
+                saveFile(uploadDir, fileName, multipartFile);
+            } catch (IOException e) {
+                Response res = new Response("", true, "Error while updating article!");
+                return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+            }
+            articleModel.setCoverImage(uploadDir + fileName);
+        } else {
+            articleModel.setCoverImage(oldArticleModel.getCoverImage());
+        }
+        articleModel = articleServiceImpl.saveArticle(articleModel);
+        Response res = new Response(articleModel, false, "Article added successfully!");
+        return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+    }
+
     @GetMapping("/fetchAllArticles")
     public ResponseEntity fetchAllArticles() {
         List<Map<String, Object>> articleModelList = articleServiceImpl.fetchAllArticles();
@@ -69,19 +105,34 @@ public class ArticleController {
 
     @GetMapping("/getArticle/{articleId}")
     public ResponseEntity fetchArticle(@PathVariable("articleId") Long id) {
-        Optional<ArticleModel> articleModel = articleServiceImpl.fetchArticle(id);
-        if (articleModel.isEmpty() || !articleModel.get().getActive()) {
+        List<Map<String, Object>> articleModel = articleServiceImpl.fetchArticleDetails(id);
+        if (articleModel.isEmpty()) {
             Response res = new Response("", true, "Error while fetching article!");
             return new ResponseEntity(res.getResponse(), HttpStatus.OK);
         }
-        Response res = new Response(articleModel, false, "Article fetched successfully");
+        Response res = new Response(articleModel.get(0), false, "Article fetched successfully");
+        return new ResponseEntity(res.getResponse(), HttpStatus.OK);
+    }
+
+    @GetMapping("/getArticleWithSuggestion/{articleId}")
+    public ResponseEntity fetchArticleWithSuggestion(@PathVariable("articleId") Long id) {
+        List<Map<String, Object>> articleModel = articleServiceImpl.fetchArticleDetails(id);
+        if (articleModel.isEmpty()) {
+            Response res = new Response("", true, "Error while fetching article!");
+            return new ResponseEntity(res.getResponse(), HttpStatus.OK);
+        }
+        List<Map<String, Object>> suggestionList = articleServiceImpl.fetchLatestArticles(id);
+        List<Object> objectList = new ArrayList<>();
+        objectList.add(articleModel.get(0));
+        objectList.add(suggestionList);
+        Response res = new Response(objectList, false, "Article fetched successfully");
         return new ResponseEntity(res.getResponse(), HttpStatus.OK);
     }
 
     @GetMapping("/deleteArticle/{articleId}")
     public ResponseEntity deleteArticle(@PathVariable("articleId") Long id) {
-        Optional<ArticleModel> articleModel = articleServiceImpl.fetchArticle(id);
-        if (articleModel.isEmpty() || !articleModel.get().getActive()) {
+        Optional<ArticleModel> articleModel = articleServiceImpl.fetchArticleModel(id);
+        if (articleModel.isEmpty()) {
             Response res = new Response("", true, "Error while deleting article!");
             return new ResponseEntity(res.getResponse(), HttpStatus.OK);
         }
