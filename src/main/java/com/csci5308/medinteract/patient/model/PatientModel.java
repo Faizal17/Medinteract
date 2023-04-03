@@ -50,9 +50,9 @@ public class PatientModel {
         return emailToken;
     }
 
-    public void setEmailToken(String emailToken) {
-        this.emailToken = emailToken;
-    }
+//    public void setEmailToken(String emailToken) {
+//        this.emailToken = emailToken;
+//    }
 
     @NotBlank
     @NotNull
@@ -92,33 +92,33 @@ public class PatientModel {
     public PatientModel() {
     }
 
-    public PatientModel(String patientEmail, Long patientAddressCity, String patientPassword) {
-        this.patientEmail = patientEmail;
-        this.patientAddressCity = patientAddressCity;
-        this.patientPassword = patientPassword;
-    }
+//    public PatientModel(String patientEmail, Long patientAddressCity, String patientPassword) {
+//        this.patientEmail = patientEmail;
+//        this.patientAddressCity = patientAddressCity;
+//        this.patientPassword = patientPassword;
+//    }
 
-    public PatientModel(Long id, String patientEmail, String patientPassword) {
-        this.id = id;
-        this.patientEmail = patientEmail;
-        this.patientPassword = patientPassword;
-    }
+//    public PatientModel(Long id, String patientEmail, String patientPassword) {
+//        this.id = id;
+//        this.patientEmail = patientEmail;
+//        this.patientPassword = patientPassword;
+//    }
 
-    public PatientModel(String patientEmail, String patientName, @NotBlank @NotNull Long patientAddressProvince, Long patientAddressCity, String patientAddressPostalCode, String patientAddressStreet, char patientGender, Date patientDOB, String patientMobileNumber, boolean isActive, String patientPassword, String emailToken, boolean isEnabled) {
-        this.patientEmail = patientEmail;
-        this.patientName = patientName;
-        this.patientAddressProvince = patientAddressProvince;
-        this.patientAddressCity = patientAddressCity;
-        this.patientAddressPostalCode = patientAddressPostalCode;
-        this.patientAddressStreet = patientAddressStreet;
-        this.patientGender = patientGender;
-        this.patientDOB = patientDOB;
-        this.patientMobileNumber = patientMobileNumber;
-        this.isActive = true;
-        this.patientPassword = patientPassword;
-        this.emailToken = emailToken;
-        this.isBlocked = isEnabled;
-    }
+//    public PatientModel(String patientEmail, String patientName, @NotBlank @NotNull Long patientAddressProvince, Long patientAddressCity, String patientAddressPostalCode, String patientAddressStreet, char patientGender, Date patientDOB, String patientMobileNumber, boolean isActive, String patientPassword, String emailToken, boolean isEnabled) {
+//        this.patientEmail = patientEmail;
+//        this.patientName = patientName;
+//        this.patientAddressProvince = patientAddressProvince;
+//        this.patientAddressCity = patientAddressCity;
+//        this.patientAddressPostalCode = patientAddressPostalCode;
+//        this.patientAddressStreet = patientAddressStreet;
+//        this.patientGender = patientGender;
+//        this.patientDOB = patientDOB;
+//        this.patientMobileNumber = patientMobileNumber;
+//        this.isActive = true;
+//        this.patientPassword = patientPassword;
+//        this.emailToken = emailToken;
+//        this.isBlocked = isEnabled;
+//    }
 
     public String getPatientName() {
         return patientName;
