@@ -37,7 +37,7 @@ public class ArticleModel {
         this.title = title;
     }
 
-    public byte[] setContent() {
+    public byte[] getContent() {
         return content;
     }
 
