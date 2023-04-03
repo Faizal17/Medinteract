@@ -30,17 +30,17 @@ public class ProvinceModel {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
 
     public String getAbbrv() {
         return abbrv;
     }
 
-    public void setAbbrv(String abbrv) {
-        this.abbrv = abbrv;
-    }
+//    public void setAbbrv(String abbrv) {
+//        this.abbrv = abbrv;
+//    }
 
     public String getName() {
         return name;
@@ -54,16 +54,16 @@ public class ProvinceModel {
         return cities;
     }
 
-    public void setCities(List<CityModel> cities) {
-        this.cities = cities;
-    }
+//    public void setCities(List<CityModel> cities) {
+//        this.cities = cities;
+//    }
 
     public boolean getIsActive() {
         return isActive;
     }
 
-    public void setIsActive(boolean active) {
-        isActive = active;
-    }
+//    public void setIsActive(boolean active) {
+//        isActive = active;
+//    }
 
 }
