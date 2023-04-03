@@ -23,10 +23,10 @@ public class PrescriptionServiceImpl implements PrescriptionService {
         return prescriptionRepository.save(prescriptionModel);
     }
 
-    @Override
-    public PrescriptionModel findPrescriptionById(Long prescriptionId) {
-        return prescriptionRepository.getByPrescriptionId(prescriptionId);
-    }
+//    @Override
+//    public PrescriptionModel findPrescriptionById(Long prescriptionId) {
+//        return prescriptionRepository.getByPrescriptionId(prescriptionId);
+//    }
 
     @Override
     public Iterable<PrescriptionModel> findAllPrescription() {

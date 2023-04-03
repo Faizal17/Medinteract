@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface PrescriptionService {
 
     PrescriptionModel savePrescription(PrescriptionModel prescriptionModel);
-    PrescriptionModel findPrescriptionById(Long prescriptionId);
+//    PrescriptionModel findPrescriptionById(Long prescriptionId);
     Iterable<PrescriptionModel> findAllPrescription();
 
     Optional<List<PrescriptionModel>> fetchPrescription(Long id);

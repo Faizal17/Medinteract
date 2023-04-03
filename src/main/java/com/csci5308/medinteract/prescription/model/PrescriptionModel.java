@@ -35,28 +35,28 @@ public class PrescriptionModel {
     public PrescriptionModel(){}
 
 
-    public PrescriptionModel(Long patientId, Long doctorId, LocalDateTime prescriptionTime, List<MedicineModel> medicines) {
-        this.patientId = patientId;
-        this.doctorId = doctorId;
-        this.prescriptionTime = prescriptionTime;
-        this.medicines = medicines;
-    }
+//    public PrescriptionModel(Long patientId, Long doctorId, LocalDateTime prescriptionTime, List<MedicineModel> medicines) {
+//        this.patientId = patientId;
+//        this.doctorId = doctorId;
+//        this.prescriptionTime = prescriptionTime;
+//        this.medicines = medicines;
+//    }
 
     public Long getId() {
         return prescriptionId;
     }
 
-    public void setId(Long id) {
-        this.prescriptionId = id;
-    }
+//    public void setId(Long id) {
+//        this.prescriptionId = id;
+//    }
 
     public Long getPrescriptionId() {
         return prescriptionId;
     }
 
-    public void setPrescriptionId(Long prescriptionId) {
-        this.prescriptionId = prescriptionId;
-    }
+//    public void setPrescriptionId(Long prescriptionId) {
+//        this.prescriptionId = prescriptionId;
+//    }
 
     public Long getPatientId() {
         return patientId;
@@ -70,9 +70,9 @@ public class PrescriptionModel {
         return medicines;
     }
 
-    public void setMedicines(List<MedicineModel> medicines) {
-        this.medicines = medicines;
-    }
+//    public void setMedicines(List<MedicineModel> medicines) {
+//        this.medicines = medicines;
+//    }
 
     public Long getDoctorId() {
         return doctorId;
@@ -86,7 +86,7 @@ public class PrescriptionModel {
         return prescriptionTime;
     }
 
-    public void setPrescriptionTime(LocalDateTime prescriptionTime) {
-        this.prescriptionTime = prescriptionTime;
-    }
+//    public void setPrescriptionTime(LocalDateTime prescriptionTime) {
+//        this.prescriptionTime = prescriptionTime;
+//    }
 }
