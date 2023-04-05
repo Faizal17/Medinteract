@@ -4,19 +4,37 @@ import com.csci5308.medinteract.medicine.model.MedicineModel;
 import com.csci5308.medinteract.prescription.model.PrescriptionModel;
 import com.csci5308.medinteract.prescription.repository.PrescriptionRepository;
 import com.csci5308.medinteract.prescription.service.PrescriptionService;
+import com.csci5308.medinteract.utilities.Response;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.aspectj.lang.annotation.Before;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
+import static org.springframework.http.RequestEntity.post;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -30,8 +48,13 @@ public class PrescriptionControllerTestUT {
     @Mock
     private PrescriptionRepository prescriptionRepository;
 
+    @InjectMocks
+    private PrescriptionController prescriptionController;
+
     @MockBean
     private PrescriptionService prescriptionService;
+
+    private String url = "http://localhost:6969/prescription/";
 
     @Test
     public void testFetchAllPrescriptions() throws Exception {
@@ -56,4 +79,38 @@ public class PrescriptionControllerTestUT {
         mockMvc.perform(get("/prescription/fetchAll"))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    public void testFetchPrescriptionByPatientId() throws Exception {
+        Long patientId = 101L;
+        List<PrescriptionModel> prescriptionModelList = new ArrayList<>();
+        prescriptionModelList.add(new PrescriptionModel());
+        Optional<List<PrescriptionModel>> optionalList = Optional.of(prescriptionModelList);
+        Mockito.when(prescriptionService.fetchPrescription(patientId)).thenReturn(optionalList);
+
+        mockMvc.perform(get(url + "fetch/" + patientId)).andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.msg").value("Prescription details fetched Successfully!"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.isError").value("false"));
+    }
+
+    @Test
+    public void testAddPrescription() throws Exception {
+        PrescriptionModel prescriptionModel = new PrescriptionModel();
+        prescriptionModel.setPatientId(1L);
+        prescriptionModel.setDoctorId(2L);
+        LocalDateTime prescriptionTime = LocalDateTime.now();
+        prescriptionModel.setPrescriptionTime(prescriptionTime);
+        List<MedicineModel> medicineModels = new ArrayList<>();
+        MedicineModel medicineModel = new MedicineModel();
+        medicineModel.setMedicineName("Medicine 1");
+        medicineModels.add(medicineModel);
+        prescriptionModel.setMedicines(medicineModels);
+
+        Mockito.when(prescriptionService.savePrescription(any(PrescriptionModel.class)))
+                .thenAnswer((Answer<?>) invocation -> {
+                    Object[] args = invocation.getArguments();
+                    return (PrescriptionModel) args[0];
+                });
+    }
+
 }
