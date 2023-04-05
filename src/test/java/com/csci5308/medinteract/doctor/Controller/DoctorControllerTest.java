@@ -2,25 +2,52 @@ package com.csci5308.medinteract.doctor.Controller;
 
 import com.csci5308.medinteract.utilities.TestUtil;
 import com.jayway.jsonpath.JsonPath;
+import org.apache.catalina.core.ApplicationPart;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.mock.web.MockPart;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-
+@WebAppConfiguration
+@ContextConfiguration
 @SpringBootTest
 @AutoConfigureMockMvc
 class DoctorControllerTest {
-
+    @Autowired
+    private WebApplicationContext webApplicationContext;
 
     @Autowired
     private MockMvc mockMvc;
@@ -32,7 +59,7 @@ class DoctorControllerTest {
                     .andExpect(jsonPath("$.msg").value("All doctors fetched Successfully!"))
                     .andExpect(jsonPath("$.isError").value("false"));
 
-}
+    }
 
     @Test
     void registerNewDoctor() throws Exception {
@@ -107,43 +134,6 @@ class DoctorControllerTest {
     }
 
     @Test
-    void fetchDoctorsOnCity() throws Exception {
-
-        JSONObject obj = new JSONObject();
-
-
-        obj.put("doctorAddressCity", 1);
-
-        String json = obj.toString();
-
-        System.out.println(json);
-        mockMvc.perform(post("http://localhost:6969/doctor/city")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(json))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.msg").value("Doctor in City found successfully!"))
-                .andExpect(jsonPath("$.isError").value("false"));
-
-    }
-
-    @Test
-    void fetchDoctorsOnProvince() throws Exception {
-        JSONObject obj = new JSONObject();
-        obj.put("doctorEmail", "maulvifaizal@gmail.com");
-
-        String json = obj.toString();
-        String apiURL = "/doctor/province";
-        MvcResult mvcResult = TestUtil.getResultFromPostAPI(apiURL,json,mockMvc);
-        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if(mvcResult.getResponse().getStatus()==200)
-        {
-            assertFalse(isError);
-        }
-
-    }
-
-
-    @Test
     void getDoctorById() throws Exception {
         int doctorId = 37;
         mockMvc.perform(get("http://localhost:6969/doctor/profile/"+doctorId))
@@ -161,61 +151,86 @@ class DoctorControllerTest {
                 .andExpect(jsonPath("$.isError").value("true"));
     }
 
-
     @Test
-    void fetchDoctorsOnName() throws Exception {
+    void updateDoctorById() throws Exception {
+        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         JSONObject obj = new JSONObject();
-
-
-        obj.put("doctorName", "faizal");
-
+        obj.put("doctorEmail", "ddd@gmail.com");
+        obj.put("doctorPassword","abc");
+        obj.put("id", "1421");
         String json = obj.toString();
-
-        System.out.println(json);
-        mockMvc.perform(post("http://localhost:6969/doctor/name")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(json))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.msg").value("Doctor by name found successfully!"))
-                .andExpect(jsonPath("$.isError").value("false"));
-
+        formData.add("objectData", json);
+        String apiURL = "/doctor/updateProfile";
+        File file = new File("./src/test/resources/JLmd2P5uty.jpeg");
+        FileInputStream fileInputStream = new FileInputStream(file);
+        MockMultipartFile multipartFile = new MockMultipartFile("profileImage", file.getName(), "image/jpeg", fileInputStream);
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        MvcResult mvcResult = TestUtil.getResultFromPostMultiFormAPI(apiURL, "objectData", formData, multipartFile, mockMvc);
+        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
+        if(mvcResult.getResponse().getStatus()==200)
+        {
+            assertFalse(isError);
+        }
     }
 
     @Test
-    void fetchDoctorsOnQualification() throws Exception {
+    void updateDoctorByIdWithoutImage() throws Exception {
+        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         JSONObject obj = new JSONObject();
-
-
-        obj.put("doctorQualification", "string");
-
+        obj.put("doctorEmail", "ddd@gmail.com");
+        obj.put("doctorPassword","abc");
+        obj.put("id", "1421");
         String json = obj.toString();
-
-        System.out.println(json);
-        mockMvc.perform(post("http://localhost:6969/doctor/qualification")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(json))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.msg").value("Doctor by qualification found successfully!"))
-                .andExpect(jsonPath("$.isError").value("false"));
+        formData.add("objectData", json);
+        String apiURL = "/doctor/updateProfile";
+//        File file = new File("./src/test/resources/JLmd2P5uty.jpeg");
+//        FileInputStream fileInputStream = new FileInputStream(file);
+//        MockMultipartFile multipartFile = new MockMultipartFile("profileImage", file.getName(), "image/jpeg", fileInputStream);
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        MvcResult mvcResult = TestUtil.getResultFromPostMultiFormAPI(apiURL, "objectData", formData, null, mockMvc);
+        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
+        if(mvcResult.getResponse().getStatus()==200)
+        {
+            assertFalse(isError);
+        }
     }
 
     @Test
-    void deleteDoctorById() throws Exception {
+    void updateDoctorByInvalidId() throws Exception {
+        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+//        formData.add("doctorEmail", "ddd@gmail.com");
+//        formData.add("doctorPassword","abc");
+//        formData.add("id", "-1");
 
-       int doctorID = 11;
+//        Map<String, String> formData = new HashMap<>();
+//        formData.put("doctorEmail", "ddd@gmail.com");
+//        formData.put("doctorPassword","abc");
+//        formData.put("id", "-1");
 
-        mockMvc.perform(delete("http://localhost:6969/doctor/"+doctorID))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.msg").value("User deleted Successfully!"))
-                .andExpect(jsonPath("$.isError").value("false"));
+        JSONObject obj = new JSONObject();
+        obj.put("doctorEmail", "ddd@gmail.com");
+        obj.put("doctorPassword","abc");
+        obj.put("id", "-1");
+        String json = obj.toString();
+        formData.add("objectData", json);
+        String apiURL = "/doctor/updateProfile";
+//        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+//        MockPart part = new MockPart("profileImage", "JLmd2P5uty.jpeg", Files.readAllBytes(Paths.get("./src/test/resources/JLmd2P5uty.jpeg")));
+//        body.add("profileImage", new ClassPathResource("JLmd2P5uty.jpeg"));
+        File file = new File("./src/test/resources/JLmd2P5uty.jpeg");
+        FileInputStream fileInputStream = new FileInputStream(file);
+        MockMultipartFile multipartFile = new MockMultipartFile("profileImage", file.getName(), "image/jpeg", fileInputStream);
 
-    }
-
-    @Test
-    void updateDoctorById() {
-
-
-
+// create an ApplicationPart object from the mock file
+//        ApplicationPart applicationPart = new ApplicationPart(multipartFile, file);
+//        body.add("profileImage", part);
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        MvcResult mvcResult = TestUtil.getResultFromPostMultiFormAPI(apiURL, "objectData", formData, multipartFile, mockMvc);
+        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
+        if(mvcResult.getResponse().getStatus()==200)
+        {
+            assertTrue(isError);
+        }
     }
 
     @Test
@@ -292,44 +307,12 @@ class DoctorControllerTest {
     }
 
     @Test
-    void fetchDoctorsOnDetails() throws Exception {
-        JSONObject obj = new JSONObject();
-        obj.put("doctorEmail", "maulvifaizal@gmail.com");
-
-        String json = obj.toString();
-        String apiURL = "/doctor/get_doctor_on_doctor_details";
-        MvcResult mvcResult = TestUtil.getResultFromPostAPI(apiURL,json,mockMvc);
-        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if(mvcResult.getResponse().getStatus()==200)
-        {
-            assertFalse(isError);
-        }
-
-    }
-
-    @Test
     void findDoctorOnDetailsWithCity() throws Exception {
         JSONObject obj = new JSONObject();
         obj.put("doctorEmail", "maulvifaizal@gmail.com");
 
         String json = obj.toString();
         String apiURL = "/doctor/get_doctor_on_details_and_city";
-        MvcResult mvcResult = TestUtil.getResultFromPostAPI(apiURL,json,mockMvc);
-        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if(mvcResult.getResponse().getStatus()==200)
-        {
-            assertFalse(isError);
-        }
-
-    }
-
-    @Test
-    void findDoctorOnDetailsWithCityAndFeedback() throws Exception {
-        JSONObject obj = new JSONObject();
-        obj.put("doctorAddressCity", 2);
-
-        String json = obj.toString();
-        String apiURL = "/doctor/get_doctor_on_details_and_city_with_feedback";
         MvcResult mvcResult = TestUtil.getResultFromPostAPI(apiURL,json,mockMvc);
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
         if(mvcResult.getResponse().getStatus()==200)

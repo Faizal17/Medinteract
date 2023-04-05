@@ -13,7 +13,6 @@ import java.util.*;
 
 @Service
 public class DoctorServiceImpl implements DoctorService {
-
     private final DoctorRepository doctorRepository;
 
     @Autowired
@@ -29,11 +28,6 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public DoctorModel saveDoctor(DoctorModel doctorModel) {
         return doctorRepository.save(doctorModel);
-    }
-
-    @Override
-    public Optional<DoctorModel> findById(Long id) {
-        return doctorRepository.findById(id);
     }
 
     @Override
@@ -70,79 +64,14 @@ public class DoctorServiceImpl implements DoctorService {
         return false;
     }
 
+    @Override
     public String encodePassword(String password) throws Exception {
-        System.out.println("password to encode : " + password);
         return PasswordEncodeDecode.encrypt(password);
     }
 
-    public List<DoctorModel> fetchDoctorsOnCity(DoctorModel doctorModel) {
-        Long cityId = doctorModel.getDoctorAddressCity();
-        return doctorRepository.findByDoctorAddressCity(cityId);
-    }
-
-    public List<DoctorModel> fetchDoctorsOnProvince(DoctorModel doctorModel) {
-        Long provinceId = doctorModel.getDoctorAddressProvince();
-        return doctorRepository.findByDoctorAddressProvince(provinceId);
-    }
-
-    public List<DoctorModel> fetchDoctorsOnName(DoctorModel doctorModel) {
-        String name = doctorModel.getDoctorName();
-        return doctorRepository.findByDoctorNameContaining(name);
-    }
-
-    public List<DoctorModel> fetchDoctorsOnQualification(DoctorModel doctorModel) {
-        String qualification = doctorModel.getDoctorQualification();
-        return doctorRepository.findByDoctorQualificationContaining(qualification);
-    }
-
     @Override
-    public List<DoctorModel> getAllDoctors() {
-        return doctorRepository.findAll();
-    }
-
     public Optional<DoctorModel> getDoctorById(Long id) {
         return doctorRepository.findById(id);
-    }
-
-    @Override
-    public void deleteDoctorById(Long id) {
-        doctorRepository.deleteById(id);
-    }
-
-    @Transactional
-    public void updateDoctorById(
-            Long id,
-            String new_doctorName,
-            String new_doctorAddressPostalCode,
-            String new_doctorAddressStreet,
-            String new_doctorMobileNumber) {
-
-        DoctorModel doctorModel = doctorRepository.findById(id).orElseThrow(() -> new IllegalStateException(
-                "Doctor with id " + id + " does not exist"));
-
-        // Update name:
-        if (new_doctorName != null && new_doctorName.length() > 0 &&
-                !Objects.equals(doctorModel.getDoctorName(), new_doctorName)) {
-            doctorModel.setDoctorName(new_doctorName);
-        }
-
-        // Update AddressPostalCode:
-        if (new_doctorAddressPostalCode != null && new_doctorAddressPostalCode.length() > 0 &&
-                !Objects.equals(doctorModel.getDoctorAddressPostalCode(), new_doctorAddressPostalCode)) {
-            doctorModel.setDoctorAddressPostalCode(new_doctorAddressPostalCode);
-        }
-
-        // Update AddressStreet:
-        if (new_doctorAddressStreet != null && new_doctorAddressStreet.length() > 0 &&
-                !Objects.equals(doctorModel.getDoctorAddressStreet(), new_doctorAddressStreet)) {
-            doctorModel.setDoctorAddressStreet(new_doctorAddressStreet);
-        }
-
-        // Update MobileNumber:
-        if (new_doctorMobileNumber != null && new_doctorMobileNumber.length() > 0 &&
-                !Objects.equals(doctorModel.getDoctorMobileNumber(), new_doctorMobileNumber)) {
-            doctorModel.setDoctorMobileNumber(new_doctorMobileNumber);
-        }
     }
 
     @Override
@@ -194,14 +123,7 @@ public class DoctorServiceImpl implements DoctorService {
         return doctorRepository.getDoctorModelById(id);
     }
 
-    public List<DoctorModel> getDoctorByDetails(DoctorModel doctorModel) {
-        String name = doctorModel.getDoctorName();
-        Long province = doctorModel.getDoctorAddressProvince();
-        Long city = doctorModel.getDoctorAddressCity();
-        String qualification = doctorModel.getDoctorQualification();
-        return doctorRepository.findByDoctorOnDetails(name, province, city, qualification);
-    }
-
+    @Override
     public List<Map<String, Object>> findDoctorOnDetailsWithCity(DoctorModel doctorModel) {
         String name = doctorModel.getDoctorName();
         Long province = doctorModel.getDoctorAddressProvince();
@@ -225,39 +147,6 @@ public class DoctorServiceImpl implements DoctorService {
             data.put("doctorType", doctorModel1.getDoctorType());
             data.put("doctorQualification", doctorModel1.getDoctorQualification());
             data.put("profilePhoto", doctorModel1.getProfilePicture());
-
-            doctorDetailsList.add(data);
-        }
-
-        return doctorDetailsList;
-    }
-
-    public List<Map<String, Object>> findDoctorOnDetailsWithCityAndFeedback(DoctorModel doctorModel) {
-        String name = doctorModel.getDoctorName();
-        Long province = doctorModel.getDoctorAddressProvince();
-        Long city = doctorModel.getDoctorAddressCity();
-        String qualification = doctorModel.getDoctorQualification();
-        List<Object> doctorModelList = doctorRepository.findDoctorOnDetailsWithCityAndFeedback(name, province, city,
-                qualification);
-        List<Map<String, Object>> doctorDetailsList = new ArrayList<>();
-
-        for (int i = 0; i < doctorModelList.size(); i++) {
-            DoctorModel doctorModel1 = (DoctorModel) (((Object[]) doctorModelList.get(i))[0]);
-            ProvinceModel provinceModel = (ProvinceModel) (((Object[]) doctorModelList.get(i))[1]);
-            CityModel cityModel = (CityModel) (((Object[]) doctorModelList.get(i))[2]);
-            Long feedbackCount = (Long) (((Object[]) doctorModelList.get(i))[3]);
-            Long feedbackAvg = (Long) (((Object[]) doctorModelList.get(i))[4]);
-            Map<String, Object> data = new HashMap<>();
-
-            data.put("id", doctorModel1.getId());
-            data.put("doctorEmail", doctorModel1.getDoctorEmail());
-            data.put("doctorName", doctorModel1.getDoctorName());
-            data.put("doctorAddressProvince", provinceModel.getName());
-            data.put("doctorAddressCity", cityModel.getCity());
-            data.put("doctorType", doctorModel1.getDoctorType());
-            data.put("doctorQualification", doctorModel1.getDoctorQualification());
-            data.put("feebackCount", feedbackCount);
-            data.put("feedbackAverage", feedbackAvg);
 
             doctorDetailsList.add(data);
         }

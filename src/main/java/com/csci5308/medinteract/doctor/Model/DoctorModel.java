@@ -98,45 +98,6 @@ public class DoctorModel {
     public DoctorModel() {
     }
 
-    public DoctorModel(Long id, String doctorEmail, String doctorName, Long doctorAddressProvince, String doctorAddressPostalCode, Long doctorAddressCity, String doctorAddressStreet, char doctorGender, Date doctorDOB, String doctorMobileNumber, boolean isActive, String doctorQualification, String doctorPassword, String emailToken) {
-        this.id = id;
-        this.doctorEmail = doctorEmail;
-        this.doctorName = doctorName;
-        this.doctorAddressProvince = doctorAddressProvince;
-        this.doctorAddressPostalCode = doctorAddressPostalCode;
-        this.doctorAddressCity = doctorAddressCity;
-        this.doctorAddressStreet = doctorAddressStreet;
-        this.doctorGender = doctorGender;
-        this.doctorDOB = doctorDOB;
-        this.doctorMobileNumber = doctorMobileNumber;
-        this.isActive = isActive;
-        this.doctorQualification = doctorQualification;
-        this.doctorPassword = doctorPassword;
-        this.emailToken = emailToken;
-    }
-
-    public DoctorModel(String doctorEmail, String doctorPassword) {
-        this.doctorEmail = doctorEmail;
-        this.doctorPassword = doctorPassword;
-    }
-
-    public DoctorModel(String doctorEmail, String doctorName, Long doctorAddressProvince, String doctorAddressPostalCode, Long doctorAddressCity, String doctorAddressStreet, char doctorGender, Date doctorDOB, String doctorMobileNumber, boolean isActive, String doctorQualification, String doctorPassword, String emailToken, String doctorType) {
-        this.doctorEmail = doctorEmail;
-        this.doctorName = doctorName;
-        this.doctorAddressProvince = doctorAddressProvince;
-        this.doctorAddressPostalCode = doctorAddressPostalCode;
-        this.doctorAddressCity = doctorAddressCity;
-        this.doctorAddressStreet = doctorAddressStreet;
-        this.doctorGender = doctorGender;
-        this.doctorDOB = doctorDOB;
-        this.doctorMobileNumber = doctorMobileNumber;
-        this.isActive = true;
-        this.doctorQualification = doctorQualification;
-        this.doctorPassword = doctorPassword;
-        this.emailToken = emailToken;
-        this.doctorType = doctorType;
-    }
-
     public Long getId() {
         return id;
     }

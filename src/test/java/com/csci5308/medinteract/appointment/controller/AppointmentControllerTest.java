@@ -145,7 +145,6 @@ class AppointmentControllerTest {
 
     }
 
-    //TODO: not hitting the api to fail
     @Test
     void updateAppointmentWithInvalidID() throws Exception {
 
@@ -175,7 +174,7 @@ class AppointmentControllerTest {
         obj.put("startTime", "2023-04-02T04:57:35.886Z");
         obj.put("endTime", "2023-04-02T04:57:35.886Z");
         obj.put("title", "string");
-        obj.put("active", true);
+        obj.put("active", false);
         String json = obj.toString();
         String apiURL = "/appointment/delete";
         MvcResult mvcResult = TestUtil.getResultFromPostAPI(apiURL,json,mockMvc);

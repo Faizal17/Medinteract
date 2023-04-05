@@ -2,7 +2,6 @@ package com.csci5308.medinteract.doctor.Controller;
 
 import com.csci5308.medinteract.doctor.Model.DoctorModel;
 import com.csci5308.medinteract.doctor.Service.DoctorService;
-import com.csci5308.medinteract.prescription.model.PrescriptionModel;
 import com.csci5308.medinteract.utilities.JWT.JWT;
 import com.csci5308.medinteract.utilities.Response;
 import com.google.gson.Gson;
@@ -64,7 +63,6 @@ public class DoctorController {
         }
     }
     @PostMapping("/login")
-
     public ResponseEntity login(@RequestBody DoctorModel doctorModel) throws Exception {
 
         if(doctorServiceImpl.isDoctorValid(doctorModel.getDoctorEmail(),doctorModel.getDoctorPassword()))
@@ -83,24 +81,6 @@ public class DoctorController {
         }
     }
 
-    @PostMapping("/city")
-    public ResponseEntity fetchDoctorsOnCity(@RequestBody DoctorModel doctorModel)
-    //public ResponseEntity fetchDoctorsOnCity(String city)
-    {
-        List<DoctorModel> doctorModelList = doctorServiceImpl.fetchDoctorsOnCity(doctorModel);
-        Response res = new Response(doctorModelList, false, "Doctor in City found successfully!");
-        return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
-    }
-
-    @PostMapping("/province")
-    public ResponseEntity fetchDoctorsOnProvince(@RequestBody DoctorModel doctorModel)
-    {
-        List<DoctorModel> doctorModelList = doctorServiceImpl.fetchDoctorsOnProvince(doctorModel);
-        Response res = new Response(doctorModelList, false, "Doctor in Province  found successfully!");
-        return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
-    }
-
-
     @GetMapping("/profile/{doctorId}")
     public ResponseEntity getDoctorById(@PathVariable("doctorId") Long id){
         Optional<DoctorModel> doctorModel = doctorServiceImpl.getDoctorById(id);
@@ -113,37 +93,12 @@ public class DoctorController {
         return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
     }
 
-    @PostMapping("/name")
-    public ResponseEntity fetchDoctorsOnName(@RequestBody DoctorModel doctorModel)
-    {
-        List<DoctorModel> doctorModelList = doctorServiceImpl.fetchDoctorsOnName(doctorModel);
-        Response res = new Response(doctorModelList, false, "Doctor by name found successfully!");
-        return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
-    }
-
-
-    @PostMapping("/qualification")
-    public ResponseEntity fetchDoctorsOnQualification(@RequestBody DoctorModel doctorModel)
-    {
-        List<DoctorModel> doctorModelList = doctorServiceImpl.fetchDoctorsOnQualification(doctorModel);
-        Response res = new Response(doctorModelList, false, "Doctor by qualification found successfully!");
-        return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
-    }
-
-    @DeleteMapping(path = "/{doctorId}")
-    public ResponseEntity deleteDoctorById(@PathVariable("doctorId") Long id){
-        doctorServiceImpl.deleteDoctorById(id);
-        Response  res = new Response("", false, "User deleted Successfully!");
-        return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
-    }
-
     @PostMapping(path = "/updateProfile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity updateDoctorById(@RequestParam MultiValueMap<String, String> formData, @RequestParam(value = "profileImage",required = false) MultipartFile profileImage) throws IOException {
+    public ResponseEntity updateDoctorById(@RequestParam MultiValueMap<String, String> formData, @RequestParam(value = "profileImage",required = false) MultipartFile profileImage) {
         //get doctorModel from Json
         Gson gson = new Gson();
         DoctorModel updatedDoctorModel = gson.fromJson(formData.getFirst("objectData"), DoctorModel.class);
         Optional<DoctorModel> optionalDoctorModel= doctorServiceImpl.getDoctorById(updatedDoctorModel.getId());
-        System.out.println(optionalDoctorModel.get());
         if(optionalDoctorModel.isEmpty() || !optionalDoctorModel.get().getDoctorEmail().equals(updatedDoctorModel.getDoctorEmail()))
         {
             //doctor already exists
@@ -239,26 +194,11 @@ public class DoctorController {
         Response  res = new Response(prescriptionModelList, false, "Doctor details fetched Successfully!");
         return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
     }
-    @PostMapping("/get_doctor_on_doctor_details")
-    public ResponseEntity fetchDoctorsOnDetails(@RequestBody DoctorModel doctorModel)
-    {
-        List<DoctorModel> doctorModelList = doctorServiceImpl.getDoctorByDetails(doctorModel);
-        Response res = new Response(doctorModelList, false, "Doctor by qualification found successfully!");
-        return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
-    }
 
     @PostMapping("/get_doctor_on_details_and_city")
     public ResponseEntity findDoctorOnDetailsWithCity(@RequestBody DoctorModel doctorModel)
     {
         List<Map<String, Object>> doctorModelList = doctorServiceImpl.findDoctorOnDetailsWithCity(doctorModel);
-        Response res = new Response(doctorModelList, false, "Doctor by qualification found successfully!");
-        return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
-    }
-
-    @PostMapping("/get_doctor_on_details_and_city_with_feedback")
-    public ResponseEntity findDoctorOnDetailsWithCityAndFeedback(@RequestBody DoctorModel doctorModel)
-    {
-        List<Map<String, Object>> doctorModelList = doctorServiceImpl.findDoctorOnDetailsWithCityAndFeedback(doctorModel);
         Response res = new Response(doctorModelList, false, "Doctor by qualification found successfully!");
         return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
     }

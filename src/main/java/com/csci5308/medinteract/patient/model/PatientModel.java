@@ -92,34 +92,6 @@ public class PatientModel {
     public PatientModel() {
     }
 
-//    public PatientModel(String patientEmail, Long patientAddressCity, String patientPassword) {
-//        this.patientEmail = patientEmail;
-//        this.patientAddressCity = patientAddressCity;
-//        this.patientPassword = patientPassword;
-//    }
-
-//    public PatientModel(Long id, String patientEmail, String patientPassword) {
-//        this.id = id;
-//        this.patientEmail = patientEmail;
-//        this.patientPassword = patientPassword;
-//    }
-
-//    public PatientModel(String patientEmail, String patientName, @NotBlank @NotNull Long patientAddressProvince, Long patientAddressCity, String patientAddressPostalCode, String patientAddressStreet, char patientGender, Date patientDOB, String patientMobileNumber, boolean isActive, String patientPassword, String emailToken, boolean isEnabled) {
-//        this.patientEmail = patientEmail;
-//        this.patientName = patientName;
-//        this.patientAddressProvince = patientAddressProvince;
-//        this.patientAddressCity = patientAddressCity;
-//        this.patientAddressPostalCode = patientAddressPostalCode;
-//        this.patientAddressStreet = patientAddressStreet;
-//        this.patientGender = patientGender;
-//        this.patientDOB = patientDOB;
-//        this.patientMobileNumber = patientMobileNumber;
-//        this.isActive = true;
-//        this.patientPassword = patientPassword;
-//        this.emailToken = emailToken;
-//        this.isBlocked = isEnabled;
-//    }
-
     public String getPatientName() {
         return patientName;
     }
@@ -210,26 +182,4 @@ public class PatientModel {
     public void setId(Long id) {
         this.id = id;
     }
-
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        Patient patient = (Patient) o;
-//        return Objects.equals(id, patient.id) && Objects.equals(patientEmail, patient.patientEmail) && Objects.equals(patientPassword, patient.patientPassword);
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "Patient{" +
-//                "id=" + id +
-//                ", patientEmail='" + patientEmail + '\'' +
-//                '}';
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(id, patientEmail, patientPassword);
-//
-//    }
 }

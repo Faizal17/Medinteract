@@ -7,17 +7,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.context.WebApplicationContext;
+
+import java.io.File;
+import java.io.FileInputStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@WebAppConfiguration
+@ContextConfiguration
 @SpringBootTest
 @AutoConfigureMockMvc
 class PatientControllerTest {
+    @Autowired
+    private WebApplicationContext webApplicationContext;
 
     @Autowired
     private MockMvc mockMvc;
@@ -78,17 +92,7 @@ class PatientControllerTest {
     }
 
     @Test
-    void deletePatientById() throws Exception {
-        int patientID = 11;
-        MvcResult mvcResult =  mockMvc.perform(delete("/patient/"+patientID)).andReturn();
-        assertEquals(200,mvcResult.getResponse().getStatus());
-    }
-
-    @Test
     void registerNewPatient() throws Exception {
-
-
-
         JSONObject obj = new JSONObject();
         obj.put("patientEmail","patientName@gmail.com");
         obj.put("patientPassword","password");
@@ -115,7 +119,67 @@ class PatientControllerTest {
     }
 
     @Test
-    void updatePatientById() {
+    void updateDoctorById() throws Exception {
+        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+        JSONObject obj = new JSONObject();
+        obj.put("patientEmail","patientName@gmail.com");
+        obj.put("patientPassword","password");
+        obj.put("id", "1715");
+        String json = obj.toString();
+        formData.add("objectData", json);
+        String apiURL = "/patient/updateProfile";
+        File file = new File("./src/test/resources/JLmd2P5uty.jpeg");
+        FileInputStream fileInputStream = new FileInputStream(file);
+        MockMultipartFile multipartFile = new MockMultipartFile("profileImage", file.getName(), "image/jpeg", fileInputStream);
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        MvcResult mvcResult = TestUtil.getResultFromPostMultiFormAPI(apiURL, "objectData", formData, multipartFile, mockMvc);
+        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
+        if(mvcResult.getResponse().getStatus()==200)
+        {
+            assertFalse(isError);
+        }
+    }
+
+    @Test
+    void updateDoctorByIdWithoutImage() throws Exception {
+        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+        JSONObject obj = new JSONObject();
+        obj.put("patientEmail","patientName@gmail.com");
+        obj.put("patientPassword","password");
+        obj.put("id", "1715");
+        String json = obj.toString();
+        formData.add("objectData", json);
+        String apiURL = "/patient/updateProfile";
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        MvcResult mvcResult = TestUtil.getResultFromPostMultiFormAPI(apiURL, "objectData", formData, null, mockMvc);
+        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
+        if(mvcResult.getResponse().getStatus()==200)
+        {
+            assertFalse(isError);
+        }
+    }
+
+    @Test
+    void updateDoctorByInvalidId() throws Exception {
+        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+
+        JSONObject obj = new JSONObject();
+        obj.put("patientEmail","patientName@gmail.com");
+        obj.put("patientPassword","password");
+        obj.put("id", "-1");
+        String json = obj.toString();
+        formData.add("objectData", json);
+        String apiURL = "/patient/updateProfile";
+        File file = new File("./src/test/resources/JLmd2P5uty.jpeg");
+        FileInputStream fileInputStream = new FileInputStream(file);
+        MockMultipartFile multipartFile = new MockMultipartFile("profileImage", file.getName(), "image/jpeg", fileInputStream);
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        MvcResult mvcResult = TestUtil.getResultFromPostMultiFormAPI(apiURL, "objectData", formData, multipartFile, mockMvc);
+        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
+        if(mvcResult.getResponse().getStatus()==200)
+        {
+            assertTrue(isError);
+        }
     }
 
 

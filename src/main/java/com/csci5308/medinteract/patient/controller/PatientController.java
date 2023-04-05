@@ -84,12 +84,6 @@ public class PatientController {
         }
     }
 
-//
-//    @GetMapping("/profile")
-//    public List<PatientModel> getPatients(){
-//        return patientServiceImpl.getPatients();
-//    }
-
     @GetMapping("/profile/{patientId}")
     public ResponseEntity getPatientById(@PathVariable("patientId") Long id){
         Optional<PatientModel> patientModel= patientServiceImpl.getPatientById(id);
@@ -102,20 +96,12 @@ public class PatientController {
         return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "/{patientId}")
-    public ResponseEntity deletePatientById(@PathVariable("patientId") Long id){
-        patientServiceImpl.deletePatientById(id);
-        Response  res = new Response("", false, "User deleted Successfully!");
-        return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
-    }
-
     @PostMapping(path = "/updateProfile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity updatePatientById(@RequestParam MultiValueMap<String, String> formData, @RequestParam(value = "profileImage",required = false) MultipartFile profileImage) throws IOException {
         //get patientModel from Json
         Gson gson = new Gson();
         PatientModel updatedPatientModel = gson.fromJson(formData.getFirst("objectData"), PatientModel.class);
         Optional<PatientModel> optionalPatientModel= patientServiceImpl.getPatientById(updatedPatientModel.getId());
-        System.out.println(optionalPatientModel.get());
         if(optionalPatientModel.isEmpty() || !optionalPatientModel.get().getPatientEmail().equals(updatedPatientModel.getPatientEmail()))
         {
             //patient already exists

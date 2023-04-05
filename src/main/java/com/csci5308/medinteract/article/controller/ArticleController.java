@@ -2,6 +2,10 @@ package com.csci5308.medinteract.article.controller;
 
 import com.csci5308.medinteract.article.model.ArticleModel;
 import com.csci5308.medinteract.article.service.ArticleService;
+import com.csci5308.medinteract.doctor.Controller.DoctorController;
+import com.csci5308.medinteract.doctor.Model.DoctorModel;
+import com.csci5308.medinteract.doctor.Service.DoctorService;
+import com.csci5308.medinteract.patient.model.PatientModel;
 import com.csci5308.medinteract.utilities.LocalDateTimeDeserializer;
 import com.csci5308.medinteract.utilities.Response;
 import com.google.gson.*;
@@ -28,15 +32,23 @@ import static com.csci5308.medinteract.utilities.FileUploader.saveFile;
 public class ArticleController {
     private final ArticleService articleServiceImpl;
 
+    private final DoctorService doctorServiceImpl;
+
     @Autowired
-    public ArticleController(ArticleService articleServiceImpl) {
+    public ArticleController(ArticleService articleServiceImpl, DoctorService doctorServiceImpl) {
         this.articleServiceImpl = articleServiceImpl;
+        this.doctorServiceImpl = doctorServiceImpl;
     }
 
     @PostMapping(path = "/addArticle", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity addArticle(@RequestParam MultiValueMap<String, String> formData, @RequestParam(value = "content") String content, @RequestParam(value = "coverImage") MultipartFile multipartFile) {
         Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer()).create();
         ArticleModel articleModel = gson.fromJson(formData.getFirst("objectData"), ArticleModel.class);
+        Optional<DoctorModel> doctorModel = doctorServiceImpl.getDoctorById(articleModel.getDoctorId());
+        if (doctorModel.isEmpty()) {
+            Response res = new Response("", true, "An unknown error occurred!");
+            return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+        }
         String fileName = RandomStringUtils.randomAlphanumeric(10) + ".jpeg";
 //        StringUtils.cleanPath(multipartFile.getOriginalFilename())
         String uploadDir = "user-photos/blog/";
@@ -58,6 +70,11 @@ public class ArticleController {
     public ResponseEntity updateArticle(@RequestParam MultiValueMap<String, String> formData, @RequestParam(value = "content") String content, @RequestParam(value = "coverImage", required = false) MultipartFile multipartFile) {
         Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer()).create();
         ArticleModel articleModel = gson.fromJson(formData.getFirst("objectData"), ArticleModel.class);
+        Optional<DoctorModel> doctorModel = doctorServiceImpl.getDoctorById(articleModel.getDoctorId());
+        if (doctorModel.isEmpty()) {
+            Response res = new Response("", true, "An unknown error occurred!");
+            return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+        }
         Optional<ArticleModel> fetchArticleModel = articleServiceImpl.fetchArticleModel(articleModel.getId());
         if(fetchArticleModel.isEmpty()) {
             Response res = new Response(null, true, "Unable to update article!");
