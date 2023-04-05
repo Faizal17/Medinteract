@@ -112,7 +112,17 @@ public class MedicineModel {
         return medicineId;
     }
 
-//    public void setMedicineId(Long prescriptionId) {
-//        this.medicineId = prescriptionId;
-//    }
+    public void setMedicineId(Long prescriptionId) {
+        this.medicineId = prescriptionId;
+    }
+
+    public MedicineModel(Long medicineId, String medicineName, int medicineAmount, boolean isMorning, boolean isAfternoon, boolean isEvening, String additionalNotes) {
+        this.medicineId = medicineId;
+        this.medicineName = medicineName;
+        this.medicineAmount = medicineAmount;
+        this.isMorning = isMorning;
+        this.isAfternoon = isAfternoon;
+        this.isEvening = isEvening;
+        this.additionalNotes = additionalNotes;
+    }
 }

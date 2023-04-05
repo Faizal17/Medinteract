@@ -2,7 +2,6 @@ package com.csci5308.medinteract.medicine.controller;
 
 import com.csci5308.medinteract.medicine.model.MedicineModel;
 import com.csci5308.medinteract.medicine.service.MedicineService;
-import com.csci5308.medinteract.prescription.model.PrescriptionModel;
 import com.csci5308.medinteract.utilities.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,22 +19,15 @@ public class MedicineController {
         this.medicineService = medicineService;
     }
 
-    @PostMapping("/addMedicines")
-    public ResponseEntity addMedicines(@RequestBody MedicineModel medicineModel) throws Exception {
-        medicineService.saveMedicine(medicineModel);
-        Response res = new Response(medicineModel, false, "Medicines added Successfully!");
-        return  new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
-    }
-
     @GetMapping("/fetchAll")
     public Iterable<MedicineModel> fetchAll() {
         return medicineService.findAllMedicine();
     }
 
     @GetMapping("/fetch/{medicineId}")
-    public ResponseEntity getPrescriptionById(@PathVariable("medicineId") Long id){
+    public ResponseEntity getMedicineById(@PathVariable("medicineId") Long id){
         Optional<MedicineModel> medicineModel = Optional.ofNullable(medicineService.findMedicineById(id));
-        Response  res = new Response(medicineModel, false, "Prescription details fetched Successfully!");
+        Response  res = new Response(medicineModel, false, "Medicines details fetched Successfully!");
         return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
     }
 }
