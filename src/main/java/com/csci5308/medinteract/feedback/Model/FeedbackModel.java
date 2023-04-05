@@ -77,6 +77,13 @@ public class FeedbackModel {
 //        this.patientId = patientId;
 //    }
 
+    public FeedbackModel(long rating, long doctorId, long patientId)
+    {
+        this.rating = rating;
+        this.doctorId = doctorId;
+        this.patientId = patientId;
+    }
+
     public FeedbackModel() {
     }
 

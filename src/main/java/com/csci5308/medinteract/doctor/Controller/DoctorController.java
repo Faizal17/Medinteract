@@ -199,7 +199,16 @@ public class DoctorController {
     public ResponseEntity findDoctorOnDetailsWithCity(@RequestBody DoctorModel doctorModel)
     {
         List<Map<String, Object>> doctorModelList = doctorServiceImpl.findDoctorOnDetailsWithCity(doctorModel);
-        Response res = new Response(doctorModelList, false, "Doctor by qualification found successfully!");
+        Response res = new Response(doctorModelList, false, "Doctor by details found successfully!");
         return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
     }
-}
+<<<<<<< HEAD
+=======
+
+//    @PostMapping("/get_doctor_on_details_and_city_with_feedback")
+//    public ResponseEntity findDoctorOnDetailsWithCityAndFeedback(@RequestBody DoctorModel doctorModel)
+//    {
+//        List<Map<String, Object>> doctorModelList = doctorServiceImpl.findDoctorOnDetailsWithCityAndFeedback(doctorModel);
+//        Response res = new Response(doctorModelList, false, "Doctor by qualification found successfully!");
+//        return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+//    }

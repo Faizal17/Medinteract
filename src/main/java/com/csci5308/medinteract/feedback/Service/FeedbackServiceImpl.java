@@ -1,31 +1,27 @@
 package com.csci5308.medinteract.feedback.Service;
 
-import com.csci5308.medinteract.doctor.Model.DoctorModel;
-import com.csci5308.medinteract.city.model.CityModel;
 import com.csci5308.medinteract.feedback.Model.FeedbackModel;
 import com.csci5308.medinteract.feedback.Repository.FeedbackRepository;
 import com.csci5308.medinteract.patient.model.PatientModel;
-import com.csci5308.medinteract.province.model.ProvinceModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.nio.file.Path;
 import java.util.*;
 
 @Service
-public class FeebackServiceImpl implements FeedbackService {
+public class FeedbackServiceImpl implements FeedbackService {
 
     private final FeedbackRepository feedbackRepository;
 
     @Autowired
-    public FeebackServiceImpl(FeedbackRepository feedbackRepository) {
+    public FeedbackServiceImpl(FeedbackRepository feedbackRepository) {
         this.feedbackRepository = feedbackRepository;
     }
 
-    @Override
-    public List<FeedbackModel> fetchAll() {
-        return feedbackRepository.findAll();
-    }
+//    @Override
+//    public List<FeedbackModel> fetchAll() {
+//        return feedbackRepository.findAll();
+//    }
 
     public void saveFeedback(FeedbackModel feedbackModel) {
         Date currentDateAndTime = new Date();
@@ -33,13 +29,13 @@ public class FeebackServiceImpl implements FeedbackService {
         feedbackRepository.save(feedbackModel);
     }
 
-    public void deleteAll() {
-        feedbackRepository.deleteAll();
-    }
+//    public void deleteAll() {
+//        feedbackRepository.deleteAll();
+//    }
 
-    public List<FeedbackModel> fetchFeedbackByDoctorId(FeedbackModel feedbackModel) {
-        return feedbackRepository.findByDoctorId(feedbackModel.getDoctorId());
-    }
+//    public List<FeedbackModel> fetchFeedbackByDoctorId(FeedbackModel feedbackModel) {
+//        return feedbackRepository.findByDoctorId(feedbackModel.getDoctorId());
+//    }
 
     public List<Map<String, Object>> fetchFeedbackByDoctorIdAndPatient(FeedbackModel feedbackModel) {
         FeedbackModel feedbackModelCurrentPatient = feedbackRepository

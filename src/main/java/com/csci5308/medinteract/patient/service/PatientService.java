@@ -23,4 +23,3 @@ public interface PatientService {
 
     Optional<List<PatientModel>> fetchPatientsWithAppointment(Long id);
 }
-
