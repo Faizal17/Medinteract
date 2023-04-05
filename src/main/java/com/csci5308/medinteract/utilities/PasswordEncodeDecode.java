@@ -33,7 +33,7 @@ public class PasswordEncodeDecode {
         return new String(decValue);
     }
 
-    private static Key generateKey() throws Exception {
+    static Key generateKey() throws Exception {
         return new SecretKeySpec(keyValue, ALGORITHM);
     }
 
