@@ -80,7 +80,10 @@ public class FeedbackServiceTestUT {
         Map<String, Object> mockData = new HashMap<>();
         mockFeedbackDetailsList.add(mockData);
 
-        PatientModel mockPatientModel = new PatientModel(201l,"patient@gmail.com","patientPass");
+        PatientModel mockPatientModel = new PatientModel();
+        mockPatientModel.setId(201l);
+        mockPatientModel.setPatientEmail("paitent@gamil.com");
+        mockPatientModel.setPatientPassword("patientPass");
 
         Object[] objectArray = {mockFeedbackModel, mockPatientModel};
         List<Object> mockFeedbackModelList = new ArrayList<>();
@@ -131,8 +134,9 @@ public class FeedbackServiceTestUT {
 
     @Test
     void findAvgRatingOfDoctorTest() throws Exception {
-
-        DoctorModel mockDoctorModel = new DoctorModel("doctor@gmail.com","docPass");
+        DoctorModel mockDoctorModel = new DoctorModel();
+        mockDoctorModel.setDoctorEmail("doctor@gmail.com");
+        mockDoctorModel.setDoctorPassword("docPass");
 
         Object[] objectArray = {101l, 3d};
         List<Object> mockFeedbackModelList = new ArrayList<>();

@@ -34,9 +34,4 @@ public interface DoctorService {
     void blockDoctor(String email, boolean isBlocked);
 
     Optional<List<DoctorModel>> fetchDoctor(Long id);
-<<<<<<< HEAD
-=======
-
-    //List<DoctorModel> getDoctorByDetails(DoctorModel doctorModel);
->>>>>>> origin/unit-test-sc
 }

@@ -47,7 +47,7 @@ class MedicineControllerTest {
         String msg = JsonPath.read(mvcResult.getResponse().getContentAsString(), "$.msg");
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
         if (!isError) {
-            assertEquals("Prescription details fetched Successfully!", msg);
+            assertEquals("Medicines details fetched Successfully!", msg);
         }
     }
 }

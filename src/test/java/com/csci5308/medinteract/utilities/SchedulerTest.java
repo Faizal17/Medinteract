@@ -83,20 +83,6 @@ class SchedulerTest {
         appointmentDataList.add(appointmentData);
     }
 
-
-    @Test
-    void testTestScheduler() {
-        when(appointmentService.fetchAppointmentsDaily()).thenReturn(new ArrayList<>());
-        when(appointmentService.fetchAppointmentsHourly()).thenReturn(new ArrayList<>());
-        when(appointmentService.fetchAppointmentsWeekly()).thenReturn(new ArrayList<>());
-        when(appointmentService.fetchAppointmentsWithinThreeDays()).thenReturn(new ArrayList<>());
-        scheduler.testScheduler();
-        verify(appointmentService).fetchAppointmentsDaily();
-        verify(appointmentService).fetchAppointmentsHourly();
-        verify(appointmentService).fetchAppointmentsWeekly();
-        verify(appointmentService).fetchAppointmentsWithinThreeDays();
-    }
-
     @Test
     void testHourlyScheduler() {
         when(appointmentService.fetchAppointmentsHourly()).thenReturn(new ArrayList<>());

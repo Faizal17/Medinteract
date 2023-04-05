@@ -20,9 +20,9 @@ import javax.validation.constraints.NotNull;
             return isActive;
         }
 
-//        public void setActive(boolean active) {
-//            isActive = active;
-//        }
+        public void setActive(boolean active) {
+            isActive = active;
+        }
 
         @NotBlank
         @NotNull
@@ -33,10 +33,10 @@ import javax.validation.constraints.NotNull;
 
 
 
-//        public AdminModel(String adminUserName, String adminPassword) {
-//            this.adminEmail = adminUserName;
-//            this.adminPassword = adminPassword;
-//        }
+        public AdminModel(String adminUserName, String adminPassword) {
+            this.adminEmail = adminUserName;
+            this.adminPassword = adminPassword;
+        }
 
         private String adminPassword;
 

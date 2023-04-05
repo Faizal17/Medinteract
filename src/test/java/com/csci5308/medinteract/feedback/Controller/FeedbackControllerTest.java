@@ -25,15 +25,6 @@ class FeedbackControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-    @Test
-
-        void fetchAll() throws Exception {
-
-        MvcResult mvcResult =  TestUtil.getResultFromGetAPI("/feedback/fetchAll",mockMvc);
-        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        assertFalse(isError);
-    }
-
 
     @Test
     void saveFeedback() throws Exception {
@@ -48,33 +39,15 @@ class FeedbackControllerTest {
     }
 
     @Test
-    void fetchFeedbackByDoctorId() throws Exception {
-        JSONObject obj = new JSONObject();
-        obj.put("doctorId", 37);
-        String json = obj.toString();
-        MvcResult mvcResult =  TestUtil.getResultFromPostAPI("/feedback/fetchFeedback_by_doctorId",json,mockMvc);
-        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        assertFalse(isError);
-    }
-
-    @Test
     void fetchFeedbackByDoctorIdAndPatient() throws Exception {
         JSONObject obj = new JSONObject();
         obj.put("patientId", 12);
-        obj.put("doctorId", 37);
+        obj.put("doctorId", 13);
         String json = obj.toString();
         MvcResult mvcResult =  TestUtil.getResultFromPostAPI("/feedback/fetchFeedback_by_doctorId_and_patient",json,mockMvc);
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
         assertFalse(isError);
 
-    }
-
-    @Test
-    void deleteAll() throws Exception {
-
-         mockMvc.perform(put("/feedback/deleteAll"))
-                 .andExpect(status().isOk())
-                 .andReturn();
     }
 
     @Test

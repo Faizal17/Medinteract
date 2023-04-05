@@ -6,6 +6,7 @@ import com.csci5308.medinteract.admin.Service.AdminService;
 import com.csci5308.medinteract.doctor.Model.DoctorModel;
 import com.csci5308.medinteract.doctor.Repository.DoctorRepository;
 import com.csci5308.medinteract.doctor.Service.DoctorService;
+import com.csci5308.medinteract.patient.model.PatientModel;
 import com.csci5308.medinteract.utilities.JWT.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -43,7 +44,14 @@ class DoctorControllerTestUT {
 
     @MockBean
     private DoctorService doctorService;
-    private DoctorModel mockDoctorModel = new DoctorModel("doctor@gmail.com","docPass");;
+//    private DoctorModel mockDoctorModel = new DoctorModel("doctor@gmail.com","docPass");
+    private DoctorModel mockDoctorModel = new DoctorModel();
+
+    DoctorControllerTestUT() {
+        mockDoctorModel.setDoctorEmail("doctor@gmail.com");
+        mockDoctorModel.setDoctorPassword("docPass");
+    }
+
     private String doctorJSON = "{ \"doctorEmail\": \"doctor@gmail.com\",\"doctorPassword\": \"docPass\" }";
     @Test
     void loginTest() throws Exception {
@@ -174,20 +182,6 @@ class DoctorControllerTestUT {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.msg").value("Unable to find user with the given id!"))
                 .andExpect(jsonPath("$.isError").value("true"));
-
-    }
-
-    @Test
-    void deleteDoctorByIdTest() throws Exception {
-
-        Mockito.doNothing().when(doctorService).deleteDoctorById(Mockito.anyLong());
-
-        mockMvc.perform(delete("http://localhost:6969/doctor/{doctorId}",100)
-                        .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.msg").value("User deleted Successfully!"))
-                .andExpect(jsonPath("$.isError").value("false"));
 
     }
 

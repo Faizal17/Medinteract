@@ -28,15 +28,14 @@ public class DoctorController {
     private final JWT jwtTokenUtil;
 
     @Autowired
-    public DoctorController(DoctorService doctorServiceImpl, JWT jwtTokenUtil){
+    public DoctorController(DoctorService doctorServiceImpl, JWT jwtTokenUtil) {
         this.doctorServiceImpl = doctorServiceImpl;
         this.jwtTokenUtil = jwtTokenUtil;
     }
 
     @GetMapping("/fetchAll")
-    public ResponseEntity fetchAll()
-    {
-        List<DoctorModel> doctorModelList= doctorServiceImpl.fetchAll();
+    public ResponseEntity fetchAll() {
+        List<DoctorModel> doctorModelList = doctorServiceImpl.fetchAll();
         Response res = new Response(doctorModelList, false, "All doctors fetched Successfully!");
         return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
     }
@@ -44,63 +43,58 @@ public class DoctorController {
     @PostMapping("/register")
     public ResponseEntity registerDoctor(@RequestBody DoctorModel doctorModel) throws Exception {
         Map<String, Object> data = doctorServiceImpl.checkIfEmailExists(doctorModel.getDoctorEmail());
-        if((Boolean)data.get("result"))
-        {
+        if ((Boolean) data.get("result")) {
             //doctor already exists
             Response res = new Response(null, true, "Doctor with email already exists!");
             return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
-        }
-        else
-        {
-            if(data.containsKey("id")){
-                doctorModel.setId((Long)data.get("id"));
+        } else {
+            if (data.containsKey("id")) {
+                doctorModel.setId((Long) data.get("id"));
             }
             doctorModel.setDoctorPassword(doctorServiceImpl.encodePassword(doctorModel.getDoctorPassword()));
             doctorServiceImpl.saveDoctor(doctorModel);
             doctorModel.setDoctorPassword("");
-            Response  res = new Response(doctorModel, false, "User registered Successfully!");
-            return  new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
+            Response res = new Response(doctorModel, false, "User registered Successfully!");
+            return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
         }
     }
+
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody DoctorModel doctorModel) throws Exception {
 
-        if(doctorServiceImpl.isDoctorValid(doctorModel.getDoctorEmail(),doctorModel.getDoctorPassword()))
-        {
+        if (doctorServiceImpl.isDoctorValid(doctorModel.getDoctorEmail(), doctorModel.getDoctorPassword())) {
             doctorModel = doctorServiceImpl.getDoctorByEmail(doctorModel.getDoctorEmail());
             doctorModel.setDoctorPassword("");
-            Response  res = new Response(jwtTokenUtil.generateToken(doctorModel.getDoctorEmail(),"doctor",doctorModel)
+            Response res = new Response(jwtTokenUtil.generateToken(doctorModel.getDoctorEmail(), "doctor", doctorModel)
                     , false
                     , "Doctor logged in Successfully!");
-            return  new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
+            return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
 
-        }
-        else {
-            Response  res = new Response("null", true, "Failed to login for the given credentials");
-            return  new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
+        } else {
+            Response res = new Response("null", true, "Failed to login for the given credentials");
+            return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
         }
     }
 
     @GetMapping("/profile/{doctorId}")
-    public ResponseEntity getDoctorById(@PathVariable("doctorId") Long id){
+    public ResponseEntity getDoctorById(@PathVariable("doctorId") Long id) {
         Optional<DoctorModel> doctorModel = doctorServiceImpl.getDoctorById(id);
-        if(doctorModel.isEmpty() || doctorModel.get().isBlocked() || !doctorModel.get().isActive()) {
+        if (doctorModel.isEmpty() || doctorModel.get().isBlocked() || !doctorModel.get().isActive()) {
             Response res = new Response("", true, "Unable to find user with the given id!");
-            return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
+            return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
         }
         doctorModel.get().setDoctorPassword("");
-        Response  res = new Response(doctorModel, false, "Doctor details fetched Successfully!");
-        return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
+        Response res = new Response(doctorModel, false, "Doctor details fetched Successfully!");
+        return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
     }
 
     @PostMapping(path = "/updateProfile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity updateDoctorById(@RequestParam MultiValueMap<String, String> formData, @RequestParam(value = "profileImage",required = false) MultipartFile profileImage) {
+    public ResponseEntity updateDoctorById(@RequestParam MultiValueMap<String, String> formData, @RequestParam(value = "profileImage", required = false) MultipartFile profileImage) {
         //get doctorModel from Json
         Gson gson = new Gson();
         DoctorModel updatedDoctorModel = gson.fromJson(formData.getFirst("objectData"), DoctorModel.class);
-        Optional<DoctorModel> optionalDoctorModel= doctorServiceImpl.getDoctorById(updatedDoctorModel.getId());
-        if(optionalDoctorModel.isEmpty() || !optionalDoctorModel.get().getDoctorEmail().equals(updatedDoctorModel.getDoctorEmail()))
-        {
+        Optional<DoctorModel> optionalDoctorModel = doctorServiceImpl.getDoctorById(updatedDoctorModel.getId());
+        if (optionalDoctorModel.isEmpty() || !optionalDoctorModel.get().getDoctorEmail().equals(updatedDoctorModel.getDoctorEmail())) {
             //doctor already exists
             Response res = new Response(null, true, "Unable to update profile!");
             return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
@@ -111,7 +105,7 @@ public class DoctorController {
         updatedDoctorModel.setBlocked(oldDoctorModel.isBlocked());
         if (profileImage != null && !profileImage.isEmpty()) {
             String fileName;
-            if (oldDoctorModel.getProfilePicture()!= null) {
+            if (oldDoctorModel.getProfilePicture() != null) {
                 fileName = oldDoctorModel.getProfilePicture().split("/")[2];
             } else {
                 fileName = RandomStringUtils.randomAlphanumeric(10) + ".jpeg";
@@ -129,16 +123,14 @@ public class DoctorController {
         }
         doctorServiceImpl.saveDoctor(updatedDoctorModel);
         updatedDoctorModel.setDoctorPassword("");
-        Response  res = new Response(updatedDoctorModel, false, "User updated Successfully!");
-        return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
+        Response res = new Response(updatedDoctorModel, false, "User updated Successfully!");
+        return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
     }
 
     @GetMapping("/isPending")
-    public ResponseEntity isPending()
-    {
+    public ResponseEntity isPending() {
         List<DoctorModel> pendingDoctors = doctorServiceImpl.isPending();
-        if(pendingDoctors.isEmpty())
-        {
+        if (pendingDoctors.isEmpty()) {
             Response res = new Response(pendingDoctors, true, "No Pending Doctors!");
             return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
         }
@@ -147,11 +139,9 @@ public class DoctorController {
     }
 
     @GetMapping("/isApproved")
-    public ResponseEntity isApproved()
-    {
+    public ResponseEntity isApproved() {
         List<DoctorModel> approvedDoctors = doctorServiceImpl.isApproved();
-        if(approvedDoctors.isEmpty())
-        {
+        if (approvedDoctors.isEmpty()) {
             Response res = new Response(approvedDoctors, true, "No Approved Doctors!");
             return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
         }
@@ -160,11 +150,9 @@ public class DoctorController {
     }
 
     @GetMapping("/isBlocked")
-    public ResponseEntity isBlocked()
-    {
+    public ResponseEntity isBlocked() {
         List<DoctorModel> blockedDoctors = doctorServiceImpl.isBlocked();
-        if(blockedDoctors.isEmpty())
-        {
+        if (blockedDoctors.isEmpty()) {
             Response res = new Response(blockedDoctors, true, "No Blocked Doctors!");
             return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
         }
@@ -189,26 +177,16 @@ public class DoctorController {
     }
 
     @GetMapping("/fetch/{patientId}")
-    public ResponseEntity fetchPrescriptionByPatientId(@PathVariable("patientId") Long id){
+    public ResponseEntity fetchPrescriptionByPatientId(@PathVariable("patientId") Long id) {
         Optional<List<DoctorModel>> prescriptionModelList = doctorServiceImpl.fetchDoctor(id);
-        Response  res = new Response(prescriptionModelList, false, "Doctor details fetched Successfully!");
-        return new ResponseEntity<>(res.getResponse(),HttpStatus.OK);
+        Response res = new Response(prescriptionModelList, false, "Doctor details fetched Successfully!");
+        return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
     }
 
     @PostMapping("/get_doctor_on_details_and_city")
-    public ResponseEntity findDoctorOnDetailsWithCity(@RequestBody DoctorModel doctorModel)
-    {
+    public ResponseEntity findDoctorOnDetailsWithCity(@RequestBody DoctorModel doctorModel) {
         List<Map<String, Object>> doctorModelList = doctorServiceImpl.findDoctorOnDetailsWithCity(doctorModel);
         Response res = new Response(doctorModelList, false, "Doctor by details found successfully!");
         return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
     }
-<<<<<<< HEAD
-=======
-
-//    @PostMapping("/get_doctor_on_details_and_city_with_feedback")
-//    public ResponseEntity findDoctorOnDetailsWithCityAndFeedback(@RequestBody DoctorModel doctorModel)
-//    {
-//        List<Map<String, Object>> doctorModelList = doctorServiceImpl.findDoctorOnDetailsWithCityAndFeedback(doctorModel);
-//        Response res = new Response(doctorModelList, false, "Doctor by qualification found successfully!");
-//        return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
-//    }
+}

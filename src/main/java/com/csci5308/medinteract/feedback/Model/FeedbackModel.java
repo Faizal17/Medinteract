@@ -15,9 +15,9 @@ public class FeedbackModel {
         return id;
     }
 
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Date getFeedbackDate() {
         return feedbackDate;
@@ -39,9 +39,9 @@ public class FeedbackModel {
         return comment;
     }
 
-//    public void setComment(String comment) {
-//        this.comment = comment;
-//    }
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

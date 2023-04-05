@@ -99,8 +99,13 @@ public class AppoinmentServiceTestUT {
     @Test
     void fetchAppointmentsHourlyTest() throws Exception {
 
-        DoctorModel doctorModel = new DoctorModel("doctor@gmail.com", "docPass");
-        PatientModel patientModel = new PatientModel(201l, "paitent@gamil.com", "patientPass");
+        DoctorModel doctorModel = new DoctorModel();
+        doctorModel.setDoctorEmail("doctor@gmail.com");
+        doctorModel.setDoctorPassword("docPass");
+        PatientModel patientModel = new PatientModel();
+        patientModel.setId(201l);
+        patientModel.setPatientEmail("paitent@gamil.com");
+        patientModel.setPatientPassword("patientPass");
         List<Object> mockAppointmentModelList = new ArrayList<>();
         mockAppointmentModelList.add(mockAppoinmentModel);
         mockAppointmentModelList.add(patientModel);
@@ -116,8 +121,13 @@ public class AppoinmentServiceTestUT {
     @Test
     void fetchAppointmentsDailyTest() throws Exception {
 
-        DoctorModel doctorModel = new DoctorModel("doctor@gmail.com", "docPass");
-        PatientModel patientModel = new PatientModel(201l, "paitent@gamil.com", "patientPass");
+        DoctorModel doctorModel = new DoctorModel();
+        doctorModel.setDoctorEmail("doctor@gmail.com");
+        doctorModel.setDoctorPassword("docPass");
+        PatientModel patientModel = new PatientModel();
+        patientModel.setId(201l);
+        patientModel.setPatientEmail("paitent@gamil.com");
+        patientModel.setPatientPassword("patientPass");
         List<Object> mockAppointmentModelList = new ArrayList<>();
         mockAppointmentModelList.add(mockAppoinmentModel);
         mockAppointmentModelList.add(patientModel);
@@ -133,8 +143,13 @@ public class AppoinmentServiceTestUT {
     @Test
     void fetchAppointmentsWithinThreeDaysTest() throws Exception {
 
-        DoctorModel doctorModel = new DoctorModel("doctor@gmail.com", "docPass");
-        PatientModel patientModel = new PatientModel(201l, "paitent@gamil.com", "patientPass");
+        DoctorModel doctorModel = new DoctorModel();
+        doctorModel.setDoctorEmail("doctor@gmail.com");
+        doctorModel.setDoctorPassword("docPass");
+        PatientModel patientModel = new PatientModel();
+        patientModel.setId(201l);
+        patientModel.setPatientEmail("paitent@gamil.com");
+        patientModel.setPatientPassword("patientPass");
         List<Object> mockAppointmentModelList = new ArrayList<>();
         mockAppointmentModelList.add(mockAppoinmentModel);
         mockAppointmentModelList.add(patientModel);
@@ -150,8 +165,13 @@ public class AppoinmentServiceTestUT {
     @Test
     void fetchAppointmentsWeeklyTest() throws Exception {
 
-        DoctorModel doctorModel = new DoctorModel("doctor@gmail.com", "docPass");
-        PatientModel patientModel = new PatientModel(201l, "paitent@gamil.com", "patientPass");
+        DoctorModel doctorModel = new DoctorModel();
+        doctorModel.setDoctorEmail("doctor@gmail.com");
+        doctorModel.setDoctorPassword("docPass");
+        PatientModel patientModel = new PatientModel();
+        patientModel.setId(201l);
+        patientModel.setPatientEmail("paitent@gamil.com");
+        patientModel.setPatientPassword("patientPass");
         List<Object> mockAppointmentModelList = new ArrayList<>();
         mockAppointmentModelList.add(mockAppoinmentModel);
         mockAppointmentModelList.add(patientModel);
@@ -167,7 +187,9 @@ public class AppoinmentServiceTestUT {
     @Test
     void fetchDoctorNamesByPatientsAppointmentTest() throws Exception {
 
-        DoctorModel doctorModel = new DoctorModel("doctor@gmail.com", "docPass");
+        DoctorModel doctorModel = new DoctorModel();
+        doctorModel.setDoctorEmail("doctor@gmail.com");
+        doctorModel.setDoctorPassword("docPass");
         List<DoctorModel> mockDoctorModelList = new ArrayList<>();
         mockDoctorModelList.add(doctorModel);
 

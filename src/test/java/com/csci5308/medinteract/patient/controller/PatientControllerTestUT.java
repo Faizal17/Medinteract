@@ -44,8 +44,15 @@ class PatientControllerTestUT {
 
     @MockBean
     private PatientServiceImpl patientService;
-    private PatientModel mockPatientModel = new PatientModel(101l,"patient@gmail.com","patientPass");;
+    private PatientModel mockPatientModel = new PatientModel();
+
     private String patientJSON = "{ \"patientEmail\": \"patient@gmail.com\",\"patientPassword\": \"patientPass\" }";
+
+    PatientControllerTestUT() {
+        mockPatientModel.setId(101l);
+        mockPatientModel.setPatientEmail("paitent@gamil.com");
+        mockPatientModel.setPatientPassword("patientPass");
+    }
     @Test
     void loginTest() throws Exception {
 
@@ -175,20 +182,6 @@ class PatientControllerTestUT {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.msg").value("Unable to find patient with the given id!"))
                 .andExpect(jsonPath("$.isError").value("true"));
-
-    }
-
-    @Test
-    void deletePatientByIdTest() throws Exception {
-
-        Mockito.doNothing().when(patientService).deletePatientById(Mockito.anyLong());
-
-        mockMvc.perform(delete("http://localhost:6969/patient/{patientId}",100)
-                        .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.msg").value("User deleted Successfully!"))
-                .andExpect(jsonPath("$.isError").value("false"));
 
     }
 

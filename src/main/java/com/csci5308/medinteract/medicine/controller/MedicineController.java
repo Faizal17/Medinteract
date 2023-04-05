@@ -19,6 +19,14 @@ public class MedicineController {
         this.medicineService = medicineService;
     }
 
+
+    @PostMapping("/addMedicines")
+    public ResponseEntity addMedicines(@RequestBody MedicineModel medicineModel) throws Exception {
+        medicineService.saveMedicine(medicineModel);
+        Response res = new Response(medicineModel, false, "Medicines added Successfully!");
+        return  new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
+    }
+
     @GetMapping("/fetchAll")
     public Iterable<MedicineModel> fetchAll() {
         return medicineService.findAllMedicine();

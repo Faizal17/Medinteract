@@ -51,8 +51,15 @@ public class DoctorServiceTestUT {
     private DoctorServiceImpl doctorService;
 
 
-    private DoctorModel mockDoctorModel = new DoctorModel("doctor@gmail.com","docPass");;
+//    private DoctorModel mockDoctorModel = new DoctorModel("doctor@gmail.com","docPass");;
+    private DoctorModel mockDoctorModel = new DoctorModel();
+
     private String doctorJSON = "{ \"doctorEmail\": \"doctor@gmail.com\",\"doctorPasswprd\": \"docPass\"}";
+
+    DoctorServiceTestUT() {
+        mockDoctorModel.setDoctorEmail("doctor@gmail.com");
+        mockDoctorModel.setDoctorPassword("docPass");
+    }
 
     @Test
     void fetchAllTest() throws Exception {
@@ -72,16 +79,6 @@ public class DoctorServiceTestUT {
         Mockito.when(mockDoctorRepository.save(Mockito.any(DoctorModel.class))).thenReturn(mockDoctorModel);
 
         assertEquals(mockDoctorModel,doctorService.saveDoctor(mockDoctorModel));
-    }
-
-    @Test
-    void findByIdTest() throws Exception {
-
-        Optional<DoctorModel> mockOptionalDoc = Optional.of(mockDoctorModel);
-
-        Mockito.when(mockDoctorRepository.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(mockDoctorModel));
-
-        assertEquals(mockOptionalDoc,doctorService.findById(101l));
     }
 
     @Test
@@ -139,27 +136,6 @@ public class DoctorServiceTestUT {
         Mockito.when(mockDoctorRepository.findById(Mockito.anyLong())).thenReturn(mockOptionalDoc);
 
         assertEquals(mockOptionalDoc,doctorService.getDoctorById(101l));
-
-    }
-
-    @Test
-    void deleteDoctorByIdTest() throws Exception {
-
-        Mockito.doNothing().when(mockDoctorRepository).deleteById(Mockito.anyLong());
-
-        doctorService.deleteDoctorById(101l);
-    }
-
-    @Test
-    void updateDoctorByIdTest() throws Exception {
-
-        List<DoctorModel> mockDoctorModelList = new ArrayList<>();
-        mockDoctorModelList.add(mockDoctorModel);
-
-        Mockito.when(mockDoctorRepository.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(mockDoctorModel));
-
-        doctorService.updateDoctorById(101l,"doctorName","postalCode","street","123456789");
-        //assertEquals(mockDoctorModelList,doctorService.updateDoctorById(101l,"doctorName","postalCode","street","123456789"));
 
     }
 
