@@ -72,9 +72,9 @@ public class MedicineModel {
         return medicineAmount;
     }
 
-//    public void setMedicineAmount(int medicineAmount) {
-//        this.medicineAmount = medicineAmount;
-//    }
+    public void setMedicineAmount(int medicineAmount) {
+        this.medicineAmount = medicineAmount;
+    }
 
     public boolean isMorning() {
         return isMorning;

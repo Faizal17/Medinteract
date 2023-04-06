@@ -343,7 +343,7 @@ class DoctorControllerTestUT {
                 .andExpect(jsonPath("$.isError").value("false"));
 
     }
-    private static String asJsonString(final Object obj) {
+    public static String asJsonString(final Object obj) {
         try {
             final ObjectMapper objectMapper = new ObjectMapper();
             final String jsonContent = objectMapper.writeValueAsString(obj);

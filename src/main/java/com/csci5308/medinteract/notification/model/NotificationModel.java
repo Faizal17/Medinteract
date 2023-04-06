@@ -82,9 +82,9 @@ public class NotificationModel {
         return userId;
     }
 
-//    public void setUserId(Long userId) {
-//        this.userId = userId;
-//    }
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
 //    public String getMessage() {
 //        return message;
