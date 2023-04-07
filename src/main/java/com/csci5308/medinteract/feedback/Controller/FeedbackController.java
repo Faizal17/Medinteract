@@ -2,7 +2,7 @@ package com.csci5308.medinteract.feedback.Controller;
 
 import com.csci5308.medinteract.feedback.Model.FeedbackModel;
 import com.csci5308.medinteract.feedback.Service.FeedbackService;
-import com.csci5308.medinteract.utilities.Response.Response.Response;
+import com.csci5308.medinteract.utilities.Response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

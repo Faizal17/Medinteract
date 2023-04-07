@@ -3,7 +3,7 @@ package com.csci5308.medinteract.doctor.Controller;
 import com.csci5308.medinteract.doctor.Model.DoctorModel;
 import com.csci5308.medinteract.doctor.Service.DoctorService;
 import com.csci5308.medinteract.utilities.JWT.JWT;
-import com.csci5308.medinteract.utilities.Response;
+import com.csci5308.medinteract.utilities.Response.Response;
 import com.google.gson.Gson;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
