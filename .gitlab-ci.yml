@@ -14,6 +14,7 @@ build:
       - target
   tags:
     - ugrad
+    - grad
 
 test:
   stage: test
@@ -29,6 +30,7 @@ test:
     - mvn verify
   tags:
     - ugrad
+    - grad
 
 # include:
 #   - template: Code-Quality.gitlab-ci.yml
@@ -43,6 +45,7 @@ deploy_dev:
   stage: deploy
   tags:
     - ugrad
+    - grad
   artifacts:
     paths:
       - target
@@ -63,6 +66,7 @@ deploy_release:
   stage: deploy
   tags:
     - ugrad
+    - grad
   artifacts:
     paths:
       - target
