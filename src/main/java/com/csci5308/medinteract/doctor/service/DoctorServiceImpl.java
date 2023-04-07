@@ -4,7 +4,7 @@ import com.csci5308.medinteract.city.model.CityModel;
 import com.csci5308.medinteract.doctor.model.DoctorModel;
 import com.csci5308.medinteract.doctor.repository.DoctorRepository;
 import com.csci5308.medinteract.province.model.ProvinceModel;
-import com.csci5308.medinteract.utilities.PasswordEncodeDecode;
+import com.csci5308.medinteract.PasswordManager.PasswordEncodeDecode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

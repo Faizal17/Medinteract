@@ -1,7 +1,7 @@
 package com.csci5308.medinteract.city.controller;
 import com.csci5308.medinteract.city.model.CityModel;
 import com.csci5308.medinteract.city.service.CityService;
-import com.csci5308.medinteract.utilities.Response.Response;
+import com.csci5308.medinteract.Response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

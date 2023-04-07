@@ -7,7 +7,7 @@ import com.csci5308.medinteract.doctor.model.DoctorModel;
 import com.csci5308.medinteract.doctor.service.DoctorService;
 import com.csci5308.medinteract.patient.model.PatientModel;
 import com.csci5308.medinteract.patient.service.PatientService;
-import com.csci5308.medinteract.utilities.JWT.JWT;
+import com.csci5308.medinteract.JWT.JWT;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;

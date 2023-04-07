@@ -4,8 +4,8 @@ import com.csci5308.medinteract.article.model.ArticleModel;
 import com.csci5308.medinteract.article.service.ArticleService;
 import com.csci5308.medinteract.doctor.model.DoctorModel;
 import com.csci5308.medinteract.doctor.service.DoctorService;
-import com.csci5308.medinteract.utilities.LocalDateTimeDeserializer;
-import com.csci5308.medinteract.utilities.Response.Response;
+import com.csci5308.medinteract.LocalDateTime.LocalDateTimeDeserializer;
+import com.csci5308.medinteract.Response.Response;
 import com.google.gson.*;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.csci5308.medinteract.utilities.FileUploader.saveFile;
+import static com.csci5308.medinteract.FileUpload.FileUploader.saveFile;
 
 @RestController
 @RequestMapping("/article")

@@ -1,4 +1,4 @@
-package com.csci5308.medinteract.utilities.Response;
+package com.csci5308.medinteract.Response;
 
 
 

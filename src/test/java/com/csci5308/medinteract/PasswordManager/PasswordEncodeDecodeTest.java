@@ -1,7 +1,7 @@
-package com.csci5308.medinteract.utilities;
+package com.csci5308.medinteract.PasswordManager;
 
 import org.junit.jupiter.api.Test;
-import javax.crypto.spec.SecretKeySpec;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.security.Key;

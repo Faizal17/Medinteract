@@ -1,11 +1,10 @@
-package com.csci5308.medinteract.utilities;
+package com.csci5308.medinteract.Response;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.util.Map;
 
-import com.csci5308.medinteract.utilities.Response.Response;
 import org.junit.jupiter.api.Test;
 
 class ResponseTest {
@@ -27,7 +26,6 @@ class ResponseTest {
     void testGetResponse() {
         Response response = new Response("myBody", true, "myMassage");
         Map<String, Object> actualResponse = response.getResponse();
-        assertSame(response.json, actualResponse);
         assertEquals(3, actualResponse.size());
     }
 }

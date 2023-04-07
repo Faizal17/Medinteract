@@ -1,4 +1,4 @@
-package com.csci5308.medinteract.utilities.JWT;
+package com.csci5308.medinteract.JWT;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

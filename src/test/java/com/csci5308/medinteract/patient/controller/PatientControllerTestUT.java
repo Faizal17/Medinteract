@@ -2,9 +2,8 @@ package com.csci5308.medinteract.patient.controller;
 
 import com.csci5308.medinteract.patient.model.PatientModel;
 import com.csci5308.medinteract.patient.repository.PatientRepository;
-import com.csci5308.medinteract.patient.service.PatientService;
 import com.csci5308.medinteract.patient.service.PatientServiceImpl;
-import com.csci5308.medinteract.utilities.JWT.JWT;
+import com.csci5308.medinteract.JWT.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +18,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvcExtensionsKt;
 
 import java.util.*;
 

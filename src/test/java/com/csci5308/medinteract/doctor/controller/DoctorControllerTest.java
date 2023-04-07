@@ -1,6 +1,6 @@
 package com.csci5308.medinteract.doctor.controller;
 
-import com.csci5308.medinteract.utilities.TestUtil;
+import com.csci5308.medinteract.TestUtil;
 import com.jayway.jsonpath.JsonPath;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;

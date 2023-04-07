@@ -1,4 +1,4 @@
-package com.csci5308.medinteract.utilities;
+package com.csci5308.medinteract;
 
 import com.jayway.jsonpath.JsonPath;
 import org.springframework.context.annotation.Bean;

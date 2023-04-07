@@ -2,11 +2,10 @@ package com.csci5308.medinteract.patient.service;
 
 import com.csci5308.medinteract.patient.model.PatientModel;
 import com.csci5308.medinteract.patient.repository.PatientRepository;
-import com.csci5308.medinteract.utilities.PasswordEncodeDecode;
+import com.csci5308.medinteract.PasswordManager.PasswordEncodeDecode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.*;
 
 @Service

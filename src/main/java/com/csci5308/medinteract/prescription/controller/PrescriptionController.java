@@ -2,7 +2,7 @@ package com.csci5308.medinteract.prescription.controller;
 
 import com.csci5308.medinteract.prescription.model.PrescriptionModel;
 import com.csci5308.medinteract.prescription.service.PrescriptionService;
-import com.csci5308.medinteract.utilities.Response.Response;
+import com.csci5308.medinteract.Response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
