@@ -2,7 +2,7 @@ package com.csci5308.medinteract.notification.controller;
 
 import com.csci5308.medinteract.notification.model.NotificationModel;
 import com.csci5308.medinteract.notification.service.NotificationService;
-import com.csci5308.medinteract.utilities.Response.Response;
+import com.csci5308.medinteract.Response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

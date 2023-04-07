@@ -1,11 +1,11 @@
-package com.csci5308.medinteract.utilities.Response;
+
+package com.csci5308.medinteract.Response;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.util.Map;
 
-import com.csci5308.medinteract.utilities.Response.Response;
 import org.junit.jupiter.api.Test;
 
 class ResponseTest {

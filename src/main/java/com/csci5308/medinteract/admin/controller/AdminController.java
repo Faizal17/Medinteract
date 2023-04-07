@@ -2,9 +2,9 @@ package com.csci5308.medinteract.admin.controller;
 
 import com.csci5308.medinteract.admin.model.AdminModel;
 import com.csci5308.medinteract.admin.service.AdminService;
-import com.csci5308.medinteract.utilities.JWT.JWT;
-import com.csci5308.medinteract.utilities.PasswordEncodeDecode;
-import com.csci5308.medinteract.utilities.Response.Response;
+import com.csci5308.medinteract.JWT.JWT;
+import com.csci5308.medinteract.PasswordManager.PasswordEncodeDecode;
+import com.csci5308.medinteract.Response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

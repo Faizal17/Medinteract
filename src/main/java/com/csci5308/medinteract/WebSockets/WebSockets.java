@@ -1,4 +1,4 @@
-package com.csci5308.medinteract.utilities;
+package com.csci5308.medinteract.WebSockets;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

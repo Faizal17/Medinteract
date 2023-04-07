@@ -1,4 +1,4 @@
-package com.csci5308.medinteract.utilities;
+package com.csci5308.medinteract.FileUpload;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;

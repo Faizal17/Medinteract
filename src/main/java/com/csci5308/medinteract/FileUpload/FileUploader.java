@@ -1,4 +1,4 @@
-package com.csci5308.medinteract.utilities;
+package com.csci5308.medinteract.FileUpload;
 
 import org.springframework.web.multipart.MultipartFile;
 

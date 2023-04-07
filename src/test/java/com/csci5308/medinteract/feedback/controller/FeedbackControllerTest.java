@@ -1,6 +1,6 @@
 package com.csci5308.medinteract.feedback.controller;
 
-import com.csci5308.medinteract.utilities.TestUtil;
+import com.csci5308.medinteract.TestUtil;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

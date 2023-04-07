@@ -4,7 +4,7 @@ import com.csci5308.medinteract.city.model.CityModel;
 import com.csci5308.medinteract.doctor.model.DoctorModel;
 import com.csci5308.medinteract.doctor.repository.DoctorRepository;
 import com.csci5308.medinteract.province.model.ProvinceModel;
-import com.csci5308.medinteract.utilities.JWT.JWT;
+import com.csci5308.medinteract.JWT.JWT;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;

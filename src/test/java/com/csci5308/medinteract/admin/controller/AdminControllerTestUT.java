@@ -3,7 +3,7 @@ package com.csci5308.medinteract.admin.controller;
 import com.csci5308.medinteract.admin.model.AdminModel;
 import com.csci5308.medinteract.admin.repository.AdminRepository;
 import com.csci5308.medinteract.admin.service.AdminService;
-import com.csci5308.medinteract.utilities.JWT.JWT;
+import com.csci5308.medinteract.JWT.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

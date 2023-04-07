@@ -1,4 +1,4 @@
-package com.csci5308.medinteract.utilities.JWT;
+package com.csci5308.medinteract.JWT;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

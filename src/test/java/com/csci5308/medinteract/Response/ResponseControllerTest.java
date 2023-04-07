@@ -1,6 +1,6 @@
-package com.csci5308.medinteract.utilities.Response;
+package com.csci5308.medinteract.Response;
 
-import com.csci5308.medinteract.utilities.TestUtil;
+import com.csci5308.medinteract.TestUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

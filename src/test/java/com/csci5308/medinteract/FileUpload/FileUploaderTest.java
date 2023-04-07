@@ -1,4 +1,4 @@
-package com.csci5308.medinteract.utilities;
+package com.csci5308.medinteract.FileUpload;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;

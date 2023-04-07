@@ -3,7 +3,7 @@ package com.csci5308.medinteract.doctor.controller;
 import com.csci5308.medinteract.doctor.model.DoctorModel;
 import com.csci5308.medinteract.doctor.repository.DoctorRepository;
 import com.csci5308.medinteract.doctor.service.DoctorService;
-import com.csci5308.medinteract.utilities.JWT.JWT;
+import com.csci5308.medinteract.JWT.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

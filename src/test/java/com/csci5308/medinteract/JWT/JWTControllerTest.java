@@ -1,4 +1,4 @@
-package com.csci5308.medinteract.utilities.JWT;
+package com.csci5308.medinteract.JWT;
 
 import static org.mockito.Mockito.when;
 

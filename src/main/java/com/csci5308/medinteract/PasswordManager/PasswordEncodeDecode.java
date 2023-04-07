@@ -1,4 +1,4 @@
-package com.csci5308.medinteract.utilities;
+package com.csci5308.medinteract.PasswordManager;
 
 import org.springframework.stereotype.Service;
 
@@ -33,7 +33,7 @@ public class PasswordEncodeDecode {
         return new String(decValue);
     }
 
-    static Key generateKey() throws Exception {
+    public static Key generateKey() throws Exception {
         return new SecretKeySpec(keyValue, ALGORITHM);
     }
 

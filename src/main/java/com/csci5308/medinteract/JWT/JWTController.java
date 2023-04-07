@@ -1,6 +1,6 @@
-package com.csci5308.medinteract.utilities.JWT;
+package com.csci5308.medinteract.JWT;
 
-import com.csci5308.medinteract.utilities.Response.Response;
+import com.csci5308.medinteract.Response.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

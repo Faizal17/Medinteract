@@ -1,4 +1,4 @@
-package com.csci5308.medinteract.utilities;
+package com.csci5308.medinteract.Scheduler;
 
 import com.csci5308.medinteract.doctor.model.DoctorModel;
 import com.csci5308.medinteract.appointment.model.AppointmentModel;
