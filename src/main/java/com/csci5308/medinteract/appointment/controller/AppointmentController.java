@@ -1,14 +1,14 @@
 package com.csci5308.medinteract.appointment.controller;
 
 import com.csci5308.medinteract.appointment.service.AppointmentService;
-import com.csci5308.medinteract.doctor.Model.DoctorModel;
-import com.csci5308.medinteract.doctor.Service.DoctorService;
+import com.csci5308.medinteract.doctor.model.DoctorModel;
+import com.csci5308.medinteract.doctor.service.DoctorService;
 import com.csci5308.medinteract.appointment.model.AppointmentModel;
 import com.csci5308.medinteract.notification.model.NotificationModel;
 import com.csci5308.medinteract.notification.service.NotificationService;
 import com.csci5308.medinteract.patient.model.PatientModel;
 import com.csci5308.medinteract.patient.service.PatientService;
-import com.csci5308.medinteract.utilities.Response;
+import com.csci5308.medinteract.utilities.Response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

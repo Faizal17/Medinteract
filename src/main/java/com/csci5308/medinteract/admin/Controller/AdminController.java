@@ -4,7 +4,7 @@ import com.csci5308.medinteract.admin.Model.AdminModel;
 import com.csci5308.medinteract.admin.Service.AdminService;
 import com.csci5308.medinteract.utilities.JWT.JWT;
 import com.csci5308.medinteract.utilities.PasswordEncodeDecode;
-import com.csci5308.medinteract.utilities.Response;
+import com.csci5308.medinteract.utilities.Response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

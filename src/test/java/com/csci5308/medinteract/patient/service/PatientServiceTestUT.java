@@ -1,15 +1,8 @@
 package com.csci5308.medinteract.patient.service;
 
-import com.csci5308.medinteract.doctor.Model.DoctorModel;
-import com.csci5308.medinteract.doctor.Repository.DoctorRepository;
-import com.csci5308.medinteract.doctor.Service.DoctorServiceImpl;
-import com.csci5308.medinteract.patient.controller.PatientController;
 import com.csci5308.medinteract.patient.model.PatientModel;
 import com.csci5308.medinteract.patient.repository.PatientRepository;
-import com.csci5308.medinteract.patient.service.PatientService;
-import com.csci5308.medinteract.patient.service.PatientServiceImpl;
 import com.csci5308.medinteract.utilities.JWT.JWT;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -22,14 +15,9 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvcExtensionsKt;
-
 import java.util.*;
 
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(value = PatientService.class)

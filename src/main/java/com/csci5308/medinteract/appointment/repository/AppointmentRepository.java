@@ -1,16 +1,13 @@
 package com.csci5308.medinteract.appointment.repository;
 
-import com.csci5308.medinteract.doctor.Model.DoctorModel;
+import com.csci5308.medinteract.doctor.model.DoctorModel;
 import com.csci5308.medinteract.appointment.model.AppointmentModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public interface AppointmentRepository extends JpaRepository<AppointmentModel, Long> {

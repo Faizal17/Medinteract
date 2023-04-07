@@ -1,14 +1,13 @@
-package com.csci5308.medinteract.doctor.Service;
+package com.csci5308.medinteract.doctor.service;
 
 import com.csci5308.medinteract.city.model.CityModel;
-import com.csci5308.medinteract.doctor.Model.DoctorModel;
-import com.csci5308.medinteract.doctor.Repository.DoctorRepository;
+import com.csci5308.medinteract.doctor.model.DoctorModel;
+import com.csci5308.medinteract.doctor.repository.DoctorRepository;
 import com.csci5308.medinteract.province.model.ProvinceModel;
 import com.csci5308.medinteract.utilities.PasswordEncodeDecode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.*;
 
 @Service

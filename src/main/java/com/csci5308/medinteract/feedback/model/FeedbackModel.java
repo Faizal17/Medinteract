@@ -1,4 +1,4 @@
-package com.csci5308.medinteract.feedback.Model;
+package com.csci5308.medinteract.feedback.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
 

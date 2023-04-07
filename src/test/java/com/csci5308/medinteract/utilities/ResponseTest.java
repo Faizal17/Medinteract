@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.util.Map;
 
+import com.csci5308.medinteract.utilities.Response.Response;
 import org.junit.jupiter.api.Test;
 
 class ResponseTest {

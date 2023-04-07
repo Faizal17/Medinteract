@@ -1,19 +1,13 @@
 package com.csci5308.medinteract.appointment.controller;
 
-import com.csci5308.medinteract.appointment.controller.AppointmentController;
 import com.csci5308.medinteract.appointment.model.AppointmentModel;
 import com.csci5308.medinteract.appointment.repository.AppointmentRepository;
-import com.csci5308.medinteract.appointment.service.AppointmentService;
 import com.csci5308.medinteract.appointment.service.AppointmentServiceImpl;
-import com.csci5308.medinteract.doctor.Model.DoctorModel;
-import com.csci5308.medinteract.doctor.Service.DoctorService;
-import com.csci5308.medinteract.doctor.Service.DoctorServiceImpl;
+import com.csci5308.medinteract.doctor.model.DoctorModel;
+import com.csci5308.medinteract.doctor.service.DoctorService;
 import com.csci5308.medinteract.patient.model.PatientModel;
-import com.csci5308.medinteract.patient.repository.PatientRepository;
 import com.csci5308.medinteract.patient.service.PatientService;
-import com.csci5308.medinteract.patient.service.PatientServiceImpl;
 import com.csci5308.medinteract.utilities.JWT.JWT;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -24,13 +18,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import com.csci5308.medinteract.notification.service.NotificationService;
-import static org.junit.jupiter.api.Assertions.*;
 
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvcExtensionsKt;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
-import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
 import java.util.*;
 

@@ -1,7 +1,7 @@
-package com.csci5308.medinteract.feedback.Service;
+package com.csci5308.medinteract.feedback.service;
 
-import com.csci5308.medinteract.feedback.Model.FeedbackModel;
-import com.csci5308.medinteract.feedback.Repository.FeedbackRepository;
+import com.csci5308.medinteract.feedback.model.FeedbackModel;
+import com.csci5308.medinteract.feedback.repository.FeedbackRepository;
 import com.csci5308.medinteract.patient.model.PatientModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

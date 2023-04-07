@@ -1,6 +1,6 @@
-package com.csci5308.medinteract.feedback.Service;
+package com.csci5308.medinteract.feedback.service;
 
-import com.csci5308.medinteract.feedback.Model.FeedbackModel;
+import com.csci5308.medinteract.feedback.model.FeedbackModel;
 
 import java.util.List;
 import java.util.Map;

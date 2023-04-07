@@ -1,17 +1,14 @@
-package com.csci5308.medinteract.feedback.Service;
+package com.csci5308.medinteract.feedback.service;
 
-import com.csci5308.medinteract.doctor.Model.DoctorModel;
-import com.csci5308.medinteract.feedback.Model.FeedbackModel;
-import com.csci5308.medinteract.feedback.Repository.FeedbackRepository;
+import com.csci5308.medinteract.doctor.model.DoctorModel;
+import com.csci5308.medinteract.feedback.model.FeedbackModel;
+import com.csci5308.medinteract.feedback.repository.FeedbackRepository;
 import com.csci5308.medinteract.patient.model.PatientModel;
 import com.csci5308.medinteract.utilities.JWT.JWT;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;

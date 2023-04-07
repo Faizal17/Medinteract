@@ -2,7 +2,7 @@ package com.csci5308.medinteract.medicine.controller;
 
 import com.csci5308.medinteract.medicine.model.MedicineModel;
 import com.csci5308.medinteract.medicine.service.MedicineService;
-import com.csci5308.medinteract.utilities.Response;
+import com.csci5308.medinteract.utilities.Response.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

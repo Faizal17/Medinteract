@@ -4,11 +4,7 @@ import com.csci5308.medinteract.medicine.model.MedicineModel;
 import com.csci5308.medinteract.prescription.model.PrescriptionModel;
 import com.csci5308.medinteract.prescription.repository.PrescriptionRepository;
 import com.csci5308.medinteract.prescription.service.PrescriptionService;
-import com.csci5308.medinteract.utilities.Response;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.aspectj.lang.annotation.Before;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -18,12 +14,8 @@ import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.time.LocalDateTime;
@@ -31,7 +23,6 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.springframework.http.RequestEntity.post;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;

@@ -2,12 +2,10 @@ package com.csci5308.medinteract.article.controller;
 
 import com.csci5308.medinteract.article.model.ArticleModel;
 import com.csci5308.medinteract.article.service.ArticleService;
-import com.csci5308.medinteract.doctor.Controller.DoctorController;
-import com.csci5308.medinteract.doctor.Model.DoctorModel;
-import com.csci5308.medinteract.doctor.Service.DoctorService;
-import com.csci5308.medinteract.patient.model.PatientModel;
+import com.csci5308.medinteract.doctor.model.DoctorModel;
+import com.csci5308.medinteract.doctor.service.DoctorService;
 import com.csci5308.medinteract.utilities.LocalDateTimeDeserializer;
-import com.csci5308.medinteract.utilities.Response;
+import com.csci5308.medinteract.utilities.Response.Response;
 import com.google.gson.*;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

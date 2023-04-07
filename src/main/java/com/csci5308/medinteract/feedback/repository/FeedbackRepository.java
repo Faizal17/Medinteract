@@ -1,13 +1,11 @@
-package com.csci5308.medinteract.feedback.Repository;
+package com.csci5308.medinteract.feedback.repository;
 
-import com.csci5308.medinteract.city.model.CityModel;
-import com.csci5308.medinteract.feedback.Model.FeedbackModel;
+import com.csci5308.medinteract.feedback.model.FeedbackModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface FeedbackRepository extends JpaRepository<FeedbackModel, Long> {

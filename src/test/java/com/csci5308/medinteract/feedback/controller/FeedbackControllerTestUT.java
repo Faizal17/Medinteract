@@ -1,8 +1,8 @@
-package com.csci5308.medinteract.feedback.Controller;
+package com.csci5308.medinteract.feedback.controller;
 
-import com.csci5308.medinteract.feedback.Model.FeedbackModel;
-import com.csci5308.medinteract.feedback.Repository.FeedbackRepository;
-import com.csci5308.medinteract.feedback.Service.FeedbackServiceImpl;
+import com.csci5308.medinteract.feedback.model.FeedbackModel;
+import com.csci5308.medinteract.feedback.repository.FeedbackRepository;
+import com.csci5308.medinteract.feedback.service.FeedbackServiceImpl;
 import com.csci5308.medinteract.utilities.JWT.JWT;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

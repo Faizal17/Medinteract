@@ -1,7 +1,6 @@
-package com.csci5308.medinteract.doctor.Repository;
+package com.csci5308.medinteract.doctor.repository;
 
-import com.csci5308.medinteract.doctor.Model.DoctorModel;
-import com.csci5308.medinteract.prescription.model.PrescriptionModel;
+import com.csci5308.medinteract.doctor.model.DoctorModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

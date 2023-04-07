@@ -1,9 +1,9 @@
-package com.csci5308.medinteract.doctor.Controller;
+package com.csci5308.medinteract.doctor.controller;
 
-import com.csci5308.medinteract.doctor.Model.DoctorModel;
-import com.csci5308.medinteract.doctor.Service.DoctorService;
+import com.csci5308.medinteract.doctor.model.DoctorModel;
+import com.csci5308.medinteract.doctor.service.DoctorService;
 import com.csci5308.medinteract.utilities.JWT.JWT;
-import com.csci5308.medinteract.utilities.Response;
+import com.csci5308.medinteract.utilities.Response.Response;
 import com.google.gson.Gson;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

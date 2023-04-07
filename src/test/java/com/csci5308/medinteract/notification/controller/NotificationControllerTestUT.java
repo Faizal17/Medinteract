@@ -2,7 +2,6 @@ package com.csci5308.medinteract.notification.controller;
 
 import com.csci5308.medinteract.notification.model.NotificationModel;
 import com.csci5308.medinteract.notification.service.NotificationService;
-import com.csci5308.medinteract.utilities.Response;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -14,7 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

@@ -1,17 +1,10 @@
-package com.csci5308.medinteract.doctor.Service;
+package com.csci5308.medinteract.doctor.service;
 
 import com.csci5308.medinteract.city.model.CityModel;
-import com.csci5308.medinteract.doctor.Controller.DoctorController;
-import com.csci5308.medinteract.doctor.Model.DoctorModel;
-import com.csci5308.medinteract.doctor.Repository.DoctorRepository;
-import com.csci5308.medinteract.doctor.Service.DoctorService;
-import com.csci5308.medinteract.feedback.Model.FeedbackModel;
-import com.csci5308.medinteract.feedback.Repository.FeedbackRepository;
-import com.csci5308.medinteract.feedback.Service.FeedbackServiceImpl;
+import com.csci5308.medinteract.doctor.model.DoctorModel;
+import com.csci5308.medinteract.doctor.repository.DoctorRepository;
 import com.csci5308.medinteract.province.model.ProvinceModel;
 import com.csci5308.medinteract.utilities.JWT.JWT;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import net.bytebuddy.dynamic.DynamicType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -24,14 +17,9 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvcExtensionsKt;
-
 import java.util.*;
 
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(value = DoctorService.class)

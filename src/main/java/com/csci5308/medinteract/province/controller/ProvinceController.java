@@ -1,9 +1,8 @@
 package com.csci5308.medinteract.province.controller;
 
-import com.csci5308.medinteract.city.model.CityModel;
 import com.csci5308.medinteract.province.model.ProvinceModel;
 import com.csci5308.medinteract.province.service.ProvinceService;
-import com.csci5308.medinteract.utilities.Response;
+import com.csci5308.medinteract.utilities.Response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

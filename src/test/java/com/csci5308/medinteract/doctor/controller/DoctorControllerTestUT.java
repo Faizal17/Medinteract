@@ -1,12 +1,8 @@
-package com.csci5308.medinteract.doctor.Controller;
+package com.csci5308.medinteract.doctor.controller;
 
-import com.csci5308.medinteract.admin.Model.AdminModel;
-import com.csci5308.medinteract.admin.Repository.AdminRepository;
-import com.csci5308.medinteract.admin.Service.AdminService;
-import com.csci5308.medinteract.doctor.Model.DoctorModel;
-import com.csci5308.medinteract.doctor.Repository.DoctorRepository;
-import com.csci5308.medinteract.doctor.Service.DoctorService;
-import com.csci5308.medinteract.patient.model.PatientModel;
+import com.csci5308.medinteract.doctor.model.DoctorModel;
+import com.csci5308.medinteract.doctor.repository.DoctorRepository;
+import com.csci5308.medinteract.doctor.service.DoctorService;
 import com.csci5308.medinteract.utilities.JWT.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -22,7 +18,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvcExtensionsKt;
 
 import java.util.*;
 

@@ -1,10 +1,8 @@
-package com.csci5308.medinteract.feedback.Controller;
+package com.csci5308.medinteract.feedback.controller;
 
-import com.csci5308.medinteract.city.model.CityModel;
-import com.csci5308.medinteract.city.service.CityService;
-import com.csci5308.medinteract.feedback.Model.FeedbackModel;
-import com.csci5308.medinteract.feedback.Service.FeedbackService;
-import com.csci5308.medinteract.utilities.Response;
+import com.csci5308.medinteract.feedback.model.FeedbackModel;
+import com.csci5308.medinteract.feedback.service.FeedbackService;
+import com.csci5308.medinteract.utilities.Response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
