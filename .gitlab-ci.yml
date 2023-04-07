@@ -58,7 +58,7 @@ deploy_dev:
     - chmod og-rwx ${DEPLOY_SSH_KEY}
     - scp -r -o StrictHostKeyChecking=no -i ${DEPLOY_SSH_KEY} target/*.jar "${DEPLOY_USER}@${DEPLOY_HOST}:${TEMP_DEPLOY_DIR}/final_image.jar"
     - ssh -o StrictHostKeyChecking=no -i ${DEPLOY_SSH_KEY} ${DEPLOY_USER}@${DEPLOY_HOST} "cd ${DEPLOY_DIR} && sudo mv ${TEMP_DEPLOY_DIR}/final_image.jar . && sudo git pull origin"
-    - ssh -i ${DEPLOY_SSH_KEY} ${DEPLOY_USER}@${DEPLOY_HOST} "sudo fuser -k 3306/tcp && java -jar ${DEPLOY_DIR}/final_image.jar"
+    - ssh -i ${DEPLOY_SSH_KEY} ${DEPLOY_USER}@${DEPLOY_HOST} "sudo fuser -k 6969/tcp && java -jar ${DEPLOY_DIR}/final_image.jar"
   only:
     - dev
 
