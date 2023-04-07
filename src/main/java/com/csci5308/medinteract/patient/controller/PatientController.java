@@ -1,11 +1,10 @@
 package com.csci5308.medinteract.patient.controller;
 
-import com.csci5308.medinteract.doctor.Model.DoctorModel;
 import com.csci5308.medinteract.patient.model.PatientModel;
 import com.csci5308.medinteract.patient.service.PatientService;
 import com.csci5308.medinteract.patient.service.PatientServiceImpl;
 import com.csci5308.medinteract.utilities.JWT.JWT;
-import com.csci5308.medinteract.utilities.Response;
+import com.csci5308.medinteract.utilities.Response.Response;
 import com.google.gson.Gson;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
