@@ -1,0 +1,78 @@
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  stage: build
+  image: maven:latest
+  script:
+    - echo "Building the pipeline"
+    - mvn clean package
+  artifacts:
+    paths:
+      - target
+  tags:
+    - ugrad
+
+test:
+  stage: test
+  image: maven:latest
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - target/medinteract/TEST_*.xml
+
+  script:
+    - echo "Pipeline test started"
+    - mvn verify
+  tags:
+    - ugrad
+
+include:
+  - template: Code-Quality.gitlab-ci.yml
+
+code_quality:
+  tags:
+    - dalfcs_docker_kvm
+  artifacts:
+    paths: [gl-code-quality-report.json]
+
+deploy_dev:
+  stage: deploy
+  tags:
+    - ugrad
+  artifacts:
+    paths:
+      - target
+  script:
+    - echo "dbURL=$DATABASE_TEST_URL" > config.properties
+    - echo "dbUserName=$DATABASE_TEST_USERNAME" >> config.properties
+    - echo "dbPassword=$DATABASE_TEST_PASSWORD" >> config.properties
+    - echo "dbDriver=$DATABASE_DRIVER" >> config.properties
+    - echo "Deploying the development pipeline"
+    - chmod og-rwx ${DEPLOY_SSH_KEY}
+    - scp -r -o StrictHostKeyChecking=no -i ${DEPLOY_SSH_KEY} target/*.jar "${DEPLOY_USER}@${DEPLOY_HOST}:${TEMP_DEPLOY_DIR}/final_image.jar"
+    - ssh -o StrictHostKeyChecking=no -i ${DEPLOY_SSH_KEY} ${DEPLOY_USER}@${DEPLOY_HOST} "cd ${DEPLOY_DIR} && sudo mv ${TEMP_DEPLOY_DIR}/final_image.jar . && sudo git pull origin"
+  only:
+    - dev
+
+deploy_release:
+  stage: deploy
+  tags:
+    - ugrad
+  artifacts:
+    paths:
+      - target
+  script:
+    - echo "dbURL=$DATABASE_PROD_URL" > config.properties
+    - echo "dbUserName=$DATABASE_PROD_USERNAME" >> config.properties
+    - echo "dbPassword=$DATABASE_PROD_PASSWORD" >> config.properties
+    - echo "dbDriver=$DATABASE_DRIVER" >> config.properties
+    - echo "Deploying the release pipeline"
+    - chmod og-rwx ${DEPLOY_PROD_SSH_KEY}
+    - zip -r ${CI_COMMIT_SHORT_SHA}.zip target
+    - scp -r -o StrictHostKeyChecking=no -i "${DEPLOY_PROD_SSH_KEY}" ${CI_COMMIT_SHORT_SHA}.zip "${DEPLOY_PROD_USER}@${DEPLOY_HOST}:${DEPLOY_DIR}/${CI_PROJECT_NAME}-${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHORT_SHA}.zip"
+  only:
+    - release
