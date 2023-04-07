@@ -1,4 +1,4 @@
-package com.csci5308.medinteract.admin.Controller;
+package com.csci5308.medinteract.admin.controller;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.csci5308.medinteract.admin.Model;
+package com.csci5308.medinteract.admin.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;

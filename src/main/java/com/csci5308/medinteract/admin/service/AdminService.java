@@ -1,4 +1,4 @@
-package com.csci5308.medinteract.admin.Service;
+package com.csci5308.medinteract.admin.service;
 
 public interface AdminService {
 

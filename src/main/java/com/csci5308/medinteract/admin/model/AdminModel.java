@@ -1,4 +1,4 @@
-package com.csci5308.medinteract.admin.Model;
+package com.csci5308.medinteract.admin.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

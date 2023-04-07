@@ -1,7 +1,7 @@
-package com.csci5308.medinteract.admin.Service;
+package com.csci5308.medinteract.admin.service;
 
-import com.csci5308.medinteract.admin.Model.AdminModel;
-import com.csci5308.medinteract.admin.Repository.AdminRepository;
+import com.csci5308.medinteract.admin.model.AdminModel;
+import com.csci5308.medinteract.admin.repository.AdminRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;

@@ -1,7 +1,7 @@
-package com.csci5308.medinteract.admin.Controller;
+package com.csci5308.medinteract.admin.controller;
 
-import com.csci5308.medinteract.admin.Model.AdminModel;
-import com.csci5308.medinteract.admin.Service.AdminService;
+import com.csci5308.medinteract.admin.model.AdminModel;
+import com.csci5308.medinteract.admin.service.AdminService;
 import com.csci5308.medinteract.utilities.JWT.JWT;
 import com.csci5308.medinteract.utilities.PasswordEncodeDecode;
 import com.csci5308.medinteract.utilities.Response.Response;
