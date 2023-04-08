@@ -98,7 +98,8 @@ public class DoctorController {
         Gson gson = new Gson();
         DoctorModel updatedDoctorModel = gson.fromJson(formData.getFirst("objectData"), DoctorModel.class);
         Optional<DoctorModel> optionalDoctorModel = doctorServiceImpl.getDoctorById(updatedDoctorModel.getId());
-        if (optionalDoctorModel.isEmpty() || !optionalDoctorModel.get().getDoctorEmail().equals(updatedDoctorModel.getDoctorEmail())) {
+        boolean checkDoctor = optionalDoctorModel.isEmpty() || !optionalDoctorModel.get().getDoctorEmail().equals(updatedDoctorModel.getDoctorEmail());
+        if (checkDoctor) {
             //doctor already exists
             Response res = new Response(null, true, "Unable to update profile!");
             return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
