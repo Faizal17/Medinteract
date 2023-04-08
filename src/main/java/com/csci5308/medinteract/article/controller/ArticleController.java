@@ -33,6 +33,9 @@ public class ArticleController {
 
     private final DoctorService doctorServiceImpl;
 
+    public static final int COUNT = 10;
+    public static final int SPLIT_COUNT = 2;
+
     @Autowired
     public ArticleController(ArticleService articleServiceImpl, DoctorService doctorServiceImpl) {
         this.articleServiceImpl = articleServiceImpl;
@@ -48,7 +51,7 @@ public class ArticleController {
             Response res = new Response("", true, "An unknown error occurred!");
             return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
         }
-        String fileName = RandomStringUtils.randomAlphanumeric(10) + ".jpeg";
+        String fileName = RandomStringUtils.randomAlphanumeric(COUNT) + ".jpeg";
 //        StringUtils.cleanPath(multipartFile.getOriginalFilename())
         String uploadDir = "user-photos/blog/";
         articleModel.setCoverImage(uploadDir + fileName);
@@ -85,9 +88,9 @@ public class ArticleController {
         if (multipartFile != null && !multipartFile.isEmpty()) {
             String fileName;
             if (oldArticleModel.getCoverImage()!= null) {
-                fileName = oldArticleModel.getCoverImage().split("/")[2];
+                fileName = oldArticleModel.getCoverImage().split("/")[SPLIT_COUNT];
             } else {
-                fileName = RandomStringUtils.randomAlphanumeric(10) + ".jpeg";
+                fileName = RandomStringUtils.randomAlphanumeric(COUNT) + ".jpeg";
             }
             String uploadDir = "user-photos/blog/";
             try {

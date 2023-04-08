@@ -27,6 +27,9 @@ public class DoctorController {
     private final DoctorService doctorServiceImpl;
     private final JWT jwtTokenUtil;
 
+    public static final int COUNT = 10;
+    public static final int SPLIT_COUNT = 2;
+
     @Autowired
     public DoctorController(DoctorService doctorServiceImpl, JWT jwtTokenUtil) {
         this.doctorServiceImpl = doctorServiceImpl;
@@ -107,9 +110,9 @@ public class DoctorController {
         if (profileImage != null && !profileImage.isEmpty()) {
             String fileName;
             if (oldDoctorModel.getProfilePicture() != null) {
-                fileName = oldDoctorModel.getProfilePicture().split("/")[2];
+                fileName = oldDoctorModel.getProfilePicture().split("/")[SPLIT_COUNT];
             } else {
-                fileName = RandomStringUtils.randomAlphanumeric(10) + ".jpeg";
+                fileName = RandomStringUtils.randomAlphanumeric(COUNT) + ".jpeg";
             }
             String uploadDir = "user-photos/profile/";
             try {
