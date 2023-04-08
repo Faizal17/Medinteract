@@ -13,9 +13,13 @@ public class JWT {
     @Value("${jwt.secret}")
     private  String SECRET_KEY;
 
+    public static final int MINUTES = 60;
+    public static final int MILLISECONDS = 1000;
+    public static final int SECONDS = 60;
+
     public Map<String,Object> generateToken(String username,String type, Object obj) {
         Date now = new Date();
-        Date expiration = new Date(now.getTime() + 60 * 60 * 1000);
+        Date expiration = new Date(now.getTime() + MINUTES * SECONDS * MILLISECONDS);
 
         Map<String,Object> claims = new HashMap<>();
         claims.put("type",type);

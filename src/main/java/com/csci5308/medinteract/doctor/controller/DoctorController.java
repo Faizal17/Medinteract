@@ -79,7 +79,8 @@ public class DoctorController {
     @GetMapping("/profile/{doctorId}")
     public ResponseEntity getDoctorById(@PathVariable("doctorId") Long id) {
         Optional<DoctorModel> doctorModel = doctorServiceImpl.getDoctorById(id);
-        if (doctorModel.isEmpty() || doctorModel.get().isBlocked() || !doctorModel.get().isActive()) {
+        boolean checkDoctor = doctorModel.isEmpty() || doctorModel.get().isBlocked() || !doctorModel.get().isActive();
+        if (checkDoctor) {
             Response res = new Response("", true, "Unable to find user with the given id!");
             return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
         }
