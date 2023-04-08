@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 public class ResponseController {
     @GetMapping("/healthCheck")
     public ResponseEntity healthCheck() {
-        Response res = new Response("", false, "Server is running on the port 6969");
+        Response res = new Response("", false, "Backend server is running on the port 6969");
         return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
     }
 }
