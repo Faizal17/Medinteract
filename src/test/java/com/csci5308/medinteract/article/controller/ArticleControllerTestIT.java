@@ -49,10 +49,7 @@ public class ArticleControllerTestIT {
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         MvcResult mvcResult = TestUtil.getResultFromPostMultiFormAPI(apiURL, "objectData", formData, multipartFile, "content", mockMvc);
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if(mvcResult.getResponse().getStatus()==200)
-        {
-            assertFalse(isError);
-        }
+        assertFalse(isError);
     }
 
     @Test
@@ -71,10 +68,7 @@ public class ArticleControllerTestIT {
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         MvcResult mvcResult = TestUtil.getResultFromPostMultiFormAPI(apiURL, "objectData", formData, multipartFile, "content", mockMvc);
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if(mvcResult.getResponse().getStatus()==200)
-        {
-            assertTrue(isError);
-        }
+        assertTrue(isError);
     }
 
     @Test
@@ -83,7 +77,7 @@ public class ArticleControllerTestIT {
         JSONObject obj = new JSONObject();
         obj.put("title", "title");
         obj.put("doctorId", "13");
-        obj.put("id", "2295");
+        obj.put("id", "202");
         String json = obj.toString();
         formData.add("objectData", json);
         formData.add("content", "content");
@@ -94,10 +88,7 @@ public class ArticleControllerTestIT {
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         MvcResult mvcResult = TestUtil.getResultFromPostMultiFormAPI(apiURL, "objectData", formData, multipartFile, "content", mockMvc);
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if(mvcResult.getResponse().getStatus()==200)
-        {
-            assertFalse(isError);
-        }
+        assertFalse(isError);
     }
 
     @Test
@@ -106,7 +97,7 @@ public class ArticleControllerTestIT {
         JSONObject obj = new JSONObject();
         obj.put("title", "title");
         obj.put("doctorId", "13");
-        obj.put("id", "2295");
+        obj.put("id", "202");
         String json = obj.toString();
         formData.add("objectData", json);
         formData.add("content", "content");
@@ -114,10 +105,7 @@ public class ArticleControllerTestIT {
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         MvcResult mvcResult = TestUtil.getResultFromPostMultiFormAPI(apiURL, "objectData", formData, null, "content", mockMvc);
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if(mvcResult.getResponse().getStatus()==200)
-        {
-            assertFalse(isError);
-        }
+        assertFalse(isError);
     }
 
     @Test
@@ -134,10 +122,7 @@ public class ArticleControllerTestIT {
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         MvcResult mvcResult = TestUtil.getResultFromPostMultiFormAPI(apiURL, "objectData", formData, null, "content", mockMvc);
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if(mvcResult.getResponse().getStatus()==200)
-        {
-            assertTrue(isError);
-        }
+        assertTrue(isError);
     }
 
     @Test
@@ -145,10 +130,7 @@ public class ArticleControllerTestIT {
         MvcResult mvcResult = TestUtil.getResultFromGetAPI("/article/fetchAllArticles",mockMvc);
         String msg = JsonPath.read(mvcResult.getResponse().getContentAsString(), "$.msg");
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if(mvcResult.getResponse().getStatus()==200)
-        {
-            assertFalse(isError);
-        }
+        assertFalse(isError);
         assertEquals("Articles fetched successfully", msg);
     }
 
@@ -157,10 +139,7 @@ public class ArticleControllerTestIT {
         MvcResult mvcResult = TestUtil.getResultFromGetAPI("/article/fetchDoctorArticle/1",mockMvc);
         String msg = JsonPath.read(mvcResult.getResponse().getContentAsString(), "$.msg");
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if(mvcResult.getResponse().getStatus()==200)
-        {
-            assertFalse(isError);
-        }
+        assertFalse(isError);
         assertEquals("Articles fetched successfully", msg);
     }
 
@@ -169,10 +148,7 @@ public class ArticleControllerTestIT {
         MvcResult mvcResult = TestUtil.getResultFromGetAPI("/article/getArticle/1177",mockMvc);
         String msg = JsonPath.read(mvcResult.getResponse().getContentAsString(), "$.msg");
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if(mvcResult.getResponse().getStatus()==200)
-        {
-            assertFalse(isError);
-        }
+        assertFalse(isError);
         assertEquals("Article fetched successfully", msg);
     }
 
@@ -181,10 +157,7 @@ public class ArticleControllerTestIT {
         MvcResult mvcResult = TestUtil.getResultFromGetAPI("/article/getArticle/1",mockMvc);
         String msg = JsonPath.read(mvcResult.getResponse().getContentAsString(), "$.msg");
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if(mvcResult.getResponse().getStatus()==200)
-        {
-            assertTrue(isError);
-        }
+        assertTrue(isError);
         assertEquals("Error while fetching article!", msg);
     }
 
@@ -193,10 +166,7 @@ public class ArticleControllerTestIT {
         MvcResult mvcResult = TestUtil.getResultFromGetAPI("/article/getArticleWithSuggestion/1177",mockMvc);
         String msg = JsonPath.read(mvcResult.getResponse().getContentAsString(), "$.msg");
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if(mvcResult.getResponse().getStatus()==200)
-        {
-            assertFalse(isError);
-        }
+        assertFalse(isError);
         assertEquals("Article fetched successfully", msg);
     }
 
@@ -205,22 +175,16 @@ public class ArticleControllerTestIT {
         MvcResult mvcResult = TestUtil.getResultFromGetAPI("/article/getArticleWithSuggestion/1",mockMvc);
         String msg = JsonPath.read(mvcResult.getResponse().getContentAsString(), "$.msg");
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if(mvcResult.getResponse().getStatus()==200)
-        {
-            assertTrue(isError);
-        }
+        assertTrue(isError);
         assertEquals("Error while fetching article!", msg);
     }
 
     @Test
     void deleteInvalidArticle() throws Exception {
-        MvcResult mvcResult = TestUtil.getResultFromGetAPI("/article/deleteArticle/1",mockMvc);
+        MvcResult mvcResult = TestUtil.getResultFromGetAPI("/article/deleteArticle/-1",mockMvc);
         String msg = JsonPath.read(mvcResult.getResponse().getContentAsString(), "$.msg");
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if(mvcResult.getResponse().getStatus()==200)
-        {
-            assertTrue(isError);
-        }
+        assertTrue(isError);
         assertEquals("Error while deleting article!", msg);
     }
 
@@ -229,10 +193,7 @@ public class ArticleControllerTestIT {
         MvcResult mvcResult = TestUtil.getResultFromGetAPI("/article/deleteArticle/1178",mockMvc);
         String msg = JsonPath.read(mvcResult.getResponse().getContentAsString(), "$.msg");
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if(mvcResult.getResponse().getStatus()==200)
-        {
-            assertFalse(isError);
-        }
+        assertFalse(isError);
         assertEquals("Article deleted successfully", msg);
     }
 }
