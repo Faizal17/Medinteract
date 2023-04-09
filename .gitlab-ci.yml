@@ -1,6 +1,7 @@
 stages:
   - build
   - test
+  - smell
   - deploy
 
 build:
@@ -39,6 +40,18 @@ test:
 #   artifacts:
 #     paths: [gl-code-quality-report.json]
 
+smell-backend-job:
+    stage: smell
+    image: openjdk:11
+    script:
+      - java -jar $CI_PROJECT_DIR/DesigniteJava.jar -i $CI_PROJECT_DIR/smells -o target/
+    tags:
+      - dalfcs_gitlab_docker_ci
+      - dalfcs_docker_kvm
+    artifacts:
+      paths:
+        - target
+
 deploy_dev:
   stage: deploy
   tags:
@@ -59,22 +72,3 @@ deploy_dev:
     # - ssh -i ${DEPLOY_SSH_KEY} ${DEPLOY_USER}@${DEPLOY_HOST} "sudo fuser -k 6969/tcp && sudo systemctl restart medinteract"
   only:
     - dev
-
-deploy_release:
-  stage: deploy
-  tags:
-    - ugrad
-  artifacts:
-    paths:
-      - target
-  script:
-    - echo "dbURL=$DATABASE_PROD_URL" > config.properties
-    - echo "dbUserName=$DATABASE_PROD_USERNAME" >> config.properties
-    - echo "dbPassword=$DATABASE_PROD_PASSWORD" >> config.properties
-    - echo "dbDriver=$DATABASE_DRIVER" >> config.properties
-    - echo "Deploying the release pipeline"
-    - chmod og-rwx ${DEPLOY_PROD_SSH_KEY}
-    - zip -r ${CI_COMMIT_SHORT_SHA}.zip target
-    - scp -r -o StrictHostKeyChecking=no -i "${DEPLOY_PROD_SSH_KEY}" ${CI_COMMIT_SHORT_SHA}.zip "${DEPLOY_PROD_USER}@${DEPLOY_HOST}:${DEPLOY_DIR}/${CI_PROJECT_NAME}-${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHORT_SHA}.zip"
-  only:
-    - release
