@@ -83,7 +83,7 @@ public class ArticleControllerTestIT {
         JSONObject obj = new JSONObject();
         obj.put("title", "title");
         obj.put("doctorId", "13");
-        obj.put("id", "2295");
+        obj.put("id", "202");
         String json = obj.toString();
         formData.add("objectData", json);
         formData.add("content", "content");
@@ -106,7 +106,7 @@ public class ArticleControllerTestIT {
         JSONObject obj = new JSONObject();
         obj.put("title", "title");
         obj.put("doctorId", "13");
-        obj.put("id", "2295");
+        obj.put("id", "202");
         String json = obj.toString();
         formData.add("objectData", json);
         formData.add("content", "content");
@@ -214,7 +214,7 @@ public class ArticleControllerTestIT {
 
     @Test
     void deleteInvalidArticle() throws Exception {
-        MvcResult mvcResult = TestUtil.getResultFromGetAPI("/article/deleteArticle/1",mockMvc);
+        MvcResult mvcResult = TestUtil.getResultFromGetAPI("/article/deleteArticle/-1",mockMvc);
         String msg = JsonPath.read(mvcResult.getResponse().getContentAsString(), "$.msg");
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
         if(mvcResult.getResponse().getStatus()==200)
