@@ -89,7 +89,6 @@ class DoctorControllerTestIT {
 
         String json = obj.toString();
 
-        System.out.println(json);
         mockMvc.perform(post("http://localhost:6969/doctor/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))

@@ -34,7 +34,6 @@ class AppointmentControllerTestIT {
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
-        System.out.println(dateFormat.format(date));
 //        obj.put("id", 0);
         obj.put("patientId", 12);
         obj.put("doctorId", 37);
@@ -46,7 +45,6 @@ class AppointmentControllerTestIT {
         obj.put("active", true);
         String json = obj.toString();
 
-        System.out.println(json);
         MvcResult mcv = mockMvc.perform(post("http://localhost:6969/appointment/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
@@ -61,13 +59,11 @@ class AppointmentControllerTestIT {
         JSONObject obj = new JSONObject();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
-        System.out.println(dateFormat.format(date));
         obj.put("patientId", -1);
         obj.put("doctorId", -1);
 
         String json = obj.toString();
 
-        System.out.println(json);
         mockMvc.perform(post("/appointment/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
@@ -86,7 +82,6 @@ class AppointmentControllerTestIT {
 
         String json = obj.toString();
 
-        System.out.println(json);
         mockMvc.perform(post("http://localhost:6969/appointment/fetchAppointmentsByPatient")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
@@ -105,7 +100,6 @@ class AppointmentControllerTestIT {
 
         String json = obj.toString();
 
-        System.out.println(json);
         mockMvc.perform(post("http://localhost:6969/appointment/fetchAppointmentsByDoctor")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
@@ -131,7 +125,6 @@ class AppointmentControllerTestIT {
 
         String json = obj.toString();
 
-        System.out.println(json);
         MvcResult mvcResult =  mockMvc.perform(post("/appointment/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json)).andReturn();

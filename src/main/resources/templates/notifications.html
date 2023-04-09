@@ -113,14 +113,11 @@
 												if(notif["notificationType"] === "primary" || notif["notificationType"] === "info" || notif["notificationType"] === "dark" || notif["notificationType"] === "light") {
 														$(".reminders").append(`<div class="alert alert-${notif["notificationType"]}" role="alert"><div class="alert-heading row"><h5 class="col"><svg class="bi flex-shrink-0 me-2" role="img" aria-label="Info:"><use xlink:href="#reminder"/></svg>${notif["title"]}</h5> <div class="col"><p class="ms-auto" style="width: fit-content">${new Date(notif["notificationDateTime"]).toLocaleString()}</p></div></div><hr class="mt-0"><p class="mb-0">${notif["message"]}</p></div>`);
 												} else {
-														// $(".notifications").append(`<div class="alert alert-${notif["notificationType"]}" role="alert"><div class="alert-heading row"><h4 class="col"><svg class="bi flex-shrink-0 me-2" role="img" aria-label="Info:"><use xlink:href="#${notif["notificationType"]}"/></svg>${notif["title"]}</h4> <div class="col"><p class="ms-auto" style="width: fit-content">${new Date(notif["notificationDateTime"]).toLocaleString()}</p></div></div><hr class="mt-0"><p class="mb-0"><svg class="bi flex-shrink-0 me-2" role="img" aria-label="Info:"><use xlink:href="#${notif["notificationType"]}"/></svg>${notif["message"]}</p></div>`);
 														$(".notifications").append(`<div class="alert alert-${notif["notificationType"]}" role="alert"><div class="alert-heading row"><h5 class="col"><svg class="bi flex-shrink-0 me-2" role="img" aria-label="Info:"><use xlink:href="#${notif["notificationType"]}"/></svg>${notif["title"]}</h5> <div class="col"><p class="ms-auto" style="width: fit-content">${new Date(notif["notificationDateTime"]).toLocaleString()}</p></div></div><hr class="mt-0"><p class="mb-0">${notif["message"]}</p></div>`);
-														// $(".notifications").append(`<div class="alert alert-${notif["notificationType"]}" role="alert"><div class="alert-heading row"><h4 class="col">${notif["title"]}</h4> <div class="col"><p class="ms-auto" style="width: fit-content">${new Date(notif["notificationDateTime"]).toLocaleString()}</p></div></div><hr class="mt-0"><p class="mb-0"><svg class="bi flex-shrink-0 me-2" role="img" aria-label="Info:"><use xlink:href="#${notif["notificationType"]}"/></svg>${notif["message"]}</p></div>`);
 												}
 										}
 								}
 						} catch(err){
-								console.log(err)
 								addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
 						}
 				})

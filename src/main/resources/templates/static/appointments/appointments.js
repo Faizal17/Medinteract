@@ -62,7 +62,6 @@ function loadAppointments(type, id, editable = false) {
                     // savePayloadData["endTime"] = args.end;
                     savePayloadData["colorCode"] = args.color? args.color: "";
                     savePayloadData["active"] = true;
-                    console.log(args, savePayloadData)
                     if (hasModifiedOverlap(args, calendar.getInst())) {
                         mobiscroll.toast({
                             message: 'Make sure not to double book'
@@ -124,9 +123,6 @@ function loadAppointments(type, id, editable = false) {
                             if(data.isError){
                                 addToast(true, "Error", data.msg);
                                 return false;
-                            } else {
-                                console.log(calendar.getEvents())
-                                // addToast(false, "Success", "Appointment created successfully!")
                             }
                         } catch(err){
                             addToast(true, "Error", "Some unknown error occurred. Unable to create an appointment!")
@@ -222,38 +218,17 @@ function loadAppointments(type, id, editable = false) {
                         });
                         return false;
                     }
-                    // if (type === "Patient" && getCookie("type") === "patient") {
-                    //     if(id === getCookie("id")) {
-                    //         addToast(true, "Error", "Unable to save appointment with yourself!")
-                    //     } else {
-                    //         addToast(true, "Error", "Unable to save appointment with another patient!")
-                    //     }
-                    //     return false;
-                    // } else
-                        if (type === "Doctor" && getCookie("type") === "patient") {
+                    if (type === "Doctor" && getCookie("type") === "patient") {
                         if(getCookie("id") != savePayloadData["patientId"]) {
                             addToast(true, "Error", "Unable to update appointment of another patient!")
                             return false;
                         }
-                    // } else if (type === "Doctor" && getCookie("type") === "doctor") {
-                    //     if(id === getCookie("id")) {
-                    //         addToast(true, "Error", "Unable to save appointment with yourself!")
-                    //     } else {
-                    //         addToast(true, "Error", "Unable to save appointment with another doctor!")
-                    //     }
-                    //     return false;
                     } else if (type === "Patient" && getCookie("type") === "doctor") {
                         if(getCookie("id") != savePayloadData["doctorId"]) {
                             addToast(true, "Error", "Unable to update appointment of another doctor!")
                             return false;
                         }
                     }
-                    //     else {
-                    //     mobiscroll.toast({
-                    //         message: 'Some unknown error occurred!'
-                    //     });
-                    //     return false;
-                    // }
                     $.ajax({
                         url: globalURL + "appointment/update",
                         type: "POST",
@@ -327,11 +302,7 @@ function loadAppointments(type, id, editable = false) {
         let events = inst.getInvalids(ev.start, ev.end).filter(function (e) { return e.id !== ev.id });
         return events.length > 0;
     }
-    // mobiscroll.momentTimezone.moment = moment;
     window.calendar = $('#demo-day-week-view').mobiscroll().eventcalendar({
-        // dataTimezone: 'utc',
-        // displayTimezone: 'local',
-        // timezonePlugin: mobiscroll.momentTimezone,
         invalid: [
             {
                 // More info about invalid: https://docs.mobiscroll.com/5-21-2/eventcalendar#opt-invalid
@@ -392,7 +363,6 @@ function loadAppointments(type, id, editable = false) {
         onEventClick: function (args) {
             oldEvent = $.extend({}, args.event);
             tempEvent = args.event;
-            console.log(args)
 
             const d = new Date();
             let diff = d.getTimezoneOffset()*60*1000*-1;
@@ -412,10 +382,8 @@ function loadAppointments(type, id, editable = false) {
                 });
                 return false;
             }
-            console.log(args, inst);
         },
         onEventCreated: function (args) {
-            console.log(args);
             popup.close();
 
             // store temporary event
@@ -461,7 +429,6 @@ function loadAppointments(type, id, editable = false) {
             calendar.removeEvent(tempEvent);
         },
         onEventUpdate: function (args, inst) {
-            console.log(args, inst);
             if (hasOverlap(args, inst)) {
                 mobiscroll.toast({
                     message: 'Make sure not to double book'
@@ -470,7 +437,6 @@ function loadAppointments(type, id, editable = false) {
             }
         },
         onEventUpdated: function (args, inst) {
-            console.log(args, inst);
             if (hasOverlap(args, inst)) {
                 mobiscroll.toast({
                     message: 'Make sure not to double book'
@@ -501,11 +467,6 @@ function loadAppointments(type, id, editable = false) {
         dragToResize: false
     }).mobiscroll('getInst');
 
-    // $.getJSON(globalURL+"appointment/fetchAppointmentsBy"+type, function (events) {
-    //     calendar.setEvents([]);
-    //
-    //     console.log(events);
-    // }, 'jsonp');
     let payloadData = {};
     if(type == "Patient") {
         payloadData["patientId"] = id;
@@ -522,7 +483,6 @@ function loadAppointments(type, id, editable = false) {
         .done(function(response) {
             try {
                 let data = response;
-                console.log(data);
                 if(data.isError){
                     addToast(true, "Error", data.msg);
                     // window.location.href="./index.html";
@@ -546,20 +506,16 @@ function loadAppointments(type, id, editable = false) {
                         responseData["patientId"] = data.data[i].patientId;
                         responseDataList.push(responseData)
                     }
-                    console.log(responseDataList)
-                    console.log(calendar);
                     calendar.setEvents(responseDataList);
                     // addToast(false, "Success", "Data fetched successfully!")
                 }
             } catch(err){
-                console.log(err)
                 addToast(true, "Error", "Some unknown error occurred. Unable to fetch the appointments!")
                 // window.location.href="./index.html";
             }
         })
         .fail(function (jqXHR, textStatus, errorThrown){
             addToast(true, "Error", "Some unknown error occurred. Unable to fetch the appointments!");
-            // window.location.href="./index.html";
         });
 
     $('.md-view-change').change(function (ev) {

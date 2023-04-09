@@ -111,7 +111,6 @@ public class Scheduler {
 //            notificationServiceImpl.saveNotification(notificationModel);
 //            simpMessagingTemplate.convertAndSendToUser(appointmentModel.getDoctorId().toString(), "/doctor", data);
 //        }
-//        System.out.println(appointmentModelList + "enddd");
 //    }
 
     @Scheduled(cron = "@hourly")
@@ -135,7 +134,6 @@ public class Scheduler {
             notificationServiceImpl.saveNotification(notificationModel);
             simpMessagingTemplate.convertAndSendToUser(appointmentModel.getDoctorId().toString(), "/doctor", data);
         }
-        System.out.println(appointmentModelList);
     }
 
     @Scheduled(cron = "@daily")

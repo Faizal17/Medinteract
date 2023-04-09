@@ -30,7 +30,6 @@ public class AdminController {
 
 //        String decodedPwd = PasswordEncodeDecode.decrypt(adminModel.getAdminPassword());
         String encodedpwd = PasswordEncodeDecode.encrypt(adminModel.getAdminPassword());
-        System.out.println(encodedpwd);
         if(adminService.isAdminValid(adminModel.getAdminEmail(),encodedpwd))
         {
             adminModel.setAdminPassword("");

@@ -37,7 +37,6 @@ class CityControllerTestIT {
 
         String json = obj.toString();
 
-        System.out.println(json);
         mockMvc.perform(post("http://localhost:6969/city/city_id")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
@@ -56,7 +55,6 @@ class CityControllerTestIT {
 
         String json = obj.toString();
 
-        System.out.println(json);
         mockMvc.perform(post("http://localhost:6969/city/city_name")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
@@ -75,7 +73,6 @@ class CityControllerTestIT {
 
         String json = obj.toString();
 
-        System.out.println(json);
         mockMvc.perform(post("http://localhost:6969/city/city_name_with_province")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))

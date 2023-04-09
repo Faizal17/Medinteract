@@ -24,7 +24,6 @@ public class ProvinceController {
     public ResponseEntity fetchAll()
     {
         List<ProvinceModel> provinceModelList= provinceServiceImpl.fetchAll();
-        System.out.println(provinceModelList.get(0).getId());
         Response res = new Response(provinceModelList, false, "All provinces fetched successfully");
         return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
     }

@@ -46,7 +46,6 @@ public class FeedbackServiceImpl implements FeedbackService {
         List<Map<String, Object>> feedbackDetailsList = new ArrayList<>();
         Map<String, Object> data = new HashMap<>();
         if (feedbackModelCurrentPatient != null) {
-            System.out.println("..................." + feedbackModelCurrentPatient.getPatientId());
             data.put("id", feedbackModelCurrentPatient.getId());
             data.put("feedbackDate", feedbackModelCurrentPatient.getFeedbackDate());
             data.put("rating", feedbackModelCurrentPatient.getRating());
@@ -57,7 +56,6 @@ public class FeedbackServiceImpl implements FeedbackService {
         }
         feedbackDetailsList.add(data);
 
-        System.out.println(feedbackDetailsList.size());
 
         for (int i = 0; i < feedbackModelList.size(); i++) {
             data = new HashMap<>();

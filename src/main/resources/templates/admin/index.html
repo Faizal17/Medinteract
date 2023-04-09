@@ -226,13 +226,11 @@
         })
         .done(function(response) {
             try {
-                console.log(response);
                 let data = response;
                 if(data.isError){
                     // addToast(true, "Error", data.msg);
                     // window.location.href="../index.html";
                 } else {
-                    console.log(data)
                     if (data.data.type == 'admin'){
                         setCookie("email", data.data.obj.adminEmail);
                         setCookie("type", "admin");
@@ -359,7 +357,6 @@
         let data = {};
         event.preventDefault();
         const id = this.id;
-        console.log(id);
         let redirectURL = ""
 
         url = globalURL + "admin/login";
@@ -372,7 +369,6 @@
             dataType: "json",
             contentType: "application/json"
         }).done(function (data) {
-            console.log(data);
             if(data.isError){
                 addToast(true, "Error", data.msg);
                 redirectURL = "./index.html";
@@ -386,9 +382,7 @@
             window.location.href=redirectURL;
         })
         .fail(function (jqXHR, textStatus, errorThrown){
-            // let msg = JSON.parse(jqXHR.responseText);
             addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
-            // console.log(jqXHR, textStatus, errorThrown);
         });
     });
 

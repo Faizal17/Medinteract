@@ -60,7 +60,6 @@
 						dataType: "json"
 				})
 				.done(function (response) {
-						console.log(response)
 						for (i = 0; i < response.data.length; i++) {
 								$("#blogContainer").append(`
 						<div class="col-12 col-sm-6 col-md-4 col-lg-3 py-3">
@@ -97,7 +96,6 @@
 								
 								}
 						} catch (err) {
-								console.log(err)
 								addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
 						}
 				})
