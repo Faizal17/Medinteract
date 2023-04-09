@@ -4,43 +4,31 @@ import com.csci5308.medinteract.doctor.model.DoctorModel;
 import com.csci5308.medinteract.appointment.model.AppointmentModel;
 import com.csci5308.medinteract.appointment.repository.AppointmentRepository;
 import com.csci5308.medinteract.patient.model.PatientModel;
-import com.csci5308.medinteract.JWT.JWT;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static org.mockito.Mockito.verify;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(value = AppointmentServiceImpl.class)
-public class AppoinmentServiceTestUT {
-    @Autowired
-    private MockMvc mockMvc;
-    @Mock
-    private AppointmentRepository appointmentRepository;
+@WebMvcTest(value = AppointmentService.class)
+public class AppoinmentServiceTest {
     @MockBean
     @Autowired
     private AppointmentRepository mockappointmentRepository;
 
-    @MockBean
-    private JWT jwt;
-
     @Autowired
-    private AppointmentServiceImpl appointmentService;
+    private AppointmentService appointmentService;
 
 
     private AppointmentModel mockAppoinmentModel = new AppointmentModel();;
-    private String appoinmentJSON = "{ \"rating\": 3,\"doctorId\": 101, \"patientId\": 201 }";
 
     @Test
     void saveAppointmentTest() throws Exception {

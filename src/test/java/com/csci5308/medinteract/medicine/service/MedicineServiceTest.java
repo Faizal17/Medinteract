@@ -2,11 +2,16 @@ package com.csci5308.medinteract.medicine.service;
 
 import com.csci5308.medinteract.medicine.model.MedicineModel;
 import com.csci5308.medinteract.medicine.repository.MedicineRepository;
+import com.csci5308.medinteract.prescription.service.PrescriptionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +20,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(SpringExtension.class)
+@WebMvcTest(value = MedicineService.class)
 public class MedicineServiceTest {
 
-    @Mock
+    @MockBean
+    @Autowired
     private MedicineRepository medicineRepository;
 
+    @Autowired
     private MedicineService medicineService;
 
     @BeforeEach

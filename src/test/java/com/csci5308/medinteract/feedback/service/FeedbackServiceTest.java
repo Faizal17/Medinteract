@@ -21,25 +21,19 @@ import java.util.*;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(value = FeedbackServiceImpl.class)
-public class FeedbackServiceTestUT {
-    @Autowired
-    private MockMvc mockMvc;
+@WebMvcTest(value = FeedbackService.class)
+public class FeedbackServiceTest {
     @Mock
     private FeedbackRepository feedbackRepository;
     @MockBean
     @Autowired
     private FeedbackRepository mockfeedbackRepository;
 
-    @MockBean
-    private JWT jwt;
-
     @Autowired
-    private FeedbackServiceImpl feebackService;
+    private FeedbackService feebackService;
 
 
     private FeedbackModel mockFeedbackModel = new FeedbackModel(3,101,201);;
-    private String feedbackJSON = "{ \"rating\": 3,\"doctorId\": 101, \"patientId\": 201 }";
 
     @Test
     void saveFeedbackTest() throws Exception {

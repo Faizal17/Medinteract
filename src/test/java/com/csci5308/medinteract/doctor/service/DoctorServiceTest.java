@@ -23,28 +23,17 @@ import static org.mockito.Mockito.verify;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(value = DoctorService.class)
-public class DoctorServiceTestUT {
-    @Autowired
-    private MockMvc mockMvc;
-    @Mock
-    private DoctorRepository doctorRepository;
+public class DoctorServiceTest {
     @MockBean
     @Autowired
     private DoctorRepository mockDoctorRepository;
 
-    @MockBean
-    private JWT jwt;
-
     @Autowired
-    private DoctorServiceImpl doctorService;
+    private DoctorService doctorService;
 
-
-//    private DoctorModel mockDoctorModel = new DoctorModel("doctor@gmail.com","docPass");;
     private DoctorModel mockDoctorModel = new DoctorModel();
 
-    private String doctorJSON = "{ \"doctorEmail\": \"doctor@gmail.com\",\"doctorPasswprd\": \"docPass\"}";
-
-    DoctorServiceTestUT() {
+    DoctorServiceTest() {
         mockDoctorModel.setDoctorEmail("doctor@gmail.com");
         mockDoctorModel.setDoctorPassword("docPass");
     }

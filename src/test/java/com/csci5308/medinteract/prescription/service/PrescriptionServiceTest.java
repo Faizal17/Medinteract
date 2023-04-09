@@ -4,9 +4,11 @@ import com.csci5308.medinteract.medicine.repository.MedicineRepository;
 import com.csci5308.medinteract.prescription.model.PrescriptionModel;
 import com.csci5308.medinteract.prescription.repository.PrescriptionRepository;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,17 +18,20 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@ExtendWith(SpringExtension.class)
+@WebMvcTest(value = PrescriptionService.class)
 public class PrescriptionServiceTest {
+    @MockBean
+    @Autowired
+    private PrescriptionRepository prescriptionRepository;
+
+    @MockBean
+    @Autowired
+    private MedicineRepository medicineRepository;
 
     @Autowired
     private PrescriptionService prescriptionService;
 
-    @MockBean
-    private PrescriptionRepository prescriptionRepository;
-
-    @MockBean
-    private MedicineRepository medicineRepository;
 
     @Test
     public void savePrescriptionTest() {

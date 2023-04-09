@@ -1,53 +1,63 @@
 package com.csci5308.medinteract.medicine.controller;
 
-import com.csci5308.medinteract.TestUtil;
-import com.jayway.jsonpath.JsonPath;
-import org.json.JSONObject;
+import com.csci5308.medinteract.medicine.model.MedicineModel;
+import com.csci5308.medinteract.medicine.repository.MedicineRepository;
+import com.csci5308.medinteract.medicine.service.MedicineService;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-class MedicineControllerTest {
+@ExtendWith(SpringExtension.class)
+@WebMvcTest(value = MedicineController.class)
+public class MedicineControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-    @Test
-    void addMedicines() throws Exception {
-        JSONObject obj = new JSONObject();
-        obj.put("medicineName", "medicineName");
-        String json = obj.toString();
 
-        String apiURL = "/medicine/addMedicines";
-        MvcResult mvcResult = TestUtil.getResultFromPostAPI(apiURL,json,mockMvc);
-        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if(mvcResult.getResponse().getStatus()==200)
-        {
-            assertFalse(isError);
-        }
+    @Mock
+    private MedicineRepository medicineRepository;
+
+    @MockBean
+    private MedicineService medicineService;
+
+
+    @Test
+    public void testFetchAll() throws Exception {
+        MedicineModel medicine1 = new MedicineModel(1L, "Medicine 1", 1, true, false, false, "Medicine 1");
+        MedicineModel medicine2 = new MedicineModel(2L, "Medicine 2", 2, false, true, false, "Medicine 2");
+        List<MedicineModel> medicines = Arrays.asList(medicine1, medicine2);
+
+        Mockito.when(medicineService.findAllMedicine()).thenReturn(medicines);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/medicine/fetchAll"))
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
-    void fetchAll() throws Exception {
+    void testGetMedicineById() throws Exception {
 
-       mockMvc.perform(get("/medicine/fetchAll")).andExpect(status().isOk());
-    }
+        MedicineModel medicine = new MedicineModel(1L, "Medicine 1", 1, true, false, false, "Medicine 1");
 
-    @Test
-    void getPrescriptionById() throws Exception {
-        MvcResult mvcResult = TestUtil.getResultFromGetAPI("/medicine/fetch/1",mockMvc);
-        String msg = JsonPath.read(mvcResult.getResponse().getContentAsString(), "$.msg");
-        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if (!isError) {
-            assertEquals("Medicines details fetched Successfully!", msg);
-        }
+
+        Mockito.when(medicineService.findMedicineById(1l)).thenReturn(medicine);
+
+        mockMvc.perform(get("/medicine/fetch/" + 1l)).andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.msg").value("Medicines details fetched Successfully!"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.isError").value("false"));
     }
 }
