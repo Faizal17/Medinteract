@@ -41,7 +41,7 @@ test:
 #     paths: [gl-code-quality-report.json]
 
 smell-backend-job:
-    stage: smells
+    stage: smell
     image: openjdk:11
     script:
       - java -jar $CI_PROJECT_DIR/DesigniteJava.jar -i $CI_PROJECT_DIR/smells -o target/
