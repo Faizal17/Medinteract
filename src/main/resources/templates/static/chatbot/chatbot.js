@@ -91,7 +91,11 @@ const textVal = input.toString();
     unknownCommand(unkwnCommReaction);
     hasCorrectInput = true;
 
-async function botResponse(textVal) {
+}
+
+// debugger;
+
+function botResponse(textVal) {
   //sets previous input to that what was called
   // previousInput = input;
   //create response bubble
@@ -229,6 +233,7 @@ var possibleInput = {
       responseButtons(data.data[i].patientName.toString(), null, data.data[i].id,"calendar");
       commandReset(2);
     }
+    return;
     return;
   }
     ,
