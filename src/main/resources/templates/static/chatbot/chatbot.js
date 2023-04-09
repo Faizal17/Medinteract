@@ -35,7 +35,7 @@ emergency.addEventListener("click", function(event){
 
 
 
-sendForm.onkeydown = function(e){
+  sendForm.onkeydown = function(e){
   if(e.keyCode == 13){
     e.preventDefault();
 
@@ -80,21 +80,17 @@ var checkInput = function(input) {
   hasCorrectInput = false;
   isReaction = false;
 const textVal = input.toString();
-
     //Is a word of the input also in possibleInput object?
-    if(input == textVal || input.indexOf(textVal) >=0 && isReaction == false){
+    if(possibleInput.hasOwnProperty(input)){
       hasCorrectInput = true;
       botResponse(textVal);
     }
+    //When input is not in possibleInput
+    if(hasCorrectInput == false){
+      unknownCommand(unkwnCommReaction);
+      hasCorrectInput = true;
+    }
   }
-  //When input is not in possibleInput
-  if(hasCorrectInput == false){
-    unknownCommand(unkwnCommReaction);
-    hasCorrectInput = true;
-
-}
-
-// debugger;
 
 function botResponse(textVal) {
   //sets previous input to that what was called
@@ -113,7 +109,6 @@ function botResponse(textVal) {
 
 function unknownCommand(unkwnCommReaction) {
   // animationCounter = 1;
-
   //create response bubble
   var failedResponse = document.createElement('li');
 
@@ -127,9 +122,10 @@ function unknownCommand(unkwnCommReaction) {
   chatList.appendChild(failedResponse) //adds chatBubble to chatlist
 
   animateBotOutput();
-
+  console.log(130)
   // reset text area input
   textInput.value = "";
+  console.log(133)
 
   //Sets chatlist scroll to bottom
   chatList.scrollTop = chatList.scrollHeight;
@@ -238,8 +234,15 @@ var possibleInput = {
     return;
   }
     ,
-  "myBooking": function(){
-      responseButtons("My booking",null,"myBookingId","myBooking");
+  "my appointments": function(){
+    $("#show").click();
+    let name = getCookie("name")
+    $("#modalTitleDoctorName").html(name);
+
+
+    if (getCookie("type") == "patient" || getCookie("type") == "doctor") {
+      loadAppointments(getCookie("type").charAt(0).toUpperCase() + getCookie("type").slice(1), getCookie("id"), true);
+    }
   commandReset(2);
   return
 }
@@ -280,7 +283,21 @@ var possibleInput = {
   },
 
 
+  "help" : function(){
+    let resp = "";
+    if (getCookie("type") == "patient") {
+      resp += "<input class=\"btn btn-primary createappointment\" type=\"button\" id=\"createappointment\" value=\"Create Appointment\">\n";
+    }
+    resp += "<input class=\"btn btn-primary myBooking\" type=\"button\" id=\"myBooking\" value=\"My Appointments\">\n";
+    if (getCookie("type") == "patient") {
+      resp += "<input class=\"btn btn-primary viewDoctors\" id=\"viewDoctors\" type=\"button\" value=\"View Doctors\">\n";
+    }
+    resp += "<input class=\"btn btn-primary emergencyInfo\" id=\"emergencyInfo\" type=\"button\" value=\"Emergency Contact\">";
 
+    responseText(resp);
+    commandReset(2);
+    return
+  },
 
   "alldoctors" : async function () {
     let url = "http://localhost:6969/doctor/fetchAll";
