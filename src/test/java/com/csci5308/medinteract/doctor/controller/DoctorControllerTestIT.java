@@ -140,7 +140,7 @@ class DoctorControllerTestIT {
         JSONObject obj = new JSONObject();
         obj.put("doctorEmail", "ddd@gmail.com");
         obj.put("doctorPassword","abc");
-        obj.put("id", "1421");
+        obj.put("id", "3884");
         String json = obj.toString();
         formData.add("objectData", json);
         String apiURL = "/doctor/updateProfile";
@@ -162,7 +162,7 @@ class DoctorControllerTestIT {
         JSONObject obj = new JSONObject();
         obj.put("doctorEmail", "ddd@gmail.com");
         obj.put("doctorPassword","abc");
-        obj.put("id", "1421");
+        obj.put("id", "3884");
         String json = obj.toString();
         formData.add("objectData", json);
         String apiURL = "/doctor/updateProfile";
@@ -292,8 +292,10 @@ class DoctorControllerTestIT {
     @Test
     void findDoctorOnDetailsWithCity() throws Exception {
         JSONObject obj = new JSONObject();
-        obj.put("doctorEmail", "maulvifaizal@gmail.com");
-
+        obj.put("doctorName", "");
+        obj.put("doctorAddressProvince", null);
+        obj.put("doctorAddressPostalCode", null);
+        obj.put("doctorQualification", "");
         String json = obj.toString();
         String apiURL = "/doctor/get_doctor_on_details_and_city";
         MvcResult mvcResult = TestUtil.getResultFromPostAPI(apiURL,json,mockMvc);
