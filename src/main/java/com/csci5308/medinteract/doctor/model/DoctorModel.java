@@ -10,7 +10,8 @@ import java.util.Date;
 @Table(name="doctor")
 public class DoctorModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "doctor_generator")
+    @SequenceGenerator(name="doctor_generator", sequenceName = "doctor_seq", allocationSize=100)
     @Column(name = "id", nullable = false)
     private Long id;
     @NotBlank

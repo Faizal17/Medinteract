@@ -9,7 +9,8 @@ import java.time.LocalDateTime;
 @Table(name="articles")
 public class ArticleModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "article_generator")
+    @SequenceGenerator(name="article_generator", sequenceName = "article_seq", allocationSize=100)
     @Column(name = "id", nullable = false)
     private Long id;
 

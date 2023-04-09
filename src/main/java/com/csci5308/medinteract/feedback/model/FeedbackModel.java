@@ -44,7 +44,9 @@ public class FeedbackModel {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "feedback_generator")
+    @SequenceGenerator(name="feedback_generator", sequenceName = "feedback_seq", allocationSize=100)
     @Column(name = "id", nullable = false)
     private Long id;
 

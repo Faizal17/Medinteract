@@ -121,13 +121,19 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public List<Map<String, Object>> findDoctorOnDetailsWithCity(DoctorModel doctorModel) {
+    public List<Map<String, Object>> findDoctorOnDetailsWithCity(DoctorModel doctorModel, Boolean flag) {
         String name = doctorModel.getDoctorName();
         Long province = doctorModel.getDoctorAddressProvince();
         Long city = doctorModel.getDoctorAddressCity();
         String qualification = doctorModel.getDoctorQualification();
-        List<Object> doctorModelList = doctorRepository.findDoctorOnDetailsWithCity(name, province, city,
-                qualification);
+        List<Object> doctorModelList;
+        if(!flag) {
+            doctorModelList = doctorRepository.findDoctorOnDetails();
+        } else {
+            doctorModelList = doctorRepository.findDoctorOnDetailsWithCity(name, province, city,
+                    qualification);
+        }
+
         List<Map<String, Object>> doctorDetailsList = new ArrayList<>();
 
         for (int i = 0; i < doctorModelList.size(); i++) {

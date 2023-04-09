@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name="cities")
 public class CityModel {
+
     public Long getId() {
         return id;
     }
@@ -88,7 +89,8 @@ public class CityModel {
 //    }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cities_generator")
+    @SequenceGenerator(name="cities_generator", sequenceName = "cities_seq", allocationSize=100)
     @Column(name = "id", nullable = false)
     private Long id;
     @NotBlank

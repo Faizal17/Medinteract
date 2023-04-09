@@ -19,7 +19,7 @@ public interface DoctorService {
 
     String encodePassword(String password) throws Exception;
 
-    List<Map<String, Object>> findDoctorOnDetailsWithCity(DoctorModel doctorModel);
+    List<Map<String, Object>> findDoctorOnDetailsWithCity(DoctorModel doctorModel, Boolean flag);
 
     Optional<DoctorModel> getDoctorById(Long id);
 

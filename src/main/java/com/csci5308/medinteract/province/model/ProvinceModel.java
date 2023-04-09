@@ -10,7 +10,9 @@ import java.util.List;
 @Table(name="provinces")
 public class ProvinceModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "province_generator")
+    @SequenceGenerator(name="province_generator", sequenceName = "province_seq", allocationSize=100)
     @Column(name = "id", nullable = false)
     private Long id;
     @NotBlank

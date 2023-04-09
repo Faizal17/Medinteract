@@ -8,6 +8,9 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name="appointments")
 public class AppointmentModel {
+
+
+
     public Long getId() {
         return id;
     }
@@ -81,7 +84,8 @@ public class AppointmentModel {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "appointment_generator")
+    @SequenceGenerator(name="appointment_generator", sequenceName = "appointment_seq", allocationSize=100)
     @Column(name = "id", nullable = false)
     private Long id;
     @NotBlank

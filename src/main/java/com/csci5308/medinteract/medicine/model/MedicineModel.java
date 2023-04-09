@@ -12,7 +12,9 @@ import javax.validation.constraints.NotNull;
 @Table(name = "medicine")
 public class MedicineModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "medicine_generator")
+    @SequenceGenerator(name="medicine_generator", sequenceName = "medicine_seq", allocationSize=100)
     @Column(name = "medicine_id", nullable = false)
     private Long medicineId;
 
