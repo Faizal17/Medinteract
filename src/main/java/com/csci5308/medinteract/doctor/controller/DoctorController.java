@@ -28,6 +28,9 @@ public class DoctorController {
     private final DoctorService doctorServiceImpl;
     private final JWT jwtTokenUtil;
 
+    public static final int COUNT = 10;
+    public static final int SPLIT_COUNT = 2;
+
     @Autowired
     public DoctorController(DoctorService doctorServiceImpl, JWT jwtTokenUtil) {
         this.doctorServiceImpl = doctorServiceImpl;
@@ -80,7 +83,8 @@ public class DoctorController {
     @GetMapping("/profile/{doctorId}")
     public ResponseEntity getDoctorById(@PathVariable("doctorId") Long id) {
         Optional<DoctorModel> doctorModel = doctorServiceImpl.getDoctorById(id);
-        if (doctorModel.isEmpty() || doctorModel.get().isBlocked() || !doctorModel.get().isActive()) {
+        boolean checkDoctor = doctorModel.isEmpty() || doctorModel.get().isBlocked() || !doctorModel.get().isActive();
+        if (checkDoctor) {
             Response res = new Response("", true, "Unable to find user with the given id!");
             return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
         }
@@ -95,7 +99,8 @@ public class DoctorController {
         Gson gson = new Gson();
         DoctorModel updatedDoctorModel = gson.fromJson(formData.getFirst("objectData"), DoctorModel.class);
         Optional<DoctorModel> optionalDoctorModel = doctorServiceImpl.getDoctorById(updatedDoctorModel.getId());
-        if (optionalDoctorModel.isEmpty() || !optionalDoctorModel.get().getDoctorEmail().equals(updatedDoctorModel.getDoctorEmail())) {
+        boolean checkDoctor = optionalDoctorModel.isEmpty() || !optionalDoctorModel.get().getDoctorEmail().equals(updatedDoctorModel.getDoctorEmail());
+        if (checkDoctor) {
             //doctor already exists
             Response res = new Response(null, true, "Unable to update profile!");
             return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
@@ -107,9 +112,9 @@ public class DoctorController {
         if (profileImage != null && !profileImage.isEmpty()) {
             String fileName;
             if (oldDoctorModel.getProfilePicture() != null) {
-                fileName = oldDoctorModel.getProfilePicture().split("/")[2];
+                fileName = oldDoctorModel.getProfilePicture().split("/")[SPLIT_COUNT];
             } else {
-                fileName = RandomStringUtils.randomAlphanumeric(10) + ".jpeg";
+                fileName = RandomStringUtils.randomAlphanumeric(COUNT) + ".jpeg";
             }
             String uploadDir = "user-photos/profile/";
             try {

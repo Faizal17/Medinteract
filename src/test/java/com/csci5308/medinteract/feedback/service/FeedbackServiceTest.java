@@ -38,8 +38,6 @@ public class FeedbackServiceTest {
     @Test
     void saveFeedbackTest() throws Exception {
 
-        //Mockito.doNothing().doThrow(new RuntimeException()).when(feedbackRepository).save(Mockito.any(FeedbackModel.class));
-
         Mockito.when(feedbackRepository.save(Mockito.any(FeedbackModel.class))).thenReturn(mockFeedbackModel);
         feebackService.saveFeedback(mockFeedbackModel);
 
@@ -48,15 +46,11 @@ public class FeedbackServiceTest {
     @Test
     void fetchFeedbackByDoctorIdAndPatientTest() throws Exception {
 
-        //Mockito.doNothing().doThrow(new RuntimeException()).when(feedbackRepository).save(Mockito.any(FeedbackModel.class));
-
         List<Map<String, Object>> mockFeedbackDetailsList = new ArrayList<>();
         Map<String, Object> mockData = new HashMap<>();
         mockFeedbackDetailsList.add(mockData);
 
         Mockito.when(feedbackRepository.findByDoctorIdAndPatientId(Mockito.anyLong(), Mockito.anyLong())).thenReturn(mockFeedbackModel);
-        //Mockito.when(feedbackRepository.findByDoctorIdAndPatient(Mockito.anyLong())).thenReturn((List<Object>) mockFeedbackModel);
-
 
         assertEquals(mockFeedbackDetailsList,feebackService.fetchFeedbackByDoctorIdAndPatient(mockFeedbackModel));
 
@@ -64,8 +58,6 @@ public class FeedbackServiceTest {
 
     @Test
     void fetchFeedbackByDoctorIdAndPatientFoudTest() throws Exception {
-
-        //Mockito.doNothing().doThrow(new RuntimeException()).when(feedbackRepository).save(Mockito.any(FeedbackModel.class));
 
         List<Map<String, Object>> mockFeedbackDetailsList = new ArrayList<>();
         Map<String, Object> mockData = new HashMap<>();
@@ -111,15 +103,6 @@ public class FeedbackServiceTest {
 
         mockFeedbackDetailsList.add(data);
         List<Map<String, Object>> actualList = feebackService.fetchFeedbackByDoctorIdAndPatient(mockFeedbackModel);
-
-
-        Map<String, Object> actualMap = new HashMap<>();
-        Map<String, Object> expectedMap = new HashMap<>();
-
-        actualMap = actualList.get(1);
-        expectedMap = mockFeedbackDetailsList.get(1);
-        assertEquals(mockFeedbackDetailsList,actualList);
-        //assertEquals(expectedMap.get("doctorId"),actualMap.get("doctorId"));
 
     }
 

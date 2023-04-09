@@ -51,10 +51,10 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public boolean isDoctorValid(String doctorEmail, String doctorPassword) throws Exception {
         Optional<DoctorModel> doctor = doctorRepository.findByDoctorEmail(doctorEmail);
-
         String encodedPassword = encodePassword(doctorPassword);
-        if (doctor.isPresent() && doctor.get().getDoctorPassword().equals(encodedPassword) && doctor.get().isActive()
-                && !doctor.get().isBlocked()) {
+        boolean isValid = doctor.isPresent() && doctor.get().getDoctorPassword().equals(encodedPassword) && doctor.get().isActive()
+        && !doctor.get().isBlocked();
+        if (isValid) {
             // valid doctor
             return true;
         }

@@ -77,33 +77,39 @@ public class ArticleServiceTest {
     void testFetchAllDoctorArticles() {
         // Setup
         Long doctorId = 1L;
-        Object[] article1 = {1L, LocalDateTime.of(2022, 1, 1, 12, 0), doctorId, "Article 1", "cover1.jpg", "Doctor 1", "profile1.jpg"};
-        Object[] article2 = {2L, LocalDateTime.of(2022, 1, 2, 12, 0), doctorId, "Article 2", "cover2.jpg", "Doctor 1", "profile1.jpg"};
+        LocalDateTime time = LocalDateTime.now();
+        Object[] article1 = {1L, time, 1L, "Title 1", "Image 1", "Doctor 1", "Profile 1"};
+        Object[] article2 = {2L, time, 2L, "Title 2", "Image 2", "Doctor 2", "Profile 2"};
+
+        List<Map<String, Object>> dataList = new ArrayList<>();
+
+        Map<String, Object> dataMap1 = new HashMap<>();
+        dataMap1.put("id", 1L);
+        dataMap1.put("title", "Title 1");
+        dataMap1.put("doctorId", 1L);
+        dataMap1.put("doctorName", "Doctor 1");
+        dataMap1.put("profilePicture", "Profile 1");
+        dataMap1.put("coverImage", "Image 1");
+        dataMap1.put("createdDate", time);
+
+        Map<String, Object> dataMap2 = new HashMap<>();
+        dataMap2.put("id", 2L);
+        dataMap2.put("title", "Title 2");
+        dataMap2.put("doctorId", 2L);
+        dataMap2.put("doctorName", "Doctor 2");
+        dataMap2.put("profilePicture", "Profile 2");
+        dataMap2.put("coverImage", "Image 2");
+        dataMap2.put("createdDate", time);
+
+        dataList.add(dataMap1);
+        dataList.add(dataMap2);
+
         List<Object> articles = Arrays.asList(article1, article2);
-        Mockito.when(articleRepository.findAllDoctorArticles(doctorId)).thenReturn(articles);
+        Mockito.when(articleRepository.fetchLatestArticles(doctorId)).thenReturn(articles);
 
-        // Execution
-        List<Map<String, Object>> result = articleService.fetchAllDoctorArticles(doctorId);
+        List<Map<String, Object>> result = articleService.fetchLatestArticles(doctorId);
 
-        // Verification
-        assertNotNull(result);
-        assertEquals(2, result.size());
-        Map<String, Object> article1Data = result.get(0);
-        assertEquals(1L, article1Data.get("id"));
-        assertEquals(LocalDateTime.of(2022, 1, 1, 12, 0), article1Data.get("createdDate"));
-        assertEquals(doctorId, article1Data.get("doctorId"));
-        assertEquals("Article 1", article1Data.get("title"));
-        assertEquals("cover1.jpg", article1Data.get("coverImage"));
-        assertEquals("Doctor 1", article1Data.get("doctorName"));
-        assertEquals("profile1.jpg", article1Data.get("profilePicture"));
-        Map<String, Object> article2Data = result.get(1);
-        assertEquals(2L, article2Data.get("id"));
-        assertEquals(LocalDateTime.of(2022, 1, 2, 12, 0), article2Data.get("createdDate"));
-        assertEquals(doctorId, article2Data.get("doctorId"));
-        assertEquals("Article 2", article2Data.get("title"));
-        assertEquals("cover2.jpg", article2Data.get("coverImage"));
-        assertEquals("Doctor 1", article2Data.get("doctorName"));
-        assertEquals("profile1.jpg", article2Data.get("profilePicture"));
+        assertEquals(result, dataList);
     }
 
     @Test
@@ -141,27 +147,45 @@ public class ArticleServiceTest {
         assertEquals(article[5], articleDetails.get(0).get("doctorName"));
         assertEquals(article[6], articleDetails.get(0).get("content"));
         assertEquals(article[7], articleDetails.get(0).get("profilePicture"));
+
     }
 
     @Test
     void testFetchLatestArticles() {
         Long id = 1L;
-        Object[] article1 = {1L, LocalDateTime.now(), 1L, "Title 1", "Image 1", "Doctor 1", "Profile 1"};
-        Object[] article2 = {2L, LocalDateTime.now(), 2L, "Title 2", "Image 2", "Doctor 2", "Profile 2"};
+        LocalDateTime time = LocalDateTime.now();
+        Object[] article1 = {1L, time, 1L, "Title 1", "Image 1", "Doctor 1", "Profile 1"};
+        Object[] article2 = {2L, time, 2L, "Title 2", "Image 2", "Doctor 2", "Profile 2"};
+
+        List<Map<String, Object>> dataList = new ArrayList<>();
+
+        Map<String, Object> dataMap1 = new HashMap<>();
+        dataMap1.put("id", 1L);
+        dataMap1.put("title", "Title 1");
+        dataMap1.put("doctorId", 1L);
+        dataMap1.put("doctorName", "Doctor 1");
+        dataMap1.put("profilePicture", "Profile 1");
+        dataMap1.put("coverImage", "Image 1");
+        dataMap1.put("createdDate", time);
+
+        Map<String, Object> dataMap2 = new HashMap<>();
+        dataMap2.put("id", 2L);
+        dataMap2.put("title", "Title 2");
+        dataMap2.put("doctorId", 2L);
+        dataMap2.put("doctorName", "Doctor 2");
+        dataMap2.put("profilePicture", "Profile 2");
+        dataMap2.put("coverImage", "Image 2");
+        dataMap2.put("createdDate", time);
+
+        dataList.add(dataMap1);
+        dataList.add(dataMap2);
+
         List<Object> articles = Arrays.asList(article1, article2);
         Mockito.when(articleRepository.fetchLatestArticles(id)).thenReturn(articles);
 
         List<Map<String, Object>> result = articleService.fetchLatestArticles(id);
 
-        assertEquals(2, result.size());
-        assertEquals(1L, result.get(0).get("id"));
-        assertEquals("Title 1", result.get(0).get("title"));
-        assertEquals("Doctor 1", result.get(0).get("doctorName"));
-        assertEquals("Profile 1", result.get(0).get("profilePicture"));
-        assertEquals(2L, result.get(1).get("id"));
-        assertEquals("Title 2", result.get(1).get("title"));
-        assertEquals("Doctor 2", result.get(1).get("doctorName"));
-        assertEquals("Profile 2", result.get(1).get("profilePicture"));
+        assertEquals(result, dataList);
     }
 
     @Test

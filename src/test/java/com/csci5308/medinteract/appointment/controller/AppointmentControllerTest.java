@@ -40,9 +40,6 @@ public class AppointmentControllerTest {
     @MockBean
     private JWT jwt;
 
-    //@MockBean
-    //private PatientService patientService;
-
     @MockBean
     private AppointmentServiceImpl appointmentService;
 
@@ -57,7 +54,6 @@ public class AppointmentControllerTest {
     @MockBean
     private SimpMessagingTemplate simpMessagingTemplate;
     private AppointmentModel mockAppoinmentModel = new AppointmentModel();
-    //private String patientJSON = "{ \"patientEmail\": \"patient@gmail.com\",\"patientPassword\": \"patientPass\" }";
 
     @Test
     void registerAppointmentTest() throws Exception {

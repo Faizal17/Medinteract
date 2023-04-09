@@ -183,24 +183,9 @@ class PatientControllerTest {
 
     }
 
-    //    @Test
-    //    void updatepatientByIdTest() throws Exception {
-    //
-    //        Mockito.when(patientService.getpatientById(Mockito.anyLong())).thenReturn(Optional.ofNullable(mockpatientModel));
-    //
-    //        mockMvc.perform(post("http://localhost:6969/patient/updateProfile")
-    //                        .contentType(MediaType.APPLICATION_JSON).content("{ \"patientEmail\": \"patient@gmail.com\",\"patientPassword\": \"docPass\" }"))
-    //
-    //                .andExpect(status().isOk())
-    //                .andExpect(jsonPath("$.msg").value("Unable to update profile!"))
-    //                .andExpect(jsonPath("$.isError").value("true"));
-    //
-    //    }
-
 
    @Test
    void fetchPatientsWithAppointmentTest() throws Exception {
-
        List<PatientModel> mockListpatients = new ArrayList<>();
        Mockito.when(patientService.fetchPatientsWithAppointment(Mockito.any())).thenReturn(Optional.of(mockListpatients));
 

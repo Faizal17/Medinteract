@@ -34,9 +34,6 @@ public class FeedbackControllerTest {
     @MockBean
     private JWT jwt;
 
-    //@MockBean
-    //private PatientService patientService;
-
     @MockBean
     private FeedbackServiceImpl feebackService;
     private FeedbackModel mockFeedbackModel = new FeedbackModel(3,101,201);;
