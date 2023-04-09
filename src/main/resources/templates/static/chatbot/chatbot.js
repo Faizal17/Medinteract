@@ -13,27 +13,29 @@ var sendForm = document.querySelector('#chatform'),
     previousInput,
     isReaction = false,
     unkwnCommReaction = "I didn't quite get that.",
-    chatbotButton = document.querySelector(".submit-button")
+    chatbotButton = document.querySelector(".submit-button"),
+    bodyElement = document.body;
 
 
-var viewDoctors = document.getElementById("viewDoctors");
-viewDoctors.addEventListener("click", function(event){
-  createBubble("alldoctors")
+bodyElement.addEventListener("click", function(event){
+  if (event.target.classList.contains('viewDoctors')) {
+    createBubble("view doctors")
+  }
 });
 
-var createAppointment = document.getElementById("createappointment");
-createAppointment.addEventListener("click", function(event){
-  createBubble("createAppointment")
-});
-
-
-
-var emergency = document.getElementById("emergencyInfo");
-emergency.addEventListener("click", function(event){
-  createBubble("emergency")
+bodyElement.addEventListener("click", function(event){
+  if (event.target.classList.contains('createappointment')) {
+    createBubble("create appointment")
+  }
 });
 
 
+
+bodyElement.addEventListener("click", function(event){
+  if (event.target.classList.contains('emergencyInfo')) {
+    createBubble("emergency contact")
+  }
+});
 
   sendForm.onkeydown = function(e){
   if(e.keyCode == 13){
@@ -76,14 +78,17 @@ var createBubble = function(input) {
   checkInput(input);
 }
 
-var checkInput = function(input) {
+var checkInput = async function(input) {
   hasCorrectInput = false;
   isReaction = false;
 const textVal = input.toString();
     //Is a word of the input also in possibleInput object?
     if(possibleInput.hasOwnProperty(input)){
       hasCorrectInput = true;
-      botResponse(textVal);
+      await botResponse(textVal);
+      if(textVal != "help") {
+        await botResponse("help");
+      }
     }
     //When input is not in possibleInput
     if(hasCorrectInput == false){
@@ -92,16 +97,15 @@ const textVal = input.toString();
     }
   }
 
-function botResponse(textVal) {
+async function botResponse(textVal) {
   //sets previous input to that what was called
   // previousInput = input;
-
   //create response bubble
-  var userBubble = document.createElement('li');
+  let userBubble = document.createElement('li');
   userBubble.classList.add('bot__output');
-  userBubble.innerHTML = possibleInput[textVal]();
+  userBubble.innerHTML = await possibleInput[textVal]();
   //add list item to chatlist
-  chatList.appendChild(userBubble) //adds chatBubble to chatlist
+  // chatList.appendChild(userBubble) //adds chatBubble to chatlist
 
   // reset text area input
   textInput.value = "";
@@ -247,13 +251,13 @@ var possibleInput = {
   return
 }
   ,
-  "emergency" : function (){
+  "emergency contact" : function (){
     emergencyResponse()
     commandReset(2)
     return
   },
 
-  "createAppointment" : async function () {
+  "create appointment" : async function () {
 
 
     const apiUrl = "http://localhost:6969/appointment/fetchDoctorNamesByAppointments";
@@ -284,22 +288,13 @@ var possibleInput = {
 
 
   "help" : function(){
-    let resp = "";
-    if (getCookie("type") == "patient") {
-      resp += "<input class=\"btn btn-primary createappointment\" type=\"button\" id=\"createappointment\" value=\"Create Appointment\">\n";
-    }
-    resp += "<input class=\"btn btn-primary myBooking\" type=\"button\" id=\"myBooking\" value=\"My Appointments\">\n";
-    if (getCookie("type") == "patient") {
-      resp += "<input class=\"btn btn-primary viewDoctors\" id=\"viewDoctors\" type=\"button\" value=\"View Doctors\">\n";
-    }
-    resp += "<input class=\"btn btn-primary emergencyInfo\" id=\"emergencyInfo\" type=\"button\" value=\"Emergency Contact\">";
-
+    let resp = returnOptions();
     responseText(resp);
     commandReset(2);
     return
   },
 
-  "alldoctors" : async function () {
+  "view doctors" : async function () {
     let url = "http://localhost:6969/doctor/fetchAll";
     let responseData = await fetch(url)
     const data= await responseData.json();
@@ -310,8 +305,6 @@ var possibleInput = {
 
     }
     return
-
-
   }
 
 
@@ -319,6 +312,18 @@ var possibleInput = {
 
 }
 
+function returnOptions(){
+  let resp = "";
+  if (getCookie("type") == "patient") {
+    resp += "<input class=\"btn btn-primary createappointment\" type=\"button\" id=\"createappointment\" value=\"Create Appointment\">\n";
+  }
+  resp += "<input class=\"btn btn-primary myBooking\" type=\"button\" id=\"myBooking\" value=\"My Appointments\">\n";
+  if (getCookie("type") == "patient") {
+    resp += "<input class=\"btn btn-primary viewDoctors\" id=\"viewDoctors\" type=\"button\" value=\"View Doctors\">\n";
+  }
+  resp += "<input class=\"btn btn-primary emergencyInfo\" id=\"emergencyInfo\" type=\"button\" value=\"Emergency Contact\">";
+  return resp;
+}
 
 
 
