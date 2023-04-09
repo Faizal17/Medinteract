@@ -314,11 +314,11 @@ class DoctorControllerTest {
     void findDoctorOnDetailsWithCityTest() throws Exception {
 
         List<Map<String, Object>> mockListDoctors = new ArrayList<>();
-        Mockito.when(doctorService.findDoctorOnDetailsWithCity(Mockito.any())).thenReturn(mockListDoctors);
+        Mockito.when(doctorService.findDoctorOnDetailsWithCity(Mockito.any(),Mockito.anyBoolean())).thenReturn(mockListDoctors);
 
         mockMvc.perform(post("http://localhost:6969/doctor//get_doctor_on_details_and_city",100)
                         .contentType(MediaType.APPLICATION_JSON)
-                .content("{ \"doctorEmail\": \"doctor@gmail.com\",\"doctorPassword\": \"docPass\" }"))
+                .content("{  \"doctorName\": \"tapan\" , \"doctorQualification\": \"\" }"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.msg").value("Doctor by details found successfully!"))
                 .andExpect(jsonPath("$.isError").value("false"));
