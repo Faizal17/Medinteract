@@ -50,7 +50,7 @@ smell:
       - dalfcs_docker_kvm
     artifacts:
       paths:
-        - target
+        - smells
 
 #  deploy:
 #   stage: deploy
