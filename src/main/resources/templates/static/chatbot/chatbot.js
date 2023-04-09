@@ -23,10 +23,9 @@ bodyElement.addEventListener("click", function(event){
   }
 });
 
-bodyElement.addEventListener("click", function(event){
-  if (event.target.classList.contains('createappointment')) {
-    createBubble("create appointment")
-  }
+var createAppointment = document.getElementById("createappointment");
+createAppointment.addEventListener("click", function(event){
+  createBubble("createAppointment")
 });
 
 
@@ -83,19 +82,14 @@ var checkInput = async function(input) {
   isReaction = false;
 const textVal = input.toString();
     //Is a word of the input also in possibleInput object?
-    if(possibleInput.hasOwnProperty(input)){
-      hasCorrectInput = true;
-      await botResponse(textVal);
-      if(textVal != "help") {
-        await botResponse("help");
-      }
-    }
-    //When input is not in possibleInput
-    if(hasCorrectInput == false){
-      unknownCommand(unkwnCommReaction);
+    if(input == textVal || input.indexOf(textVal) >=0 && isReaction == false){
       hasCorrectInput = true;
     }
   }
+  //When input is not in possibleInput
+  if(hasCorrectInput == false){
+    unknownCommand(unkwnCommReaction);
+    hasCorrectInput = true;
 
 async function botResponse(textVal) {
   //sets previous input to that what was called
@@ -103,7 +97,7 @@ async function botResponse(textVal) {
   //create response bubble
   let userBubble = document.createElement('li');
   userBubble.classList.add('bot__output');
-  userBubble.innerHTML = await possibleInput[textVal]();
+  userBubble.innerHTML = possibleInput[textVal]();
   //add list item to chatlist
   // chatList.appendChild(userBubble) //adds chatBubble to chatlist
 
@@ -238,15 +232,8 @@ var possibleInput = {
     return;
   }
     ,
-  "my appointments": function(){
-    $("#show").click();
-    let name = getCookie("name")
-    $("#modalTitleDoctorName").html(name);
-
-
-    if (getCookie("type") == "patient" || getCookie("type") == "doctor") {
-      loadAppointments(getCookie("type").charAt(0).toUpperCase() + getCookie("type").slice(1), getCookie("id"), true);
-    }
+  "myBooking": function(){
+      responseButtons("My booking",null,"myBookingId","myBooking");
   commandReset(2);
   return
 }

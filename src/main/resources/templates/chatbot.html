@@ -183,6 +183,10 @@ Working prototype on meesrutten.me :) -->
 
 <script>
     $(document).ready(function () {
+
+        const createAppointment = document.getElementById("createappointment")
+        const viewDoctors = document.getElementById("viewDoctors")
+
         if (getCookie("type") == "doctor") {
 						$(".createappointment").attr("hidden", true);
 						$(".viewDoctors").attr("hidden", true);
