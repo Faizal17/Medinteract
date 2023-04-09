@@ -123,7 +123,6 @@ public class ArticleServiceTest {
         List<Map<String, Object>> result = articleService.fetchAllDoctorArticles(doctorId);
 
         // Verification
-        assertNotNull(result);
         assertTrue(result.isEmpty());
     }
 
@@ -147,7 +146,6 @@ public class ArticleServiceTest {
         assertEquals(article[5], articleDetails.get(0).get("doctorName"));
         assertEquals(article[6], articleDetails.get(0).get("content"));
         assertEquals(article[7], articleDetails.get(0).get("profilePicture"));
-
     }
 
     @Test

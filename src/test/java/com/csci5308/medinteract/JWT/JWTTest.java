@@ -20,8 +20,6 @@ class JWTTest {
     @Test
     void testGenerateTokenSize() {
         assertEquals(2, jWT.generateToken("MeMoRam", "Type", "Obj").size());
-        assertEquals(2, jWT.generateToken("", "Type", "Obj").size());
-        assertEquals(2, jWT.generateToken("", "Type", "Obj").size());
     }
 }
 

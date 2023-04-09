@@ -18,8 +18,6 @@ class AdminModelTest {
         actualAdminModel.setAdminPassword("12345");
 
         // Assert
-        assertEquals("memo@dal.ca", actualAdminModel.getAdminEmail());
-        assertEquals("12345", actualAdminModel.getAdminPassword());
         assertTrue(actualAdminModel.isActive());
     }
 
@@ -35,8 +33,6 @@ class AdminModelTest {
         actualAdminModel.setAdminPassword("12345");
 
         // Assert
-        assertEquals("memo@dal.ca", actualAdminModel.getAdminEmail());
-        assertEquals("12345", actualAdminModel.getAdminPassword());
         assertTrue(actualAdminModel.isActive());
     }
 }

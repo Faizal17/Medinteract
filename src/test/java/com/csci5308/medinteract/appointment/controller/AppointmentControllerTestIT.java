@@ -131,10 +131,7 @@ class AppointmentControllerTestIT {
         Boolean isError = JsonPath.read(mvcResult.getResponse().getContentAsString(), "$.isError");
 
 
-        if(mvcResult.getResponse().getStatus()==200)
-        {
-            assertFalse(isError);
-        }
+        assertFalse(isError);
 
     }
 
@@ -152,10 +149,7 @@ class AppointmentControllerTestIT {
         String apiURL = "/appointment/update";
         MvcResult mvcResult = TestUtil.getResultFromPostAPI(apiURL,json,mockMvc);
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if(mvcResult.getResponse().getStatus()==200)
-        {
-            assertTrue(isError);
-        }
+        assertTrue(isError);
 
     }
 
@@ -172,10 +166,7 @@ class AppointmentControllerTestIT {
         String apiURL = "/appointment/delete";
         MvcResult mvcResult = TestUtil.getResultFromPostAPI(apiURL,json,mockMvc);
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if(mvcResult.getResponse().getStatus()==200)
-        {
-            assertFalse(isError);
-        }
+        assertFalse(isError);
     }
 
     @Test
@@ -191,10 +182,7 @@ class AppointmentControllerTestIT {
         String apiURL = "/appointment/delete";
         MvcResult mvcResult = TestUtil.getResultFromPostAPI(apiURL,json,mockMvc);
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if(mvcResult.getResponse().getStatus()==200)
-        {
-            assertTrue(isError);
-        }
+        assertTrue(isError);
     }
 
     @Test
@@ -206,10 +194,7 @@ class AppointmentControllerTestIT {
         String apiURL = "/appointment/fetchDoctorNamesByAppointments";
         MvcResult mvcResult = TestUtil.getResultFromPostAPI(apiURL,json,mockMvc);
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if(mvcResult.getResponse().getStatus()==200)
-        {
-            assertFalse(isError);
-        }
+        assertFalse(isError);
     }
 
     @Test
@@ -223,9 +208,6 @@ class AppointmentControllerTestIT {
         String apiURL = "/appointment/fetchAppointmentsByPatientAfterDate";
         MvcResult mvcResult = TestUtil.getResultFromPostAPI(apiURL,json,mockMvc);
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if(mvcResult.getResponse().getStatus()==200)
-        {
-            assertFalse(isError);
-        }
+        assertFalse(isError);
     }
 }

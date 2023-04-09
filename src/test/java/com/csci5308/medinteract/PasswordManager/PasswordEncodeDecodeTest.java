@@ -31,7 +31,6 @@ class PasswordEncodeDecodeTest {
         Key key = PasswordEncodeDecode.generateKey();
 
         // Assert
-        assertNotNull(key);
         assertEquals(ALGORITHM, key.getAlgorithm());
 //        assertArrayEquals(new SecretKeySpec(keyValue, ALGORITHM), key.getEncoded());
     }

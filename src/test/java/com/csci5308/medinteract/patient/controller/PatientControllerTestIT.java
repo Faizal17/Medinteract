@@ -133,10 +133,7 @@ class PatientControllerTestIT {
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         MvcResult mvcResult = TestUtil.getResultFromPostMultiFormAPI(apiURL, "objectData", formData, multipartFile, mockMvc);
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if(mvcResult.getResponse().getStatus()==200)
-        {
-            assertFalse(isError);
-        }
+        assertFalse(isError);
     }
 
     @Test
@@ -152,10 +149,7 @@ class PatientControllerTestIT {
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         MvcResult mvcResult = TestUtil.getResultFromPostMultiFormAPI(apiURL, "objectData", formData, null, mockMvc);
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if(mvcResult.getResponse().getStatus()==200)
-        {
-            assertFalse(isError);
-        }
+        assertFalse(isError);
     }
 
     @Test
@@ -175,10 +169,7 @@ class PatientControllerTestIT {
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         MvcResult mvcResult = TestUtil.getResultFromPostMultiFormAPI(apiURL, "objectData", formData, multipartFile, mockMvc);
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if(mvcResult.getResponse().getStatus()==200)
-        {
-            assertTrue(isError);
-        }
+        assertTrue(isError);
     }
 
 

@@ -28,7 +28,6 @@ class FileUploaderTest {
 
         // Assert
         Path savedFilePath = tempDir.resolve(fileName);
-        assertTrue(Files.exists(savedFilePath));
         assertArrayEquals(fileBytes, Files.readAllBytes(savedFilePath));
     }
 

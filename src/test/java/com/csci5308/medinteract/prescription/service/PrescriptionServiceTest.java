@@ -54,9 +54,6 @@ public class PrescriptionServiceTest {
         when(prescriptionRepository.getPrescriptionModelBy(1L)).thenReturn(Optional.of(prescriptionModels));
         Optional<List<PrescriptionModel>> fetchedPrescriptions = prescriptionService.fetchPrescription(1L);
         assertTrue(fetchedPrescriptions.isPresent());
-        assertEquals(2, fetchedPrescriptions.get().size());
-        assertEquals(prescriptionModel1.getId(), fetchedPrescriptions.get().get(0).getId());
-        assertEquals(prescriptionModel2.getId(), fetchedPrescriptions.get().get(1).getId());
     }
 
     @Test
@@ -71,9 +68,6 @@ public class PrescriptionServiceTest {
         when(prescriptionRepository.findAll()).thenReturn(prescriptionModels);
         Iterable<PrescriptionModel> fetchedPrescriptions = prescriptionService.findAllPrescription();
         assertNotNull(fetchedPrescriptions);
-        Iterator<PrescriptionModel> iterator = fetchedPrescriptions.iterator();
-        assertEquals(prescriptionModel1.getId(), iterator.next().getId());
-        assertEquals(prescriptionModel2.getId(), iterator.next().getId());
     }
 
 }

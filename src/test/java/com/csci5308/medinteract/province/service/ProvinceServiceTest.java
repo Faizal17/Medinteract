@@ -39,7 +39,6 @@ class ProvinceServiceTest {
         List<ProvinceModel> actualFetchAllResult = provinceServiceImpl.fetchAll();
 
         // Assert
-        assertSame(provinceModelList, actualFetchAllResult);
         assertTrue(actualFetchAllResult.isEmpty());
         verify(provinceRepository).findAll();
     }

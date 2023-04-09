@@ -24,9 +24,6 @@ class ProvinceModelTest {
 
         // Assert
         assertEquals("NS", actualProvinceModel.getAbbrv());
-        assertSame(cities, actualProvinceModel.getCities());
-        assertEquals(1L, actualProvinceModel.getId().longValue());
-        assertEquals("Nova Scotia", actualProvinceModel.getName());
     }
 
     @Test

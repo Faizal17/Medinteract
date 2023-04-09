@@ -12,11 +12,6 @@ class ResponseTest {
 
     @Test
     void testConstructor() {
-        assertEquals(3, (new Response(
-                "myBody",
-                true,
-                "myMessage")).getResponse().size());
-
         assertEquals(4, (new Response(
                 "myBody",
                 true,

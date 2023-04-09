@@ -29,10 +29,7 @@ class MedicineControllerTestIT {
         String apiURL = "/medicine/addMedicines";
         MvcResult mvcResult = TestUtil.getResultFromPostAPI(apiURL,json,mockMvc);
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if(mvcResult.getResponse().getStatus()==200)
-        {
-            assertFalse(isError);
-        }
+        assertFalse(isError);
     }
 
     @Test
@@ -46,8 +43,6 @@ class MedicineControllerTestIT {
         MvcResult mvcResult = TestUtil.getResultFromGetAPI("/medicine/fetch/1",mockMvc);
         String msg = JsonPath.read(mvcResult.getResponse().getContentAsString(), "$.msg");
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if (!isError) {
-            assertEquals("Medicines details fetched Successfully!", msg);
-        }
+        assertEquals("Medicines details fetched Successfully!", msg);
     }
 }
