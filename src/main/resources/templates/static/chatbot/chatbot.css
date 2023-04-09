@@ -124,9 +124,6 @@ body {
     animation-play-state: paused;
     animation-fill-mode: forwards;
 }
-.chatlist .bot__output:last-child {
-    display: none;
-}
 .chatlist .bot__command {
     color: #f5f5f5;
     color: #27ae60;
