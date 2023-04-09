@@ -42,16 +42,6 @@ $(document).ready(function () {
         $('#navDiv').load('./doctor_nav.html');
     }
 
-    $(".nav-link").click(function (){
-        $(".nav-link").removeClass("active");
-        $(this).addClass("active");
-        console.log(this)
-    });
-
-    $(".nav-item").click(function (){
-        console.log(this)
-    });
-
     $.ajax({
         url: globalURL + "jwt/validateJWTToken",
         type: "POST",

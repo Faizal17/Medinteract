@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 @Table(name="notifications")
 public class NotificationModel {
     @Id
-
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "notification_generator")
     @SequenceGenerator(name="notification_generator", sequenceName = "notification_seq", allocationSize=100)
     @Column(name = "id", nullable = false)
@@ -26,13 +25,13 @@ public class NotificationModel {
     @NotNull
     private String message;
 
-//    public String getTitle() {
-//        return title;
-//    }
+    public String getTitle() {
+        return title;
+    }
 
-//    public void setTitle(String title) {
-//        this.title = title;
-//    }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     @NotBlank
     @NotNull
@@ -68,9 +67,9 @@ public class NotificationModel {
         return id;
     }
 
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getUserType() {
         return userType;
@@ -88,35 +87,35 @@ public class NotificationModel {
         this.userId = userId;
     }
 
-//    public String getMessage() {
-//        return message;
-//    }
+    public String getMessage() {
+        return message;
+    }
 
-//    public void setMessage(String message) {
-//        this.message = message;
-//    }
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
-//    public String getUrl() {
-//        return url;
-//    }
-//
-//    public void setUrl(String url) {
-//        this.url = url;
-//    }
-//
-//    public String getNotificationType() {
-//        return notificationType;
-//    }
-//
-//    public void setNotificationType(String notificationType) {
-//        this.notificationType = notificationType;
-//    }
-//
-//    public LocalDateTime getNotificationDateTime() {
-//        return notificationDateTime;
-//    }
-//
-//    public void setNotificationDateTime(LocalDateTime notificationDateTime) {
-//        this.notificationDateTime = notificationDateTime;
-//    }
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getNotificationType() {
+        return notificationType;
+    }
+
+    public void setNotificationType(String notificationType) {
+        this.notificationType = notificationType;
+    }
+
+    public LocalDateTime getNotificationDateTime() {
+        return notificationDateTime;
+    }
+
+    public void setNotificationDateTime(LocalDateTime notificationDateTime) {
+        this.notificationDateTime = notificationDateTime;
+    }
 }

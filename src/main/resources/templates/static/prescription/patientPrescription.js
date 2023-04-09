@@ -55,7 +55,6 @@ $.when(
             data: mergedData,
             columns: columns
         });
-        addToast(false, "Success", "Success!")
     } catch (err) {
         addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
     }

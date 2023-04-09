@@ -31,9 +31,9 @@ public class FeedbackModel {
         return rating;
     }
 
-//    public void setRating(long rating) {
-//        this.rating = rating;
-//    }
+    public void setRating(long rating) {
+        this.rating = rating;
+    }
 
     public String getComment() {
         return comment;
@@ -68,16 +68,6 @@ public class FeedbackModel {
     @NotBlank
     @NotNull
     private long patientId;
-
-
-//    public FeedbackModel(Long id, Date feedbackDate, long rating, String comment, long doctorId, long patientId) {
-//        this.id = id;
-//        this.feedbackDate = feedbackDate;
-//        this.rating = rating;
-//        this.comment = comment;
-//        this.doctorId = doctorId;
-//        this.patientId = patientId;
-//    }
 
     public FeedbackModel(long rating, long doctorId, long patientId)
     {

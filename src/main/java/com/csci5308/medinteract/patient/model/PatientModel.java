@@ -52,9 +52,9 @@ public class PatientModel {
         return emailToken;
     }
 
-//    public void setEmailToken(String emailToken) {
-//        this.emailToken = emailToken;
-//    }
+    public void setEmailToken(String emailToken) {
+        this.emailToken = emailToken;
+    }
 
     @NotBlank
     @NotNull

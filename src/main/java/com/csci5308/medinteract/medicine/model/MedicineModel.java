@@ -18,15 +18,6 @@ public class MedicineModel {
     @Column(name = "medicine_id", nullable = false)
     private Long medicineId;
 
-//    @NotBlank
-//    @NotNull
-//    private Long patientId;
-
-//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "pres_id")
-//    private PrescriptionModel pres;
-
     public MedicineModel() {
     }
 
@@ -45,22 +36,6 @@ public class MedicineModel {
     private boolean isEvening;
 
     private String additionalNotes;
-
-//    public Long getPatientId() {
-//        return patientId;
-//    }
-//
-//    public void setPatientId(Long patientId) {
-//        this.patientId = patientId;
-//    }
-//    @JsonBackReference
-//    public PrescriptionModel getPres() {
-//        return pres;
-//    }
-//
-//    public void setPres(PrescriptionModel pres) {
-//        this.pres = pres;
-//    }
 
     public String getMedicineName() {
         return medicineName;
@@ -82,33 +57,33 @@ public class MedicineModel {
         return isMorning;
     }
 
-//    public void setMorning(boolean morning) {
-//        isMorning = morning;
-//    }
+    public void setMorning(boolean morning) {
+        isMorning = morning;
+    }
 
     public boolean isAfternoon() {
         return isAfternoon;
     }
 
-//    public void setAfternoon(boolean afternoon) {
-//        isAfternoon = afternoon;
-//    }
+    public void setAfternoon(boolean afternoon) {
+        isAfternoon = afternoon;
+    }
 
     public boolean isEvening() {
         return isEvening;
     }
 
-//    public void setEvening(boolean evening) {
-//        isEvening = evening;
-//    }
+    public void setEvening(boolean evening) {
+        isEvening = evening;
+    }
 
     public String getAdditionalNotes() {
         return additionalNotes;
     }
 
-//    public void setAdditionalNotes(String additionalNotes) {
-//        this.additionalNotes = additionalNotes;
-//    }
+    public void setAdditionalNotes(String additionalNotes) {
+        this.additionalNotes = additionalNotes;
+    }
 
     public Long getMedicineId() {
         return medicineId;
