@@ -6,6 +6,7 @@ import com.csci5308.medinteract.appointment.service.AppointmentService;
 import com.csci5308.medinteract.appointment.service.AppointmentServiceImpl;
 import com.csci5308.medinteract.doctor.model.DoctorModel;
 import com.csci5308.medinteract.doctor.repository.DoctorRepository;
+import com.csci5308.medinteract.notification.model.NotificationModel;
 import com.csci5308.medinteract.notification.service.NotificationService;
 import com.csci5308.medinteract.notification.service.NotificationServiceImpl;
 import com.csci5308.medinteract.patient.model.PatientModel;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -24,6 +26,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -61,14 +64,17 @@ class SchedulerTest {
     private AppointmentModel appointmentModel;
     private PatientModel patientModel;
     private DoctorModel doctorModel;
-    private Object[] appointmentData;
-    private List<Object[]> appointmentDataList;
 
-    @Before(value = "1")
-    public void setup() {
+    private NotificationModel notificationModel;
+    private Object[] appointmentData;
+    private List<Object> appointmentDataList;
+
+    public SchedulerTest() {
         appointmentModel = new AppointmentModel();
         appointmentModel.setId(1L);
         appointmentModel.setStartTime(LocalDateTime.now());
+        appointmentModel.setPatientId(1L);
+        appointmentModel.setDoctorId(1L);
 
         patientModel = new PatientModel();
         patientModel.setId(1L);
@@ -81,18 +87,28 @@ class SchedulerTest {
         appointmentData = new Object[] {appointmentModel, patientModel, doctorModel};
         appointmentDataList = new ArrayList<>();
         appointmentDataList.add(appointmentData);
+
+        notificationModel = new NotificationModel();
+
+        notificationModel.setUserId(1L);
     }
 
     @Test
     void testHourlyScheduler() {
-        when(appointmentService.fetchAppointmentsHourly()).thenReturn(new ArrayList<>());
+
+        Mockito.when(notificationService.saveNotification(Mockito.any(NotificationModel.class))).thenReturn(notificationModel);
+
+        when(appointmentService.fetchAppointmentsHourly()).thenReturn(appointmentDataList);
         scheduler.hourlyScheduler();
         verify(appointmentService).fetchAppointmentsHourly();
     }
 
     @Test
     void testDailyScheduler() {
-        when(appointmentService.fetchAppointmentsDaily()).thenReturn(new ArrayList<>());
+        Mockito.when(notificationService.saveNotification(Mockito.any(NotificationModel.class))).thenReturn(notificationModel);
+        when(appointmentService.fetchAppointmentsDaily()).thenReturn(appointmentDataList);
+        when(appointmentService.fetchAppointmentsWithinThreeDays()).thenReturn(appointmentDataList);
+        when(appointmentService.fetchAppointmentsWeekly()).thenReturn(appointmentDataList);
         scheduler.dailyScheduler();
         verify(appointmentService).fetchAppointmentsDaily();
     }
