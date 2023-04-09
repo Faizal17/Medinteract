@@ -26,9 +26,6 @@ bodyElement.addEventListener("click", function(event){
 var createAppointment = document.getElementById("createappointment");
 createAppointment.addEventListener("click", function(event){
   createBubble("createAppointment")
-var createAppointment = document.getElementById("createappointment");
-createAppointment.addEventListener("click", function(event){
-  createBubble("createAppointment")
 });
 
 
@@ -86,7 +83,6 @@ var checkInput = async function(input) {
 const textVal = input.toString();
     //Is a word of the input also in possibleInput object?
     if(input == textVal || input.indexOf(textVal) >=0 && isReaction == false){
-    if(input == textVal || input.indexOf(textVal) >=0 && isReaction == false){
       hasCorrectInput = true;
       botResponse(textVal);
     }
@@ -106,7 +102,6 @@ function botResponse(textVal) {
   //create response bubble
   let userBubble = document.createElement('li');
   userBubble.classList.add('bot__output');
-  userBubble.innerHTML = possibleInput[textVal]();
   userBubble.innerHTML = possibleInput[textVal]();
   //add list item to chatlist
   // chatList.appendChild(userBubble) //adds chatBubble to chatlist
@@ -240,11 +235,8 @@ var possibleInput = {
       commandReset(2);
     }
     return;
-    return;
   }
     ,
-  "myBooking": function(){
-      responseButtons("My booking",null,"myBookingId","myBooking");
   "myBooking": function(){
       responseButtons("My booking",null,"myBookingId","myBooking");
   commandReset(2);
