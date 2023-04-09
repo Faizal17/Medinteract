@@ -14,7 +14,9 @@ import java.util.List;
 @Table(name = "prescription")
 public class PrescriptionModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "prescription_generator")
+    @SequenceGenerator(name="prescription_generator", sequenceName = "prescription_seq", allocationSize=100)
     @Column(name = "prescription_id", nullable = false)
     private Long prescriptionId;
 

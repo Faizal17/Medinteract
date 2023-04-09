@@ -216,7 +216,7 @@ public class DoctorServiceTest {
 
         expectedDoctorDetailsList.add(data);
 
-        assertEquals(expectedDoctorDetailsList, doctorService.findDoctorOnDetailsWithCity(mockDoctorModel));
+        assertEquals(expectedDoctorDetailsList, doctorService.findDoctorOnDetailsWithCity(mockDoctorModel,true));
     }
 
 }

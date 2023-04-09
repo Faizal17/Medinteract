@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -185,7 +186,17 @@ public class DoctorController {
 
     @PostMapping("/get_doctor_on_details_and_city")
     public ResponseEntity findDoctorOnDetailsWithCity(@RequestBody DoctorModel doctorModel) {
-        List<Map<String, Object>> doctorModelList = doctorServiceImpl.findDoctorOnDetailsWithCity(doctorModel);
+        List<Map<String, Object>> doctorModelList = new ArrayList<>();
+        Boolean flag = true;
+        if(doctorModel.getDoctorName().isEmpty()
+                && doctorModel.getDoctorQualification().isEmpty()
+                && doctorModel.getDoctorAddressCity()==null
+                && doctorModel.getDoctorAddressProvince()==null )
+        {
+            flag = false;
+
+        }
+        doctorModelList = doctorServiceImpl.findDoctorOnDetailsWithCity(doctorModel, flag);
         Response res = new Response(doctorModelList, false, "Doctor by details found successfully!");
         return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
     }
