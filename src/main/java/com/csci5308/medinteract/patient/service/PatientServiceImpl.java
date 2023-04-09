@@ -50,7 +50,8 @@ public class PatientServiceImpl implements PatientService {
         Optional<PatientModel> patient = patientRepository.findByPatientEmail(patientEmail);
 
         String encodedPassword = encodePassword(patientPassword);
-        if (patient.isPresent() && patient.get().getPatientPassword().equals(encodedPassword) && patient.get().isActive() && !patient.get().isBlocked()) {
+        boolean isValid = patient.isPresent() && patient.get().getPatientPassword().equals(encodedPassword) && patient.get().isActive() && !patient.get().isBlocked();
+        if (isValid) {
             //valid patient
             return true;
         }
