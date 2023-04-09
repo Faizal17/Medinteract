@@ -20,7 +20,6 @@ public class Response {
         this.json.put("count", count);
     }
     public Map<String, Object> getResponse(){
-        System.out.println(json);
         return json;
     }
 }

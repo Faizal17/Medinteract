@@ -185,12 +185,8 @@ Working prototype on meesrutten.me :) -->
     $(document).ready(function () {
 
         const createAppointment = document.getElementById("createappointment")
-        // const myBooking = document.getElementById("myBooking")
         const viewDoctors = document.getElementById("viewDoctors")
 
-        // if(getCookie("type") == "patient" ) {
-        //     ele.hidden = true
-        // }
         if (getCookie("type") == "doctor") {
             createAppointment.hidden = true;
             viewDoctors.hidden = true;
@@ -213,7 +209,6 @@ Working prototype on meesrutten.me :) -->
         $(document).on("click", '.calendar', function () {
             $("#show").click();
             $("#modalTitleDoctorName").html(this.id.split("_")[1]);
-            console.log(getCookie("type"))
             if (getCookie("type") == "patient" ) {
                 loadAppointments("Doctor", this.id.split("_")[0], true);
             }
@@ -221,33 +216,6 @@ Working prototype on meesrutten.me :) -->
                 loadAppointments("patient", this.id.split("_")[0], true);
 
         })
-
-        // $(document).on("click", '.calendar', function () {
-        //     $("#show").click();
-        //     $("#modalTitleDoctorName").html(this.id.split("_")[1]);
-        //
-        //
-        //     if(getCookie("type") == "patient" || getCookie("type") == "doctor") {
-        //         loadAppointments(getCookie("type").charAt(0).toUpperCase() + getCookie("type").slice(1),  this.id.split("_")[0], true);
-        //     }
-        //
-        //
-        //
-        // })
-
-
-        // $(document).on("click", '.calendar', function () {
-        //     $("#show").click();
-        //     $("#modalTitleDoctorName").html(this.id.split("_")[1]);
-        //
-        //
-        //     if(getCookie("type") == "patient" || getCookie("type") == "doctor") {
-        //         loadAppointments(getCookie("type").charAt(0).toUpperCase() + getCookie("type").slice(1),  this.id.split("_")[0], true);
-        //     }
-        //
-        //
-        //
-        // })
     })
 
 

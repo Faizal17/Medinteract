@@ -21,11 +21,6 @@ viewDoctors.addEventListener("click", function(event){
   createBubble("alldoctors")
 });
 
-// var viewPatients = document.getElementById("viewPatients");
-// viewPatients.addEventListener("click", function(event){
-//   createBubble("viewPatients")
-// });
-
 var createAppointment = document.getElementById("createappointment");
 createAppointment.addEventListener("click", function(event){
   createBubble("createAppointment")
@@ -88,14 +83,12 @@ const textVal = input.toString();
 
     //Is a word of the input also in possibleInput object?
     if(input == textVal || input.indexOf(textVal) >=0 && isReaction == false){
-      console.log("has correct input");
       hasCorrectInput = true;
       botResponse(textVal);
     }
   }
   //When input is not in possibleInput
   if(hasCorrectInput == false){
-    console.log("failed");
     unknownCommand(unkwnCommReaction);
     hasCorrectInput = true;
 
@@ -110,26 +103,7 @@ function botResponse(textVal) {
   //create response bubble
   var userBubble = document.createElement('li');
   userBubble.classList.add('bot__output');
-
-  // if(isReaction == true){
-  //   if (typeof reactionInput[textVal] === "function") {
-  //     //adds input of textarea to chatbubble list item
-  //     userBubble.innerHTML = reactionInput[textVal]();
-  //   } else {
-  //     userBubble.innerHTML = reactionInput[textVal];
-  //   }
-  // }
-
-  // if(isReaction == false){
-    //Is the command a function?
-    // if (typeof possibleInput[textVal] === "function") {
-      // console.log(possibleInput[textVal] +" is a function");
-      //adds input of textarea to chatbubble list item
-      userBubble.innerHTML = possibleInput[textVal]();
-    // } else {
-    //   userBubble.innerHTML = possibleInput[textVal];
-    // }
-  // }
+  userBubble.innerHTML = possibleInput[textVal]();
   //add list item to chatlist
   chatList.appendChild(userBubble) //adds chatBubble to chatlist
 
@@ -180,12 +154,10 @@ function emergencyResponse() {
 
   animateBotOutput();
 
-  console.log(response.clientHeight);
 
   //Sets chatlist scroll to bottom
   setTimeout(function(){
     chatList.scrollTop = chatList.scrollHeight;
-    console.log(response.clientHeight);
   }, 0)
 }
 
@@ -203,20 +175,14 @@ function responseText(e) {
 
   animateBotOutput();
 
-  // console.log(response.clientHeight);
 
   //Sets chatlist scroll to bottom
   setTimeout(function(){
     chatList.scrollTop = chatList.scrollHeight;
-    console.log(response.clientHeight);
   }, 0)
 }
 
 function responseButtons(name,otherElement,id,customClassName) {
-
-
-  console.log(id)
-  console.log(name)
   var list = document.createElement('li');
   list.classList.add('bot__output');
 
@@ -236,7 +202,6 @@ function responseButtons(name,otherElement,id,customClassName) {
   //Sets chatlist scroll to bottom
   setTimeout(function(){
     chatList.scrollTop = chatList.scrollHeight;
-    console.log(list.clientHeight);
   }, 0)
 }
 
@@ -244,9 +209,6 @@ function responseButtons(name,otherElement,id,customClassName) {
 
 //change to SCSS loop
 function animateBotOutput() {
-  for (let i = 0; i < chatList.length; i++) {
-    console.log(chatList[i].innerHTML)
-  }
   chatList.lastElementChild.style.animationDelay= (animationCounter * animationBubbleDelay)+"ms";
   animationCounter++;
   chatList.lastElementChild.style.animationPlayState = "running";
@@ -269,22 +231,14 @@ var possibleInput = {
     let url = "http://localhost:6969/patient/fetchAll";
     let responseData = await fetch(url)
     const data= await responseData.json();
-
-    console.log(responseData);
-    console.log(data.msg)
     for (let i = 0; i < data.data.length; i++) {
-      console.log(data.data[i].patientName.toString());
       responseButtons(data.data[i].patientName.toString(), null, data.data[i].id,"calendar");
       commandReset(2);
-
     }
-    return
-
-
+    return;
   }
     ,
   "myBooking": function(){
-
       responseButtons("My booking",null,"myBookingId","myBooking");
   commandReset(2);
   return
@@ -304,7 +258,6 @@ var possibleInput = {
     const jsonData = {
       "id": getCookie("id")
     };
-    // console.log("cookie = "jsonData)
 
     let responseData = await fetch(apiUrl, {
       method: "POST",
@@ -315,7 +268,6 @@ var possibleInput = {
     })
     const data= await responseData.json();
     const doctorData = data.data
-    console.log(doctorData)
 
           for (let i = 0; i < doctorData.length; i++) {
            responseButtons(doctorData[i].doctorName,null,doctorData[i].id,"calendar")
@@ -335,10 +287,7 @@ var possibleInput = {
     let responseData = await fetch(url)
     const data= await responseData.json();
 
-    // console.log(response);
-    console.log(data.msg)
     for (let i = 0; i < data.data.length; i++) {
-      console.log(data.data[i].doctorName.toString());
       responseButtons(data.data[i].doctorName.toString(), null, data.data[i].id,"calendar");
       commandReset(2);
 

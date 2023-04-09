@@ -56,8 +56,6 @@ public class DoctorServiceImpl implements DoctorService {
         if (doctor.isPresent() && doctor.get().getDoctorPassword().equals(encodedPassword) && doctor.get().isActive()
                 && !doctor.get().isBlocked()) {
             // valid doctor
-            System.out.println(doctor.get().getDoctorEmail());
-            System.out.println(doctor.get().getDoctorPassword());
             return true;
         }
         return false;

@@ -68,7 +68,6 @@ public class PatientController {
     @PostMapping("/login")
 
     public ResponseEntity login(@RequestBody PatientModel patientModel) throws Exception {
-        System.out.println(patientModel.isActive() + patientModel.getPatientPassword());
         if(patientServiceImpl.isPatientValid(patientModel.getPatientEmail(),patientModel.getPatientPassword()))
         {
             patientModel = patientServiceImpl.getPatientByEmail(patientModel.getPatientEmail());

@@ -69,7 +69,6 @@ $(document).ready(function () {
     success: function (response) {
       for (let index = 0; index < response.data.length; index++) {
         let patientEmail = response.data[index].patientEmail;
-        // console.log(patientEmail);
         $("#patient-email").append(new Option(patientEmail));
       }
     },
@@ -89,9 +88,7 @@ $(document).ready(function () {
             patientId = response.data[index].id;
             $("#patient-name").attr("placeholder", response.data[index].patientName);
           }
-          // console.log(patientEmail);
         }
-        //   console.log(patientId);
       },
       error: function (xhr, status, error) {
         console.error(error);
@@ -120,15 +117,12 @@ $("form").submit(function (e) {
   var milliseconds = padNum(currentdate.getMilliseconds()) + "00";
 
   var formattedDate = year + "-" + month + "-" + day + "T" + hours + ":" + minutes + ":" + seconds + "." + milliseconds;
-  console.log(id);
   let redirectURL = "";
 
   dataa["patientId"] = patientId;
   dataa["doctorId"] = getCookie('id');
   dataa["prescriptionTime"] = formattedDate;
   dataa["medicines"] = data.filter(value => Object.keys(value).length !== 0);;
-
-  console.log(JSON.stringify(dataa));
 
   $.ajax({
     type: "POST",
@@ -137,7 +131,6 @@ $("form").submit(function (e) {
     dataType: "json",
     contentType: "application/json"
   }).done(function (dataa) {
-    console.log(dataa);
     if (data.isError) {
       addToast(true, "Error", data.msg);
     } else {
@@ -151,9 +144,7 @@ $("form").submit(function (e) {
 });
 
 function handleChange(name, value, index) {
-  console.log(name, value, index);
   const oldata = [...data];
-  console.log(oldata);
   const updatedElement = { ...oldata[index], [name]: value };
   const updatedData = [
     ...oldata.slice(0, index),
@@ -161,7 +152,6 @@ function handleChange(name, value, index) {
     ...oldata.slice(index + 1)
   ];
   data = updatedData;
-  console.log("data", data);
 }
 
 $('.clear-form').click(function () {

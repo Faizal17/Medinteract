@@ -44,7 +44,6 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public List<Object> fetchAppointmentsDaily() {
-        System.out.println(LocalDateTime.now());
         return appointmentRepository.findDailyAppointments(LocalDateTime.now());
     }
 

@@ -432,33 +432,6 @@
                 $('#province').append(`<option value=${key}>${value["abbrv"]}</option>`);
             }
 
-            // $.ajax({
-            //     url: globalURL + "province/fetchAll",
-            //     type: "GET",
-            //     dataType: "json",
-            //     contentType: "application/json",
-            // })
-            // .done(function(response) {
-            //     try {
-            //         console.log(response);
-            //         let data = response.data;
-            //         for (let i = 0; i < data.length; i++) {
-            //             // for (let j = 0; j < data[i]['cities'].length; j++) {
-            //                 provinceList.set(data[i]['id'].toString(), data[i]['cities']);
-            //             // }
-            //             $('#province').append(`<option value=${data[i]['id']}>${data[i]['abbrv']}</option>`);
-            //         }
-            //         console.log(provinceList);
-            //     } catch(err){
-            //         addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
-            //     }
-            // })
-            // .fail(function (jqXHR, textStatus, errorThrown){
-            //     // let msg = JSON.parse(jqXHR.responseText);
-            //     addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
-            //     // console.log(jqXHR, textStatus, errorThrown);
-            // });
-
             $.ajax({
                 url: globalURL + "jwt/validateJWTToken",
                 type: "POST",
@@ -548,7 +521,6 @@
             let citySel = document.getElementById("city");
             citySel.length = 1;
             let cities = provinceList.get(province)["data"];
-            console.log(cities, province, provinceList)
             for (let i = 0; i < cities.length; i++) {
                 $('#city').append(`<option value="${cities[i]['id']}">${cities[i]['city']}</option>`);
             }
@@ -621,7 +593,6 @@
             let data = {};
             event.preventDefault();
             const id = this.id;
-            console.log(id);
             let redirectURL = ""
             if (id === "signInForm") {
                 if ($('input[name="userTypeSignIn"]:checked').val() == 'Patient') {
@@ -677,7 +648,6 @@
                 dataType: "json",
                 contentType: "application/json"
             }).done(function (data) {
-                console.log(data);
                 if (data.isError) {
                     addToast(true, "Error", data.msg);
                 } else {
@@ -704,7 +674,6 @@
                 .fail(function (jqXHR, textStatus, errorThrown) {
                     // let msg = JSON.parse(jqXHR.responseText);
                     addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
-                    // console.log(jqXHR, textStatus, errorThrown);
                 });
         });
 
