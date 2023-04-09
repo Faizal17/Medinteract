@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @ContextConfiguration
 @SpringBootTest
 @AutoConfigureMockMvc
-public class ArticleControllerTest {
+public class ArticleControllerTestIT {
     @Autowired
     private WebApplicationContext webApplicationContext;
 

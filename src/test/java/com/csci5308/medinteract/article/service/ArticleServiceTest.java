@@ -4,10 +4,16 @@ import com.csci5308.medinteract.article.model.ArticleModel;
 import com.csci5308.medinteract.article.repository.ArticleRepository;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -15,15 +21,17 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
+@ExtendWith(SpringExtension.class)
+@WebMvcTest(value = {ArticleService.class})
 public class ArticleServiceTest {
 
 
-    @Mock
+    @MockBean
+    @Autowired
     private ArticleRepository articleRepository;
 
-    @InjectMocks
-    private ArticleServiceImpl articleService;
+    @Autowired
+    private ArticleService articleService;
 
     @Test
     public void testSaveArticle() {

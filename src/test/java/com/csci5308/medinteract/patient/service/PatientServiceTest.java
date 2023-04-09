@@ -2,16 +2,13 @@ package com.csci5308.medinteract.patient.service;
 
 import com.csci5308.medinteract.patient.model.PatientModel;
 import com.csci5308.medinteract.patient.repository.PatientRepository;
-import com.csci5308.medinteract.JWT.JWT;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,26 +18,17 @@ import static org.mockito.Mockito.verify;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(value = PatientService.class)
-public class PatientServiceTestUT {
-    @Autowired
-    private MockMvc mockMvc;
-    @Mock
-    private PatientRepository patientRepository;
+public class PatientServiceTest {
     @MockBean
     @Autowired
     private PatientRepository mockPatientRepository;
-
-    @MockBean
-    private JWT jwt;
 
     @Autowired
     private PatientServiceImpl patientService;
 
     private PatientModel mockPatientModel = new PatientModel();
 
-    private String patientJSON = "{ \"patientEmail\": \"patient@gmail.com\",\"patientPassword\": \"patientPass\" }";
-
-    PatientServiceTestUT() {
+    PatientServiceTest() {
         mockPatientModel.setId(201l);
         mockPatientModel.setPatientEmail("paitent@gamil.com");
         mockPatientModel.setPatientPassword("patientPass");

@@ -1,4 +1,4 @@
-package com.csci5308.medinteract.province.controller;
+package com.csci5308.medinteract.notification.controller;
 
 import com.csci5308.medinteract.TestUtil;
 import org.json.JSONObject;
@@ -10,27 +10,22 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class ProvinceControllerTest {
-
+class NotificationControllerTestIT {
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
     @Test
     void fetchAll() throws Exception {
-        MvcResult mvcResult = TestUtil.getResultFromGetAPI("/province/fetchAll",mockMvc);
-        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        assertFalse(isError);
-    }
-
-    @Test
-    void getProvinceId() throws Exception {
-
         JSONObject obj = new JSONObject();
-        obj.put("name","Quebec");
+
+
+        obj.put("userType", "string");
+
         String json = obj.toString();
-        MvcResult mvcResult = TestUtil.getResultFromPostAPI("/province/province_id",json,mockMvc);
+        MvcResult mvcResult =TestUtil.getResultFromPostAPI("/notification/fetchAll",json,mockMvc);
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
         assertFalse(isError);
     }

@@ -14,7 +14,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-class WebSocketsTest {
+class WebSocketsTestIT {
     @Autowired
     private WebSockets webSockets;
 

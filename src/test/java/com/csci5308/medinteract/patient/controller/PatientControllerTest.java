@@ -1,81 +1,165 @@
 package com.csci5308.medinteract.patient.controller;
 
-import com.csci5308.medinteract.TestUtil;
-import org.json.JSONObject;
+import com.csci5308.medinteract.patient.model.PatientModel;
+import com.csci5308.medinteract.patient.repository.PatientRepository;
+import com.csci5308.medinteract.patient.service.PatientServiceImpl;
+import com.csci5308.medinteract.JWT.JWT;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.context.WebApplicationContext;
-
-import java.io.File;
-import java.io.FileInputStream;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebAppConfiguration
-@ContextConfiguration
-@SpringBootTest
-@AutoConfigureMockMvc
+import org.springframework.http.MediaType;
+
+import java.util.*;
+
+import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+@ExtendWith(SpringExtension.class)
+@WebMvcTest(value = PatientController.class)
 class PatientControllerTest {
-    @Autowired
-    private WebApplicationContext webApplicationContext;
 
     @Autowired
     private MockMvc mockMvc;
+    @Mock
+    private PatientRepository patientRepository;
 
+    @MockBean
+    private JWT jwt;
+
+    //@MockBean
+    //private PatientService patientService;
+
+    @MockBean
+    private PatientServiceImpl patientService;
+    private PatientModel mockPatientModel = new PatientModel();
+
+    private String patientJSON = "{ \"patientEmail\": \"patient@gmail.com\",\"patientPassword\": \"patientPass\" }";
+
+    PatientControllerTest() {
+        mockPatientModel.setId(101l);
+        mockPatientModel.setPatientEmail("paitent@gamil.com");
+        mockPatientModel.setPatientPassword("patientPass");
+    }
     @Test
-    void fetchAll() throws Exception {
-        MvcResult mvcResult = TestUtil.getResultFromGetAPI("/patient/fetchAll",mockMvc);
-        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        assertFalse(isError);
+    void loginTest() throws Exception {
+
+        Mockito.when(patientService.isPatientValid(Mockito.anyString(),
+                Mockito.anyString())).thenReturn(true);
+
+        Mockito.when(patientService.getPatientByEmail(Mockito.anyString()
+        )).thenReturn(mockPatientModel);
+
+        mockMvc.perform(post("http://localhost:6969/patient/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{ \"patientEmail\": \"patient@gmail.com\",\"patientPassword\": \"docPass\" }"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.msg").value("Patient logged in Successfully!"))
+                .andExpect(jsonPath("$.isError").value("false"));
+
     }
 
-
     @Test
-    void login() throws Exception {
-        JSONObject obj = new JSONObject();
-        obj.put("patientEmail", "okabe@gmail.com");
-        obj.put("patientPassword", "okabe");
-        String json = obj.toString();
-        MvcResult mvcResult = TestUtil.getResultFromPostAPI("/patient/login",json,mockMvc);
-        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        assertFalse(isError);
+    void loginFailedTest() throws Exception {
+
+        Mockito.when(patientService.isPatientValid(Mockito.anyString(),
+                Mockito.anyString())).thenReturn(false);
+
+        Mockito.when(patientService.getPatientByEmail(Mockito.anyString()
+        )).thenReturn(mockPatientModel);
+
+        mockMvc.perform(post("http://localhost:6969/patient/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{ \"patientEmail\": \"patient@gmail.com\",\"patientPassword\": \"docPass\" }"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.msg").value("Failed to login for the given credentials"))
+                .andExpect(jsonPath("$.isError").value("true"));
 
     }
 
     @Test
-    void loginWithUnknownUser() throws Exception {
-        JSONObject obj = new JSONObject();
-        obj.put("patientEmail", "sdsf@gmail.com");
-        obj.put("patientPassword", "okabe");
-        String json = obj.toString();
-        MvcResult mvcResult = TestUtil.getResultFromPostAPI("/patient/login",json,mockMvc);
-        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        assertTrue(isError);
+    void fetchAllTest() throws Exception {
+
+        List<PatientModel> mockListPatients = new ArrayList<PatientModel>();
+        mockListPatients.add(mockPatientModel);
+        Mockito.when(patientService.fetchAll()).thenReturn(mockListPatients);
+
+        mockMvc.perform(get("http://localhost:6969/patient/fetchAll")
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.msg").value("All Patients Fetched Successfully!"))
+                .andExpect(jsonPath("$.isError").value("false"));
+
+
+        List<PatientModel> allPatient = patientService.fetchAll();
+
+        assertEquals(allPatient, mockListPatients);
+
 
     }
 
-//    @Test
-//    void getPatients() {
-//    }
+    @Test
+    void registerFailTest() throws Exception {
+
+        Map<String, Object> res = new HashMap<>();
+
+        res.put("result", true);
+        res.put("id", mockPatientModel.getId());
+        res.put("data", mockPatientModel);
+
+        Mockito.when(patientService.checkIfEmailExists(Mockito.anyString())).thenReturn(res);
+
+        mockMvc.perform(post("http://localhost:6969/patient/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{ \"patientEmail\": \"patient@gmail.com\",\"patientPassword\": \"docPass\" }"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.msg").value("Patient with email already exists!"))
+                .andExpect(jsonPath("$.isError").value("true"));
+
+    }
 
     @Test
-    void getPatientById() throws Exception {
+    void registerTest() throws Exception {
 
-        int patientID = 10;
-        mockMvc.perform(get("http://localhost:6969/patient/profile/"+patientID))
+        Map<String, Object> res = new HashMap<>();
+
+        res.put("result", false);
+        res.put("id", mockPatientModel.getId());
+        res.put("data", mockPatientModel);
+
+        Mockito.when(patientService.checkIfEmailExists(Mockito.anyString())).thenReturn(res);
+
+        mockMvc.perform(post("http://localhost:6969/patient/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{ \"patientEmail\": \"patient@gmail.com\",\"patientPassword\": \"docPass\" }"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.msg").value("User registered Successfully!"))
+                .andExpect(jsonPath("$.isError").value("false"));
+
+    }
+
+    @Test
+    void getPatientByIdTest() throws Exception {
+
+        mockPatientModel.setBlocked(false);
+        mockPatientModel.setActive(true);
+
+        Mockito.when(patientService.getPatientById(Mockito.anyLong())).thenReturn(Optional.ofNullable(mockPatientModel));
+
+        mockMvc.perform(get("http://localhost:6969/patient/profile/100")
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.msg").value("Patient details fetched Successfully!"))
                 .andExpect(jsonPath("$.isError").value("false"));
@@ -83,113 +167,59 @@ class PatientControllerTest {
     }
 
     @Test
-    void getPatientByIdWithUnknownUser() throws Exception {
-        int patientId = 1111;
-        MvcResult mvcResult = TestUtil.getResultFromGetAPI("/patient/profile/"+patientId,mockMvc);
-        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        assertTrue(isError);
-    }
+    void getPatientByIdFailedTest() throws Exception {
 
-    @Test
-    void registerNewPatient() throws Exception {
-        JSONObject obj = new JSONObject();
-        obj.put("patientEmail","patientName@gmail.com");
-        obj.put("patientPassword","password");
-        String json = obj.toString();
-        MvcResult mvcResult = TestUtil.getResultFromPostAPI("/patient/register",json,mockMvc);
-        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        assertFalse(isError);
+        mockPatientModel.setBlocked(true);
+        mockPatientModel.setActive(false);
+
+        Mockito.when(patientService.getPatientById(Mockito.anyLong())).thenReturn(Optional.ofNullable(mockPatientModel));
+
+        mockMvc.perform(get("http://localhost:6969/patient/profile/100")
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.msg").value("Unable to find patient with the given id!"))
+                .andExpect(jsonPath("$.isError").value("true"));
 
     }
 
-    @Test
-    void registerExistingPatient() throws Exception {
+    //    @Test
+    //    void updatepatientByIdTest() throws Exception {
+    //
+    //        Mockito.when(patientService.getpatientById(Mockito.anyLong())).thenReturn(Optional.ofNullable(mockpatientModel));
+    //
+    //        mockMvc.perform(post("http://localhost:6969/patient/updateProfile")
+    //                        .contentType(MediaType.APPLICATION_JSON).content("{ \"patientEmail\": \"patient@gmail.com\",\"patientPassword\": \"docPass\" }"))
+    //
+    //                .andExpect(status().isOk())
+    //                .andExpect(jsonPath("$.msg").value("Unable to update profile!"))
+    //                .andExpect(jsonPath("$.isError").value("true"));
+    //
+    //    }
 
 
+   @Test
+   void fetchPatientsWithAppointmentTest() throws Exception {
 
-        JSONObject obj = new JSONObject();
-        obj.put("patientEmail","maulvifaizal@gmail.com");
-        obj.put("patientPassword","1234");
-        String json = obj.toString();
-        MvcResult mvcResult = TestUtil.getResultFromPostAPI("/patient/register",json,mockMvc);
-        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        assertTrue(isError);
+       List<PatientModel> mockListpatients = new ArrayList<>();
+       Mockito.when(patientService.fetchPatientsWithAppointment(Mockito.any())).thenReturn(Optional.of(mockListpatients));
 
-    }
+       mockMvc.perform(get("http://localhost:6969/patient/patientAppointment/{doctorId}",100)
+                       .contentType(MediaType.APPLICATION_JSON)
+                       )
+               .andExpect(status().isOk())
+               .andExpect(jsonPath("$.msg").value("Patients fetched Successfully!"))
+               .andExpect(jsonPath("$.isError").value("false"));
 
-    @Test
-    void updateDoctorById() throws Exception {
-        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
-        JSONObject obj = new JSONObject();
-        obj.put("patientEmail","patientName@gmail.com");
-        obj.put("patientPassword","password");
-        obj.put("id", "1715");
-        String json = obj.toString();
-        formData.add("objectData", json);
-        String apiURL = "/patient/updateProfile";
-        File file = new File("./src/test/resources/JLmd2P5uty.jpeg");
-        FileInputStream fileInputStream = new FileInputStream(file);
-        MockMultipartFile multipartFile = new MockMultipartFile("profileImage", file.getName(), "image/jpeg", fileInputStream);
-        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-        MvcResult mvcResult = TestUtil.getResultFromPostMultiFormAPI(apiURL, "objectData", formData, multipartFile, mockMvc);
-        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if(mvcResult.getResponse().getStatus()==200)
-        {
-            assertFalse(isError);
+   }
+
+    private static String asJsonString(final Object obj) {
+        try {
+            final ObjectMapper objectMapper = new ObjectMapper();
+            final String jsonContent = objectMapper.writeValueAsString(obj);
+            return jsonContent;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-    }
-
-    @Test
-    void updateDoctorByIdWithoutImage() throws Exception {
-        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
-        JSONObject obj = new JSONObject();
-        obj.put("patientEmail","patientName@gmail.com");
-        obj.put("patientPassword","password");
-        obj.put("id", "1715");
-        String json = obj.toString();
-        formData.add("objectData", json);
-        String apiURL = "/patient/updateProfile";
-        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-        MvcResult mvcResult = TestUtil.getResultFromPostMultiFormAPI(apiURL, "objectData", formData, null, mockMvc);
-        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if(mvcResult.getResponse().getStatus()==200)
-        {
-            assertFalse(isError);
-        }
-    }
-
-    @Test
-    void updateDoctorByInvalidId() throws Exception {
-        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
-
-        JSONObject obj = new JSONObject();
-        obj.put("patientEmail","patientName@gmail.com");
-        obj.put("patientPassword","password");
-        obj.put("id", "-1");
-        String json = obj.toString();
-        formData.add("objectData", json);
-        String apiURL = "/patient/updateProfile";
-        File file = new File("./src/test/resources/JLmd2P5uty.jpeg");
-        FileInputStream fileInputStream = new FileInputStream(file);
-        MockMultipartFile multipartFile = new MockMultipartFile("profileImage", file.getName(), "image/jpeg", fileInputStream);
-        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-        MvcResult mvcResult = TestUtil.getResultFromPostMultiFormAPI(apiURL, "objectData", formData, multipartFile, mockMvc);
-        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if(mvcResult.getResponse().getStatus()==200)
-        {
-            assertTrue(isError);
-        }
-    }
-
-
-
-    @Test
-    void fetchPatientsWithAppointment() throws Exception {
-
-        int doctorID = 11;
-        MvcResult mvcResult = TestUtil.getResultFromGetAPI("/patient/patientAppointment/"+doctorID,mockMvc);
-        boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        assertFalse(isError);
-
     }
 }

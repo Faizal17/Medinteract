@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class ResponseControllerTest {
+public class ResponseControllerTestIT {
     @Autowired
     MockMvc mockMvc;
 
