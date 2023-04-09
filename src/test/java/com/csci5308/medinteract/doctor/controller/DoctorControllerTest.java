@@ -180,20 +180,6 @@ class DoctorControllerTest {
 
     }
 
-//    @Test
-//    void updateDoctorByIdTest() throws Exception {
-//
-//        Mockito.when(doctorService.getDoctorById(Mockito.anyLong())).thenReturn(Optional.ofNullable(mockDoctorModel));
-//
-//        mockMvc.perform(post("http://localhost:6969/doctor/updateProfile")
-//                        .contentType(MediaType.APPLICATION_JSON).content("{ \"doctorEmail\": \"doctor@gmail.com\",\"doctorPassword\": \"docPass\" }"))
-//
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.msg").value("Unable to update profile!"))
-//                .andExpect(jsonPath("$.isError").value("true"));
-//
-//    }
-
     @Test
     void isPendingTest() throws Exception {
 

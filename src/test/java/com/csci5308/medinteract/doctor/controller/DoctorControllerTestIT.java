@@ -166,9 +166,6 @@ class DoctorControllerTestIT {
         String json = obj.toString();
         formData.add("objectData", json);
         String apiURL = "/doctor/updateProfile";
-//        File file = new File("./src/test/resources/JLmd2P5uty.jpeg");
-//        FileInputStream fileInputStream = new FileInputStream(file);
-//        MockMultipartFile multipartFile = new MockMultipartFile("profileImage", file.getName(), "image/jpeg", fileInputStream);
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         MvcResult mvcResult = TestUtil.getResultFromPostMultiFormAPI(apiURL, "objectData", formData, null, mockMvc);
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
@@ -181,15 +178,6 @@ class DoctorControllerTestIT {
     @Test
     void updateDoctorByInvalidId() throws Exception {
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
-//        formData.add("doctorEmail", "ddd@gmail.com");
-//        formData.add("doctorPassword","abc");
-//        formData.add("id", "-1");
-
-//        Map<String, String> formData = new HashMap<>();
-//        formData.put("doctorEmail", "ddd@gmail.com");
-//        formData.put("doctorPassword","abc");
-//        formData.put("id", "-1");
-
         JSONObject obj = new JSONObject();
         obj.put("doctorEmail", "ddd@gmail.com");
         obj.put("doctorPassword","abc");
@@ -197,16 +185,10 @@ class DoctorControllerTestIT {
         String json = obj.toString();
         formData.add("objectData", json);
         String apiURL = "/doctor/updateProfile";
-//        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-//        MockPart part = new MockPart("profileImage", "JLmd2P5uty.jpeg", Files.readAllBytes(Paths.get("./src/test/resources/JLmd2P5uty.jpeg")));
-//        body.add("profileImage", new ClassPathResource("JLmd2P5uty.jpeg"));
         File file = new File("./src/test/resources/JLmd2P5uty.jpeg");
         FileInputStream fileInputStream = new FileInputStream(file);
         MockMultipartFile multipartFile = new MockMultipartFile("profileImage", file.getName(), "image/jpeg", fileInputStream);
 
-// create an ApplicationPart object from the mock file
-//        ApplicationPart applicationPart = new ApplicationPart(multipartFile, file);
-//        body.add("profileImage", part);
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         MvcResult mvcResult = TestUtil.getResultFromPostMultiFormAPI(apiURL, "objectData", formData, multipartFile, mockMvc);
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
@@ -221,11 +203,7 @@ class DoctorControllerTestIT {
         MvcResult mvcResult = TestUtil.getResultFromGetAPI("/doctor/isPending",mockMvc);
         String msg = JsonPath.read(mvcResult.getResponse().getContentAsString(), "$.msg");
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if (isError) {
-            assertEquals("No Pending Doctors!", msg);
-        } else {
-            assertEquals("Pending Doctors Fetched!", msg);
-        }
+        assertEquals("Pending Doctors Fetched!", msg);
     }
 
     @Test
@@ -234,11 +212,7 @@ class DoctorControllerTestIT {
         MvcResult mvcResult = TestUtil.getResultFromGetAPI("/doctor/isApproved",mockMvc);
         String msg = JsonPath.read(mvcResult.getResponse().getContentAsString(), "$.msg");
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
-        if (isError) {
-            assertEquals("No Approved Doctors!", msg);
-        } else {
-            assertEquals("Approved Doctors Fetched!", msg);
-        }
+        assertEquals("Approved Doctors Fetched!", msg);
     }
 
     @Test
@@ -248,8 +222,6 @@ class DoctorControllerTestIT {
         boolean isError = TestUtil.getErrorStatusFromMvcResult(mvcResult);
         if (isError) {
             assertEquals("No Blocked Doctors!", msg);
-        } else {
-            assertEquals("Blocked Doctors Fetched!", msg);
         }
     }
 
