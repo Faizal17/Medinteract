@@ -73,7 +73,7 @@ $(document).ready(function () {
       }
     },
     error: function (xhr, status, error) {
-      console.error(error);
+      addToast(true, "Error", "Some unknown error occurred!");
     }
   });
   $("#patient-email").on("change", function () {
@@ -91,7 +91,7 @@ $(document).ready(function () {
         }
       },
       error: function (xhr, status, error) {
-        console.error(error);
+        addToast(true, "Error", "Some unknown error occurred!");
       }
     });
   });

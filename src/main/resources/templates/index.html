@@ -632,8 +632,8 @@
                     data["doctorGender"] = $('input[name="gender"]:checked').val();
                     data["doctorDOB"] = new Date($("#DOB").val());
                     data["doctorMobileNumber"] = $("#mobileNumber").val();
-                    data["doctorType"] = $("#pwdSignup").val();
-                    data["doctorQualification"] = $("#pwdSignup").val();
+                    data["doctorType"] = $("#field").val();
+                    data["doctorQualification"] = $("#qualification").val();
                     data["doctorPassword"] = $("#pwdSignup").val();
                     data["active"] = false;
                     data["blocked"] = false;
@@ -651,6 +651,9 @@
                 if (data.isError) {
                     addToast(true, "Error", data.msg);
                 } else {
+		                if (id === "signUpForm") {
+												location.reload();
+		                }
                     addToast(false, "Hurray", data.msg);
                     setCookie("token", data.data.token);
                     setCookie("id", data.data.user.id);
