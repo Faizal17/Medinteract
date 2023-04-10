@@ -108,6 +108,8 @@ Doctors can update their profile by clicking on *Update Profile* button. They ca
 
 Using this module, patients can book a time slot using the calendar. When they book an appointment, they receive a notification. Then booking is visible in their *Dashboard*
 
+![alt text](/screenshots/scheduling.png)
+
 - **ChatBot Module**
 
 Using this module, both patients and doctors can have a chat with MEDINTERACT bot to ask some common questions.
@@ -125,28 +127,39 @@ In the other case, if user click on the *My Appointment*, they have a calendar t
 
 - **Notifications Module**
 
+All users (Doctors and Patients) will receive the notification after each activity.
+
+![alt text](/screenshots/Notifications.png)
+
+![alt text](/screenshots/notification-booking.png)
+
 - **Articles Module**
 
 Using this module, doctors can create, update and delete articles. They are able to upload pictures and post rich HTML text. Patients only have the read option. They cannot update or delete articles.
 
 Patient view:
 
-![alt text](/screenshots/article-patient-view.png)
+![alt text](/screenshots/article-2.png)
 
 Doctor view, (create, edit, delete article)
 
-![alt text](/screenshots/article-doctor-view.png)
-
-![alt text](/screenshots/article-doctor-create.png)
-
-
+![alt text](/screenshots/article-1.png)
 
 - **Prescription Module**
 
 Using this module, doctors can prescribe medications to patients by specifying the details like medication name, dosage, and how often patient has to take them. 
 
+Doctor view:
+
 ![alt text](/screenshots/prescription.png)
 
+Patient view:
+
+![alt text](/screenshots/prescription-patient.png)
+
+![alt text](/screenshots/prescription-patient-1.png)
+
+![alt text](/screenshots/prescription-patient-2.png)
 
 - **Admin: Doctor Verification Module**
 
@@ -158,7 +171,7 @@ In this module, the admin has the authority to confirm or reject a doctor's qual
 
 Using this module, patients can rate their doctors and also leave a comment for them.
 
-![alt text](/screenshots/dashboard-feedback.png)
+![alt text](/screenshots/feedback.png)
 
 
 ## Smell Analysis Summary
