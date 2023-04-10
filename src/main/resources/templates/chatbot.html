@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en" xmlns:resize="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -40,13 +40,13 @@
 Working prototype on meesrutten.me :) -->
 <div class="contentDiv">
     <div class="chatbot__overview">
-        <ul class="chatlist">
+        <ul class="chatlist pe-4">
             <li class="bot__output bot__output--standard">Hey, I'm your MedInteract ChatBot</li>
             <li class="bot__output bot__output--standard">
-                <input class="btn btn-primary" type="button" id="createappointment" value="Create Appointment">
+                <input class="btn btn-primary createappointment" type="button" id="createappointment" value="Create Appointment">
                 <input class="btn btn-primary myBooking" type="button" id="myBooking" value="My Appointments">
-                <input class="btn btn-primary" id="viewDoctors" type="button" value="View Doctors">
-                <input class="btn btn-primary" id="emergencyInfo" type="button" value="Emergency Contact">
+                <input class="btn btn-primary viewDoctors" id="viewDoctors" type="button" value="View Doctors">
+                <input class="btn btn-primary emergencyInfo" id="emergencyInfo" type="button" value="Emergency Contact">
                 <!--                <input class="btn btn-primary" id ="viewPatients" type="button" value="View Patients">-->
             </li>
 
@@ -54,7 +54,7 @@ Working prototype on meesrutten.me :) -->
     </div>
     <div class="chatbox-area col-12 py-3">
         <form action="" id="chatform">
-            <textarea placeholder="Select any options to continue" class="chatbox" name="chatbox"
+            <textarea placeholder="Type help to list out all the options" class="chatbox" name="chatbox"
                       minlength="2"></textarea>
             <input class="submit-button" type="submit" value="send">
         </form>
@@ -183,17 +183,9 @@ Working prototype on meesrutten.me :) -->
 
 <script>
     $(document).ready(function () {
-
-        const createAppointment = document.getElementById("createappointment")
-        // const myBooking = document.getElementById("myBooking")
-        const viewDoctors = document.getElementById("viewDoctors")
-
-        // if(getCookie("type") == "patient" ) {
-        //     ele.hidden = true
-        // }
         if (getCookie("type") == "doctor") {
-            createAppointment.hidden = true;
-            viewDoctors.hidden = true;
+						$(".createappointment").attr("hidden", true);
+						$(".viewDoctors").attr("hidden", true);
         }
 
 
@@ -213,7 +205,6 @@ Working prototype on meesrutten.me :) -->
         $(document).on("click", '.calendar', function () {
             $("#show").click();
             $("#modalTitleDoctorName").html(this.id.split("_")[1]);
-            console.log(getCookie("type"))
             if (getCookie("type") == "patient" ) {
                 loadAppointments("Doctor", this.id.split("_")[0], true);
             }
@@ -221,33 +212,6 @@ Working prototype on meesrutten.me :) -->
                 loadAppointments("patient", this.id.split("_")[0], true);
 
         })
-
-        // $(document).on("click", '.calendar', function () {
-        //     $("#show").click();
-        //     $("#modalTitleDoctorName").html(this.id.split("_")[1]);
-        //
-        //
-        //     if(getCookie("type") == "patient" || getCookie("type") == "doctor") {
-        //         loadAppointments(getCookie("type").charAt(0).toUpperCase() + getCookie("type").slice(1),  this.id.split("_")[0], true);
-        //     }
-        //
-        //
-        //
-        // })
-
-
-        // $(document).on("click", '.calendar', function () {
-        //     $("#show").click();
-        //     $("#modalTitleDoctorName").html(this.id.split("_")[1]);
-        //
-        //
-        //     if(getCookie("type") == "patient" || getCookie("type") == "doctor") {
-        //         loadAppointments(getCookie("type").charAt(0).toUpperCase() + getCookie("type").slice(1),  this.id.split("_")[0], true);
-        //     }
-        //
-        //
-        //
-        // })
     })
 
 

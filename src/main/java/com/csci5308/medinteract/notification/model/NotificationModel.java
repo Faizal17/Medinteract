@@ -8,7 +8,8 @@ import java.time.LocalDateTime;
 @Table(name="notifications")
 public class NotificationModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "notification_generator")
+    @SequenceGenerator(name="notification_generator", sequenceName = "notification_seq", allocationSize=100)
     @Column(name = "id", nullable = false)
     private Long id;
 

@@ -206,8 +206,6 @@ function loopOverDoc() {
       DocAvgRating = "-";
     }
 
-    //console.log(tempDocAvgRating, tempResponceData.id);
-
     showDoctorList(tempResponceData, doctorList, DocAvgRating);
 
   }
@@ -222,7 +220,6 @@ $(document).ready(function () {
   startCard = 0;
   endCard = 6;
   lastPage = 1;
-  console.log("In document ready..")
 
   searchdoctor();
   const patientId = getCookie('id');
@@ -231,11 +228,9 @@ $(document).ready(function () {
 });
 
 function selectProvince(province) {
-  //console.log("In the selectProvince" + "\n" + provinceList.get(province));
   let citySel = document.getElementById("doctor_search_form_city");
   citySel.length = 1;
   let cities = provinceList.get(province)["data"];
-  console.log(cities, province, provinceList)
   for (let i = 0; i < cities.length; i++) {
     $('#doctor_search_form_city').append(`<option value="${cities[i]['id']}">${cities[i]['city']}</option>`);
   }
@@ -270,17 +265,12 @@ function loadComents(doctorId) {
       if (responseData.isError) {
         addToast(true, "Error", responseData.msg);
         return false;
-      } else {
-        //console.log(responseData);
-        //addToast(false, "Success", "Doctors featched successfully!")
       }
     } catch (err) {
-      //addToast(true, "Error", "Some unknown error occurred. Unable to featch Doctors!" + err)
       return false;
     }
   })
     .fail(function (jqXHR, textStatus, errorThrown) {
-      //addToast(true, "Error", "Some unknown error occurred. Unable to featch Doctors!");
       return false;
     });;
 
@@ -372,7 +362,6 @@ function loadComents(doctorId) {
 
   }
 
-  console.log(rating);
   let currentPatientRating;
   for (let i = 1; i <= rating; i++) {
     currentPatientRating = document.getElementById("star" + i + "_" + patientId + "_" + doctorId);
@@ -493,7 +482,6 @@ function saveComment(doctorId, feedbackId) {
 
 
 function setStar(currentStar, patientId, doctorId, feedbackId) {
-  console.log("In setSatr")
   let i;
   let tempCurrentStar;
   for (i = 1; i <= currentStar; i++) {
@@ -537,17 +525,12 @@ function loadAppointmentsDashboard(patientId) {
       if (responseData.isError) {
         addToast(true, "Error", responseData.msg);
         return false;
-      } else {
-        console.log(responseData);
-        //addToast(false, "Success", "Doctors featched successfully!")
       }
     } catch (err) {
-      //addToast(true, "Error", "Some unknown error occurred. Unable to featch Doctors!" + err)
       return false;
     }
   })
     .fail(function (jqXHR, textStatus, errorThrown) {
-      //addToast(true, "Error", "Some unknown error occurred. Unable to featch Doctors!");
       return false;
     });;
 

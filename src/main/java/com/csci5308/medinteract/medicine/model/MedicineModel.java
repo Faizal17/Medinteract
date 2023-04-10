@@ -12,18 +12,11 @@ import javax.validation.constraints.NotNull;
 @Table(name = "medicine")
 public class MedicineModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "medicine_generator")
+    @SequenceGenerator(name="medicine_generator", sequenceName = "medicine_seq", allocationSize=100)
     @Column(name = "medicine_id", nullable = false)
     private Long medicineId;
-
-//    @NotBlank
-//    @NotNull
-//    private Long patientId;
-
-//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "pres_id")
-//    private PrescriptionModel pres;
 
     public MedicineModel() {
     }
@@ -43,22 +36,6 @@ public class MedicineModel {
     private boolean isEvening;
 
     private String additionalNotes;
-
-//    public Long getPatientId() {
-//        return patientId;
-//    }
-//
-//    public void setPatientId(Long patientId) {
-//        this.patientId = patientId;
-//    }
-//    @JsonBackReference
-//    public PrescriptionModel getPres() {
-//        return pres;
-//    }
-//
-//    public void setPres(PrescriptionModel pres) {
-//        this.pres = pres;
-//    }
 
     public String getMedicineName() {
         return medicineName;
@@ -114,5 +91,15 @@ public class MedicineModel {
 
     public void setMedicineId(Long prescriptionId) {
         this.medicineId = prescriptionId;
+    }
+
+    public MedicineModel(Long medicineId, String medicineName, int medicineAmount, boolean isMorning, boolean isAfternoon, boolean isEvening, String additionalNotes) {
+        this.medicineId = medicineId;
+        this.medicineName = medicineName;
+        this.medicineAmount = medicineAmount;
+        this.isMorning = isMorning;
+        this.isAfternoon = isAfternoon;
+        this.isEvening = isEvening;
+        this.additionalNotes = additionalNotes;
     }
 }

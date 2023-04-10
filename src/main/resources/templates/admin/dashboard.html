@@ -128,7 +128,6 @@
         .done(function(response) {
             let data = response.data;
             try {
-                // $("#doctorTable").dataTable().fnDestroy();
                 refreshTable();
                 $('#doctorTable').DataTable({
                     data: data,
@@ -172,10 +171,9 @@
       contentType: 'application/json',
       success: function(response) {
         showBlockedDoctors();
-        console.log('Verification successful:', response);
       },
       error: function(error) {
-        console.error('Verification failed:', error);
+		      addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
       }
     });
   });
@@ -194,10 +192,9 @@
       contentType: 'application/json',
       success: function(response) {
         showApprovedDoctors();
-        console.log('Succesful:', response);
       },
       error: function(error) {
-        console.error('Failed:', error);
+		      addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
       }
     });
   });
@@ -215,10 +212,9 @@
       contentType: 'application/json',
       success: function(response) {
         showPendingDoctors();
-        console.log('Verification successful:', response);
       },
       error: function(error) {
-        console.error('Verification failed:', error);
+		      addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
       }
     });
   });
@@ -237,10 +233,9 @@
       contentType: 'application/json',
       success: function(response) {
         showPendingDoctors();
-        console.log('Succesful:', response);
       },
       error: function(error) {
-        console.error('Failed:', error);
+		      addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
       }
     });
   });

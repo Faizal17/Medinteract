@@ -1,14 +1,14 @@
 package com.csci5308.medinteract.appointment.controller;
 
 import com.csci5308.medinteract.appointment.service.AppointmentService;
-import com.csci5308.medinteract.doctor.Model.DoctorModel;
-import com.csci5308.medinteract.doctor.Service.DoctorService;
+import com.csci5308.medinteract.doctor.model.DoctorModel;
+import com.csci5308.medinteract.doctor.service.DoctorService;
 import com.csci5308.medinteract.appointment.model.AppointmentModel;
 import com.csci5308.medinteract.notification.model.NotificationModel;
 import com.csci5308.medinteract.notification.service.NotificationService;
 import com.csci5308.medinteract.patient.model.PatientModel;
 import com.csci5308.medinteract.patient.service.PatientService;
-import com.csci5308.medinteract.utilities.Response;
+import com.csci5308.medinteract.Response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,13 +41,13 @@ public class AppointmentController {
 
     @PostMapping("/register")
     public ResponseEntity registerAppointment(@RequestBody AppointmentModel appointmentModel) throws Exception {
-        appointmentServiceImpl.saveAppointment(appointmentModel);
         Optional<DoctorModel> doctorModel = doctorServiceImpl.getDoctorById(appointmentModel.getDoctorId());
         Optional<PatientModel> patientModel = patientServiceImpl.getPatientById(appointmentModel.getPatientId());
         if (doctorModel.isEmpty() || patientModel.isEmpty()) {
             Response res = new Response("", true, "An unknown error occurred!");
             return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
         }
+        appointmentServiceImpl.saveAppointment(appointmentModel);
         Map<String, Object> data = new HashMap<>();
         data.put("type", "appointment");
         data.put("id", appointmentModel.getId().toString());
@@ -75,13 +75,13 @@ public class AppointmentController {
 
     @PostMapping("/update")
     public ResponseEntity updateAppointment(@RequestBody AppointmentModel appointmentModel) throws Exception {
-        appointmentServiceImpl.saveAppointment(appointmentModel);
         Optional<DoctorModel> doctorModel = doctorServiceImpl.getDoctorById(appointmentModel.getDoctorId());
         Optional<PatientModel> patientModel = patientServiceImpl.getPatientById(appointmentModel.getPatientId());
         if (doctorModel.isEmpty() || patientModel.isEmpty()) {
             Response res = new Response("", true, "An unknown error occurred!");
             return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
         }
+        appointmentServiceImpl.saveAppointment(appointmentModel);
         Map<String, Object> data = new HashMap<>();
         data.put("type", "appointment");
         data.put("id", appointmentModel.getId().toString());
@@ -109,13 +109,13 @@ public class AppointmentController {
 
     @PostMapping("/delete")
     public ResponseEntity deleteAppointment(@RequestBody AppointmentModel appointmentModel) throws Exception {
-        appointmentServiceImpl.saveAppointment(appointmentModel);
         Optional<DoctorModel> doctorModel = doctorServiceImpl.getDoctorById(appointmentModel.getDoctorId());
         Optional<PatientModel> patientModel = patientServiceImpl.getPatientById(appointmentModel.getPatientId());
         if (doctorModel.isEmpty() || patientModel.isEmpty()) {
             Response res = new Response("", true, "An unknown error occurred!");
             return new ResponseEntity<>(res.getResponse(), HttpStatus.OK);
         }
+        appointmentServiceImpl.saveAppointment(appointmentModel);
         Map<String, Object> data = new HashMap<>();
         data.put("type", "appointment");
         data.put("id", appointmentModel.getId().toString());

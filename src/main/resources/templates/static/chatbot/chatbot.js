@@ -13,34 +13,31 @@ var sendForm = document.querySelector('#chatform'),
     previousInput,
     isReaction = false,
     unkwnCommReaction = "I didn't quite get that.",
-    chatbotButton = document.querySelector(".submit-button")
+    chatbotButton = document.querySelector(".submit-button"),
+    bodyElement = document.body;
 
 
-var viewDoctors = document.getElementById("viewDoctors");
-viewDoctors.addEventListener("click", function(event){
-  createBubble("alldoctors")
+bodyElement.addEventListener("click", function(event){
+  if (event.target.classList.contains('viewDoctors')) {
+    createBubble("view doctors")
+  }
 });
 
-// var viewPatients = document.getElementById("viewPatients");
-// viewPatients.addEventListener("click", function(event){
-//   createBubble("viewPatients")
-// });
-
-var createAppointment = document.getElementById("createappointment");
-createAppointment.addEventListener("click", function(event){
-  createBubble("createAppointment")
-});
-
-
-
-var emergency = document.getElementById("emergencyInfo");
-emergency.addEventListener("click", function(event){
-  createBubble("emergency")
+bodyElement.addEventListener("click", function(event){
+  if (event.target.classList.contains('createappointment')) {
+    createBubble("create appointment")
+  }
 });
 
 
 
-sendForm.onkeydown = function(e){
+bodyElement.addEventListener("click", function(event){
+  if (event.target.classList.contains('emergencyInfo')) {
+    createBubble("emergency contact")
+  }
+});
+
+  sendForm.onkeydown = function(e){
   if(e.keyCode == 13){
     e.preventDefault();
 
@@ -81,57 +78,34 @@ var createBubble = function(input) {
   checkInput(input);
 }
 
-var checkInput = function(input) {
+var checkInput = async function(input) {
   hasCorrectInput = false;
   isReaction = false;
 const textVal = input.toString();
-
     //Is a word of the input also in possibleInput object?
-    if(input == textVal || input.indexOf(textVal) >=0 && isReaction == false){
-      console.log("has correct input");
+    if(possibleInput.hasOwnProperty(input)){
       hasCorrectInput = true;
-      botResponse(textVal);
+      await botResponse(textVal);
+      if(textVal != "help") {
+        await botResponse("help");
+      }
+    }
+    //When input is not in possibleInput
+    if(hasCorrectInput == false){
+      unknownCommand(unkwnCommReaction);
+      hasCorrectInput = true;
     }
   }
-  //When input is not in possibleInput
-  if(hasCorrectInput == false){
-    console.log("failed");
-    unknownCommand(unkwnCommReaction);
-    hasCorrectInput = true;
 
-}
-
-// debugger;
-
-function botResponse(textVal) {
+async function botResponse(textVal) {
   //sets previous input to that what was called
   // previousInput = input;
-
   //create response bubble
-  var userBubble = document.createElement('li');
+  let userBubble = document.createElement('li');
   userBubble.classList.add('bot__output');
-
-  // if(isReaction == true){
-  //   if (typeof reactionInput[textVal] === "function") {
-  //     //adds input of textarea to chatbubble list item
-  //     userBubble.innerHTML = reactionInput[textVal]();
-  //   } else {
-  //     userBubble.innerHTML = reactionInput[textVal];
-  //   }
-  // }
-
-  // if(isReaction == false){
-    //Is the command a function?
-    // if (typeof possibleInput[textVal] === "function") {
-      // console.log(possibleInput[textVal] +" is a function");
-      //adds input of textarea to chatbubble list item
-      userBubble.innerHTML = possibleInput[textVal]();
-    // } else {
-    //   userBubble.innerHTML = possibleInput[textVal];
-    // }
-  // }
+  userBubble.innerHTML = await possibleInput[textVal]();
   //add list item to chatlist
-  chatList.appendChild(userBubble) //adds chatBubble to chatlist
+  // chatList.appendChild(userBubble) //adds chatBubble to chatlist
 
   // reset text area input
   textInput.value = "";
@@ -139,7 +113,6 @@ function botResponse(textVal) {
 
 function unknownCommand(unkwnCommReaction) {
   // animationCounter = 1;
-
   //create response bubble
   var failedResponse = document.createElement('li');
 
@@ -153,9 +126,10 @@ function unknownCommand(unkwnCommReaction) {
   chatList.appendChild(failedResponse) //adds chatBubble to chatlist
 
   animateBotOutput();
-
+  console.log(130)
   // reset text area input
   textInput.value = "";
+  console.log(133)
 
   //Sets chatlist scroll to bottom
   chatList.scrollTop = chatList.scrollHeight;
@@ -180,12 +154,10 @@ function emergencyResponse() {
 
   animateBotOutput();
 
-  console.log(response.clientHeight);
 
   //Sets chatlist scroll to bottom
   setTimeout(function(){
     chatList.scrollTop = chatList.scrollHeight;
-    console.log(response.clientHeight);
   }, 0)
 }
 
@@ -203,20 +175,14 @@ function responseText(e) {
 
   animateBotOutput();
 
-  // console.log(response.clientHeight);
 
   //Sets chatlist scroll to bottom
   setTimeout(function(){
     chatList.scrollTop = chatList.scrollHeight;
-    console.log(response.clientHeight);
   }, 0)
 }
 
 function responseButtons(name,otherElement,id,customClassName) {
-
-
-  console.log(id)
-  console.log(name)
   var list = document.createElement('li');
   list.classList.add('bot__output');
 
@@ -236,7 +202,6 @@ function responseButtons(name,otherElement,id,customClassName) {
   //Sets chatlist scroll to bottom
   setTimeout(function(){
     chatList.scrollTop = chatList.scrollHeight;
-    console.log(list.clientHeight);
   }, 0)
 }
 
@@ -244,9 +209,6 @@ function responseButtons(name,otherElement,id,customClassName) {
 
 //change to SCSS loop
 function animateBotOutput() {
-  for (let i = 0; i < chatList.length; i++) {
-    console.log(chatList[i].innerHTML)
-  }
   chatList.lastElementChild.style.animationDelay= (animationCounter * animationBubbleDelay)+"ms";
   animationCounter++;
   chatList.lastElementChild.style.animationPlayState = "running";
@@ -269,34 +231,33 @@ var possibleInput = {
     let url = "http://localhost:6969/patient/fetchAll";
     let responseData = await fetch(url)
     const data= await responseData.json();
-
-    console.log(responseData);
-    console.log(data.msg)
     for (let i = 0; i < data.data.length; i++) {
-      console.log(data.data[i].patientName.toString());
       responseButtons(data.data[i].patientName.toString(), null, data.data[i].id,"calendar");
       commandReset(2);
-
     }
-    return
-
-
+    return;
   }
     ,
-  "myBooking": function(){
+  "my appointments": function(){
+    $("#show").click();
+    let name = getCookie("name")
+    $("#modalTitleDoctorName").html(name);
 
-      responseButtons("My booking",null,"myBookingId","myBooking");
+
+    if (getCookie("type") == "patient" || getCookie("type") == "doctor") {
+      loadAppointments(getCookie("type").charAt(0).toUpperCase() + getCookie("type").slice(1), getCookie("id"), true);
+    }
   commandReset(2);
   return
 }
   ,
-  "emergency" : function (){
+  "emergency contact" : function (){
     emergencyResponse()
     commandReset(2)
     return
   },
 
-  "createAppointment" : async function () {
+  "create appointment" : async function () {
 
 
     const apiUrl = "http://localhost:6969/appointment/fetchDoctorNamesByAppointments";
@@ -304,7 +265,6 @@ var possibleInput = {
     const jsonData = {
       "id": getCookie("id")
     };
-    // console.log("cookie = "jsonData)
 
     let responseData = await fetch(apiUrl, {
       method: "POST",
@@ -315,7 +275,6 @@ var possibleInput = {
     })
     const data= await responseData.json();
     const doctorData = data.data
-    console.log(doctorData)
 
           for (let i = 0; i < doctorData.length; i++) {
            responseButtons(doctorData[i].doctorName,null,doctorData[i].id,"calendar")
@@ -328,24 +287,24 @@ var possibleInput = {
   },
 
 
+  "help" : function(){
+    let resp = returnOptions();
+    responseText(resp);
+    commandReset(2);
+    return
+  },
 
-
-  "alldoctors" : async function () {
+  "view doctors" : async function () {
     let url = "http://localhost:6969/doctor/fetchAll";
     let responseData = await fetch(url)
     const data= await responseData.json();
 
-    // console.log(response);
-    console.log(data.msg)
     for (let i = 0; i < data.data.length; i++) {
-      console.log(data.data[i].doctorName.toString());
       responseButtons(data.data[i].doctorName.toString(), null, data.data[i].id,"calendar");
       commandReset(2);
 
     }
     return
-
-
   }
 
 
@@ -353,6 +312,18 @@ var possibleInput = {
 
 }
 
+function returnOptions(){
+  let resp = "";
+  if (getCookie("type") == "patient") {
+    resp += "<input class=\"btn btn-primary createappointment\" type=\"button\" id=\"createappointment\" value=\"Create Appointment\">\n";
+  }
+  resp += "<input class=\"btn btn-primary myBooking\" type=\"button\" id=\"myBooking\" value=\"My Appointments\">\n";
+  if (getCookie("type") == "patient") {
+    resp += "<input class=\"btn btn-primary viewDoctors\" id=\"viewDoctors\" type=\"button\" value=\"View Doctors\">\n";
+  }
+  resp += "<input class=\"btn btn-primary emergencyInfo\" id=\"emergencyInfo\" type=\"button\" value=\"Emergency Contact\">";
+  return resp;
+}
 
 
 

@@ -215,7 +215,7 @@
                             <div class="form-group row my-3">
                                 <label class="col-12 col-form-label col-xl-3" for="emailSignIn"> Email :</label>
                                 <div class="col-12 col-xl-9">
-                                    <input type="text" class="form-control" placeholder="Enter Username"
+                                    <input type="email" class="form-control" placeholder="Enter Username"
                                         id="emailSignIn" name="emailSignIn" autofocus required>
                                 </div>
                             </div>
@@ -264,7 +264,7 @@
                             <div class="form-group row my-3">
                                 <label class="col-12 col-form-label col-xl-3" for="emailSignup"> Email :</label>
                                 <div class="col-12 col-xl-9">
-                                    <input type="text" class="form-control" placeholder="Enter User Email"
+                                    <input type="email" class="form-control" placeholder="Enter User Email"
                                         id="emailSignup" name="emailSignup" required>
                                 </div>
                             </div>
@@ -272,21 +272,28 @@
                                 <label class="col-12 col-form-label col-xl-3" for="pwdSignup"> Password :</label>
                                 <div class="col-12 col-xl-9">
                                     <input type="password" class="form-control" placeholder="Enter password"
-                                        id="pwdSignup" name="pwdSignup" required>
+                                        id="pwdSignup" name="pwdSignup" required minlength="8"
+                                           oninput="checkPasswordMatch()"
+                                           pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+])(?=.*[^\da-zA-Z]).{8,}$"
+                                           title="Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one numeric character, one special character (!@#$%^&*()_+), and one non-alphanumeric character.">
                                 </div>
                             </div>
                             <div class="form-group row my-3">
                                 <label class="col-12 col-form-label col-xl-3" for="verifyPwd"> Verify Password :</label>
                                 <div class="col-12 col-xl-9">
                                     <input type="password" class="form-control" placeholder="Enter verify password"
-                                        id="verifyPwd" name="verifyPwd" required>
+                                        id="verifyPwd" name="verifyPwd" required minlength="8"
+                                           oninput="checkPasswordMatch()">
+                                    <span id="passwordMatchError" style="color:red;"></span>
+
                                 </div>
                             </div>
                             <div class="form-group row my-3">
                                 <label class="col-12 col-form-label col-xl-3" for="mobileNumber"> Mobile No :</label>
                                 <div class="col-12 col-xl-9">
                                     <input type="number" class="form-control" placeholder="Enter mobile number"
-                                        id="mobileNumber" name="mobileNumber" required>
+                                        id="mobileNumber" name="mobileNumber" title="Enter a valid 10 digit phone number"
+                                           maxlength="10" required pattern="[0-9]{10}">
                                 </div>
                             </div>
                             <div class="form-group my-3 row">
@@ -322,7 +329,7 @@
                             <div class="form-group row my-3">
                                 <label class="col-12 col-form-label col-md-4 col-lg-3" for="DOB"> DOB :</label>
                                 <div class="col-12 col-md-7 col-lg-6">
-                                    <input type="text" class="form-control" placeholder="Enter DOB" id="DOB" name="DOB"
+                                    <input type="text"  class="form-control" placeholder="Enter DOB" id="DOB" name="DOB"
                                         required>
                                 </div>
                             </div>
@@ -390,6 +397,17 @@
     </div>
     <!--End of Container-->
     <script>
+        function checkPasswordMatch() {
+            var password = document.getElementById("pwdSignup");
+            var verifyPassword = document.getElementById("verifyPwd");
+            var passwordMatchError = document.getElementById("passwordMatchError");
+
+            if (password.value != verifyPassword.value) {
+                passwordMatchError.innerHTML = "Passwords do not match.";
+            } else {
+                passwordMatchError.innerHTML = "";
+            }
+        }
         let slideIndex = 0;
         let slides, dots;
         let url = "";
@@ -397,7 +415,9 @@
         $(document).ready(function () {
             showSlides();
 
-            $("#DOB").kendoDatePicker();
+            $("#DOB").kendoDatePicker({
+                max:new Date()
+            });
 
             $('input[type=radio][name=userTypeSignUp]').change(function () {
                 if ($('input[name="userTypeSignUp"]:checked').val() == 'Patient') {
@@ -411,33 +431,6 @@
             for (let [key, value] of provinceList) {
                 $('#province').append(`<option value=${key}>${value["abbrv"]}</option>`);
             }
-
-            // $.ajax({
-            //     url: globalURL + "province/fetchAll",
-            //     type: "GET",
-            //     dataType: "json",
-            //     contentType: "application/json",
-            // })
-            // .done(function(response) {
-            //     try {
-            //         console.log(response);
-            //         let data = response.data;
-            //         for (let i = 0; i < data.length; i++) {
-            //             // for (let j = 0; j < data[i]['cities'].length; j++) {
-            //                 provinceList.set(data[i]['id'].toString(), data[i]['cities']);
-            //             // }
-            //             $('#province').append(`<option value=${data[i]['id']}>${data[i]['abbrv']}</option>`);
-            //         }
-            //         console.log(provinceList);
-            //     } catch(err){
-            //         addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
-            //     }
-            // })
-            // .fail(function (jqXHR, textStatus, errorThrown){
-            //     // let msg = JSON.parse(jqXHR.responseText);
-            //     addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
-            //     // console.log(jqXHR, textStatus, errorThrown);
-            // });
 
             $.ajax({
                 url: globalURL + "jwt/validateJWTToken",
@@ -528,7 +521,6 @@
             let citySel = document.getElementById("city");
             citySel.length = 1;
             let cities = provinceList.get(province)["data"];
-            console.log(cities, province, provinceList)
             for (let i = 0; i < cities.length; i++) {
                 $('#city').append(`<option value="${cities[i]['id']}">${cities[i]['city']}</option>`);
             }
@@ -601,7 +593,6 @@
             let data = {};
             event.preventDefault();
             const id = this.id;
-            console.log(id);
             let redirectURL = ""
             if (id === "signInForm") {
                 if ($('input[name="userTypeSignIn"]:checked').val() == 'Patient') {
@@ -613,7 +604,7 @@
                     url = globalURL + "doctor/login";
                     data["doctorEmail"] = $("#emailSignIn").val();
                     data["doctorPassword"] = $("#pwdSignIn").val();
-                    redirectURL = "./prescription.html";
+                    redirectURL = "./appointments.html";
                 }
             } else if (id === "signUpForm") {
                 if ($('input[name="userTypeSignUp"]:checked').val() == 'Patient') {
@@ -641,8 +632,8 @@
                     data["doctorGender"] = $('input[name="gender"]:checked').val();
                     data["doctorDOB"] = new Date($("#DOB").val());
                     data["doctorMobileNumber"] = $("#mobileNumber").val();
-                    data["doctorType"] = $("#pwdSignup").val();
-                    data["doctorQualification"] = $("#pwdSignup").val();
+                    data["doctorType"] = $("#field").val();
+                    data["doctorQualification"] = $("#qualification").val();
                     data["doctorPassword"] = $("#pwdSignup").val();
                     data["active"] = false;
                     data["blocked"] = false;
@@ -657,10 +648,12 @@
                 dataType: "json",
                 contentType: "application/json"
             }).done(function (data) {
-                console.log(data);
                 if (data.isError) {
                     addToast(true, "Error", data.msg);
                 } else {
+		                if (id === "signUpForm") {
+												location.reload();
+		                }
                     addToast(false, "Hurray", data.msg);
                     setCookie("token", data.data.token);
                     setCookie("id", data.data.user.id);
@@ -678,13 +671,12 @@
                         setCookie("province", data.data.user.doctorAddressProvince);
                         setCookie("type", "doctor");
                     }
+                    window.location.href = redirectURL;
                 }
-                window.location.href = redirectURL;
             })
                 .fail(function (jqXHR, textStatus, errorThrown) {
                     // let msg = JSON.parse(jqXHR.responseText);
                     addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
-                    // console.log(jqXHR, textStatus, errorThrown);
                 });
         });
 

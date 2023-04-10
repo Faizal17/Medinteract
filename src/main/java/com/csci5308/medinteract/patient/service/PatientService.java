@@ -11,8 +11,6 @@ public interface PatientService {
 
     PatientModel savePatient(PatientModel patientModel);
 
-    Optional<PatientModel> findById(Long id);
-
     Map<String, Object> checkIfEmailExists(String email);
 
     PatientModel getPatientByEmail(String email);
@@ -21,17 +19,7 @@ public interface PatientService {
 
     String encodePassword(String password) throws Exception;
 
-    String decodePassword(String password) throws Exception;
-
-
-    List<PatientModel> getPatients();
-
-    void deletePatientById(Long id);
-
-    void updatePatientById(Long id, String newPatientName, String newPatientAddressPostalCode, String newPatientAddressStreet, String newPatientMobileNumber);
-
     Optional<PatientModel> getPatientById(Long id);
 
-    public Optional<List<PatientModel>> fetchPatientsWithAppointment(Long id);
+    Optional<List<PatientModel>> fetchPatientsWithAppointment(Long id);
 }
-

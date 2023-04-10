@@ -31,8 +31,8 @@
 		        <div class="form-group row my-3">
 				        <!--                Reference taken from : https://mdbootstrap.com/docs/standard/extended/file-input-image/-->
 				        <div class="d-flex justify-content-center mb-4">
-						        <img id="image" src=""
-						             class="rounded-circle" alt="example placeholder" style="width: 200px;"/>
+						        <img id="image"
+						             class="rounded-circle" alt="example placeholder" style="width: 200px;" onError="this.onerror=null;this.src='./static/images/doctor/default.jpg';"/>
 				        </div>
 				        <div class="d-flex justify-content-center">
 						        <div class="btn btn-primary btn-rounded">
@@ -214,7 +214,6 @@
 		            processData: false,
 		            contentType: false,
             }).done(function (data) {
-                console.log(data)
                 if (data.isError) {
                     addToast(true, "Error", data.msg);
                 } else {
@@ -340,7 +339,6 @@
 		                    $("#image").attr("src", window.profilePicture);
                     }
                 } catch (err) {
-                    console.log(err)
                     addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
                 }
             })

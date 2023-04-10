@@ -15,9 +15,6 @@ $.when(
     })
 ).done(function (response1, response2) {
     let response = response1.concat(response2);
-    // console.log(response);
-    console.log(response[0].data);
-    // console.log(response2);
     let prescriptionData = response[0].data;
     let doctorData = response[3].data;
 
@@ -39,7 +36,6 @@ $.when(
         }
     }
 
-    console.log(mergedData);
 
     // Define columns
     let columns = [
@@ -59,7 +55,6 @@ $.when(
             data: mergedData,
             columns: columns
         });
-        addToast(false, "Success", "Success!")
     } catch (err) {
         addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
     }
@@ -76,7 +71,6 @@ $(document).on('click', '.view', function () {
     const { doctorEmail: email } = mergedData.find((data) => data.doctorName === dName);
     const { doctorMobileNumber: number } = mergedData.find((data) => data.doctorName === dName);
     const { doctorAddressStreet: address } = mergedData.find((data) => data.doctorName === dName);
-    // console.log("email: ",email)
     $('#doctor-name').empty();
     $('#details').empty(); // Added this to clear #details
 
