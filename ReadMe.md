@@ -4,15 +4,33 @@
 
 - Java.11
 - Maven.4.0.0
+- Apache-2.0
 - Ability to connect to the Dalhousie University server
 
 ## Build Documentation
+- Install & Verify Java 11 Version
+> sudo apt-get update
+
+> sudo apt-get install openjdk-11-jdk
+
+> java -version
+
+- Install Maven
+> sudo apt-get install maven
+
+> mvn -version
+
+- Install Apache for Frontend
+> sudo apt-get install apache2
 
 - Maven Build
 > mvn clean package
 
 - Maven Test
 > mvn verify
+
+- Run Jar File
+> java -jar <final_image.jar>
 
 ## User Scenarios
 
