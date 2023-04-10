@@ -9,28 +9,46 @@
 
 ## Build Documentation
 - Install & Verify Java 11 Version
-> sudo apt-get update
+```
+ sudo apt-get update
+```
 
-> sudo apt-get install openjdk-11-jdk
+```
+ sudo apt-get install openjdk-11-jdk
+```
 
-> java -version
+```
+ java -version
+```
 
 - Install Maven
-> sudo apt-get install maven
-
-> mvn -version
+```
+ sudo apt-get install maven
+```
+```
+ mvn -version
+```
 
 - Install Apache for Frontend
-> sudo apt-get install apache2
+```
+ sudo apt-get install apache2
+```
 
 - Maven Build
-> mvn clean package
+```
+ mvn clean package
+```
 
 - Maven Test
-> mvn verify
+```
+ mvn verify
+```
 
 - Run Jar File
-> java -jar <final_image.jar>
+```
+ java -jar <final_image.jar```
+```
+
 
 ## User Scenarios
 
@@ -51,7 +69,7 @@ Registration as a patient:
 
 ![alt text](/screenshots/patient-register-fill.png)
 
-After registration, users, either doctors or patients can log into their account using their email address and password. However, doctors need to be verified by the admin before being able to log into their account. 
+After registration, users, either doctors or patients can log into their account using their email address and password. However, doctors need to be verified by the admin before being able to log into their account.
 
 Log in page (doctors/patients)
 
@@ -147,7 +165,7 @@ Doctor view, (create, edit, delete article)
 
 - **Prescription Module**
 
-Using this module, doctors can prescribe medications to patients by specifying the details like medication name, dosage, and how often patient has to take them. 
+Using this module, doctors can prescribe medications to patients by specifying the details like medication name, dosage, and how often patient has to take them.
 
 Doctor view:
 
