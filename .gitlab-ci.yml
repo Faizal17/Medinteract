@@ -1,35 +1,35 @@
 stages:
-  # - build
-  # - test
+  - build
+  - test
   - smell
-  # - deploy
+  - deploy
 
-# build:
-#   stage: build
-#   image: maven:latest
-#   script:
-#     - echo "Building the pipeline"
-#     - mvn clean package
-#   artifacts:
-#     paths:
-#       - target
-#   tags:
-#     - ugrad
+build:
+  stage: build
+  image: maven:latest
+  script:
+    - echo "Building the pipeline"
+    - mvn clean package
+  artifacts:
+    paths:
+      - target
+  tags:
+    - ugrad
 
-#   test:
-#   stage: test
-#   image: maven:latest
-#   artifacts:
-#     when: always
-#     reports:
-#       junit:
-#         - target/medinteract/TEST_*.xml
+test:
+  stage: test
+  image: maven:latest
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - target/medinteract/TEST_*.xml
 
-#   script:
-#     - echo "Pipeline test started"
-#     - mvn verify
-#   tags:
-#     - ugrad
+  script:
+    - echo "Pipeline test started"
+    - mvn verify
+  tags:
+    - ugrad
 
 # include:
 #   - template: Code-Quality.gitlab-ci.yml
@@ -52,23 +52,23 @@ smell:
       paths:
         - smells
 
-#  deploy:
-#   stage: deploy
-#   tags:
-#     - ugrad
-#   artifacts:
-#     paths:
-#       - target
-#   script:
-#     - echo "dbURL=$DATABASE_TEST_URL" > config.properties
-#     - echo "dbUserName=$DATABASE_TEST_USERNAME" >> config.properties
-#     - echo "dbPassword=$DATABASE_TEST_PASSWORD" >> config.properties
-#     - echo "dbDriver=$DATABASE_DRIVER" >> config.properties
-#     - echo "Deploying the development pipeline"
-#     - chmod og-rwx ${DEPLOY_SSH_KEY}
-#     - scp -r -o StrictHostKeyChecking=no -i ${DEPLOY_SSH_KEY} target/*.jar "${DEPLOY_USER}@${DEPLOY_HOST}:${TEMP_DEPLOY_DIR}/final_image.jar"
-#     - ssh -o StrictHostKeyChecking=no -i ${DEPLOY_SSH_KEY} ${DEPLOY_USER}@${DEPLOY_HOST} "cd ${DEPLOY_DIR} && sudo mv ${TEMP_DEPLOY_DIR}/final_image.jar . && sudo git pull origin"
-#     - ssh -i ${DEPLOY_SSH_KEY} ${DEPLOY_USER}@${DEPLOY_HOST} "sudo systemctl restart medinteract"
-#     # - ssh -i ${DEPLOY_SSH_KEY} ${DEPLOY_USER}@${DEPLOY_HOST} "sudo fuser -k 6969/tcp && sudo systemctl restart medinteract"
-#   only:
-#     - dev
+deploy:
+ stage: deploy
+ tags:
+    - ugrad
+ artifacts:
+   paths:
+     - target
+ script:
+   - echo "dbURL=$DATABASE_TEST_URL" > config.properties
+   - echo "dbUserName=$DATABASE_TEST_USERNAME" >> config.properties
+   - echo "dbPassword=$DATABASE_TEST_PASSWORD" >> config.properties
+   - echo "dbDriver=$DATABASE_DRIVER" >> config.properties
+   - echo "Deploying the development pipeline"
+   - chmod og-rwx ${DEPLOY_SSH_KEY}
+   - scp -r -o StrictHostKeyChecking=no -i ${DEPLOY_SSH_KEY} target/*.jar "${DEPLOY_USER}@${DEPLOY_HOST}:${TEMP_DEPLOY_DIR}/final_image.jar"
+   - ssh -o StrictHostKeyChecking=no -i ${DEPLOY_SSH_KEY} ${DEPLOY_USER}@${DEPLOY_HOST} "cd ${DEPLOY_DIR} && sudo mv ${TEMP_DEPLOY_DIR}/final_image.jar . && sudo git pull origin"
+   - ssh -i ${DEPLOY_SSH_KEY} ${DEPLOY_USER}@${DEPLOY_HOST} "sudo systemctl restart medinteract"
+   - ssh -i ${DEPLOY_SSH_KEY} ${DEPLOY_USER}@${DEPLOY_HOST} "sudo fuser -k 6969/tcp && sudo systemctl restart medinteract"
+ only:
+   - dev
