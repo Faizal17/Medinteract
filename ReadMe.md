@@ -46,7 +46,7 @@
 
 - Run Jar File
 ```
- java -jar <final_image.jar```
+ java -jar <final_image.jar>
 ```
 
 
@@ -203,3 +203,7 @@ Using this module, patients can rate their doctors and also leave a comment for 
 ## Client Team Feedback
 
 - Excel File Attached
+
+## Presentation
+
+- PPT File Attached
