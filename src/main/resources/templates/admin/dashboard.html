@@ -37,6 +37,10 @@
 </html>
 
 <script>
+		$(document).ready(function (){
+				showPendingDoctors();
+		})
+		
     function refreshTable() {
         $("#doctorTable").dataTable().fnDestroy();
     }
@@ -51,7 +55,7 @@
             let data = response.data;
             try {
                 refreshTable();
-                $('#doctorTable').DataTable({
+		            let t = $('#doctorTable').DataTable({
                     data: data,
                     columns: [
                         { data: 'doctorName' },
@@ -67,10 +71,17 @@
                             render: function (data) {
                                 return "<button id = '" + data + "' class = 'pending-block btn btn-danger'>Block</button>";
                             },
-                        }
-                    ]
+                        },
+                    ],
+				            order: [[1, 'asc']],
                 });
-                addToast(false, "Success", "Success!")
+		            t.on('order.dt search.dt', function () {
+				            let i = 1;
+				
+				            t.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+						            this.data(i++);
+				            });
+		            }).draw();
             } catch(err){
                 addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
             }
@@ -109,7 +120,6 @@
                         }
                     ]
                 });
-                addToast(false, "Success", "Success!")
             } catch(err){
                 addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
             }
@@ -148,7 +158,6 @@
                         }
                     ]
                 });
-                addToast(false, "Success", "Success!")
             } catch(err){
                 addToast(true, "Error", "Some unknown error occurred. Pls try again later!")
             }

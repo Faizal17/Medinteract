@@ -559,7 +559,7 @@ function loadAppointmentsDashboard(patientId) {
     else {
       if (laterAppoinmentCount > 0) {
         laterHaveAppoinments = true;
-        laterHtmlString = laterHtmlString + ` <li class="list-group-item"><a  href="./appointments.html"><i class="bi bi-calendar4-week"></i> ${tempDate.getMonth()}/${tempDate.getDay()}/${tempDate.getFullYear()}</a ></li > `;
+        laterHtmlString = laterHtmlString + ` <li class="list-group-item"><a  href="./appointments.html"><i class="bi bi-calendar4-week"></i> ${tempDate.getMonth() + 1}/${tempDate.getDate()}/${tempDate.getFullYear()}</a ></li > `;
         laterAppoinmentCount--;
       }
     }
@@ -653,7 +653,8 @@ function changePage(pageNumber) {
   }
 
   loopOverDoc();
-
+  let myDiv = document.getElementById('doctor_list_div');
+  myDiv.scrollTop = 0;
 }
 
 function changeCards(value) {
